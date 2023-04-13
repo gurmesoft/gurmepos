@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
 
 define( 'GPOS_PREFIX', 'gpos' );
 define( 'GPOS_VERSION', '0.0.1' );
-define( 'GPOS_DEVELOPMENT', true );
+define( 'GPOS_PRODUCTION', true );
 define( 'GPOS_PLUGIN_BASEFILE', __FILE__ );
 define( 'GPOS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'GPOS_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
