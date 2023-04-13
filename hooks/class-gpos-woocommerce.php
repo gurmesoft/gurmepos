@@ -1,0 +1,64 @@
+<?php
+/**
+ * GPOS_WooCommerce sınıfını barındıran dosya.
+ *
+ * @package GurmeHub
+ */
+
+/**
+ * Bu sınıf eklenti aktif olur olmaz çalışmaya başlar ve
+ * kurucu fonksiyonu içerisindeki WooCommerce kancalarına tutunur.
+ */
+class GPOS_WooCommerce {
+
+	/**
+	 * GPOS_WooCommerce kurucu fonksiyonu
+	 *
+	 * @return void
+	 */
+	public function __construct() {
+		// Ödeme geçitleri arasına GPOS_WooCommerce_Payment_Gateway i ekler.
+		add_filter( 'woocommerce_payment_gateways', array( $this, 'payment_gateways' ) );
+		// Sipariş için ödeme tamamlandığında geçeceği durumu ayarlar.
+		add_filter( 'woocommerce_payment_complete_order_status', array( $this, 'complete_order_status' ) );
+		// Ödeme formundan önceki üst kontent. Hataları görüntülemek için kullanıldı.
+		add_action( 'woocommerce_before_checkout_form', array( $this, 'before_checkout_form' ) );
+	}
+
+	/**
+	 * Bu fonksiyon dizi halinde gelen aktif woocommerce ödeme geçitleri
+	 * arasına paratikabazaar'ı ekler ve geçitleri geri döndürür.
+	 *
+	 * @param array $gateways Ödeme geçitleri.
+	 *
+	 * @return array $gateways
+	 */
+	public function payment_gateways( $gateways ) {
+		$gateways[] = 'GPOS_WooCommerce_Payment_Gateway'; // WC_Payment_Gateway_CC devralınarak yaratılan ödeme sınıfı.
+		return $gateways;
+	}
+
+	/**
+	 * Ödeme işlemleri bittiğinde sipariş geçmesi gereken durumu ayarlardan okuyarak döndürür.
+	 * Siparişin bu duruma geçmesi için WC_Order::payment_complete metodunun çalışması gerekir.
+	 *
+	 * @return string
+	 */
+	public function complete_order_status() {
+		return gpos_woocommerce_settings()->get_setting_by_key( 'success_status' );
+	}
+
+	/**
+	 * 3D Ödeme işlemi sırasında kullanıcıya gösterilmesi gereken hatalar
+	 * $_GET isteğine eklenir ve istekten yakalanan uyarıları ekrana yansıtır.
+	 *
+	 * @return void
+	 */
+	public function before_checkout_form() {
+
+		if ( isset( $_GET['gpos_error'] ) && false === empty( $_GET['gpos_error'] ) ) {
+			wc_add_notice( $_GET['gpos_error'], 'error' ); // phpcs:ignore
+		}
+	}
+
+}

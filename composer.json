@@ -1,0 +1,23 @@
+{
+    "require-dev": {
+        "szepeviktor/phpstan-wordpress": "^1.1",
+        "phpstan/extension-installer": "^1.2",
+        "10up/phpcs-composer": "dev-master",
+        "micheh/phpcs-gitlab": "^1.1",
+        "phpmd/phpmd": "^2.13",
+        "phpunit/phpunit": "^7"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "scripts": {
+        "phpunit": "phpunit"
+      },
+    "require": {
+        "phpunit/phpunit": "^7",
+        "iyzico/iyzipay-php": "^2.0"
+    }
+}
