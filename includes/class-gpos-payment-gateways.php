@@ -26,9 +26,9 @@ class GPOS_Payment_Gateways {
 			'gpos_payment_gateways',
 			array(
 				'GPOS_Paratika',
+				'GPOS_Iyzico',
 				'GPOS_Sipay',
 				'GPOS_Ozan',
-				'GPOS_Iyzico',
 				'GPOS_Esnek_Pos',
 				'GPOS_Param',
 				'GPOS_Paytr',

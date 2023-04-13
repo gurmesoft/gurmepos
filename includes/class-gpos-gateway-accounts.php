@@ -93,8 +93,21 @@ class GPOS_Gateway_Accounts {
 	 * @return GPOS_Gateway_Account|false
 	 */
 	public function get_default_account() {
-		$account_id = 49; // Todo. Hangi hesap neden kullanılsın ?
-		return $this->get_account( $account_id );
+
+		global $wpdb;
+
+		$default_account_id = $wpdb->get_var(
+			"SELECT post_id
+            FROM {$wpdb->postmeta}
+            WHERE meta_key = 'gpos_default_account' 
+			AND meta_value = '1'"
+		);
+
+		if ( $default_account_id ) {
+			return $this->get_account( (int) $default_account_id );
+		}
+
+		return false;
 	}
 
 	/**
