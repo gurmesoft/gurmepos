@@ -120,7 +120,7 @@ final class GPOS_Sipay_Gateway extends GPOS_Payment_Gateway {
 
 		$content = ob_get_clean();
 
-		return $this->gateway_response->set_need_redirect( true )->set_html_content( $content );
+		return $this->gateway_response->set_html_content( $content );
 
 	}
 

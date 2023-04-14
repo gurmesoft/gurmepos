@@ -24,13 +24,6 @@ class GPOS_Gateway_Response {
 	private $order_id;
 
 	/**
-	 * Yönlendirme gerekip gerekmediğini belirtir.
-	 *
-	 * @var bool  $need_redirect
-	 */
-	private $need_redirect = false;
-
-	/**
 	 * Yönlendirme yapılmaması durumunda gösterilecek olan HTML içeriğini belirtir.
 	 *
 	 * @var string $html_content
@@ -94,25 +87,6 @@ class GPOS_Gateway_Response {
 	 */
 	public function get_order_id() {
 		return $this->order_id;
-	}
-
-	/**
-	 * Yönlendirme gerekip gerekmediğini belirten özelliğin değerini ayarlar.
-	 *
-	 * @param bool $need_redirect Yönlendirme gerekip gerekmediğini belirten değer.
-	 */
-	public function set_need_redirect( $need_redirect ) {
-		$this->need_redirect = $need_redirect;
-		return $this;
-	}
-
-	/**
-	 * Yönlendirme gerekip gerekmediğini belirten özelliğin değerini döndürür.
-	 *
-	 * @return bool Yönlendirme gerekip gerekmediğini belirten değer.
-	 */
-	public function is_need_redirect() {
-		return $this->need_redirect;
 	}
 
 	/**

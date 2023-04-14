@@ -49,8 +49,8 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 		$this->icon                 = $this->woocommerce_settings->get_setting_by_key( 'icon' );
 		$this->order_button_text    = $this->woocommerce_settings->get_setting_by_key( 'button_text' );
 		$this->has_fields           = true;
+		$this->supports             = apply_filters( 'gpos_woocommerce_payment_supports', array( 'refunds' ) );
 		$this->init_settings();
-		$this->supports = array( 'refunds' );
 
 		add_action( "woocommerce_api_{$this->id}_callback", array( $this, 'process_callback' ) );
 
@@ -100,9 +100,9 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 		}
 
 		if ( $response->is_success() ) {
-			$redirect = $response->is_need_redirect();
 
-			if ( $redirect && $threed ) {
+			if ( $threed ) {
+				// 3D Sayfası yönlendir.
 				wp_send_json(
 					array(
 						'result'   => 'success',
@@ -113,38 +113,182 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 						),
 					)
 				);
-			}
-
-			if ( ! $redirect && ! $threed ) {
-				$this->success_process( $response );
+			} else {
+				// Regular işlemi bitir.
+				wp_send_json( $this->success_process( $response ) );
 			}
 		} else {
-
-			$this->error_process( $response );
-
-			wp_send_json(
-				array(
-					'result'   => 'failure',
-					'messages' => gpos_woocommerce_notice( $response->get_error_message() ),
-				)
-			);
+			wp_send_json( $this->error_process( $response ) );
 		}
 
 	}
 
 	/**
 	 * Geri dönüş fonksiyonu ödeme geçitlerinden gelen veriler bu fonksiyonda karşılanır.
+	 *
+	 * @return void
 	 */
 	public function process_callback() {
 		$this->gateway = gpos_gateway_accounts()->get_default_gateway();
 		$response      = $this->gateway->process_callback( gpos_clean( $_REQUEST ) ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		if ( $response->is_success() ) {
-			$this->success_process( $response );
+			$this->success_process( $response, false );
 		}
 
-		$this->error_process( $response );
+		$this->error_process( $response, false );
 
+	}
+
+	/**
+	 * Kredi kartı bilgilerini $_POST verisi içerisinden alarak ödeme geçidine tanımlar.
+	 *
+	 * @return void
+	 */
+	private function set_credit_card_properties() {
+
+		$card_bin          = sanitize_text_field( wp_unslash( $_POST[ "{$this->id}-card-bin" ] ) );
+		$card_cvv          = sanitize_text_field( wp_unslash( $_POST[ "{$this->id}-card-cvv" ] ) );
+		$card_expiry_month = sanitize_text_field( wp_unslash( $_POST[ "{$this->id}-card-expiry-month" ] ) );
+		$card_expiry_year  = sanitize_text_field( wp_unslash( $_POST[ "{$this->id}-card-expiry-year" ] ) );
+		$installment       = 1;
+
+		$this->gateway
+		->set_installment( $installment )
+		->set_card_bin( $card_bin )
+		->set_card_cvv( $card_cvv )
+		->set_card_expiry_month( $card_expiry_month )
+		->set_card_expiry_year( $card_expiry_year );
+	}
+
+	/**
+	 * WooCommerce siparişini ödeme geçidine tanımlar.
+	 *
+	 * @param WC_Order $order WC Siparişi
+	 *
+	 * @return void
+	 */
+	private function set_order_properties( WC_Order $order ) {
+		$this->gateway
+		->set_order_id( uniqid( "{$order->get_id()}_" ) )
+		->set_order_total( $order->get_total() )
+		->set_currency( $order->get_currency() )
+		->set_customer_id( $order->get_customer_id() )
+		->set_customer_first_name( $order->get_billing_first_name() )
+		->set_customer_last_name( $order->get_billing_last_name() )
+		->set_customer_address( $order->get_billing_address_1() )
+		->set_customer_state( $order->get_billing_state() )
+		->set_customer_city( $order->get_billing_city() )
+		->set_customer_country( $order->get_billing_country() )
+		->set_customer_phone( $order->get_billing_phone() )
+		->set_customer_email( $order->get_billing_email() )
+		->set_customer_ip_address( $order->get_customer_ip_address() );
+
+		if ( isset( $_POST[ "{$this->id}-holder-name" ] ) ) {
+			$full_name = explode( ' ', $_POST[ "{$this->id}-holder-name" ] );
+			$last_name = $full_name[ array_key_last( $full_name ) ];
+			unset( $full_name[ array_key_last( $full_name ) ] );
+
+			$this->gateway
+			->set_customer_first_name( implode( ' ', $full_name ) )
+			->set_customer_last_name( $last_name );
+		}
+
+			$order_items = $order->get_items();
+
+		if ( false === empty( $order_items ) ) {
+			foreach ( $order_items as $order_item ) {
+				$this->gateway->add_order_item(
+					new GPOS_Order_Item(
+						$order_item->get_id(),
+						$order_item->get_name(),
+						1,
+						(float) wc_get_order_item_meta( $order_item->get_id(), '_line_total', true ),
+					)
+				);
+			}
+		}
+	}
+
+
+	/**
+	 * Başarılı işlem sonucu WooCommerce siparişine ve ürünlerine
+	 * veri yazma, onay ve yönlendirme işlemi
+	 *
+	 * @param GPOS_Gateway_Response $response Ödeme geçidi cevabı
+	 * @param bool                  $on_checkout Ödeme sayfasında mı ?
+	 *
+	 * @return array|void
+	 */
+	private function success_process( GPOS_Gateway_Response $response, $on_checkout = true ) {
+		$order = $this->get_order( $response->get_order_id() );
+		$order->payment_complete( $response->get_payment_id() );
+		$order->add_order_note(
+			// translators: %s => Ödeme geçidi benzersiz numarası.
+			sprintf( __( 'Ödeme başarıyla tamamlandı. Ödeme numarası: %s', 'iyzibazaar' ), $response->get_payment_id() )
+		);
+		$item_transactions = $response->get_items_transaction_ids();
+
+		if ( false === empty( $item_transactions ) ) {
+			foreach ( $item_transactions as $item_id => $transaction ) {
+				wc_update_order_item_meta( $item_id, '_gpos_transaction_id', $transaction );
+			}
+		}
+
+		if ( $on_checkout ) {
+			return array(
+				'result'   => 'success',
+				'redirect' => $order->get_checkout_order_received_url(),
+			);
+		}
+
+		wp_safe_redirect( $order->get_checkout_order_received_url() );
+		exit;
+
+	}
+
+	/**
+	 * Başarısız işlem sonucunun WooCommerce siparişine ve
+	 * müşteriye yansıtılma işlemleri.
+	 *
+	 * @param GPOS_Gateway_Response $response Ödeme geçidi cevabı
+	 * @param bool                  $on_checkout Ödeme sayfasında mı ?
+	 *
+	 * @return array|void
+	 */
+	private function error_process( GPOS_Gateway_Response $response, $on_checkout = true ) {
+		$order         = $this->get_order( $response->get_order_id() );
+		$error_message = $response->get_error_message() ? $response->get_error_message() : __( 'Bilinmeyen hata lütfen yönetim ile iletişime geçiniz', 'gurmepos' );
+
+		if ( $order ) {
+			$order->add_order_note(
+				// translators: %s => Ödeme geçidi hatası.
+				sprintf( __( 'Ödeme işleminde hata: %s', 'iyzibazaar' ), $error_message )
+			);
+		}
+
+		if ( $on_checkout ) {
+			return array(
+				'result'   => 'failure',
+				'messages' => gpos_woocommerce_notice( $error_message ),
+			);
+		}
+
+		wp_safe_redirect( add_query_arg( array( 'gpos_error' => $error_message ), wc_get_checkout_url() ) );
+		exit;
+	}
+
+	/**
+	 * WooCommerce siparişini türetir ve döndürür.
+	 *
+	 * @param mixed $uniq_order_id benzersiz değer eklenmiş sipariş numarası.
+	 *
+	 * @return WC_Order WooCommerce Sipariş.
+	 */
+	private function get_order( $uniq_order_id ) {
+		$id_array = explode( '_', $uniq_order_id );
+		$order_id = $id_array[0];
+		return wc_get_order( $order_id );
 	}
 
 	/**
@@ -162,6 +306,8 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 
 	/**
 	 * WooCommerce ödeme formu.
+	 *
+	 * @return void
 	 */
 	public function payment_fields() {
 		wp_enqueue_script( 'wc-credit-card-form' );
@@ -214,138 +360,5 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 			Bu ödeme yöntemi ayarları yönetici menüsü üzerinden yapılmaktadır ayarlara gitmek için <a href="<?php echo esc_url( admin_url( 'admin.php?page=gpos-payment-gateways' ) ); ?>">tıklayınız.</a> 
 		</h3>
 		<?php
-	}
-
-
-
-	/**
-	 * Kredi kartı bilgilerini $_POST verisi içerisinden alarak ödeme geçidine tanımlar.
-	 */
-	private function set_credit_card_properties() {
-
-		$card_bin          = sanitize_text_field( wp_unslash( $_POST[ "{$this->id}-card-bin" ] ) );
-		$card_cvv          = sanitize_text_field( wp_unslash( $_POST[ "{$this->id}-card-cvv" ] ) );
-		$card_expiry_month = sanitize_text_field( wp_unslash( $_POST[ "{$this->id}-card-expiry-month" ] ) );
-		$card_expiry_year  = sanitize_text_field( wp_unslash( $_POST[ "{$this->id}-card-expiry-year" ] ) );
-		$installment       = 1;
-
-		$this->gateway
-		->set_installment( $installment )
-		->set_card_bin( $card_bin )
-		->set_card_cvv( $card_cvv )
-		->set_card_expiry_month( $card_expiry_month )
-		->set_card_expiry_year( $card_expiry_year );
-	}
-
-
-
-	/**
-	 * WooCommerce siparişini ödeme geçidine tanımlar.
-	 *
-	 * @param WC_Order $order WC Siparişi
-	 */
-	private function set_order_properties( WC_Order $order ) {
-		$this->gateway
-		->set_order_id( uniqid( "{$order->get_id()}_" ) )
-		->set_order_total( $order->get_total() )
-		->set_currency( $order->get_currency() )
-		->set_customer_id( $order->get_customer_id() )
-		->set_customer_first_name( $order->get_billing_first_name() )
-		->set_customer_last_name( $order->get_billing_last_name() )
-		->set_customer_address( $order->get_billing_address_1() )
-		->set_customer_state( $order->get_billing_state() )
-		->set_customer_city( $order->get_billing_city() )
-		->set_customer_country( $order->get_billing_country() )
-		->set_customer_phone( $order->get_billing_phone() )
-		->set_customer_email( $order->get_billing_email() )
-		->set_customer_ip_address( $order->get_customer_ip_address() );
-
-		if ( isset( $_POST[ "{$this->id}-holder-name" ] ) ) {
-			$full_name = explode( ' ', $_POST[ "{$this->id}-holder-name" ] );
-			$last_name = $full_name[ array_key_last( $full_name ) ];
-			unset( $full_name[ array_key_last( $full_name ) ] );
-
-			$this->gateway
-			->set_customer_first_name( implode( ' ', $full_name ) )
-			->set_customer_last_name( $last_name );
-		}
-
-			$order_items = $order->get_items();
-
-		if ( false === empty( $order_items ) ) {
-			foreach ( $order_items as $order_item ) {
-				$this->gateway->add_order_item(
-					new GPOS_Order_Item(
-						$order_item->get_id(),
-						$order_item->get_name(),
-						1,
-						(float) wc_get_order_item_meta( $order_item->get_id(), '_line_total', true ),
-					)
-				);
-			}
-		}
-	}
-
-
-	/**
-	 * Başarılı işlem sonucu WooCommerce siparişine ve ürünlerine
-	 * veri yazma, onay ve yönlendirme işlemi
-	 *
-	 * @param GPOS_Gateway_Response $response Ödeme geçidi cevabı
-	 */
-	private function success_process( GPOS_Gateway_Response $response ) {
-		$order = $this->get_order( $response->get_order_id() );
-		$order->payment_complete( $response->get_payment_id() );
-		$order->add_order_note(
-			// translators: %s => Ödeme geçidi benzersiz numarası.
-			sprintf( __( 'Ödeme başarıyla tamamlandı. Ödeme numarası: %s', 'iyzibazaar' ), $response->get_payment_id() )
-		);
-		$item_transactions = $response->get_items_transaction_ids();
-
-		if ( false === empty( $item_transactions ) ) {
-			foreach ( $item_transactions as $item_id => $transaction ) {
-				wc_update_order_item_meta( $item_id, '_gpos_transaction_id', $transaction );
-			}
-		}
-
-		wp_safe_redirect( $order->get_checkout_order_received_url() );
-		exit;
-	}
-
-	/**
-	 * Başarısız işlem sonucunun WooCommerce siparişine ve
-	 * müşteriye yansıtılma işlemleri.
-	 *
-	 * @param GPOS_Gateway_Response $response Ödeme geçidi cevabı
-	 */
-	private function error_process( GPOS_Gateway_Response $response ) {
-		$order = $this->get_order( $response->get_order_id() );
-
-		if ( $order ) {
-			$order->add_order_note(
-				// translators: %s => Ödeme geçidi hatası.
-				sprintf( __( 'Ödeme işleminde hata: %s', 'iyzibazaar' ), $response->get_error_message() )
-			);
-		}
-
-		if ( $response->is_need_redirect() ) {
-			wp_safe_redirect( add_query_arg( array( 'gpos_error' => $response->get_error_message() ), wc_get_checkout_url() ) );
-			exit;
-		}
-	}
-
-	/**
-	 * WooCommerce siparişini türetir ve döndürür.
-	 *
-	 * @param mixed $uniq_order_id benzersiz değer eklenmiş sipariş numarası.
-	 *
-	 * @return WC_Order WooCommerce Sipariş.
-	 *
-	 * @throws Exception Sipariş bulunamadı.
-	 */
-	private function get_order( $uniq_order_id ) {
-		$id_array = explode( '_', $uniq_order_id );
-		$order_id = $id_array[0];
-		return wc_get_order( $order_id );
 	}
 }

@@ -127,7 +127,7 @@ class GPOS_Paratika extends GPOS_Gateway {
 		return array(
 			array(
 				'type'         => 'Visa',
-				'bin'          => '4555 7145 5571 4556',
+				'bin'          => '4508 0345 0803 4509',
 				'expiry_year'  => '2030',
 				'expiry_month' => '12',
 				'cvv'          => '000',

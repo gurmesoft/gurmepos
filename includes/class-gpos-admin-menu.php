@@ -145,6 +145,7 @@ class GPOS_Admin_Menu {
 				'woocommerce_settings' => gpos_woocommerce_settings()->get_settings(),
 				'form_settings'        => gpos_form_settings()->get_settings(),
 				'strings'              => gpos_get_i18n_strings(),
+				'version'              => GPOS_VERSION,
 			);
 
 			if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) ) && isset( $_GET['id'] ) && 'payment-gateway' === $page ) {

@@ -99,17 +99,22 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 			$response = \Iyzipay\Model\ThreedsInitialize::create( $payment_request, $this->settings );
 
 			if ( 'success' === $response->getStatus() ) {
-				$this->gateway_response->set_need_redirect( true )->set_html_content( $response->getHtmlContent() );
+				$this->gateway_response->set_html_content( $response->getHtmlContent() );
 			} else {
 				$this->gateway_response->set_success( false )->set_error_message( $response->getErrorMessage() );
 			}
 		} else {
 			$response = \Iyzipay\Model\Payment::create( $payment_request, $this->settings );
+			$this->gateway_response->set_order_id( $response->getConversationId() );
 
 			if ( 'success' === $response->getStatus() ) {
-				// Todo. Pro ile regular ödemede kurgulanacak
-				var_dump( $response );
-				die;
+				$this->gateway_response->set_success( true )->set_payment_id( $response->getPaymentId() );
+
+				foreach ( $response->getPaymentItems() as $item ) {
+					$this->gateway_response->set_item_transaction_id( $item->getItemId(), $item->getPaymentTransactionId() );
+				}
+			} else {
+				$this->gateway_response->set_success( false )->set_error_message( $response->getErrorMessage() );
 			}
 		}
 
@@ -149,8 +154,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 				}
 			} else {
 				// Yetersiz bakiye, Froud vb. gibi kartla ilgili durumlardan dolayı ödeme yapılamazsa bu blok hata mesajını değiştirir.
-				$default_error_message = $response->getErrorMessage();
-				$this->gateway_response->set_need_redirect( true )->set_error_message( $default_error_message );
+				$this->gateway_response->set_error_message( $response->getErrorMessage() );
 			}
 		}
 
@@ -163,7 +167,6 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 */
 	public function process_refund() {
 	}
-
 
 	/**
 	 * Iyzico için alıcı bilgisi

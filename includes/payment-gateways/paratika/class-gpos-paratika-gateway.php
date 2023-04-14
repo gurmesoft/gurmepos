@@ -92,36 +92,32 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 * @return GPOS_Gateway_Response
 	 */
 	public function process_payment() : GPOS_Gateway_Response {
-		$response = $this->get_session_token();
+		if ( 'threed' === $this->get_payment_type() ) {
 
-		if ( array_key_exists( 'responseCode', $response ) && '00' === $response['responseCode'] ) {
-			$card = array();
-			if ( $this->use_saved_card() ) {
-				// Todo. Kayıtlı kart ile alışverişte incelenecek.
-				var_dump( $this->use_saved_card() );
-				die;
-				// $card['cardToken'] = $$this->get_saved_card_token()
+			$response = $this->get_session_token();
+			if ( array_key_exists( 'responseCode', $response ) && '00' === $response['responseCode'] ) {
+				$card     = $this->prepare_threed_credit_card();
+				$response = $this->http_request->request( "{$this->request_url}/post/sale3d/{$response['sessionToken']}", 'POST', $card );
+				$this->gateway_response->set_html_content( $response );
 			} else {
-				$card['cardOwner']   = $this->get_customer_full_name();
-				$card['expiryMonth'] = $this->get_card_expiry_month();
-				$card['expiryYear']  = $this->get_card_expiry_year();
-				$card['cvv']         = $this->get_card_cvv();
-				$card['pan']         = $this->get_card_bin();
-
-				if ( $this->need_save_current_card() ) {
-					$card['saveCard'] = 'yes';
-				}
+				$this->gateway_response->set_success( false )->set_error_message( array_key_exists( 'errorMsg', $response ) ? $response['errorMsg'] : false );
 			}
-
-			$card['installmentCount'] = $this->get_installment();
-
-			$response = $this->http_request->request( "{$this->request_url}/post/sale3d/{$response['sessionToken']}", 'POST', $card );
-
-			$this->gateway_response->set_html_content( $response )->set_need_redirect( true );
-
 		} else {
-			$error_message = array_key_exists( 'errorMsg', $response ) ? $response['errorMsg'] : false;
-			$this->gateway_response->set_success( false )->set_error_message( $error_message );
+			$request  = array_merge(
+				array( 'ACTION' => 'SALE' ),
+				$this->settings,
+				$this->prepare_order_data(),
+				$this->prepare_regular_credit_card()
+			);
+			$response = $this->http_request->request( $this->request_url, 'POST', $request );
+
+			if ( array_key_exists( 'responseCode', $response ) && '00' === $response['responseCode'] ) {
+				// Todo. Regular model test hesabımızda desteklenmiyor.
+				var_dump( $response );
+				die;
+			} else {
+				$this->gateway_response->set_success( false )->set_error_message( array_key_exists( 'errorMsg', $response ) ? $response['errorMsg'] : false );
+			}
 		}
 
 		return $this->gateway_response;
@@ -159,19 +155,17 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 			}
 		} else {
 			$error_message = array_key_exists( 'errorMsg', $post_data ) ? $post_data['errorMsg'] : false;
-			$this->gateway_response->set_need_redirect( true )->set_success( false )->set_error_message( $error_message );
+			$this->gateway_response->set_success( false )->set_error_message( $error_message );
 		}
 
 		return $this->gateway_response;
 	}
-
 
 	/**
 	 * Ödeme iade işlemi fonksiyonu.
 	 */
 	public function process_refund() {
 	}
-
 
 	/**
 	 * Paratika session token.
@@ -188,31 +182,100 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 		$request = array_merge( $request, $this->settings );
 
 		if ( 'PAYMENTSESSION' === $session_type ) {
+			$request = array_merge( $request, $this->prepare_order_data() );
 
-			$request['CUSTOMER']      = $this->get_customer_id();
-			$request['CUSTOMERNAME']  = $this->get_customer_full_name();
-			$request['CUSTOMERPHONE'] = $this->get_customer_phone();
-			$request['CUSTOMEREMAIL'] = $this->get_customer_email();
-			$request['CUSTOMERIP']    = $this->get_customer_ip_address();
-
-			foreach ( $this->get_order_items() as $line_item ) {
-				$request['ORDERITEMS'][] = array(
-					'productCode' => $line_item->get_id(),
-					'name'        => $line_item->get_name(),
-					'quantity'    => $line_item->get_quantity(),
-					'description' => $line_item->get_name(),
-					'amount'      => $line_item->get_total(),
-				);
-			}
-
-			$request['RETURNURL']         = $this->get_callback_url();
-			$request['AMOUNT']            = $this->get_order_total();
-			$request['ORDERITEMS']        = rawurlencode( wp_json_encode( $request['ORDERITEMS'] ) );
-			$request['MERCHANTPAYMENTID'] = $this->get_order_id();
-			$request['CURRENCY']          = $this->get_currency();
 		}
 
 		return $this->http_request->request( $this->request_url, 'POST', $request );
 
 	}
+
+	/**
+	 * Ödeme için gerekli kart bilgilerini ayarlar.
+	 *
+	 * @return array $card
+	 */
+	private function prepare_threed_credit_card() {
+		$card = array();
+		if ( $this->use_saved_card() ) {
+			// Todo. Kayıtlı kart ile alışverişte incelenecek.
+			var_dump( $this->use_saved_card() );
+			die;
+			// $card['cardToken'] = $$this->get_saved_card_token()
+		} else {
+			$card['cardOwner']   = $this->get_customer_full_name();
+			$card['expiryMonth'] = $this->get_card_expiry_month();
+			$card['expiryYear']  = $this->get_card_expiry_year();
+			$card['cvv']         = $this->get_card_cvv();
+			$card['pan']         = $this->get_card_bin();
+
+			if ( $this->need_save_current_card() ) {
+				$card['saveCard'] = 'yes';
+			}
+		}
+
+		$card['installmentCount'] = $this->get_installment();
+		return $card;
+	}
+
+	/**
+	 * Ödeme için gerekli kart bilgilerini ayarlar.
+	 *
+	 * @return array $card
+	 */
+	private function prepare_regular_credit_card() {
+		$card = array();
+		if ( $this->use_saved_card() ) {
+			// Todo. Kayıtlı kart ile alışverişte incelenecek.
+			var_dump( $this->use_saved_card() );
+			die;
+			// $card['CARDTOKEN'] = $$this->get_saved_card_token()
+		} else {
+			$card['NAMEONCARD'] = $this->get_customer_full_name();
+			$card['CARDEXPIRY'] = $this->get_card_expiry_month() . $this->get_card_expiry_year();
+			$card['CARDCVV']    = $this->get_card_cvv();
+			$card['CARDPAN']    = $this->get_card_bin();
+
+			if ( $this->need_save_current_card() ) {
+				$card['SAVECARD'] = 'yes';
+			}
+		}
+
+		$card['INSTALLMENTS'] = $this->get_installment();
+		return $card;
+	}
+
+
+	/**
+	 * Sipariş verisini hazırlar.
+	 *
+	 * @return array $order_data
+	 */
+	private function prepare_order_data() {
+		$order_data                  = array();
+		$order_data['CUSTOMER']      = $this->get_customer_id();
+		$order_data['CUSTOMERNAME']  = $this->get_customer_full_name();
+		$order_data['CUSTOMERPHONE'] = $this->get_customer_phone();
+		$order_data['CUSTOMEREMAIL'] = $this->get_customer_email();
+		$order_data['CUSTOMERIP']    = $this->get_customer_ip_address();
+
+		foreach ( $this->get_order_items() as $line_item ) {
+			$order_data['ORDERITEMS'][] = array(
+				'productCode' => $line_item->get_id(),
+				'name'        => $line_item->get_name(),
+				'quantity'    => $line_item->get_quantity(),
+				'description' => $line_item->get_name(),
+				'amount'      => $line_item->get_total(),
+			);
+		}
+
+			$order_data['RETURNURL']         = $this->get_callback_url();
+			$order_data['AMOUNT']            = $this->get_order_total();
+			$order_data['ORDERITEMS']        = rawurlencode( wp_json_encode( $order_data['ORDERITEMS'] ) );
+			$order_data['MERCHANTPAYMENTID'] = $this->get_order_id();
+			$order_data['CURRENCY']          = $this->get_currency();
+
+			return $order_data;
+	}
+
 }
