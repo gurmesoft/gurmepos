@@ -122,46 +122,9 @@ class GPOS_Vue {
 	public function require() {
 		echo '<div id="app"></div>'; // phpcs:ignore
 		if ( defined( 'GPOS_PRODUCTION' ) && true === GPOS_PRODUCTION ) {
-			wp_enqueue_script(
-				"{$this->prefix}-js",
-				"{$this->asset_dir_url}/vue/js/{$this->vue_page}/main.js",
-				array( 'jquery' ),
-				$this->version,
-				false
-			);
-
-			$css_files = scandir( GPOS_PLUGIN_DIR_PATH . '/assets/vue/css/' );
-
-			if ( $css_files ) {
-
-				foreach ( $css_files as $file ) {
-					if ( 'css' !== pathinfo( $file, PATHINFO_EXTENSION ) ) {
-						continue;
-					}
-
-					if ( 'tailwind.css' === $file && ! $this->tailwind ) {
-						continue;
-					}
-
-					wp_enqueue_style(
-						$file,
-						"{$this->asset_dir_url}/vue/css/{$file}",
-						array(),
-						$this->version,
-						false
-					);
-				}
-			}
-		}
-
-		if ( defined( 'GPOS_DEVELOPMENT' ) && true === GPOS_DEVELOPMENT ) {
-			wp_enqueue_script(
-				"{$this->prefix}-js",
-				"http://localhost:9080/{$this->vue_path}/pages/{$this->vue_page}/main.js",
-				array( 'jquery' ),
-				time(),
-				false
-			);
+			$this->production();
+		} elseif ( defined( 'GPOS_DEVELOPMENT' ) && true === GPOS_DEVELOPMENT ) {
+			$this->development();
 		}
 
 		if ( ! empty( $this->localize_variables ) ) {
@@ -172,5 +135,59 @@ class GPOS_Vue {
 			<?php
 		}
 
+	}
+
+
+	/**
+	 * Development için görüntüleme
+	 *
+	 * @return void
+	 */
+	private function development() {
+		wp_enqueue_script(
+			"{$this->prefix}-js",
+			"http://localhost:9080/{$this->vue_path}/pages/{$this->vue_page}/main.js",
+			array( 'jquery' ),
+			time(),
+			false
+		);
+	}
+
+	/**
+	 * Production için görüntüleme
+	 *
+	 * @return void
+	 */
+	private function production() {
+		wp_enqueue_script(
+			"{$this->prefix}-js",
+			"{$this->asset_dir_url}/vue/js/{$this->vue_page}/main.js",
+			array( 'jquery' ),
+			$this->version,
+			false
+		);
+
+		$css_files = scandir( GPOS_PLUGIN_DIR_PATH . '/assets/vue/css/' );
+
+		if ( $css_files ) {
+
+			foreach ( $css_files as $file ) {
+				if ( 'css' !== pathinfo( $file, PATHINFO_EXTENSION ) ) {
+					continue;
+				}
+
+				if ( 'tailwind.css' === $file && ! $this->tailwind ) {
+					continue;
+				}
+
+				wp_enqueue_style(
+					$file,
+					"{$this->asset_dir_url}/vue/css/{$file}",
+					array(),
+					$this->version,
+					false
+				);
+			}
+		}
 	}
 }

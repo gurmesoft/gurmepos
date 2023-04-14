@@ -29,6 +29,8 @@ class GPOS_WordPress {
 		add_action( 'admin_menu', array( new GPOS_Admin_Menu(), 'menu' ) );
 		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
 		add_filter( 'script_loader_tag', array( $this, 'script_loader' ), 10, 3 );
+		add_filter( 'plugin_action_links_' . GPOS_PLUGIN_BASENAME, array( $this, 'actions_links' ) );
+
 	}
 
 	/**
@@ -71,5 +73,20 @@ class GPOS_WordPress {
 			$tag = "<script type='module' id='{$this->prefix}-js' src='{$src}'></script>";
 		}
 		return $tag;
+	}
+
+
+	/**
+	 * Eklentiler sayfasına ayarlar linki ekleme.
+	 *
+	 * @param array $links Varolan linkler.
+	 *
+	 * @return array
+	 */
+	public function actions_links( $links ) {
+		$new_links = array(
+			'settings' => sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=gpos-payment-gateways' ), __( 'Ayarlar', 'gurmepos' ) ),
+		);
+		return array_merge( $links, $new_links );
 	}
 }

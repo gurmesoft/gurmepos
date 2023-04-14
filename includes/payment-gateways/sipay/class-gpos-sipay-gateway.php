@@ -26,6 +26,16 @@ final class GPOS_Sipay_Gateway extends GPOS_Payment_Gateway {
 	 */
 	private $request_url;
 
+
+	/**
+	 * Ödeme kuruluşunun bağlantı testi
+	 *
+	 * @param array $connection_data Ödeme geçidi ayarları.
+	 */
+	public function check_connection( $connection_data ) {
+
+	}
+
 	/**
 	 * GPOS_Sipay_Gateway kurucu fonksiyon değerindedir gerekli ayarlamaları yapar.
 	 *
@@ -64,8 +74,10 @@ final class GPOS_Sipay_Gateway extends GPOS_Payment_Gateway {
 
 	/**
 	 * Ödeme işlemi fonksiyonu.
+	 *
+	 * @return GPOS_Gateway_Response
 	 */
-	public function process_payment() {
+	public function process_payment() : GPOS_Gateway_Response {
 		$token = $this->get_token();
 		$hash  = $this->payment_hash();
 
@@ -116,8 +128,10 @@ final class GPOS_Sipay_Gateway extends GPOS_Payment_Gateway {
 	 * 3D Ödeme işlemleri için geri dönüş fonksiyonu.
 	 *
 	 * @param array $post_data Geri dönüş verileri.
+	 *
+	 * @return GPOS_Gateway_Response
 	 */
-	public function process_callback( array $post_data ) {
+	public function process_callback( array $post_data ) : GPOS_Gateway_Response {
 		if ( array_key_exists( 'sipay_status', $post_data ) && '1' === $post_data['sipay_status'] ) {
 			// Todo. Sipay teknik hata bekleniyor.
 			var_dump( $post_data );

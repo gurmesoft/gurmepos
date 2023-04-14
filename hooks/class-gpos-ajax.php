@@ -50,6 +50,7 @@ class GPOS_Ajax {
 				'update_woocommerce_settings' => array( $this, 'update_woocommerce_settings' ),
 				'update_account_settings'     => array( $this, 'update_account_settings' ),
 				'remove_gateway_account'      => array( $this, 'remove_gateway_account' ),
+				'check_connection'            => array( $this, 'check_connection' ),
 			)
 		);
 
@@ -102,7 +103,7 @@ class GPOS_Ajax {
 	 *
 	 * @param stdClass $request İstek parametreleri.
 	 *
-	 * @return bool
+	 * @return mixed
 	 */
 	public function update_test_mode( $request ) {
 		return gpos_settings()->set_test_mode( $request->test_mode );
@@ -113,7 +114,7 @@ class GPOS_Ajax {
 	 *
 	 * @param stdClass $request İstek parametreleri.
 	 *
-	 * @return bool
+	 * @return mixed
 	 */
 	public function update_active_status( $request ) {
 		return gpos_gateway_account( $request->id )->update_status( $request->status );
@@ -124,7 +125,7 @@ class GPOS_Ajax {
 	 *
 	 * @param stdClass $request İstek parametreleri.
 	 *
-	 * @return bool
+	 * @return mixed
 	 */
 	public function update_default_status( $request ) {
 		return gpos_gateway_account( $request->id )->update_is_default( $request->default );
@@ -135,7 +136,7 @@ class GPOS_Ajax {
 	 *
 	 * @param stdClass $request İstek parametreleri.
 	 *
-	 * @return bool
+	 * @return mixed
 	 */
 	public function add_gateway_account( $request ) {
 		return gpos_gateway_accounts()->add_account( $request->gateway );
@@ -146,7 +147,7 @@ class GPOS_Ajax {
 	 *
 	 * @param stdClass $request İstek parametreleri.
 	 *
-	 * @return bool
+	 * @return mixed
 	 */
 	public function update_woocommerce_settings( $request ) {
 		return gpos_woocommerce_settings()->set_settings( (array) $request->settings );
@@ -157,7 +158,7 @@ class GPOS_Ajax {
 	 *
 	 * @param stdClass $request İstek parametreleri.
 	 *
-	 * @return bool
+	 * @return mixed
 	 */
 	public function update_form_settings( $request ) {
 		return gpos_form_settings()->set_settings( (array) $request->settings );
@@ -168,7 +169,7 @@ class GPOS_Ajax {
 	 *
 	 * @param stdClass $request İstek parametreleri.
 	 *
-	 * @return bool
+	 * @return mixed
 	 */
 	public function update_account_settings( $request ) {
 		return gpos_gateway_account( $request->id )->gateway_settings->save_settings( (array) $request->settings );
@@ -179,9 +180,20 @@ class GPOS_Ajax {
 	 *
 	 * @param stdClass $request İstek parametreleri.
 	 *
-	 * @return bool
+	 * @return mixed
 	 */
 	public function remove_gateway_account( $request ) {
 		return gpos_gateway_accounts()->delete_account( $request->id );
+	}
+
+	/**
+	 * Geri dönüş fonksiyonu; check_connection.
+	 *
+	 * @param stdClass $request İstek parametreleri.
+	 *
+	 * @return mixed
+	 */
+	public function check_connection( $request ) {
+		return gpos_gateway_account( $request->id )->gateway_class->check_connection( $request->settings );
 	}
 }

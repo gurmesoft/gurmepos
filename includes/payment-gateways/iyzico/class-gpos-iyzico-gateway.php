@@ -18,6 +18,43 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 */
 	private $settings;
 
+
+	/**
+	 * Ödeme kuruluşunun bağlantı testi
+	 *
+	 * @param stdClass $connection_data Ödeme geçidi ayarları.
+	 */
+	public function check_connection( $connection_data ) {
+		$is_test_mode = gpos_is_test_mode();
+		$options      = new \Iyzipay\Options();
+		$options->setApiKey( $is_test_mode ? $connection_data->test_api_key : $connection_data->api_key );
+		$options->setSecretKey( $is_test_mode ? $connection_data->test_api_secret : $connection_data->api_secret );
+		$options->setBaseUrl( $is_test_mode ? 'https://sandbox-api.iyzipay.com' : 'https://api.iyzipay.com' );
+
+		try {
+
+			$request = new \Iyzipay\Request\RetrieveInstallmentInfoRequest();
+			$request->setConversationId( microtime( false ) );
+			$request->setLocale( \Iyzipay\Model\Locale::TR );
+			$request->setBinNumber( '589004' );
+			$request->setPrice( '100' );
+
+			$response = \Iyzipay\Model\InstallmentInfo::retrieve( $request, $options );
+
+			return array(
+				'result'  => $response->getStatus() === 'success' ? 'success' : 'error',
+				'message' => $response->getStatus() === 'success' ? 'Bağlantı Başarılı' : $response->getErrorMessage(),
+			);
+
+		} catch ( Exception $e ) {
+			array(
+				'result'  => 'error',
+				'message' => $e->getMessage(),
+			);
+		}
+
+	}
+
 	/**
 	 * GPOS_Paratika_Gateway kurucu fonksiyon değerindedir gerekli ayarlamaları yapar.
 	 *
@@ -35,8 +72,10 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 
 	/**
 	 * Ödeme işlemi fonksiyonu.
+	 *
+	 * @return GPOS_Gateway_Response
 	 */
-	public function process_payment() {
+	public function process_payment() : GPOS_Gateway_Response {
 
 		$payment_request = new \Iyzipay\Request\CreatePaymentRequest();
 		$payment_request->setPaymentGroup( \Iyzipay\Model\PaymentGroup::PRODUCT );
@@ -79,8 +118,10 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 * 3D Ödeme işlemleri için geri dönüş fonksiyonu.
 	 *
 	 * @param array $post_data Geri dönüş verileri.
+	 *
+	 * @return GPOS_Gateway_Response
 	 */
-	public function process_callback( array $post_data ) {
+	public function process_callback( array $post_data ) : GPOS_Gateway_Response {
 		$this->gateway_response->set_success( false )
 		->set_order_id( $post_data['conversationId'] )
 		->set_error_message( __( '3D işleminde hata. Şifre yanlış girilmiş yada 3D sayfası terk edilmiş.', 'gurmepos' ) );
@@ -164,9 +205,9 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 */
 	private function prepare_payment_card() {
 		$payment_card = new \Iyzipay\Model\PaymentCard();
-		if ( $this->get_use_saved_card() ) {
+		if ( $this->use_saved_card() ) {
 			// Todo. Kayıtlı kart ile alışverişte incelenecek.
-			var_dump( $this->get_use_saved_card() );
+			var_dump( $this->use_saved_card() );
 			die;
 			// $payment_card->setCardUserKey( $this->get_saved_card_key() );
 			// $payment_card->setCardToken( $this->get_saved_card_token() );
@@ -177,7 +218,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 			$payment_card->setExpireYear( $this->get_card_expiry_year() );
 			$payment_card->setCvc( $this->get_card_cvv() );
 
-			if ( $this->get_save_current_card() ) {
+			if ( $this->need_save_current_card() ) {
 				$payment_card->setRegisterCard( 1 );
 			}
 		}

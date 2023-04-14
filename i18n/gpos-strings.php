@@ -30,7 +30,7 @@ $gpos_i18n = array(
 		'status'                          => __( 'Durum', 'gurmepos' ),
 		'actions'                         => __( 'Aksiyonlar', 'gurmepos' ),
 		'not_active_comp'                 => __( 'Aktif bir ödeme kuruluşunuz bulunmamakta.', 'gurmepos' ),
-		'test_mode'                       => __( 'Test Modu.', 'gurmepos' ),
+		'test_mode'                       => __( 'Test Modu', 'gurmepos' ),
 		'test_mode_content'               => __( 'Tüm uygulamayı test moduna geçirir ve test apileri ile test yapmanıza yarar', 'gurmepos' ),
 		'help_title'                      => __( 'Uygulama ile ilgili', 'gurmepos' ),
 		'help_title_link'                 => __( 'yardım dökümanlarını inceleyin', 'gurmepos' ),
@@ -55,6 +55,19 @@ $gpos_i18n = array(
 		'online_form_settings_subtitle'   => __( 'Tek satır kredi kartı formu', 'gurmepos' ),
 		'pay_credit_cart'                 => __( 'Kredi kartı ile ödeme', 'gurmepos' ),
 		'save_settings'                   => __( 'Ayarları Kaydet', 'gurmepos' ),
+		'connect_test'                    => __( 'Bağlantıyı test et', 'gurmepos' ),
+		'delete_gateway'                  => __( 'Ödeme kuruluşunu kaldır', 'gurmepos' ),
+		'test_mode_title'                 => __( 'Test Modu Aktif', 'gurmepos' ),
+		'test_mode_content'               => __( 'Test modu aktif iken test APIleri ile çalışmanız gerekmektedir.', 'gurmepos' ),
+		'gateway_screen'                  => __( 'Sanal Pos Ekranı', 'gurmepos' ),
+		'supports_features'               => __( 'Desteklenen Özellikler', 'gurmepos' ),
+		'supports_currency'               => __( 'Desteklenen Para Birimleri', 'gurmepos' ),
+		'empty_gateway_title'             => __( 'Henüz bir pos aktif etmediniz', 'gurmepos' ),
+		'empty_gateway_content'           => __( ' Hemen ödeme almaya başlamak için anlaşmalı olduğunuz ödeme kuruluşunun bağlantısını gerçekleştirin.', 'gurmepos' ),
+		'method_name'                     => __( 'Yöntem Adı', 'gurmepos' ),
+		'pay_button_value'                => __( 'Ödeme Butonu Yazısı', 'gurmepos' ),
+		'pay_to_status'                   => __( 'Başarılı Ödemelerin Geçeceği durum', 'gurmepos' ),
+		'pay_form_desc'                   => __( 'Ödeme Formunun Açıklama Alanı', 'gurmepos' ),
 
 
 		'paratika'                        => array(
@@ -65,6 +78,18 @@ $gpos_i18n = array(
 		),
 		'sipay'                           => array(
 			'description' => 'Sipay müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz.',
+		),
+		'iyzico'                          => array(
+			'description' => 'iyzico müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz.',
+		),
+		'esnekpos'                        => array(
+			'description' => 'Esnekpos müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz.',
+		),
+		'param'                           => array(
+			'description' => 'Param müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz.',
+		),
+		'paytr'                           => array(
+			'description' => 'PayTR müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz.',
 		),
 	),
 );

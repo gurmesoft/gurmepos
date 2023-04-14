@@ -58,10 +58,15 @@ class GPOS_Admin_Menu {
 	 * @return void
 	 */
 	public function __construct() {
+		include GPOS_PLUGIN_DIR_PATH . '/assets/images/icon.php';
+		$this->parent_title = __( 'Pos Entegratör', 'gurmepos' );
 
-		$this->parent_title   = __( 'Öde Geç', 'gurmepos' );
+		if ( gpos_is_test_mode() ) {
+			$this->parent_title = $this->parent_title . ' <span style="padding:4px; background:#FDF6B2; color:#723B13; border-radius:6px;font-size:8px;">Test</span>';
+		}
+
 		$this->parent_slug    = 'gurmepos';
-		$this->icon           = 'dashicons-welcome-learn-more';
+		$this->icon           = $icon;
 		$this->sub_menu_pages = array(
 			array(
 				'menu_title' => __( 'Başlangıç', 'gurmepos' ),
@@ -101,7 +106,7 @@ class GPOS_Admin_Menu {
 			$this->parent_slug,
 			false,
 			$this->icon,
-			60
+			59
 		);
 
 		foreach ( $this->sub_menu_pages as $sub_menu_page ) {

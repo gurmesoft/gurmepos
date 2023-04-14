@@ -42,7 +42,7 @@ class GPOS_Payment_Gateways {
 	 * @return array
 	 */
 	public function get_payment_gateways() {
-		return array_map( fn( $c ) => new $c(), $this->payment_gateways );
+		return array_map( fn( $class ) => new $class(), $this->payment_gateways );
 	}
 
 

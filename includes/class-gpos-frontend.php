@@ -207,17 +207,17 @@ class GPOS_Frontend {
 	public function render() {
 		$default_account = gpos_gateway_accounts()->get_default_account();
 
+		wp_enqueue_style(
+			'gpos_style',
+			"{$this->asset_dir_url}/form_style.css",
+			array(),
+			$this->version,
+		);
+
 		if ( $default_account ) {
 			$gateway = gpos_payment_gateways()->get_gateway_by_gateway_id( $default_account->gateway_id );
 
 			wp_nonce_field( 'gpos_process_payment', '_gpos_wpnonce' );
-
-			wp_enqueue_style(
-				'gpos_style',
-				"{$this->asset_dir_url}/form_style.css",
-				array(),
-				$this->version,
-			);
 
 			wp_enqueue_script(
 				'gpos_script',
@@ -235,8 +235,11 @@ class GPOS_Frontend {
 				$this->standart_form();
 			}
 		} else {
-			// Todo.
-			echo 'seçili payment gateway yok cart curt link ver yönlendir.';
+			?>
+			<div class="empty-gateway-container">
+				<p class="empty-gateway-content">Her hangi bir pos entegrasyonunu aktif etmediniz lütfen ayarlarınızı tamamlayınız.</p>
+			</div>
+			<?php
 		}
 
 	}

@@ -24,6 +24,7 @@ class GPOS_Loader {
 			// Abstracts
 			'includes/abstracts/abstract-gpos-options.php',
 			'includes/abstracts/abstract-gpos-gateway-settings.php',
+			'includes/abstracts/abstract-gpos-gateway-customer.php',
 			'includes/abstracts/abstract-gpos-payment-gateway.php',
 			'includes/abstracts/abstract-gpos-gateway.php',
 

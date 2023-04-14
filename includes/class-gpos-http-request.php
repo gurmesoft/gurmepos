@@ -47,8 +47,7 @@ class GPOS_Http_Request {
 	 * @throws Exception İstekte hata durumunda fırlatılır.
 	 * @return array $response
 	 */
-	public function request( $url, $method = 'POST', $body = false ) {
-		var_dump( $body );
+	public function request( $url, $method = 'POST', $body = array() ) {
 		$http_response = wp_remote_request(
 			$url,
 			array(

@@ -40,9 +40,10 @@ abstract class GPOS_Gateway_Settings {
 			function( &$meta_value, $meta_key ) {
 				if ( 'id' === $meta_key ) {
 					$meta_value = $this->id;
-				} else {
-					$meta_value = get_post_meta( $this->id, $meta_key, true );
+					return;
 				}
+
+				$meta_value = get_post_meta( $this->id, $meta_key, true );
 			}
 		);
 		return $this;

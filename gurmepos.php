@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Öde Geç
+ * Plugin Name: Pos Entegratör
  * Plugin URI: https://gurmehub.com/
  * Description: GurmeHub tüm banka ve ödeme kuruluşları destekli özelleştirilebilir POS eklentisi
  * Version: 0.0.1

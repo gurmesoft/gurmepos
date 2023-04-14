@@ -161,13 +161,24 @@
   margin: 0px !important;
 }
 
-.gpos-test-button{
+.gpos-test-button {
   cursor: pointer;
 }
 
-
 .gpos-hidden {
   display: none !important;
+}
+
+.empty-gateway-container {
+  padding: 16px;
+  background: #e1effe;
+  border-radius: 6px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.empty-gateway-content {
+  color: #233876;
 }
 
 @media only screen and (max-width: 600px) {
