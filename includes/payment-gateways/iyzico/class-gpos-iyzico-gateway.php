@@ -78,6 +78,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	public function process_payment() : GPOS_Gateway_Response {
 
 		$payment_request = new \Iyzipay\Request\CreatePaymentRequest();
+		$payment_request->setPaymentSource( 'Gurmesoft' );
 		$payment_request->setPaymentGroup( \Iyzipay\Model\PaymentGroup::PRODUCT );
 		$payment_request->setPaymentChannel( \Iyzipay\Model\PaymentChannel::WEB );
 		$payment_request->setCurrency( $this->get_currency() );
@@ -99,6 +100,8 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 
 			if ( 'success' === $response->getStatus() ) {
 				$this->gateway_response->set_need_redirect( true )->set_html_content( $response->getHtmlContent() );
+			} else {
+				$this->gateway_response->set_success( false )->set_error_message( $response->getErrorMessage() );
 			}
 		} else {
 			$response = \Iyzipay\Model\Payment::create( $payment_request, $this->settings );
@@ -138,6 +141,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 				$this->gateway_response
 				->set_success( true )
 				->set_error_message( false )
+				->set_order_id( $response->getConversationId() )
 				->set_payment_id( $response->getPaymentId() );
 
 				foreach ( $response->getPaymentItems() as $item ) {
@@ -146,7 +150,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 			} else {
 				// Yetersiz bakiye, Froud vb. gibi kartla ilgili durumlardan dolayı ödeme yapılamazsa bu blok hata mesajını değiştirir.
 				$default_error_message = $response->getErrorMessage();
-				$this->gateway_response->set_error_message( $default_error_message );
+				$this->gateway_response->set_need_redirect( true )->set_error_message( $default_error_message );
 			}
 		}
 

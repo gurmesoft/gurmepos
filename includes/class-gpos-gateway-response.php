@@ -28,7 +28,7 @@ class GPOS_Gateway_Response {
 	 *
 	 * @var bool  $need_redirect
 	 */
-	private $need_redirect;
+	private $need_redirect = false;
 
 	/**
 	 * Yönlendirme yapılmaması durumunda gösterilecek olan HTML içeriğini belirtir.

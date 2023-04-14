@@ -137,17 +137,29 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 * @return GPOS_Gateway_Response
 	 */
 	public function process_callback( array $post_data ) : GPOS_Gateway_Response {
-		$this->gateway_response->set_order_id( $post_data );
 
 		if ( array_key_exists( 'responseCode', $post_data ) && '00' === $post_data['responseCode'] ) {
+			$request = array(
+				'ACTION'   => 'QUERYTRANSACTION',
+				'PGTRANID' => $post_data['pgTranId'],
+			);
 
-			// Todo. Test ortamı çalıştığında test edilecek.
-			var_dump( $post_data );
-			die;
+			$response = $this->http_request->request( $this->request_url, 'POST', array_merge( $request, $this->settings ) );
 
+			if ( array_key_exists( 'responseCode', $response ) && '00' === $response['responseCode'] && '0' !== $response['transactionCount'] ) {
+				foreach ( $response['transactionList']  as $transaction ) {
+					if ( array_key_exists( 'pgTranReturnCode', $transaction ) && '00' === $transaction['pgTranReturnCode'] ) {
+						$this->gateway_response
+						->set_order_id( str_replace( "{$this->settings['MERCHANT']}-", '', $transaction['pgOrderId'] ) )
+						->set_payment_id( $transaction['pgTranId'] );
+						return $this->gateway_response;
+					}
+				}
+				$this->gateway_response->set_success( false )->set_error_message( __( 'Transactionlist içerisinde onaylanmış transaction bulunamadı.', 'gurmepos' ) );
+			}
 		} else {
 			$error_message = array_key_exists( 'errorMsg', $post_data ) ? $post_data['errorMsg'] : false;
-			$this->gateway_response->set_success( false )->set_error_message( $error_message );
+			$this->gateway_response->set_need_redirect( true )->set_success( false )->set_error_message( $error_message );
 		}
 
 		return $this->gateway_response;

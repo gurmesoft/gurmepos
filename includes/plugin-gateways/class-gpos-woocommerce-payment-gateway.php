@@ -118,15 +118,17 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 			if ( ! $redirect && ! $threed ) {
 				$this->success_process( $response );
 			}
-		}
+		} else {
 
-		$this->error_process( $response );
-		wp_send_json(
-			array(
-				'result'   => 'failure',
-				'messages' => gpos_woocommerce_notice( $response->get_error_message() ),
-			)
-		);
+			$this->error_process( $response );
+
+			wp_send_json(
+				array(
+					'result'   => 'failure',
+					'messages' => gpos_woocommerce_notice( $response->get_error_message() ),
+				)
+			);
+		}
 
 	}
 
@@ -326,8 +328,10 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 			);
 		}
 
-		wp_safe_redirect( add_query_arg( array( 'gpos_error' => $response->get_error_message() ), wc_get_checkout_url() ) );
-		exit;
+		if ( $response->is_need_redirect() ) {
+			wp_safe_redirect( add_query_arg( array( 'gpos_error' => $response->get_error_message() ), wc_get_checkout_url() ) );
+			exit;
+		}
 	}
 
 	/**

@@ -72,7 +72,7 @@ class GPOS_Sipay extends GPOS_Gateway {
 	 *
 	 * @var boolean $is_need_pro
 	 */
-	public $is_need_pro = false;
+	public $is_need_pro = true;
 
 	/**
 	 * Ödeme için gerekli alanların tanımı
