@@ -61,7 +61,7 @@ class GPOS_Gateway_Accounts {
 
 		$gpos_account = $this->get_account( $account_id );
 		$gpos_account->update_is_default( true );
-		return $account_id;
+		return $gpos_account;
 	}
 
 	/**
@@ -88,7 +88,7 @@ class GPOS_Gateway_Accounts {
 	}
 
 	/**
-	 * Todo. Default seçimi kurulandı, uygulanacak.
+	 * Varsayılan hesap getirme
 	 *
 	 * @return GPOS_Gateway_Account|false
 	 */

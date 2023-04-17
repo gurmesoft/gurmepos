@@ -74,6 +74,7 @@ class GPOS_Loader {
 			'includes/class-gpos-gateway-accounts.php',
 			'includes/class-gpos-gateway-account.php',
 			'includes/class-gpos-order-item.php',
+			'includes/class-gpos-log.php',
 			'includes/class-gpos-vue.php',
 			'includes/class-gpos-frontend.php',
 

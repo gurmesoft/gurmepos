@@ -186,4 +186,20 @@ final class GPOS_Sipay_Gateway extends GPOS_Payment_Gateway {
 		$msg_encrypted_bundle = str_replace( '/', '__', $msg_encrypted_bundle );
 		return $msg_encrypted_bundle;
 	}
+
+	/**
+	 * Ödeme geçidi ayarlarını setler.
+	 *
+	 * @param string $process İşlem tipi.
+	 * @param mixed  $request Gönderilen istek.
+	 * @param mixed  $response Gönderilen isteğe istinaden alınan cevap.
+	 *
+	 * @return void
+	 */
+	public function log( $process, $request, $response ) {
+		echo '<pre>';
+		var_dump( $process, $request, $response );
+		die;
+		$this->logger( __CLASS__, $process, $request, $response );
+	}
 }

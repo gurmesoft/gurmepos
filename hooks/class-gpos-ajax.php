@@ -86,13 +86,13 @@ class GPOS_Ajax {
 
 				// WP_Error kontrolü yapar.
 				if ( is_wp_error( $response ) ) {
-					wp_send_json( array( 'error_message' => $response->get_error_message() ), 500 ); // Todo. array error message yapısı GPOS_Error sınıfı ile değiştirilecek.
+					wp_send_json( array( 'error_message' => $response->get_error_message() ), 500 );
 				}
 
 				wp_send_json( $response );
 
 			} catch ( Exception $e ) {
-				wp_send_json( array( 'error_message' => $e->getMessage() ), 500 ); // Todo. array error message yapısı GPOS_Error sınıfı ile değiştirilecek.
+				wp_send_json( array( 'error_message' => $e->getMessage() ), 500 );
 
 			}
 		}

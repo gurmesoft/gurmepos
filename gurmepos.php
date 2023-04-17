@@ -35,6 +35,8 @@ GPOS_Loader::instance();
  * @return void
  */
 function gpos_activation() {
-
+	require_once GPOS_PLUGIN_DIR_PATH . 'includes/class-gpos-installer.php';
+	$installer = new GPOS_Installer();
+	$installer->install();
 }
 register_activation_hook( GPOS_PLUGIN_BASEFILE, 'gpos_activation' );

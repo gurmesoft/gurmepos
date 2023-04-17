@@ -110,6 +110,7 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 				$this->prepare_regular_credit_card()
 			);
 			$response = $this->http_request->request( $this->request_url, 'POST', $request );
+			$this->log( __FUNCTION__, $request, $response );
 
 			if ( array_key_exists( 'responseCode', $response ) && '00' === $response['responseCode'] ) {
 				$this->process_callback( $response );
@@ -133,12 +134,14 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	public function process_callback( array $post_data ) : GPOS_Gateway_Response {
 
 		if ( array_key_exists( 'responseCode', $post_data ) && '00' === $post_data['responseCode'] ) {
-			$request = array(
+			$request  = array(
 				'ACTION'   => 'QUERYTRANSACTION',
 				'PGTRANID' => $post_data['pgTranId'],
 			);
+			$request  = array_merge( $request, $this->settings );
+			$response = $this->http_request->request( $this->request_url, 'POST', $request );
 
-			$response = $this->http_request->request( $this->request_url, 'POST', array_merge( $request, $this->settings ) );
+			$this->log( __FUNCTION__, $request, $response );
 
 			if ( array_key_exists( 'responseCode', $response ) && '00' === $response['responseCode'] && '0' !== $response['transactionCount'] ) {
 				foreach ( $response['transactionList']  as $transaction ) {
@@ -184,8 +187,11 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 
 		}
 
-		return $this->http_request->request( $this->request_url, 'POST', $request );
+		$response = $this->http_request->request( $this->request_url, 'POST', $request );
 
+		$this->log( __FUNCTION__, $request, $response );
+
+		return $response;
 	}
 
 	/**
@@ -277,10 +283,45 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	}
 
 	/**
-	 * Ödeme geçidi loglarını tutar.
+	 * Ödeme geçidi ayarlarını setler.
+	 *
+	 * @param string $process İşlem tipi.
+	 * @param mixed  $request Gönderilen istek.
+	 * @param mixed  $response Gönderilen isteğe istinaden alınan cevap.
+	 *
+	 * @return void
 	 */
-	public function log() {
+	public function log( $process, $request, $response ) {
 
+		if ( array_key_exists( 'CARDPAN', $request ) ) {
+			$request['CARDPAN'] = '**** **** **** ' . substr( $request['CARDPAN'], -4 );
+		}
+
+		if ( array_key_exists( 'CARDEXPIRY', $request ) ) {
+			$request['CARDEXPIRY'] = '**/**';
+		}
+
+		if ( array_key_exists( 'CARDCVV', $request ) ) {
+			$request['CARDCVV'] = '***';
+		}
+
+		if ( array_key_exists( 'pan', $request ) ) {
+			$request['pan'] = '**** **** **** ' . substr( $request['pan'], -4 );
+		}
+
+		if ( array_key_exists( 'expiryMonth', $request ) ) {
+			$request['expiryMonth'] = '**';
+		}
+
+		if ( array_key_exists( 'expiryYear', $request ) ) {
+			$request['expiryYear'] = '**';
+		}
+
+		if ( array_key_exists( 'cvv', $request ) ) {
+			$request['cvv'] = '***';
+		}
+
+		$this->logger( __CLASS__, $process, $request, $response );
 	}
 
 }

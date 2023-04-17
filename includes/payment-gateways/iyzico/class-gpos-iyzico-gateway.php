@@ -118,6 +118,8 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 			}
 		}
 
+		$this->log( __FUNCTION__, $payment_request, $response );
+
 		return $this->gateway_response;
 
 	}
@@ -141,6 +143,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 			$request->setPaymentId( $post_data['paymentId'] );
 			// 3D Sayfasından başarıyla gelen kullanıcı için kartından ödeme çekme bu çağrı ile gerçekleşir.
 			$response = \Iyzipay\Model\ThreedsPayment::create( $request, $this->settings );
+			$this->log( __FUNCTION__, $request, $response );
 
 			if ( 'success' === $response->getStatus() ) {
 				$this->gateway_response
@@ -258,10 +261,25 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	}
 
 	/**
-	 * Ödeme geçidi loglarını tutar.
+	 * Ödeme geçidi ayarlarını setler.
+	 *
+	 * @param string $process İşlem tipi.
+	 * @param mixed  $request Gönderilen istek.
+	 * @param mixed  $response Gönderilen isteğe istinaden alınan cevap.
+	 *
+	 * @return void
 	 */
-	public function log() {
+	public function log( $process, $request, $response ) {
+		if ( function_exists( $request, 'getPaymentCard' ) ) {
+			$payment_card = $request->getPaymentCard();
+			$payment_card->setCardNumber( '**** **** **** **** ' . substr( $payment_card->getCardNumber(), -4 ) );
+			$payment_card->setExpireMonth( '**' );
+			$payment_card->setExpireYear( '**' );
+			$payment_card->setCvc( '***' );
+			$request->setPaymentCard( $payment_card );
+		}
 
+		$this->logger( __CLASS__, $process, $request->getJsonObject(), $response->getRawResult() );
 	}
 
 }

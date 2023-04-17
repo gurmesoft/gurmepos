@@ -117,11 +117,19 @@ abstract class GPOS_Payment_Gateway extends GPOS_Gateway_Customer {
 	 */
 	protected $gateway_response;
 
+	/**
+	 * Log sınıfı
+	 *
+	 * @var GPOS_Log $gateway_response
+	 */
+	protected $logger;
+
 
 	/**
 	 * GPOS_Payment_Gateway kurucu fonksiyonu
 	 */
 	public function __construct() {
+		$this->logger           = new GPOS_Log();
 		$this->http_request     = new GPOS_Http_Request();
 		$this->gateway_response = new GPOS_Gateway_Response();
 	}
@@ -415,6 +423,32 @@ abstract class GPOS_Payment_Gateway extends GPOS_Gateway_Customer {
 	}
 
 	/**
+	 * Ödeme geçidi loglarını tutar.
+	 *
+	 * @param string $gateway Ödeme geçidi.
+	 * @param string $process İşlem tipi.
+	 * @param mixed  $request Ödeme geçidine gönderilen veri.
+	 * @param mixed  $response Ödeme geçidinden alınan cevap.
+	 *
+	 * @return GPOS_Payment_Gateway
+	 */
+	public function logger( $gateway, $process, $request, $response ) {
+		$this->logger->add( $gateway, $process, $request, $response );
+		return $this;
+	}
+
+	/**
+	 * Ödeme geçidi ayarlarını setler.
+	 *
+	 * @param string $process İşlem tipi.
+	 * @param mixed  $request Gönderilen istek.
+	 * @param mixed  $response Gönderilen isteğe istinaden alınan cevap.
+	 *
+	 * @return void
+	 */
+	abstract public function log( $process, $request, $response );
+
+	/**
 	 * Ödeme geçidi ayarlarını setler.
 	 *
 	 * @param GPOS_Gateway_Settings $settings Ödeme geçidi spesifik ayarları.
@@ -450,10 +484,5 @@ abstract class GPOS_Payment_Gateway extends GPOS_Gateway_Customer {
 	 * @param stdClass $connection_data Ödeme geçidi ayarları.
 	 */
 	abstract public function check_connection( $connection_data );
-
-	/**
-	 * Ödeme geçidi loglarını tutar.
-	 */
-	abstract public function log();
 
 }
