@@ -78,12 +78,3 @@ function gpos_woocommerce_settings() {
 function gpos_form_settings() {
 	return new GPOS_Form_Settings();
 }
-
-/**
- * GurmePOS frontend formlarını döndürür.
- *
- * @return GPOS_Frontend
- */
-function gpos_frontend() {
-	return new GPOS_Frontend();
-}

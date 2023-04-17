@@ -257,4 +257,11 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 		return $basket_items;
 	}
 
+	/**
+	 * Ödeme geçidi loglarını tutar.
+	 */
+	public function log() {
+
+	}
+
 }

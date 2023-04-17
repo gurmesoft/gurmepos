@@ -150,7 +150,7 @@ class GPOS_Ajax {
 	 * @return mixed
 	 */
 	public function update_woocommerce_settings( $request ) {
-		return gpos_woocommerce_settings()->set_settings( (array) $request->settings );
+		return gpos_woocommerce_settings()->set_settings( (array) $request );
 	}
 
 	/**

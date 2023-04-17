@@ -421,7 +421,7 @@ abstract class GPOS_Payment_Gateway extends GPOS_Gateway_Customer {
 	 *
 	 * @return void
 	 */
-	abstract public function prepare_settings( GPOS_Gateway_Settings $settings);
+	abstract public function prepare_settings( GPOS_Gateway_Settings $settings );
 
 	/**
 	 * Ödeme işlemi fonksiyonu.
@@ -437,7 +437,7 @@ abstract class GPOS_Payment_Gateway extends GPOS_Gateway_Customer {
 	 *
 	 * @return GPOS_Gateway_Response
 	 */
-	abstract public function process_callback( array $post_data) : GPOS_Gateway_Response;
+	abstract public function process_callback( array $post_data ) : GPOS_Gateway_Response;
 
 	/**
 	 * Ödeme iade işlemi fonksiyonu.
@@ -449,6 +449,11 @@ abstract class GPOS_Payment_Gateway extends GPOS_Gateway_Customer {
 	 *
 	 * @param stdClass $connection_data Ödeme geçidi ayarları.
 	 */
-	abstract public function check_connection( $connection_data);
+	abstract public function check_connection( $connection_data );
+
+	/**
+	 * Ödeme geçidi loglarını tutar.
+	 */
+	abstract public function log();
 
 }

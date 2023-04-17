@@ -83,7 +83,6 @@ function gpos_get_wc_order_statuses() : array {
 		'wc-pending',
 		'wc-on-hold',
 		'wc-failed',
-		'wc-checkout-draft',
 	);
 
 	if ( function_exists( 'wc_get_order_statuses' ) ) {

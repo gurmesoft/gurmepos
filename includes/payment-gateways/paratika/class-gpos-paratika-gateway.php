@@ -112,9 +112,7 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 			$response = $this->http_request->request( $this->request_url, 'POST', $request );
 
 			if ( array_key_exists( 'responseCode', $response ) && '00' === $response['responseCode'] ) {
-				// Todo. Regular model test hesabımızda desteklenmiyor.
-				var_dump( $response );
-				die;
+				$this->process_callback( $response );
 			} else {
 				$this->gateway_response->set_success( false )->set_error_message( array_key_exists( 'errorMsg', $response ) ? $response['errorMsg'] : false );
 			}
@@ -269,13 +267,20 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 			);
 		}
 
-			$order_data['RETURNURL']         = $this->get_callback_url();
-			$order_data['AMOUNT']            = $this->get_order_total();
-			$order_data['ORDERITEMS']        = rawurlencode( wp_json_encode( $order_data['ORDERITEMS'] ) );
-			$order_data['MERCHANTPAYMENTID'] = $this->get_order_id();
-			$order_data['CURRENCY']          = $this->get_currency();
+		$order_data['RETURNURL']         = $this->get_callback_url();
+		$order_data['AMOUNT']            = $this->get_order_total();
+		$order_data['ORDERITEMS']        = rawurlencode( wp_json_encode( $order_data['ORDERITEMS'] ) );
+		$order_data['MERCHANTPAYMENTID'] = $this->get_order_id();
+		$order_data['CURRENCY']          = $this->get_currency();
 
-			return $order_data;
+		return $order_data;
+	}
+
+	/**
+	 * Ödeme geçidi loglarını tutar.
+	 */
+	public function log() {
+
 	}
 
 }

@@ -6,12 +6,11 @@
  */
 
 /**
- * GurmePOS GPOS_Options abstract sınıfı
+ * GurmePOS abstract sınıfı
  */
 abstract class GPOS_Options {
-	
 	/**
-	 * Kayıt edilecek ayarları tutacak wp_options tablosundaki option_name
+	 * Test modunun options tablosundaki option_name parametresi.
 	 *
 	 * @var string
 	 */
@@ -72,13 +71,7 @@ abstract class GPOS_Options {
 				'icon'           => GPOS_ASSETS_DIR_URL . '/images/visa-martercard.png',
 				'success_status' => 'processing',
 			),
-			'gpos_form_settings'        => array(
-				'three_d' 		 =>  'three_d',
-				'form_user_name' => false,
-				'save_card'      => false,
-				'subscription'   => false,
-				'viewsetting'	 =>  'standart_form'
-			),
+			'gpos_form_settings'        => array(),
 		);
 
 		return array_key_exists( $this->options_table_key, $default_settings ) ? $default_settings[ $this->options_table_key ] : array();
