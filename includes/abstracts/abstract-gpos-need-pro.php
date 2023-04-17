@@ -1,28 +1,27 @@
 <?php
 /**
- * Paratika ödeme geçidinin tüm özelliklerini uygulamaya tanıtır.
+ * GurmePOS Pro gereksinimli ödeme geçitleri için abstract sınıfını barındırır.
  *
- * @package Gurmehub
+ * @package GurmeHub
  */
 
 /**
- * GPOS_Param sınıfı.
+ * GurmePOS GPOS_Need_Pro abstract sınıfı
  */
-class GPOS_Param extends GPOS_Gateway {
-
+abstract class GPOS_Need_Pro extends GPOS_Gateway {
 	/**
 	 * Ödeme geçidi benzersiz kimliği
 	 *
 	 * @var string $id
 	 */
-	public $id = 'param';
+	public $id;
 
 	/**
 	 * Ödeme geçidi başlığı
 	 *
 	 * @var string $title
 	 */
-	public $title = 'Param';
+	public $title;
 
 	/**
 	 * Ödeme geçidi ayar sınıfı
@@ -44,14 +43,14 @@ class GPOS_Param extends GPOS_Gateway {
 	 *
 	 * @var string $merchant_panel
 	 */
-	public $merchant_panel = false;
+	public $merchant_panel;
 
 	/**
 	 * Logo urli
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/param.png';
+	public $logo;
 
 	/**
 	 * Desteklenilen para birimleri

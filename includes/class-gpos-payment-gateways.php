@@ -31,7 +31,17 @@ class GPOS_Payment_Gateways {
 				'GPOS_Ozan',
 				'GPOS_Esnek_Pos',
 				'GPOS_Param',
-				'GPOS_Paytr',
+				'GPOS_Akbank',
+				'GPOS_Denizbank',
+				'GPOS_Finansbank',
+				'GPOS_Garanti_Pay',
+				'GPOS_Garanti',
+				'GPOS_Halkbank',
+				'GPOS_Ingbank',
+				'GPOS_Kuveyt_Turk',
+				'GPOS_Vakifbank',
+				'GPOS_Yapikredi',
+				'GPOS_Ziraat',
 			)
 		);
 	}

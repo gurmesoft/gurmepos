@@ -32,14 +32,6 @@ class GPOS_Gateway_Account {
 	public $settings_url;
 
 	/**
-<<<<<<< HEAD
-	 * Ödeme geçidinin özelliklerini taşır
-	 *
-	 * @var string $gateway_property
-	 */
-	public $gateway_property;
-
-=======
 	 * Ödeme geçidinin ayarlar sınıfını taşır.
 	 *
 	 * @var string $gateway_settings
@@ -66,7 +58,6 @@ class GPOS_Gateway_Account {
 	 * @var bool $is_default
 	 */
 	public $is_default;
->>>>>>> dev
 
 	/**
 	 * GPOS_Gateway_Account kurucu fonksiyonu.
@@ -97,8 +88,6 @@ class GPOS_Gateway_Account {
 				admin_url( '/admin.php' ),
 			);
 
-<<<<<<< HEAD
-=======
 			$this->gateway_id = get_post_meta( $this->id, 'gpos_gateway_id', true );
 			$this->is_default = ! ! get_post_meta( $this->id, 'gpos_default_account', true );
 
@@ -115,7 +104,6 @@ class GPOS_Gateway_Account {
 				$this->gateway_class->prepare_settings( $this->gateway_settings );
 			}
 		}
->>>>>>> dev
 	}
 
 	/**

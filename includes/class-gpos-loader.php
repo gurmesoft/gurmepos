@@ -27,6 +27,7 @@ class GPOS_Loader {
 			'includes/abstracts/abstract-gpos-gateway-customer.php',
 			'includes/abstracts/abstract-gpos-payment-gateway.php',
 			'includes/abstracts/abstract-gpos-gateway.php',
+			'includes/abstracts/abstract-gpos-need-pro.php',
 
 			// Settings
 			'includes/settings/class-gpos-settings.php',
@@ -38,28 +39,27 @@ class GPOS_Loader {
 			'includes/payment-gateways/paratika/class-gpos-paratika-gateway.php',
 			'includes/payment-gateways/paratika/class-gpos-paratika.php',
 
-			// Ozan
-			'includes/payment-gateways/ozan/class-gpos-ozan-settings.php',
-			'includes/payment-gateways/ozan/class-gpos-ozan.php',
-
 			// Iyzico
 			'includes/payment-gateways/iyzico/class-gpos-iyzico-settings.php',
 			'includes/payment-gateways/iyzico/class-gpos-iyzico-gateway.php',
 			'includes/payment-gateways/iyzico/class-gpos-iyzico.php',
 
-			// EsnekPos
-			'includes/payment-gateways/esnekpos/class-gpos-esnek-pos.php',
-
-			// Param
-			'includes/payment-gateways/param/class-gpos-param.php',
-
-			// Sipay
-			'includes/payment-gateways/sipay/class-gpos-sipay-settings.php',
-			'includes/payment-gateways/sipay/class-gpos-sipay-gateway.php',
-			'includes/payment-gateways/sipay/class-gpos-sipay.php',
-
-			// PayTR
-			'includes/payment-gateways/paytr/class-gpos-paytr.php',
+			// Pro ile gelecekler
+			'includes/payment-gateways/pro/class-gpos-ozan.php',
+			'includes/payment-gateways/pro/class-gpos-esnek-pos.php',
+			'includes/payment-gateways/pro/class-gpos-param.php',
+			'includes/payment-gateways/pro/class-gpos-sipay.php',
+			'includes/payment-gateways/pro/class-gpos-akbank.php',
+			'includes/payment-gateways/pro/class-gpos-denizbank.php',
+			'includes/payment-gateways/pro/class-gpos-finansbank.php',
+			'includes/payment-gateways/pro/class-gpos-garanti-pay.php',
+			'includes/payment-gateways/pro/class-gpos-garanti.php',
+			'includes/payment-gateways/pro/class-gpos-halkbank.php',
+			'includes/payment-gateways/pro/class-gpos-ingbank.php',
+			'includes/payment-gateways/pro/class-gpos-kuveyt-turk.php',
+			'includes/payment-gateways/pro/class-gpos-vakifbank.php',
+			'includes/payment-gateways/pro/class-gpos-yapikredi.php',
+			'includes/payment-gateways/pro/class-gpos-ziraat.php',
 
 			// Functions
 			'includes/gpos-class-functions.php',

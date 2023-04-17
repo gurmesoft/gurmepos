@@ -87,6 +87,7 @@ class GPOS_Admin_Menu {
 			array(
 				'menu_title' => false,
 				'menu_slug'  => "{$this->prefix}-payment-gateway",
+				'hidden'     => true,
 			),
 		);
 
@@ -112,7 +113,7 @@ class GPOS_Admin_Menu {
 		foreach ( $this->sub_menu_pages as $sub_menu_page ) {
 
 			add_submenu_page(
-				$this->parent_slug,
+				isset( $sub_menu_page['hidden'] ) && $sub_menu_page['hidden'] ? '' : $this->parent_slug,
 				$sub_menu_page['menu_title'],
 				$sub_menu_page['menu_title'],
 				'manage_options',
