@@ -16,22 +16,6 @@ class GPOS_Loader {
 	 * @return void
 	 */
 	public static function instance() {
-<<<<<<< HEAD
-		require_once GPOS_PLUGIN_DIR_PATH . 'includes/abstracts/abstract-gpos-options.php';
-		require_once GPOS_PLUGIN_DIR_PATH . 'includes/gpos-class-functions.php';
-		require_once GPOS_PLUGIN_DIR_PATH . 'includes/gpos-functions.php';
-		require_once GPOS_PLUGIN_DIR_PATH . 'includes/class-gpos-payment-gateways.php';
-		require_once GPOS_PLUGIN_DIR_PATH . 'includes/class-gpos-admin-menu.php';
-		require_once GPOS_PLUGIN_DIR_PATH . 'includes/class-gpos-post-types.php';
-		require_once GPOS_PLUGIN_DIR_PATH . 'includes/class-gpos-gateway-accounts.php';
-		require_once GPOS_PLUGIN_DIR_PATH . 'includes/class-gpos-gateway-account.php';
-		require_once GPOS_PLUGIN_DIR_PATH . 'includes/settings/class-gpos-settings.php';
-		require_once GPOS_PLUGIN_DIR_PATH . 'includes/settings/class-gpos-woocommerce-settings.php';
-		require_once GPOS_PLUGIN_DIR_PATH . 'includes/settings/class-gpos-form-settings.php';
-		require_once GPOS_PLUGIN_DIR_PATH . 'includes/class-gpos-vue.php';
-		require_once GPOS_PLUGIN_DIR_PATH . 'hooks/class-gpos-ajax.php';
-		require_once GPOS_PLUGIN_DIR_PATH . 'hooks/class-gpos-wordpress.php';
-=======
 
 		$files = array(
 			// Vendors
@@ -102,7 +86,6 @@ class GPOS_Loader {
 			require_once GPOS_PLUGIN_DIR_PATH . $file;
 		}
 
->>>>>>> dev
 		new GPOS_Ajax();
 		new GPOS_WordPress();
 	}

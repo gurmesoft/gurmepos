@@ -36,12 +36,6 @@ class GPOS_Frontend {
 	 * Kurucu fonksiyon.
 	 */
 	public function __construct() {
-<<<<<<< HEAD
-		$this->settings = gpos_form_settings()->get_settings();
-		$this->Woocommercesettings = gpos_woocommerce_settings()->get_settings();
-		// echo '<pre>';
-		// var_dump($this->settings);
-=======
 		$this->form_settings = gpos_form_settings()->get_settings();
 	}
 
@@ -205,23 +199,14 @@ class GPOS_Frontend {
 			</div>
 			<?php
 		endif;
->>>>>>> dev
 	}
 
 	/**
 	 * Frontend formunu render eder.
 	 */
 	public function render() {
-<<<<<<< HEAD
-<<<<<<< HEAD
-		var_dump( $this->settings );
-		echo 'test';
-	}
-=======
-=======
 		$default_account = gpos_gateway_accounts()->get_default_account();
 
->>>>>>> dev
 		wp_enqueue_style(
 			'gpos_style',
 			"{$this->asset_dir_url}/form_style.css",
@@ -254,84 +239,8 @@ class GPOS_Frontend {
 			<div class="empty-gateway-container">
 				<p class="empty-gateway-content">Her hangi bir pos entegrasyonunu aktif etmediniz lütfen ayarlarınızı tamamlayınız.</p>
 			</div>
-<<<<<<< HEAD
-			<?php endif; ?>
-			<div class="gpos-relative">
-				<div class="gpos-input-svg">
-					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-						stroke="currentColor" style="width: 20px; height: 20px; color:#6B7280;">
-						<path stroke-linecap="round" stroke-linejoin="round"
-							d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
-					</svg>
-				</div>
-				<input name="card-number" id="card-number" class="gpos-form-input" type="text"
-					placeholder="Kredi Kartı Numarası">
-			</div>
-		</div>
-	</div>
-
-	<div class="gpos-between">
-		<div style="width: 75%">
-			<label for="gpos-skt" class="gpos-label">Son Kullanma Tarihi</label>
-			<div class="gpos-flex">
-				<div style="width: 35%">
-					<select name="card-expiry" class="gpos-select" id="gpos-skt">
-						<option value="">Ay</option>
-						<option value="">01</option>
-						<option value="">02</option>
-						<option value="">03</option>
-					</select>
-				</div>
-				<div style="width: 35%">
-					<select name="card-expiry" class="gpos-select" id="gpos-skt">
-						<option value="">Yıl</option>
-						<option value="">2023</option>
-						<option value="">2024</option>
-						<option value="">2025</option>
-					</select>
-				</div>
-			</div>
-		</div>
-		<div style="width: 25%">
-			<label for="card-cvc" class="gpos-label">CVV</label>
-			<input type="text" name="card-cvc" class="gpos-select" id="card-cvc" placeholder="CVV">
-		</div>
-	</div>
-	<?php if ('optional_three_d' === $this->settings['three_d']) : ?>
-	<div class="gpos-full-row" style="margin-top: 20px;">
-		<div class="gpos-flex gpos-item-center">
-			<input id="3d_choice" type="checkbox" value="" name="3d_choice" class="gpos-checkbox">
-			<label for="3d_choice" class="gpos-checkbox-label"><svg xmlns="http://www.w3.org/2000/svg" fill="none"
-					viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 18px; height: 18px;">
-					<path stroke-linecap="round" stroke-linejoin="round"
-						d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-				</svg>
-				3D Secure ile ödeme yapmak istiyorum</label>
-		</div>
-	</div>
-	<?php endif; ?>
-	<?php if(true === $this->settings['save_card']) : ?>
-	<div class="gpos-full-row" style="margin-top: 20px;">
-		<div class="gpos-flex">
-			<input id="save_card" type="checkbox" value="" name="save_card" class="gpos-checkbox">
-			<div>
-				<label for="save_card" class="gpos-checkbox-label">
-					Kartımı Sakla</label>
-				<p class="gpos-helper-text">Sonraki ödemeleriniz için kartınızı saklayabilirsiniz.</p>
-			</div>
-
-		</div>
-	</div>
-	<?php endif; ?>
-</div>
-<?php endif; ?>
-<?php
-    }
->>>>>>> dev
-=======
 			<?php
 		}
->>>>>>> dev
 
 	}
 }

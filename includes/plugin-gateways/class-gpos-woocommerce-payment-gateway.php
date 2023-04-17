@@ -310,15 +310,12 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @return void
 	 */
 	public function payment_fields() {
-<<<<<<< HEAD
-=======
 		wp_enqueue_script( 'wc-credit-card-form' );
 
 		if ( $this->description ) {
 			_e( "<p class='gpos-description'>{$this->description}</p>", 'gurmepos' ); // phpcs:ignore
 		}
 		gpos_frontend()->render();
->>>>>>> dev
 	}
 
 	/**
