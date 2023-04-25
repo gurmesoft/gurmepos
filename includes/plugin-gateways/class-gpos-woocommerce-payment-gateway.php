@@ -49,7 +49,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 		$this->icon                 = $this->woocommerce_settings->get_setting_by_key( 'icon' );
 		$this->order_button_text    = $this->woocommerce_settings->get_setting_by_key( 'button_text' );
 		$this->has_fields           = true;
-		$this->supports             = apply_filters( 'gpos_woocommerce_payment_supports', array( 'refunds' ) );
+		$this->supports             = apply_filters( 'gpos_woocommerce_payment_supports', array() );
 		$this->init_settings();
 
 		add_action( "woocommerce_api_{$this->id}_callback", array( $this, 'process_callback' ) );
@@ -107,8 +107,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 					array(
 						'result'   => 'success',
 						'redirect' => add_query_arg(
-							// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
-							array( 'content' => bin2hex( base64_encode( $response->get_html_content() ) ) ),
+							array( 'payment' => time() ),
 							GPOS_REDIRECT_URL
 						),
 					)

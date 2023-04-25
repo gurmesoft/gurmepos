@@ -20,7 +20,7 @@ function gpos_is_woocommerce_enabled() : bool {
  * @return bool
  */
 function gpos_is_pro_active() : bool {
-	return class_exists( 'GPOS_Pro' );
+	return class_exists( 'GPOSPRO_Loader' );
 }
 
 /**
@@ -83,6 +83,7 @@ function gpos_get_wc_order_statuses() : array {
 		'wc-pending',
 		'wc-on-hold',
 		'wc-failed',
+		'wc-checkout-draft',
 	);
 
 	if ( function_exists( 'wc_get_order_statuses' ) ) {

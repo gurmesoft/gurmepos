@@ -81,10 +81,6 @@ class GPOS_Admin_Menu {
 				'menu_slug'  => "{$this->prefix}-form-settings",
 			),
 			array(
-				'menu_title' => __( 'WooCommerce', 'gurmepos' ),
-				'menu_slug'  => "{$this->prefix}-woocommerce-settings",
-			),
-			array(
 				'menu_title' => false,
 				'menu_slug'  => "{$this->prefix}-payment-gateway",
 				'hidden'     => true,
@@ -109,6 +105,13 @@ class GPOS_Admin_Menu {
 			$this->icon,
 			59
 		);
+
+		if ( gpos_is_woocommerce_enabled() ) {
+			$this->sub_menu_pages[] = array(
+				'menu_title' => __( 'WooCommerce Ayarları', 'gurmepos' ),
+				'menu_slug'  => "{$this->prefix}-woocommerce-settings",
+			);
+		}
 
 		foreach ( $this->sub_menu_pages as $sub_menu_page ) {
 

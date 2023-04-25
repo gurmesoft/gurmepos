@@ -6,11 +6,12 @@
  */
 
 /**
- * GurmePOS abstract sınıfı
+ * GurmePOS GPOS_Options abstract sınıfı
  */
 abstract class GPOS_Options {
+
 	/**
-	 * Test modunun options tablosundaki option_name parametresi.
+	 * Kayıt edilecek ayarları tutacak wp_options tablosundaki option_name
 	 *
 	 * @var string
 	 */
@@ -20,13 +21,16 @@ abstract class GPOS_Options {
 	/**
 	 * Ayarları döndürür
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	public function get_settings() {
-		$settings = get_option( $this->options_table_key, false );
+		$settings = get_option( $this->options_table_key, array() );
 
-		if ( false === $settings ) {
-			$settings = $this->get_default_settings();
+		// Varsayılan ayarları yükleme, sonradan ayar eklenmesi durumunda varsayılan olarak değer ataması yapma.
+		foreach ( $this->get_default_settings() as $key => $value ) {
+			if ( false === array_key_exists( $key, $settings ) ) {
+				$settings[ $key ] = $value;
+			}
 		}
 
 		return $settings;
@@ -59,7 +63,7 @@ abstract class GPOS_Options {
 	/**
 	 * Ön tanımlı ayarları döndürür.
 	 *
-	 * @return mixed
+	 * @return array
 	 */
 	private function get_default_settings() {
 
@@ -71,7 +75,13 @@ abstract class GPOS_Options {
 				'icon'           => GPOS_ASSETS_DIR_URL . '/images/visa-martercard.png',
 				'success_status' => 'processing',
 			),
-			'gpos_form_settings'        => array(),
+			'gpos_form_settings'        => array(
+				'three_d'        => 'three_d',
+				'form_user_name' => false,
+				'save_card'      => false,
+				'subscription'   => false,
+				'viewsetting'    => 'standart_form',
+			),
 		);
 
 		return array_key_exists( $this->options_table_key, $default_settings ) ? $default_settings[ $this->options_table_key ] : array();

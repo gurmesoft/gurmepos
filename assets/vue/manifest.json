@@ -1,23 +1,9 @@
 {
-  "PrimaryButton.css": {
-    "file": "css/PrimaryButton.css",
-    "src": "PrimaryButton.css"
-  },
   "_main.js": {
     "file": "js/Warning/main.js",
     "imports": [
       "_main.js"
     ]
-  },
-  "src/pages/dashboard/main.js": {
-    "file": "js/gurmepos/main.js",
-    "imports": [
-      "_main.js",
-      "_main.js",
-      "_main.js"
-    ],
-    "isEntry": true,
-    "src": "src/pages/dashboard/main.js"
   },
   "src/pages/form-settings/main.js": {
     "file": "js/form-settings/main.js",
@@ -29,6 +15,15 @@
     ],
     "isEntry": true,
     "src": "src/pages/form-settings/main.js"
+  },
+  "src/pages/gurmepos/main.js": {
+    "file": "js/gurmepos/main.js",
+    "imports": [
+      "_main.js",
+      "_main.js"
+    ],
+    "isEntry": true,
+    "src": "src/pages/gurmepos/main.js"
   },
   "src/pages/payment-gateway/main.js": {
     "file": "js/payment-gateway/main.js",
@@ -44,7 +39,6 @@
   "src/pages/payment-gateways/main.js": {
     "file": "js/payment-gateways/main.js",
     "imports": [
-      "_main.js",
       "_main.js",
       "_main.js",
       "_main.js",

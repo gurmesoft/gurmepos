@@ -22,28 +22,26 @@ class GPOS_Payment_Gateways {
 	 */
 	public function __construct() {
 
-		$this->payment_gateways = apply_filters(
-			'gpos_payment_gateways',
-			array(
-				'GPOS_Paratika',
-				'GPOS_Iyzico',
-				'GPOS_Sipay',
-				'GPOS_Ozan',
-				'GPOS_Esnek_Pos',
-				'GPOS_Param',
-				'GPOS_Akbank',
-				'GPOS_Denizbank',
-				'GPOS_Finansbank',
-				'GPOS_Garanti_Pay',
-				'GPOS_Garanti',
-				'GPOS_Halkbank',
-				'GPOS_Ingbank',
-				'GPOS_Kuveyt_Turk',
-				'GPOS_Vakifbank',
-				'GPOS_Yapikredi',
-				'GPOS_Ziraat',
-			)
+		$this->payment_gateways = array(
+			'GPOS_Paratika',
+			'GPOS_Iyzico',
+			'GPOS_Sipay',
+			'GPOS_Ozan',
+			'GPOS_Esnek_Pos',
+			'GPOS_Param',
+			'GPOS_Akbank',
+			'GPOS_Denizbank',
+			'GPOS_Finansbank',
+			'GPOS_Garanti_Pay',
+			'GPOS_Garanti',
+			'GPOS_Halkbank',
+			'GPOS_Ingbank',
+			'GPOS_Kuveyt_Turk',
+			'GPOS_Vakifbank',
+			'GPOS_Yapikredi',
+			'GPOS_Ziraat',
 		);
+
 	}
 
 	/**
@@ -52,9 +50,11 @@ class GPOS_Payment_Gateways {
 	 * @return array
 	 */
 	public function get_payment_gateways() {
-		return array_map( fn( $class ) => new $class(), $this->payment_gateways );
+		return apply_filters(
+			'gpos_payment_gateways',
+			array_map( fn( $class ) => new $class(), $this->payment_gateways )
+		);
 	}
-
 
 
 	/**
