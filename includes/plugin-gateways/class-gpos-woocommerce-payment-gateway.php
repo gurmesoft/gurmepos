@@ -106,10 +106,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 				wp_send_json(
 					array(
 						'result'   => 'success',
-						'redirect' => add_query_arg(
-							array( 'payment' => time() ),
-							GPOS_REDIRECT_URL
-						),
+						'redirect' => gpos_redirect()->set_html_content( $response->get_html_content() )->get_redirect_url(),
 					)
 				);
 			} else {

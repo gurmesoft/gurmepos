@@ -66,6 +66,7 @@ class GPOS_Loader {
 			'includes/gpos-functions.php',
 
 			// Inc classes
+			'includes/class-gpos-redirect.php',
 			'includes/class-gpos-http-request.php',
 			'includes/class-gpos-gateway-response.php',
 			'includes/class-gpos-payment-gateways.php',

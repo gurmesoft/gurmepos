@@ -124,14 +124,26 @@ abstract class GPOS_Payment_Gateway extends GPOS_Gateway_Customer {
 	 */
 	protected $logger;
 
+	/**
+	 * Ödeme alınan platform
+	 *
+	 * @var string $platform
+	 */
+	protected $platform;
+
 
 	/**
 	 * GPOS_Payment_Gateway kurucu fonksiyonu
+	 *
+	 * @param string $platform Varsayılan 'woocommerce'.
+	 *
+	 * @return void
 	 */
-	public function __construct() {
+	public function __construct( $platform = 'woocommerce' ) {
 		$this->logger           = new GPOS_Log();
 		$this->http_request     = new GPOS_Http_Request();
 		$this->gateway_response = new GPOS_Gateway_Response();
+		$this->platform         = $platform;
 	}
 
 	/**
@@ -433,7 +445,15 @@ abstract class GPOS_Payment_Gateway extends GPOS_Gateway_Customer {
 	 * @return GPOS_Payment_Gateway
 	 */
 	public function logger( $gateway, $process, $request, $response ) {
-		$this->logger->add( $gateway, $process, $request, $response );
+		$log_data = array(
+			'gateway'     => $gateway,
+			'platform'    => $this->platform,
+			'platform_id' => $this->get_order_id(),
+			'process'     => $process,
+			'request'     => $request,
+			'response'    => $response,
+		);
+		$this->logger->add( $log_data );
 		return $this;
 	}
 

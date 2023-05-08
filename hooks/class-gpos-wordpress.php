@@ -52,7 +52,7 @@ class GPOS_WordPress {
 	public function init() {
 		// Post Tipleri Kaydı.
 		gpos_post_types()->register();
-		// Redirect için kullanılacak root
+		// 3D Yönlendirmesi için kullanılacak uç nokta.
 		add_rewrite_rule( "{$this->prefix}-redirect", "index.php?{$this->redirect_query_var}=1", 'top' );
 	}
 
@@ -64,7 +64,7 @@ class GPOS_WordPress {
 	 * @return array $vars Parametreler
 	 */
 	public function query_vars( $vars ) {
-		$vars[] = $this->redirect_query_var;
+		$vars[] = $this->redirect_query_var; // 3D yönlendirmesi için kullanılacak sorgu parametresi.
 		return $vars;
 	}
 
@@ -91,8 +91,8 @@ class GPOS_WordPress {
 	 * @return mixed $template Şablon.
 	 */
 	public function template_include( $template ) {
-		if ( get_query_var( $this->redirect_query_var ) ) {
-			var_dump( $_GET['payment'] );
+		if ( get_query_var( $this->redirect_query_var ) ) { // 3D Yönlendirmeleri için kullanılacak blok.
+			gpos_redirect()->render();
 			exit;
 		}
 		return $template;

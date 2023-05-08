@@ -87,3 +87,12 @@ function gpos_form_settings() {
 function gpos_frontend() {
 	return new GPOS_Frontend();
 }
+
+/**
+ * GurmePOS yönlendirme sınıfını döndürür.
+ *
+ * @return GPOS_Redirect
+ */
+function gpos_redirect() {
+	return new GPOS_Redirect();
+}

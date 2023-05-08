@@ -31,22 +31,21 @@ class GPOS_Log {
 	/**
 	 * Log kayıt etme.
 	 *
-	 * @param string $gateway Ödeme geçidi.
-	 * @param string $process İşlem tipi.
-	 * @param mixed  $request Ödeme geçidine gönderilen veri.
-	 * @param mixed  $response Ödeme geçidinden alınan cevap.
+	 * @param array $log_data Kayıt verileri.
 	 *
 	 * @return void
 	 */
-	public function add( $gateway, $process, $request, $response ) {
+	public function add( $log_data ) {
 		global $wpdb;
 		$wpdb->insert(
 			$this->get_table_name(),
 			array(
-				'gateway'  => $gateway,
-				'process'  => $process,
-				'request'  => is_string( $request ) ? $request : wp_json_encode( $request ),
-				'response' => is_string( $response ) ? $response : wp_json_encode( $response ),
+				'gateway'     => $log_data['gateway'],
+				'process'     => $log_data['process'],
+				'platform'    => $log_data['platform'],
+				'platform_id' => $log_data['platform_id'],
+				'request'     => is_string( $log_data['request'] ) ? $log_data['request'] : wp_json_encode( $log_data['request'] ),
+				'response'    => is_string( $log_data['response'] ) ? $log_data['response'] : wp_json_encode( $log_data['response'] ),
 			)
 		);
 	}

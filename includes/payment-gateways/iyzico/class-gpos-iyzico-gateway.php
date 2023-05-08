@@ -270,7 +270,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 * @return void
 	 */
 	public function log( $process, $request, $response ) {
-		if ( function_exists( $request, 'getPaymentCard' ) ) {
+		if ( method_exists( $request, 'getPaymentCard' ) ) {
 			$payment_card = $request->getPaymentCard();
 			$payment_card->setCardNumber( '**** **** **** **** ' . substr( $payment_card->getCardNumber(), -4 ) );
 			$payment_card->setExpireMonth( '**' );
