@@ -30,6 +30,8 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 * Ödeme kuruluşunun bağlantı testi
 	 *
 	 * @param stdClass $connection_data Ödeme geçidi ayarları.
+	 *
+	 * @return array
 	 */
 	public function check_connection( $connection_data ) {
 		$is_test_mode = gpos_is_test_mode();
@@ -47,18 +49,68 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 
 			$response = $this->http_request->request( $api_url, 'POST', $request );
 
-			return array(
+			$result = array(
 				'result'  => '00' === $response['responseCode'] ? 'success' : 'error',
 				'message' => '00' === $response['responseCode'] ? 'Bağlantı Başarılı' : $response['errorMsg'],
 			);
 
 		} catch ( Exception $e ) {
-			array(
+			$result = array(
 				'result'  => 'error',
 				'message' => $e->getMessage(),
 			);
 		}
 
+		return $result;
+
+	}
+
+	/**
+	 * Apilerinde taksit bilgisi gönderen kuruluşlar için otomatik getirir.
+	 *
+	 * @return array|bool Destek var ise taksitler yok ise false.
+	 */
+	public function get_installments() {
+		$installments = array();
+		$request      = array(
+			'ACTION' => 'QUERYPAYMENTSYSTEMS',
+			'BIN'    => '557113',
+		);
+
+		try {
+
+			$response = $this->http_request->request( $this->request_url, 'POST', array_merge( $request, $this->settings ) );
+
+			if ( '00' === $response['responseCode'] ) {
+				$api_installment_list = $response['installmentPaymentSystem']['installmentList'];
+				$installments         = array_map(
+					function( $i ) use ( $api_installment_list ) {
+						$find_installment = array_filter( $api_installment_list, fn( $api_installment ) => (string) $api_installment['count'] === (string) $i );
+						$finded           = empty( $find_installment ) ? $find_installment : $find_installment[ array_key_first( $find_installment ) ];
+						$rate             = array_key_exists( 'customerCostCommissionRate', $finded ) ? $finded['customerCostCommissionRate'] : false;
+						return array(
+							'enabled' => $rate ? true : false,
+							'rate'    => $rate ? (float) $rate : 0,
+							'number'  => $i,
+						);
+					},
+					gpos_supported_installment_counts()
+				);
+			}
+
+			$result = array(
+				'result'       => '00' === $response['responseCode'] ? 'success' : 'error',
+				'installments' => '00' === $response['responseCode'] ? $installments : $response['errorMsg'],
+			);
+
+		} catch ( Exception $e ) {
+			$result = array(
+				'result'  => 'error',
+				'message' => $e->getMessage(),
+			);
+		}
+
+		return $result;
 	}
 
 	/**
@@ -133,6 +185,10 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 */
 	public function process_callback( array $post_data ) : GPOS_Gateway_Response {
 
+		if ( array_key_exists( 'merchantPaymentId', $post_data ) ) {
+			$this->gateway_response->set_order_id( $post_data['merchantPaymentId'] );
+		}
+
 		if ( array_key_exists( 'responseCode', $post_data ) && '00' === $post_data['responseCode'] ) {
 			$request  = array(
 				'ACTION'   => 'QUERYTRANSACTION',
@@ -141,7 +197,7 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 			$request  = array_merge( $request, $this->settings );
 			$response = $this->http_request->request( $this->request_url, 'POST', $request );
 
-			$this->log( __FUNCTION__, $request, $response );
+			$this->set_order_id( $post_data['merchantPaymentId'] )->log( __FUNCTION__, $request, $response );
 
 			if ( array_key_exists( 'responseCode', $response ) && '00' === $response['responseCode'] && '0' !== $response['transactionCount'] ) {
 				foreach ( $response['transactionList']  as $transaction ) {
@@ -155,7 +211,7 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 				$this->gateway_response->set_success( false )->set_error_message( __( 'Transactionlist içerisinde onaylanmış transaction bulunamadı.', 'gurmepos' ) );
 			}
 		} else {
-			$error_message = array_key_exists( 'errorMsg', $post_data ) ? $post_data['errorMsg'] : false;
+			$error_message = array_key_exists( 'errorMsg', $post_data ) ? $post_data['errorMsg'] : __( '3D işleminde hata. Şifre yanlış girilmiş yada 3D sayfası terk edilmiş.', 'gurmepos' );
 			$this->gateway_response->set_success( false )->set_error_message( $error_message );
 		}
 
@@ -202,10 +258,12 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	private function prepare_threed_credit_card() {
 		$card = array();
 		if ( $this->use_saved_card() ) {
-			// Todo. Kayıtlı kart ile alışverişte incelenecek.
-			var_dump( $this->use_saved_card() );
-			die;
-			// $card['cardToken'] = $$this->get_saved_card_token()
+			/**
+			 * Todo.
+			 *
+			 * Kayıtlı kart geliştirmesi.
+			 */
+			$card['cardToken'] = '';
 		} else {
 			$card['cardOwner']   = $this->get_customer_full_name();
 			$card['expiryMonth'] = $this->get_card_expiry_month();
@@ -230,10 +288,12 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	private function prepare_regular_credit_card() {
 		$card = array();
 		if ( $this->use_saved_card() ) {
-			// Todo. Kayıtlı kart ile alışverişte incelenecek.
-			var_dump( $this->use_saved_card() );
-			die;
-			// $card['CARDTOKEN'] = $$this->get_saved_card_token()
+			/**
+			 * Todo.
+			 *
+			 * Kayıtlı kart geliştirmesi.
+			 */
+			$card['CARDTOKEN'] = '';
 		} else {
 			$card['NAMEONCARD'] = $this->get_customer_full_name();
 			$card['CARDEXPIRY'] = $this->get_card_expiry_month() . $this->get_card_expiry_year();

@@ -1,6 +1,6 @@
 {
   "_main.js": {
-    "file": "js/Warning/main.js",
+    "file": "js/Info/main.js",
     "imports": [
       "_main.js"
     ]
@@ -8,6 +8,7 @@
   "src/pages/form-settings/main.js": {
     "file": "js/form-settings/main.js",
     "imports": [
+      "_main.js",
       "_main.js",
       "_main.js",
       "_main.js",
@@ -25,9 +26,20 @@
     "isEntry": true,
     "src": "src/pages/gurmepos/main.js"
   },
+  "src/pages/logs/main.js": {
+    "file": "js/logs/main.js",
+    "imports": [
+      "_main.js",
+      "_main.js",
+      "_main.js"
+    ],
+    "isEntry": true,
+    "src": "src/pages/logs/main.js"
+  },
   "src/pages/payment-gateway/main.js": {
     "file": "js/payment-gateway/main.js",
     "imports": [
+      "_main.js",
       "_main.js",
       "_main.js",
       "_main.js",

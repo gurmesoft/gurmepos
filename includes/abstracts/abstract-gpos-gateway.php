@@ -1,4 +1,4 @@
-<?php
+<?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * Ödeme geçidi tanımlayıcı sınıfları için abstract sınıfı olan GPOS_Gateway
  *
@@ -38,9 +38,8 @@ abstract class GPOS_Gateway {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->fields      = $this->get_payment_fields();
-		$this->test_fields = $this->get_payment_test_fields();
-		$this->test_cards  = $this->get_test_credit_cards();
+		$this->fields     = $this->get_payment_fields();
+		$this->test_cards = $this->get_test_credit_cards();
 	}
 
 	/**
@@ -55,12 +54,18 @@ abstract class GPOS_Gateway {
 	 *
 	 * @var array
 	 */
-	abstract public function get_payment_test_fields() : array;
+	abstract public function get_test_credit_cards() : array;
 
 	/**
-	 * Test ödemesi için gerekli alanların tanımı
+	 * Ödeme geçidinin taksit hesaplama yöntemi ile çalışan fonksiyon.
 	 *
-	 * @var array
+	 * @param float $rate Taksit oranı
+	 * @param float $amount Taksitlendirilecek tutar.
+	 *
+	 * @var float
 	 */
-	abstract public function get_test_credit_cards() : array;
+	public function installment_rate_calculate( float $rate, float $amount ) {
+		$amount += ( $amount / 100 ) * (float) $rate;
+		return $amount;
+	}
 }

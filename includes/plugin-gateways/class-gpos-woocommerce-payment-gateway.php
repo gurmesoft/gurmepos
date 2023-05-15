@@ -41,15 +41,20 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 */
 	public function __construct() {
 		$this->woocommerce_settings = gpos_woocommerce_settings();
-		$this->method_title         = __( 'Pos Entegratör', 'gurmepos' );
-		$this->method_description   = __( 'Pos Entegratör - Çoklu ödeme çözümleri', 'gurmepos' );
+		$this->method_title         = __( 'POS Entegratör', 'gurmepos' );
+		$this->method_description   = __( 'POS Entegratör - Çoklu ödeme çözümleri', 'gurmepos' );
 		$this->enabled              = true;
 		$this->title                = $this->woocommerce_settings->get_setting_by_key( 'title' );
 		$this->description          = $this->woocommerce_settings->get_setting_by_key( 'description' );
 		$this->icon                 = $this->woocommerce_settings->get_setting_by_key( 'icon' );
 		$this->order_button_text    = $this->woocommerce_settings->get_setting_by_key( 'button_text' );
 		$this->has_fields           = true;
-		$this->supports             = apply_filters( 'gpos_woocommerce_payment_supports', array() );
+		/**
+		 * WooCommerce için ödeme geçidinin desteklediği özellikleri düzenler.
+		 *
+		 * @param array
+		 */
+		$this->supports = apply_filters( 'gpos_woocommerce_payment_supports', array() );
 		$this->init_settings();
 
 		add_action( "woocommerce_api_{$this->id}_callback", array( $this, 'process_callback' ) );
@@ -65,7 +70,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 */
 	public function process_payment( $order_id ) {
 
-		if ( false === wp_verify_nonce( $_POST ['_gpos_wpnonce'], 'gpos_process_payment' ) ) {
+		if ( isset( $_POST ['_gpos_wpnonce'] ) && false === wp_verify_nonce( gpos_clean( $_POST ['_gpos_wpnonce'] ), 'gpos_process_payment' ) ) {
 			wp_send_json(
 				array(
 					'result'   => 'failure',
@@ -143,11 +148,11 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 */
 	private function set_credit_card_properties() {
 
-		$card_bin          = sanitize_text_field( wp_unslash( $_POST[ "{$this->id}-card-bin" ] ) );
-		$card_cvv          = sanitize_text_field( wp_unslash( $_POST[ "{$this->id}-card-cvv" ] ) );
-		$card_expiry_month = sanitize_text_field( wp_unslash( $_POST[ "{$this->id}-card-expiry-month" ] ) );
-		$card_expiry_year  = sanitize_text_field( wp_unslash( $_POST[ "{$this->id}-card-expiry-year" ] ) );
-		$installment       = 1;
+		$card_bin          = isset( $_POST[ "{$this->id}-card-bin" ] ) ? gpos_clean( $_POST[ "{$this->id}-card-bin" ] ) : '';
+		$card_cvv          = isset( $_POST[ "{$this->id}-card-cvv" ] ) ? gpos_clean( $_POST[ "{$this->id}-card-cvv" ] ) : '';
+		$card_expiry_month = isset( $_POST[ "{$this->id}-card-expiry-month" ] ) ? gpos_clean( $_POST[ "{$this->id}-card-expiry-month" ] ) : '';
+		$card_expiry_year  = isset( $_POST[ "{$this->id}-card-expiry-year" ] ) ? gpos_clean( $_POST[ "{$this->id}-card-expiry-year" ] ) : '';
+		$installment       = isset( $_POST[ "{$this->id}-installment" ] ) ? gpos_clean( $_POST[ "{$this->id}-installment" ] ) : 1;
 
 		$this->gateway
 		->set_installment( $installment )
@@ -181,7 +186,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 		->set_customer_ip_address( $order->get_customer_ip_address() );
 
 		if ( isset( $_POST[ "{$this->id}-holder-name" ] ) ) {
-			$full_name = explode( ' ', $_POST[ "{$this->id}-holder-name" ] );
+			$full_name = explode( ' ', gpos_clean( $_POST[ "{$this->id}-holder-name" ] ) );
 			$last_name = $full_name[ array_key_last( $full_name ) ];
 			unset( $full_name[ array_key_last( $full_name ) ] );
 
@@ -270,7 +275,15 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 			);
 		}
 
-		wp_safe_redirect( add_query_arg( array( 'gpos_error' => $error_message ), wc_get_checkout_url() ) );
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'gpos_error'       => $error_message,
+					'gpos_error_nonce' => wp_create_nonce(),
+				),
+				wc_get_checkout_url()
+			)
+		);
 		exit;
 	}
 

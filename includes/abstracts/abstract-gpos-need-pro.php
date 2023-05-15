@@ -1,4 +1,4 @@
-<?php
+<?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * GurmePOS Pro gereksinimli ödeme geçitleri için abstract sınıfını barındırır.
  *
@@ -79,15 +79,6 @@ abstract class GPOS_Need_Pro extends GPOS_Gateway {
 	 * @return array
 	 */
 	public function get_payment_fields() : array {
-		return array();
-	}
-
-	/**
-	 * Test ödemesi için gerekli alanların tanımı
-	 *
-	 * @var array
-	 */
-	public function get_payment_test_fields() : array {
 		return array();
 	}
 

@@ -82,38 +82,19 @@ class GPOS_Paratika extends GPOS_Gateway {
 	public function get_payment_fields() : array {
 		return array(
 			array(
-				'label' => __( 'Mağaza No', 'gurmepos' ),
+				'type'  => 'text',
+				'label' => __( 'Kurum/Firma Id', 'gurmepos' ),
 				'model' => 'merchant',
 			),
 			array(
+				'type'  => 'text',
 				'label' => __( 'Kullanıcı Adı', 'gurmepos' ),
 				'model' => 'merchant_user',
 			),
 			array(
+				'type'  => 'text',
 				'label' => __( 'Şifre', 'gurmepos' ),
 				'model' => 'merchant_password',
-			),
-		);
-	}
-
-	/**
-	 * Test ödemesi için gerekli alanların tanımı
-	 *
-	 * @var array
-	 */
-	public function get_payment_test_fields() : array {
-		return array(
-			array(
-				'label' => __( 'Mağaza No', 'gurmepos' ),
-				'model' => 'test_merchant',
-			),
-			array(
-				'label' => __( 'Kullanıcı Adı', 'gurmepos' ),
-				'model' => 'test_merchant_user',
-			),
-			array(
-				'label' => __( 'Şifre', 'gurmepos' ),
-				'model' => 'test_merchant_password',
 			),
 		);
 	}
@@ -131,7 +112,7 @@ class GPOS_Paratika extends GPOS_Gateway {
 				'expiry_year'  => '2030',
 				'expiry_month' => '12',
 				'cvv'          => '000',
-				'secure'       => 'a',
+				'secure'       => '',
 			),
 			array(
 				'type'         => 'Master',
@@ -139,8 +120,21 @@ class GPOS_Paratika extends GPOS_Gateway {
 				'expiry_year'  => '2030',
 				'expiry_month' => '12',
 				'cvv'          => '000',
-				'secure'       => 'a',
+				'secure'       => '',
 			),
 		);
+	}
+
+	/**
+	 * Ödeme geçidinin taksit hesaplama yöntemi ile çalışan fonksiyon.
+	 *
+	 * @param float $rate Taksit oranı
+	 * @param float $amount Taksitlendirilecek tutar.
+	 *
+	 * @var float
+	 */
+	public function installment_rate_calculate( float $rate, float $amount ) {
+		$amount = ( ( $amount * 100 ) / ( 100 - $rate ) );
+		return $amount;
 	}
 }

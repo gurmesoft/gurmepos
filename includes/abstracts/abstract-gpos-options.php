@@ -1,4 +1,4 @@
-<?php
+<?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * GurmePOS wp_options tablosu için abstract sınıfını barındırır.
  *
@@ -76,11 +76,16 @@ abstract class GPOS_Options {
 				'success_status' => 'processing',
 			),
 			'gpos_form_settings'        => array(
-				'three_d'        => 'three_d',
-				'form_user_name' => false,
-				'save_card'      => false,
-				'subscription'   => false,
-				'viewsetting'    => 'standart_form',
+				'three_d'                    => 'three_d',
+				'form_user_name'             => false,
+				'save_card'                  => false,
+				'subscription'               => false,
+				'display_type'               => 'standart_form',
+				'installment_wiev'           => 'table_view',
+				'no_installment_desc_status' => false,
+				'no_installment_desc'        => 'Yürürlükteki mevzuat gereğince, telekomünikasyon, kuyum, doğrudan pazarlama, yurtdışı harcamalar, yemek, gıda, kozmetik, ofis malzemesi, hediye kart ve hediye çeki gibi somut mal veya hizmet içermeyen ürünlere ilişkin alışverişlerde taksit uygulanamamaktadır.
+				',
+
 			),
 		);
 

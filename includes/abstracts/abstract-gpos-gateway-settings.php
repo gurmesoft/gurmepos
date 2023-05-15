@@ -1,4 +1,4 @@
-<?php
+<?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * GurmePOS ödeme geçidi hesaplarının ayarlarını taşıyacak sınıflar için abstract sınıfını barındıran dosya.
  *

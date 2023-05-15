@@ -82,30 +82,14 @@ class GPOS_Iyzico extends GPOS_Gateway {
 	public function get_payment_fields() : array {
 		return array(
 			array(
+				'type'  => 'text',
 				'label' => __( 'Api Anahtarı', 'gurmepos' ),
 				'model' => 'api_key',
 			),
 			array(
+				'type'  => 'text',
 				'label' => __( 'Api Şifresi', 'gurmepos' ),
 				'model' => 'api_secret',
-			),
-		);
-	}
-
-	/**
-	 * Test ödemesi için gerekli alanların tanımı
-	 *
-	 * @var array
-	 */
-	public function get_payment_test_fields() : array {
-		return array(
-			array(
-				'label' => __( 'Test Api Anahtarı', 'gurmepos' ),
-				'model' => 'test_api_key',
-			),
-			array(
-				'label' => __( 'Test Api Şifresi', 'gurmepos' ),
-				'model' => 'test_api_secret',
 			),
 		);
 	}
@@ -123,7 +107,7 @@ class GPOS_Iyzico extends GPOS_Gateway {
 				'expiry_year'  => '2030',
 				'expiry_month' => '12',
 				'cvv'          => '000',
-				'secure'       => 'a',
+				'secure'       => '',
 			),
 			array(
 				'type'         => 'Visa',
@@ -131,8 +115,9 @@ class GPOS_Iyzico extends GPOS_Gateway {
 				'expiry_year'  => '2026',
 				'expiry_month' => '12',
 				'cvv'          => '000',
-				'secure'       => 'a',
+				'secure'       => '',
 			),
 		);
 	}
+
 }

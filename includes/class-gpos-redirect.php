@@ -50,10 +50,27 @@ class GPOS_Redirect {
 	 * @return string
 	 */
 	public function get_html_content() {
-		return $this->db->get_var(
+		$html_content = $this->db->get_var(
 			$this->db->prepare( "SELECT `html_content` FROM {$this->table_name} WHERE `payment_id` = %s", $this->payment_id )
 		);
+
+		$this->delete_html_content();
+
+		return $html_content;
 	}
+
+	/**
+	 * 3D yönlendirme verilerini veri tabanından siler.
+	 *
+	 * @return void
+	 */
+	public function delete_html_content() {
+		$this->db->delete(
+			$this->table_name,
+			array( 'payment_id' => $this->payment_id )
+		);
+	}
+
 
 	/**
 	 * 3D yönlendirme verilerini veri tabanında yazar.
@@ -64,15 +81,18 @@ class GPOS_Redirect {
 	 */
 	public function set_html_content( $html_content ) {
 
-		$this->payment_id = time();
+		$this->payment_id = isset( $_COOKIE[ GPOS_SESSION_ID_KEY ] ) ? gpos_clean( $_COOKIE[ GPOS_SESSION_ID_KEY ] ) : '';
 
-		$this->db->insert(
-			$this->table_name,
-			array(
-				'payment_id'   => $this->payment_id,
-				'html_content' => $html_content,
-			)
-		);
+		if ( '' !== $this->payment_id ) {
+
+			$this->db->insert(
+				$this->table_name,
+				array(
+					'payment_id'   => $this->payment_id,
+					'html_content' => $html_content,
+				)
+			);
+		}
 
 		return $this;
 	}
@@ -97,11 +117,18 @@ class GPOS_Redirect {
 	 */
 	public function render() {
 
-		if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) ) && isset( $_GET['payment_id'] ) ) {
+		if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) ) && isset( $_GET['payment_id'] ) && '' !== $_GET['payment_id'] ) {
 			$this->payment_id = sanitize_text_field( wp_unslash( $_GET['payment_id'] ) );
 			echo $this->get_html_content(); // phpcs:ignore	
 		} else {
-			esc_html_e( 'Yetkisiz işlem, lütfen site yönetimi ile iletişime geçiniz', 'gurmepos' );
+			?>
+			<center style="font-family:Roboto;">
+				<div style="font-size:36px; margin:20px 0;">
+					<?php esc_html_e( 'Hatalı işlem, lütfen ödeme sayfasını yenileyerek tekrar deneyin.', 'gurmepos' ); ?>
+				</div>
+				<button style="background-color:#1c64f2; color:#fff; border-color:#1c64f2; border-radius:999px; padding:10px 20px;" onclick="window.history.back()">Ödeme Sayfasına Dön</button>
+			</center>
+			<?php
 		}
 	}
 }

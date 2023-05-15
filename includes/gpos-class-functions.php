@@ -82,10 +82,12 @@ function gpos_form_settings() {
 /**
  * GurmePOS frontend sınıfını döndürür.
  *
+ * @param string $enqueue_type Script ve Style dahil etme tipi. 'function' , 'tag' vb.
+ *
  * @return GPOS_Frontend
  */
-function gpos_frontend() {
-	return new GPOS_Frontend();
+function gpos_frontend( $enqueue_type = 'function' ) {
+	return new GPOS_Frontend( $enqueue_type );
 }
 
 /**
@@ -95,4 +97,34 @@ function gpos_frontend() {
  */
 function gpos_redirect() {
 	return new GPOS_Redirect();
+}
+
+/**
+ * GurmePOS taksit sınıfını döndürür.
+ *
+ * @param string               $platform Ödeme alınacak platform
+ * @param GPOS_Gateway_Account $account Ödeme geçicidi hesabı
+ *
+ * @return GPOS_Installments
+ */
+function gpos_installments( string $platform, GPOS_Gateway_Account $account ) {
+	return new GPOS_Installments( $platform, $account );
+}
+
+/**
+ * Ödemeye özel oturum verisi tutmayı sağlayan sınıf.
+ *
+ * @return GPOS_Session
+ */
+function gpos_session() {
+	return new GPOS_Session();
+}
+
+/**
+ * Log sınıfını döndürür
+ *
+ * @return GPOS_Log
+ */
+function gpos_log() {
+	return new GPOS_Log();
 }

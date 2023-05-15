@@ -32,13 +32,6 @@ class GPOS_Admin_Menu {
 	public $parent_slug;
 
 	/**
-	 * Eklenti menü ikonu urli, dashiconsta kullanılabilir
-	 *
-	 * @var string $icon
-	 */
-	public $icon;
-
-	/**
 	 * Eklenti menüsünün alt menüleri
 	 *
 	 * @var array $sub_menu_pages
@@ -58,15 +51,14 @@ class GPOS_Admin_Menu {
 	 * @return void
 	 */
 	public function __construct() {
-		include GPOS_PLUGIN_DIR_PATH . '/assets/images/icon.php';
 		$this->parent_title = __( 'Pos Entegratör', 'gurmepos' );
 
 		if ( gpos_is_test_mode() ) {
-			$this->parent_title = $this->parent_title . ' <span style="padding:4px; background:#FDF6B2; color:#723B13; border-radius:6px;font-size:8px;">Test</span>';
+			$this->parent_title = $this->parent_title . ' <span class="gpos-test-badge">test</span>';
 		}
 
-		$this->parent_slug    = 'gurmepos';
-		$this->icon           = $icon;
+		$this->parent_slug = 'gurmepos';
+
 		$this->sub_menu_pages = array(
 			array(
 				'menu_title' => __( 'Başlangıç', 'gurmepos' ),
@@ -85,6 +77,7 @@ class GPOS_Admin_Menu {
 				'menu_slug'  => "{$this->prefix}-payment-gateway",
 				'hidden'     => true,
 			),
+
 		);
 
 	}
@@ -95,6 +88,7 @@ class GPOS_Admin_Menu {
 	 * @return void
 	 */
 	public function menu() {
+		include GPOS_PLUGIN_DIR_PATH . '/assets/images/icon.php';
 
 		add_menu_page(
 			$this->parent_title,
@@ -102,7 +96,7 @@ class GPOS_Admin_Menu {
 			'manage_options',
 			$this->parent_slug,
 			false,
-			$this->icon,
+			$icon,
 			59
 		);
 
@@ -125,7 +119,23 @@ class GPOS_Admin_Menu {
 			);
 		}
 
+		if ( ! gpos_is_pro_active() ) {
+			global $submenu;
+
+			$gpos_asset_dir_url = GPOS_ASSETS_DIR_URL;
+			$pro_text           = __( 'Proya Yükselt', 'gurmepos' );
+
+			$submenu[ $this->parent_slug ][] = array(
+				"<img src='{$gpos_asset_dir_url}/images/fire.svg' class='fire'> {$pro_text} <img src='{$gpos_asset_dir_url}/images/new-tab.svg' class='new-tab'>",
+				'manage_woocommerce',
+				'https://posentegrator.com',
+				false,
+				'gpos-target-blank gpos-upgrade-pro',
+			);
+		}
+
 	}
+
 
 	/**
 	 * Eklenti alt menüleri açıldığında ilgili vue sayfasını render eder
@@ -133,8 +143,8 @@ class GPOS_Admin_Menu {
 	 * @return void
 	 */
 	public function view() {
-		$page = isset( $_GET['page'] ) ? str_replace( "{$this->prefix}-" , '', gpos_clean( $_GET['page'] )) : false ; // phpcs:ignore
 
+		$page = isset( $_GET['page'] ) ? str_replace( "{$this->prefix}-" , '', gpos_clean( $_GET['page'] )) : false ; // phpcs:ignore
 		if ( $page ) {
 
 			$localize = array(

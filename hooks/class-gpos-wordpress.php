@@ -32,7 +32,7 @@ class GPOS_WordPress {
 	 */
 	public function __construct() {
 
-		$this->redirect_query_var = "{$this->prefix}_action";
+		$this->redirect_query_var = "{$this->prefix}_redirect_action";
 
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'query_vars', array( $this, 'query_vars' ) );
@@ -40,6 +40,7 @@ class GPOS_WordPress {
 		add_action( 'admin_menu', array( new GPOS_Admin_Menu(), 'menu' ) );
 		add_action( 'template_include', array( $this, 'template_include' ) );
 		add_filter( 'script_loader_tag', array( $this, 'script_loader' ), 10, 3 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 10, 3 );
 		add_filter( 'plugin_action_links_' . GPOS_PLUGIN_BASENAME, array( $this, 'actions_links' ) );
 
 	}
@@ -52,19 +53,54 @@ class GPOS_WordPress {
 	public function init() {
 		// Post Tipleri Kaydı.
 		gpos_post_types()->register();
-		// 3D Yönlendirmesi için kullanılacak uç nokta.
-		add_rewrite_rule( "{$this->prefix}-redirect", "index.php?{$this->redirect_query_var}=1", 'top' );
+
+		$rewrite_rules = apply_filters(
+			/**
+			 * Harici eklentiler için yeni rewrite eklemekte kullanılır.
+			 * Örn : Pro plugins_loaded üzerinde çalıştığı için bu kanca ile rewrite ekleyebilir.
+			 *
+			 * @param array Rewrite dizisi
+			 */
+			'gpos_rewrite_rules',
+			array(
+				// 3D Yönlendirmesi için kullanılacak uç nokta.
+				"{$this->prefix}-redirect" => "index.php?{$this->redirect_query_var}=1",
+			)
+		);
+
+		foreach ( $rewrite_rules as $regex => $query ) {
+			add_rewrite_rule( $regex, $query, 'top' );
+		}
+
 	}
 
 	/**
 	 * WordPress sorgu parametreleri
 	 *
-	 * @param array $vars Parametreler
+	 * @param array $vars Parametreler.
 	 *
 	 * @return array $vars Parametreler
 	 */
 	public function query_vars( $vars ) {
-		$vars[] = $this->redirect_query_var; // 3D yönlendirmesi için kullanılacak sorgu parametresi.
+
+		$query_vars = apply_filters(
+			/**
+			 * Harici eklentiler için yeni sorgu parametreleri eklemekte kullanılır.
+			 * Örn : Pro plugins_loaded üzerinde çalıştığı için bu kanca ile sorgu parametreleri ekleyebilir.
+			 *
+			 * @param array Sorgu parametreleri dizisi
+			 */
+			'gpos_query_vars',
+			array(
+				// 3D yönlendirmesi için kullanılacak sorgu parametresi.
+				$this->redirect_query_var,
+			)
+		);
+
+		foreach ( $query_vars as $var ) {
+			$vars[] = $var;
+		}
+
 		return $vars;
 	}
 
@@ -95,6 +131,13 @@ class GPOS_WordPress {
 			gpos_redirect()->render();
 			exit;
 		}
+		/**
+		 * Harici eklentiler ile şablon dahil etmeyi sağlar.
+		 * Örn : Pro plugins_loaded üzerinde çalıştığı için bu kanca ile şablon dahil edebilir.
+		 *
+		 * @param string $template
+		 */
+		do_action( 'gpos_template_include', $template );
 		return $template;
 	}
 
@@ -115,6 +158,13 @@ class GPOS_WordPress {
 		return $tag;
 	}
 
+	/**
+	 * WordPress yönetici paneline script ve stil dosyaları ekler.
+	 */
+	public function admin_enqueue_scripts() {
+		wp_enqueue_script( "{$this->prefix}-admin-js", GPOS_ASSETS_DIR_URL . '/js/admin.js', array( 'jquery' ), GPOS_VERSION, false );
+		wp_enqueue_style( "{$this->prefix}-admin-css", GPOS_ASSETS_DIR_URL . '/css/admin.css', array(), GPOS_VERSION, false );
+	}
 
 	/**
 	 * Eklentiler sayfasına ayarlar linki ekleme.

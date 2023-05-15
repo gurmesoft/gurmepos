@@ -1,4 +1,4 @@
-<?php
+<?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * Ödeme geçitleri abstract sınıfını barındırır.
  *
@@ -129,21 +129,18 @@ abstract class GPOS_Payment_Gateway extends GPOS_Gateway_Customer {
 	 *
 	 * @var string $platform
 	 */
-	protected $platform;
+	public $platform;
 
 
 	/**
 	 * GPOS_Payment_Gateway kurucu fonksiyonu
 	 *
-	 * @param string $platform Varsayılan 'woocommerce'.
-	 *
 	 * @return void
 	 */
-	public function __construct( $platform = 'woocommerce' ) {
+	public function __construct() {
 		$this->logger           = new GPOS_Log();
 		$this->http_request     = new GPOS_Http_Request();
 		$this->gateway_response = new GPOS_Gateway_Response();
-		$this->platform         = $platform;
 	}
 
 	/**
@@ -504,5 +501,12 @@ abstract class GPOS_Payment_Gateway extends GPOS_Gateway_Customer {
 	 * @param stdClass $connection_data Ödeme geçidi ayarları.
 	 */
 	abstract public function check_connection( $connection_data );
+
+	/**
+	 * Apilerinde taksit bilgisi gönderen kuruluşlar için otomatik getirir.
+	 *
+	 * @return array|bool Destek var ise taksitler yok ise false.
+	 */
+	abstract public function get_installments();
 
 }

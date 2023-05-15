@@ -49,12 +49,19 @@ class GPOS_Post_Types {
 
 
 	/**
-	 * Pro ve 3.parti uygulamalarımız için gerekli post tiplerini hook aracılığı ile bir araya getirir.
+	 * Pro ve 3.parti uygulamalarımız için gerekli post tiplerini kanca aracılığı ile bir araya getirir.
 	 *
 	 * @return array
 	 */
 	public function get_post_types() {
-		// Post Tipi => array(Argümanlar...) olarak tanılanmalıdır.
+		/**
+		 * Harici eklentilerin post tipi kayıt etmelerini kolaylaştırmak,
+		 * kayıt edilen tiplerin izlenmesini kolaylaştırmak için eklenmiştir.
+		 *
+		 * Post Tipi => array(Argümanlar...) olarak tanılanmalıdır.
+		 *
+		 * @param array
+		 */
 		$hooked_post_types = apply_filters( 'gpos_post_types', array() );
 		return has_filter( 'gpos_post_types' ) ? array_merge( $this->post_types, $hooked_post_types ) : $this->post_types;
 	}

@@ -84,6 +84,7 @@ class GPOS_Gateway_Accounts {
 	 */
 	public function get_account( $account_id ) {
 		$account = new GPOS_Gateway_Account( $account_id );
+
 		return $account->id ? $account : false;
 	}
 
@@ -94,14 +95,20 @@ class GPOS_Gateway_Accounts {
 	 */
 	public function get_default_account() {
 
-		global $wpdb;
+		$default_account_id = wp_cache_get( 'gpos_default_account' );
 
-		$default_account_id = $wpdb->get_var(
-			"SELECT post_id
-            FROM {$wpdb->postmeta}
-            WHERE meta_key = 'gpos_default_account' 
-			AND meta_value = '1'"
-		);
+		if ( false === $default_account_id ) {
+			global $wpdb;
+
+			$default_account_id = $wpdb->get_var(  //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+				"SELECT post_id
+				FROM {$wpdb->postmeta}
+				WHERE meta_key = 'gpos_default_account' 
+				AND meta_value = '1'"
+			);
+
+			wp_cache_set( 'gpos_default_account', $default_account_id );
+		}
 
 		if ( $default_account_id ) {
 			return $this->get_account( (int) $default_account_id );
@@ -113,11 +120,19 @@ class GPOS_Gateway_Accounts {
 	/**
 	 * Varsayılan ödeme hesabının ödeme geçidini türetip döndürür.
 	 *
+	 * @param string $platform Ödeme geçidinin çalıştığı platformu temsil eder varsayılan 'woocommerce'.
+	 *
 	 * @return GPOS_Payment_Gateway|false
 	 */
-	public function get_default_gateway() {
+	public function get_default_gateway( $platform = 'woocommerce' ) {
 		$account = $this->get_default_account();
-		return $account ? $account->gateway_class : false;
+		$gateway = $account ? $account->gateway_class : false;
+
+		if ( $gateway ) {
+			$gateway->platform = $platform;
+		}
+
+		return $gateway;
 	}
 
 }

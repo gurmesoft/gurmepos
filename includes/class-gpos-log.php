@@ -37,7 +37,7 @@ class GPOS_Log {
 	 */
 	public function add( $log_data ) {
 		global $wpdb;
-		$wpdb->insert(
+		$wpdb->insert( //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$this->get_table_name(),
 			array(
 				'gateway'     => $log_data['gateway'],
@@ -48,5 +48,15 @@ class GPOS_Log {
 				'response'    => is_string( $log_data['response'] ) ? $log_data['response'] : wp_json_encode( $log_data['response'] ),
 			)
 		);
+	}
+
+	/**
+	 * Log kayıtlarını getirme.
+	 *
+	 * @return array
+	 */
+	public function get() {
+		global $wpdb;
+		return $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i', $this->get_table_name() ) ); //phpcs:ignore 
 	}
 }

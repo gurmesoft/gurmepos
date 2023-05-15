@@ -1,0 +1,32 @@
+.gpos-test-badge {
+	padding: 4px;
+	background: #FDF6B2;
+	color: #723B13;
+	border-radius: 6px;
+	font-size: 8px;
+}
+
+li.gpos-upgrade-pro {
+	background-color: #F0A500;
+	height: 32px;
+	line-height: 1.4;
+}
+
+li.gpos-upgrade-pro a{
+	color:#FFFFFF !important;
+	display:flex !important;
+	font-size: 14px !important;
+	line-height: 22px !important;
+	font-weight: 600;
+}
+
+li.gpos-upgrade-pro img{
+	width: 16px;
+}
+
+li.gpos-upgrade-pro .new-tab{
+	margin-left: 6px;
+}
+li.gpos-upgrade-pro .fire{
+	margin-right: 6px;
+}

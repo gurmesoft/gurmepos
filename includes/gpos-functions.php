@@ -14,6 +14,7 @@ function gpos_is_woocommerce_enabled() : bool {
 	return class_exists( 'WooCommerce' );
 }
 
+
 /**
  * GurmePOS Pro eklentisinin kurulu ve aktif olup olmadığını kontrol eder.
  *
@@ -53,7 +54,7 @@ function gpos_clean( $var ) {
 	if ( is_array( $var ) ) {
 		return array_map( 'gpos_clean', $var );
 	} else {
-		return is_scalar( $var ) ? sanitize_text_field( $var ) : $var;
+		return is_scalar( $var ) ? sanitize_text_field( wp_unslash( $var ) ) : $var;
 	}
 }
 
@@ -120,7 +121,6 @@ function gpos_woocommerce_notice( string $message, string $notice_type = 'error'
 	return $message;
 }
 
-
 /**
  * Frontend için gerekli kelime, cümle çevirilerini döndürür.
  *
@@ -129,4 +129,61 @@ function gpos_woocommerce_notice( string $message, string $notice_type = 'error'
 function gpos_get_i18n_strings() {
 	include GPOS_PLUGIN_DIR_PATH . '/i18n/gpos-strings.php';
 	return $gpos_i18n;
+}
+
+/**
+ * Ödeme işlemleri için çerez ataması yapar.
+ *
+ * @return void
+ */
+function gpos_set_transaction_cookie() {
+
+	if ( false === isset( $_COOKIE[ GPOS_SESSION_ID_KEY ] ) && false === headers_sent() ) {
+		$name    = GPOS_SESSION_ID_KEY;
+		$value   = time();
+		$options = array(
+			'expires'  => GPOS_SESSION_LIFETIME,
+			'secure'   => false,
+			'path'     => COOKIEPATH ? COOKIEPATH : '/',
+			'domain'   => COOKIE_DOMAIN,
+			'httponly' => false,
+		);
+
+		if ( version_compare( PHP_VERSION, '7.3.0', '>=' ) ) {
+			setcookie( $name, $value, $options );
+		} else {
+			setcookie( $name, $value, $options['expires'], $options['path'], $options['domain'], $options['secure'], $options['httponly'] );
+		}
+	}
+}
+
+
+/**
+ * Desteklenen taksit adetleri.
+ *
+ * @return array
+ */
+function gpos_supported_installment_counts() {
+	return apply_filters(
+		/**
+		 * Desteklenen taksit adetlerini düzenleme kancası.
+		 *
+		 * @param array
+		 */
+		'gpos_supported_installment_counts',
+		array(
+			'1'  => '1',
+			'2'  => '2',
+			'3'  => '3',
+			'4'  => '4',
+			'5'  => '5',
+			'6'  => '6',
+			'7'  => '7',
+			'8'  => '8',
+			'9'  => '9',
+			'10' => '10',
+			'11' => '11',
+			'12' => '12',
+		)
+	);
 }

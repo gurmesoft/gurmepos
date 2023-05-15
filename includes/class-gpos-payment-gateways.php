@@ -25,20 +25,17 @@ class GPOS_Payment_Gateways {
 		$this->payment_gateways = array(
 			'GPOS_Paratika',
 			'GPOS_Iyzico',
-			'GPOS_Sipay',
-			'GPOS_Ozan',
-			'GPOS_Esnek_Pos',
-			'GPOS_Param',
+			'GPOS_Craftgate',
 			'GPOS_Akbank',
 			'GPOS_Denizbank',
 			'GPOS_Finansbank',
-			'GPOS_Garanti_Pay',
 			'GPOS_Garanti',
 			'GPOS_Halkbank',
-			'GPOS_Ingbank',
+			'GPOS_Isbank',
 			'GPOS_Kuveyt_Turk',
+			'GPOS_Teb',
 			'GPOS_Vakifbank',
-			'GPOS_Yapikredi',
+			'GPOS_Yapi_Kredi',
 			'GPOS_Ziraat',
 		);
 
@@ -51,6 +48,11 @@ class GPOS_Payment_Gateways {
 	 */
 	public function get_payment_gateways() {
 		return apply_filters(
+			/**
+			 * Desteklenen ödeme kuruluşlarını düzenleme kancasıdır.
+			 *
+			 * @param array Ödeme geçitleri
+			 */
 			'gpos_payment_gateways',
 			array_map( fn( $class ) => new $class(), $this->payment_gateways )
 		);

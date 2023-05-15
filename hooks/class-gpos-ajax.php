@@ -39,10 +39,18 @@ class GPOS_Ajax {
 	public function __construct() {
 
 		$this->endpoints = apply_filters(
+			/**
+			 * Ajax uç noktalarına ekle/çıkar yapmak için kullanılır.
+			 *
+			 * @param array Varsayılan uç noktalar.
+			 */
 			"{$this->prefix}_ajax_endpoints",
 			array(
 				'update_test_mode'            => array( $this, 'update_test_mode' ),
 				'update_active_status'        => array( $this, 'update_active_status' ),
+				'update_installment_status'   => array( $this, 'update_installment_status' ),
+				'update_installments'         => array( $this, 'update_installments' ),
+				'get_installments_from_api'   => array( $this, 'get_installments_from_api' ),
 				'update_default_status'       => array( $this, 'update_default_status' ),
 				'add_gateway_account'         => array( $this, 'add_gateway_account' ),
 				'get_gateway_accounts'        => array( gpos_gateway_accounts(), 'get_accounts' ),
@@ -79,6 +87,9 @@ class GPOS_Ajax {
 				/**
 				 * Uç noktaya istinaden çalıştırılacak fonksiyonu tanımlar,
 				 * filter aracılığı ile farklı sınıfların farklı fonksiyonları ile de aksiyon alınabilir.
+				 *
+				 * @param string|array $callback Çalıştırılacak fonksiyon.
+				 * @param mixed $next_action Uç nokta.
 				 */
 				$action = apply_filters( "{$this->prefix}_ajax_action", $this->endpoints[ $next_action ], $next_action );
 				// $action tanımlanan fonksiyonu çağır.
@@ -117,7 +128,29 @@ class GPOS_Ajax {
 	 * @return mixed
 	 */
 	public function update_active_status( $request ) {
-		return gpos_gateway_account( $request->id )->update_status( $request->status );
+		return gpos_gateway_account( $request->id )->update_active_status( $request->status );
+	}
+
+	/**
+	 * Geri dönüş fonksiyonu; update_installment_status.
+	 *
+	 * @param stdClass $request İstek parametreleri.
+	 *
+	 * @return mixed
+	 */
+	public function update_installment_status( $request ) {
+		return gpos_gateway_account( $request->id )->update_installment_status( $request->status );
+	}
+
+	/**
+	 * Geri dönüş fonksiyonu; get_installments_from_api.
+	 *
+	 * @param stdClass $request İstek parametreleri.
+	 *
+	 * @return mixed
+	 */
+	public function get_installments_from_api( $request ) {
+		return gpos_gateway_account( $request->id )->gateway_class->get_installments();
 	}
 
 	/**
@@ -173,6 +206,17 @@ class GPOS_Ajax {
 	 */
 	public function update_account_settings( $request ) {
 		return gpos_gateway_account( $request->id )->gateway_settings->save_settings( (array) $request->settings );
+	}
+
+	/**
+	 * Geri dönüş fonksiyonu; update_installments.
+	 *
+	 * @param stdClass $request İstek parametreleri.
+	 *
+	 * @return mixed
+	 */
+	public function update_installments( $request ) {
+		return gpos_gateway_account( $request->id )->update_installments( (array) $request->installments );
 	}
 
 	/**

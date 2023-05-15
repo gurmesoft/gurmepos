@@ -17,9 +17,9 @@ $gpos_i18n = array(
 		'refund'                          => __( 'İade', 'gurmepos' ),
 		'Completed'                       => __( 'Tamamlandı', 'gurmepos' ),
 		'Processing'                      => __( 'Hazırlanıyor', 'gurmepos' ),
-		'paynut'                          => __( 'Pos Entegratör', 'gurmepos' ),
+		'paynut'                          => __( 'POS Entegratör', 'gurmepos' ),
 		'free'                            => __( 'Ücretsiz', 'gurmepos' ),
-		'update_pro'                      => __( 'Pro Sürüm Yakında!', 'gurmepos' ),
+		'update_pro'                      => __( 'Proya Yükselt', 'gurmepos' ),
 		'announcements'                   => __( 'Duyurular', 'gurmepos' ),
 		'add_payment_comp'                => __( 'Ödeme Kuruluşu Ekle', 'gurmepos' ),
 		'establishment'                   => __( 'Kuruluş', 'gurmepos' ),
@@ -59,7 +59,7 @@ $gpos_i18n = array(
 		'delete_gateway'                  => __( 'Ödeme kuruluşunu kaldır', 'gurmepos' ),
 		'test_mode_title'                 => __( 'Test Modu Aktif', 'gurmepos' ),
 		'test_mode_content'               => __( 'Test modu aktif iken test APIleri ile çalışmanız gerekmektedir.', 'gurmepos' ),
-		'gateway_screen'                  => __( 'Sanal Pos Ekranı', 'gurmepos' ),
+		'gateway_screen'                  => __( 'Sanal POS Ekranı', 'gurmepos' ),
 		'supports_features'               => __( 'Desteklenen Özellikler', 'gurmepos' ),
 		'supports_currency'               => __( 'Desteklenen Para Birimleri', 'gurmepos' ),
 		'empty_gateway_title'             => __( 'Henüz bir pos aktif etmediniz', 'gurmepos' ),
@@ -69,27 +69,26 @@ $gpos_i18n = array(
 		'pay_to_status'                   => __( 'Başarılı Ödemelerin Geçeceği durum', 'gurmepos' ),
 		'pay_form_desc'                   => __( 'Ödeme Formunun Açıklama Alanı', 'gurmepos' ),
 
-
 		'paratika'                        => array(
-			'description' => 'Paratika müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz.',
+			'description' => __( 'Paratika müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz.', 'gurmepos' ),
 		),
 		'ozan'                            => array(
-			'description' => 'Ozan müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz.',
+			'description' => __( 'Ozan müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz.', 'gurmepos' ),
 		),
 		'sipay'                           => array(
-			'description' => 'Sipay müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz.',
+			'description' => __( 'Sipay müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz.', 'gurmepos' ),
 		),
 		'iyzico'                          => array(
-			'description' => 'iyzico müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz.',
+			'description' => __( 'iyzico müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz.', 'gurmepos' ),
 		),
 		'esnekpos'                        => array(
-			'description' => 'Esnekpos müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz.',
+			'description' => __( 'Esnekpos müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz.', 'gurmepos' ),
 		),
 		'param'                           => array(
-			'description' => 'Param müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz.',
+			'description' => __( 'Param müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz.', 'gurmepos' ),
 		),
 		'paytr'                           => array(
-			'description' => 'PayTR müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz.',
+			'description' => __( 'PayTR müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz.', 'gurmepos' ),
 		),
 	),
 );

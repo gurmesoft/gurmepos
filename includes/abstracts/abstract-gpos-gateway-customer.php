@@ -1,4 +1,4 @@
-<?php
+<?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * Ödeme geçitleri için müşteri abstract sınıfını barındırır.
  *

@@ -56,8 +56,12 @@ class GPOS_WooCommerce {
 	 */
 	public function before_checkout_form() {
 
-		if ( isset( $_GET['gpos_error'] ) && false === empty( $_GET['gpos_error'] ) ) {
-			wc_add_notice( $_GET['gpos_error'], 'error' ); // phpcs:ignore
+		if ( isset( $_GET['gpos_error_nonce'] )
+			&& wp_verify_nonce( gpos_clean( $_GET['gpos_error_nonce'] ) )
+			&& isset( $_GET['gpos_error'] )
+			&& false === empty( $_GET['gpos_error'] )
+		) {
+			wc_add_notice( gpos_clean( $_GET['gpos_error'] ), 'error' );
 		}
 	}
 

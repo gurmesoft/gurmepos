@@ -56,6 +56,57 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	}
 
 	/**
+	 * Apilerinde taksit bilgisi gönderen kuruluşlar için otomatik getirir.
+	 *
+	 * @return array|bool Destek var ise taksitler yok ise false.
+	 */
+	public function get_installments() {
+		$installments = array();
+		$request      = new \Iyzipay\Request\RetrieveInstallmentInfoRequest();
+		$request->setConversationId( microtime( false ) );
+		$request->setLocale( \Iyzipay\Model\Locale::TR );
+		$request->setBinNumber( '54003600' );
+		$request->setPrice( '100' );
+
+		try {
+
+			$response = \Iyzipay\Model\InstallmentInfo::retrieve( $request, $this->settings );
+			if ( $response->getStatus() === 'success' ) {
+				$api_installment_list = $response->getInstallmentDetails()[0]->getInstallmentPrices();
+
+				$installments = array_map(
+					function( $i ) use ( $api_installment_list ) {
+						$find_installment = array_filter( $api_installment_list, fn( $api_installment ) => (string) $api_installment->getInstallmentNumber() === (string) $i );
+						$finded           = empty( $find_installment ) ? false : $find_installment[ array_key_first( $find_installment ) ];
+						$rate             = $finded ? $finded->getTotalPrice() - 100 : false;
+						return array(
+							'enabled' => $rate ? true : false,
+							'rate'    => $rate ? (float) number_format( $rate, 2 ) : 0,
+							'number'  => $i,
+						);
+					},
+					gpos_supported_installment_counts()
+				);
+
+			}
+
+			$result = array(
+				'result'       => 'success' === $response->getStatus() ? 'success' : 'error',
+				'installments' => 'success' === $response->getStatus() ? $installments : $response->getErrorMessage(),
+			);
+
+		} catch ( Exception $e ) {
+			$result = array(
+				'result'  => 'error',
+				'message' => $e->getMessage(),
+			);
+		}
+
+		return $result;
+
+	}
+
+	/**
 	 * GPOS_Paratika_Gateway kurucu fonksiyon değerindedir gerekli ayarlamaları yapar.
 	 *
 	 * @param GPOS_Paratika_Settings|stdClass $settings Ödeme geçidi ayarlarını içerir.
@@ -143,7 +194,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 			$request->setPaymentId( $post_data['paymentId'] );
 			// 3D Sayfasından başarıyla gelen kullanıcı için kartından ödeme çekme bu çağrı ile gerçekleşir.
 			$response = \Iyzipay\Model\ThreedsPayment::create( $request, $this->settings );
-			$this->log( __FUNCTION__, $request, $response );
+			$this->set_order_id( $post_data['conversationId'] )->log( __FUNCTION__, $request, $response );
 
 			if ( 'success' === $response->getStatus() ) {
 				$this->gateway_response
@@ -216,11 +267,13 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	private function prepare_payment_card() {
 		$payment_card = new \Iyzipay\Model\PaymentCard();
 		if ( $this->use_saved_card() ) {
-			// Todo. Kayıtlı kart ile alışverişte incelenecek.
-			var_dump( $this->use_saved_card() );
-			die;
-			// $payment_card->setCardUserKey( $this->get_saved_card_key() );
-			// $payment_card->setCardToken( $this->get_saved_card_token() );
+			/**
+			 * Todo.
+			 *
+			 * Kayıtlı kart geliştirmesi.
+			 */
+			$payment_card->setCardUserKey( '' );
+			$payment_card->setCardToken( '' );
 		} else {
 			$payment_card->setCardHolderName( $this->get_customer_full_name() );
 			$payment_card->setCardNumber( $this->get_card_bin() );

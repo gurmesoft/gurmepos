@@ -14,8 +14,8 @@ WooCommerce
 
 POS Entegrator
 Requires at least: 5.7  
-Tested up to: 5.9  
-Stable tag: 0.0.1
+Tested up to: 6.2
+Stable tag: 1.0.0
 License: GPLv2
 
 This Plugin requires [Mailster Newsletter Plugin for WordPress](https://mailster.co/?utm_campaign=wporg&utm_source=postal+integration+for+mailster&utm_medium=readme)

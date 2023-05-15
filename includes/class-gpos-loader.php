@@ -45,20 +45,17 @@ class GPOS_Loader {
 			'includes/payment-gateways/iyzico/class-gpos-iyzico.php',
 
 			// Pro ile gelecekler
-			'includes/payment-gateways/pro/class-gpos-ozan.php',
-			'includes/payment-gateways/pro/class-gpos-esnek-pos.php',
-			'includes/payment-gateways/pro/class-gpos-param.php',
-			'includes/payment-gateways/pro/class-gpos-sipay.php',
+			'includes/payment-gateways/pro/class-gpos-craftgate.php',
 			'includes/payment-gateways/pro/class-gpos-akbank.php',
 			'includes/payment-gateways/pro/class-gpos-denizbank.php',
 			'includes/payment-gateways/pro/class-gpos-finansbank.php',
-			'includes/payment-gateways/pro/class-gpos-garanti-pay.php',
 			'includes/payment-gateways/pro/class-gpos-garanti.php',
 			'includes/payment-gateways/pro/class-gpos-halkbank.php',
-			'includes/payment-gateways/pro/class-gpos-ingbank.php',
+			'includes/payment-gateways/pro/class-gpos-isbank.php',
 			'includes/payment-gateways/pro/class-gpos-kuveyt-turk.php',
+			'includes/payment-gateways/pro/class-gpos-teb.php',
 			'includes/payment-gateways/pro/class-gpos-vakifbank.php',
-			'includes/payment-gateways/pro/class-gpos-yapikredi.php',
+			'includes/payment-gateways/pro/class-gpos-yapi-kredi.php',
 			'includes/payment-gateways/pro/class-gpos-ziraat.php',
 
 			// Functions
@@ -67,6 +64,7 @@ class GPOS_Loader {
 
 			// Inc classes
 			'includes/class-gpos-redirect.php',
+			'includes/class-gpos-installments.php',
 			'includes/class-gpos-http-request.php',
 			'includes/class-gpos-gateway-response.php',
 			'includes/class-gpos-payment-gateways.php',
@@ -78,6 +76,7 @@ class GPOS_Loader {
 			'includes/class-gpos-log.php',
 			'includes/class-gpos-vue.php',
 			'includes/class-gpos-frontend.php',
+			'includes/class-gpos-session.php',
 
 			// Hooks
 			'hooks/class-gpos-ajax.php',
