@@ -1,4 +1,5 @@
 <?php
+// phpcs:ignoreFile
 /**
  * GurmePOS için Vue kullanımını sağlayan sınıf olan GPOS_Vue sınıfını barındıran dosya.
  *
@@ -121,53 +122,15 @@ class GPOS_Vue {
 	 */
 	public function require() {
 		echo '<div id="app"></div>'; // phpcs:ignore
-		if ( defined( 'GPOS_PRODUCTION' ) && true === GPOS_PRODUCTION ) {
-			$this->production();
-		} elseif ( defined( 'GPOS_DEVELOPMENT' ) && true === GPOS_DEVELOPMENT ) {
-			$this->development();
-		}
+			wp_enqueue_script(
+				"{$this->prefix}-js",
+				"{$this->asset_dir_url}/vue/js/{$this->vue_page}/main.js",
+				array( 'jquery' ),
+				$this->version,
+				false
+			);
 
-		if ( ! empty( $this->localize_variables ) ) {
-			?>
-			<script>
-				window.<?php echo esc_html( $this->prefix ); ?> = <?php echo wp_json_encode( $this->localize_variables ); ?>
-			</script>
-			<?php
-		}
-
-	}
-
-
-	/**
-	 * Development için görüntüleme
-	 *
-	 * @return void
-	 */
-	private function development() {
-		wp_enqueue_script(
-			"{$this->prefix}-js",
-			"http://localhost:9080/{$this->vue_path}/pages/{$this->vue_page}/main.js",
-			array( 'jquery' ),
-			time(),
-			false
-		);
-	}
-
-	/**
-	 * Production için görüntüleme
-	 *
-	 * @return void
-	 */
-	private function production() {
-		wp_enqueue_script(
-			"{$this->prefix}-js",
-			"{$this->asset_dir_url}/vue/js/{$this->vue_page}/main.js",
-			array( 'jquery' ),
-			$this->version,
-			false
-		);
-
-		$css_files = scandir( GPOS_PLUGIN_DIR_PATH . '/assets/vue/css/' );
+			$css_files = scandir( GPOS_PLUGIN_DIR_PATH . '/assets/vue/css/' );
 
 		if ( $css_files ) {
 
@@ -189,5 +152,16 @@ class GPOS_Vue {
 				);
 			}
 		}
+
+		if ( ! empty( $this->localize_variables ) ) {
+			?>
+			<script>
+				window.<?php echo esc_html( $this->prefix ); ?> = <?php echo wp_json_encode( $this->localize_variables ); ?>
+			</script>
+			<?php
+		}
+
 	}
+
+
 }
