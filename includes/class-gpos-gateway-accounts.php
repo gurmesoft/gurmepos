@@ -27,7 +27,7 @@ class GPOS_Gateway_Accounts {
 		$accounts = get_posts(
 			array(
 				'post_type'   => $this->post_type,
-				'numberposts' => -1,
+				'numberposts' => 100,
 				'post_status' => array( 'publish', 'draft' ),
 			)
 		);
