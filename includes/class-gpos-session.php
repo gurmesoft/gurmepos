@@ -22,7 +22,7 @@ class GPOS_Session {
 	 *
 	 * @var wpdb $db Veri tabanı bağlantısı
 	 */
-	private $db;
+	private $connection;
 
 	/**
 	 * GPOS_Redirect sınıfı kurucu fonksiyonu
@@ -32,7 +32,7 @@ class GPOS_Session {
 	public function __construct() {
 		global $wpdb;
 		$this->table_name = $wpdb->prefix . 'gpos_session';
-		$this->db         = $wpdb;
+		$this->connection = $wpdb;
 	}
 
 	/**
@@ -60,8 +60,8 @@ class GPOS_Session {
 	 */
 	public function get_session_meta( string $session_key ) {
 
-		$session_value = $this->db->get_var(
-			$this->db->prepare( "SELECT `session_value` FROM {$this->table_name} WHERE `payment_id` = %s AND `session_key` = %s", $this->payment_id(), $session_key )
+		$session_value = $this->connection->get_var(
+			$this->connection->prepare( "SELECT `session_value` FROM {$this->table_name} WHERE `payment_id` = %s AND `session_key` = %s", $this->payment_id(), $session_key )
 		);
 
 		$this->delete_session_meta( $this->payment_id(), $session_key );
@@ -91,7 +91,7 @@ class GPOS_Session {
 		$session_key_exists = $this->get_session_meta( $session_key );
 
 		if ( $session_key_exists ) {
-			return $this->db->update(
+			return $this->connection->update(
 				$this->table_name,
 				array(
 					'session_value' => is_array( $session_value ) ? wp_json_encode( $session_value ) : $session_value,
@@ -104,7 +104,7 @@ class GPOS_Session {
 
 		}
 
-		return $this->db->insert(
+		return $this->connection->insert(
 			$this->table_name,
 			array(
 				'payment_id'    => $this->payment_id(),
@@ -125,7 +125,7 @@ class GPOS_Session {
 	 */
 	public function delete_session_meta( string $payment_id, string $session_key ) {
 
-		return $this->db->delete(
+		return $this->connection->delete(
 			$this->table_name,
 			array(
 				'payment_id'  => $payment_id,

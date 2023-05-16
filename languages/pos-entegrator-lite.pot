@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-16T08:33:08+00:00\n"
+"POT-Creation-Date: 2023-05-16T08:47:00+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: gurmepos\n"
@@ -36,7 +36,7 @@ msgstr ""
 msgid "https://gurmehub.com/"
 msgstr ""
 
-#: hooks/class-gpos-wordpress.php:178
+#: hooks/class-gpos-wordpress.php:180
 msgid "Ayarlar"
 msgstr ""
 
@@ -85,7 +85,7 @@ msgid "Ücretsiz"
 msgstr ""
 
 #: i18n/gpos-strings.php:22
-#: includes/class-gpos-admin-menu.php:126
+#: includes/class-gpos-admin-menu.php:130
 msgid "Proya Yükselt"
 msgstr ""
 
@@ -333,11 +333,15 @@ msgstr ""
 msgid "Form Ayarları"
 msgstr ""
 
-#: includes/class-gpos-admin-menu.php:105
+#: includes/class-gpos-admin-menu.php:76
+msgid "Kayıtlar"
+msgstr ""
+
+#: includes/class-gpos-admin-menu.php:109
 msgid "WooCommerce Ayarları"
 msgstr ""
 
-#: includes/class-gpos-redirect.php:127
+#: includes/class-gpos-redirect.php:129
 msgid "Hatalı işlem, lütfen ödeme sayfasını yenileyerek tekrar deneyin."
 msgstr ""
 
@@ -346,21 +350,21 @@ msgid "Ödeme oturumu bulunamadı. Lütfen tekrar deneyiniz. "
 msgstr ""
 
 #: includes/payment-gateways/iyzico/class-gpos-iyzico-gateway.php:188
-#: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:214
+#: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:215
 msgid "3D işleminde hata. Şifre yanlış girilmiş yada 3D sayfası terk edilmiş."
 msgstr ""
 
 #: includes/payment-gateways/iyzico/class-gpos-iyzico.php:86
-#: includes/payment-gateways/pro/class-gpos-craftgate.php:71
+#: includes/payment-gateways/pro/class-gpos-craftgate.php:86
 msgid "Api Anahtarı"
 msgstr ""
 
 #: includes/payment-gateways/iyzico/class-gpos-iyzico.php:91
-#: includes/payment-gateways/pro/class-gpos-craftgate.php:76
+#: includes/payment-gateways/pro/class-gpos-craftgate.php:91
 msgid "Api Şifresi"
 msgstr ""
 
-#: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:211
+#: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:212
 msgid "Transactionlist içerisinde onaylanmış transaction bulunamadı."
 msgstr ""
 
@@ -369,107 +373,107 @@ msgid "Kurum/Firma Id"
 msgstr ""
 
 #: includes/payment-gateways/paratika/class-gpos-paratika.php:91
-#: includes/payment-gateways/pro/class-gpos-akbank.php:69
-#: includes/payment-gateways/pro/class-gpos-finansbank.php:69
-#: includes/payment-gateways/pro/class-gpos-halkbank.php:69
-#: includes/payment-gateways/pro/class-gpos-isbank.php:69
-#: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:74
-#: includes/payment-gateways/pro/class-gpos-teb.php:69
-#: includes/payment-gateways/pro/class-gpos-ziraat.php:69
+#: includes/payment-gateways/pro/class-gpos-akbank.php:89
+#: includes/payment-gateways/pro/class-gpos-finansbank.php:90
+#: includes/payment-gateways/pro/class-gpos-halkbank.php:90
+#: includes/payment-gateways/pro/class-gpos-isbank.php:90
+#: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:95
+#: includes/payment-gateways/pro/class-gpos-teb.php:90
+#: includes/payment-gateways/pro/class-gpos-ziraat.php:91
 msgid "Kullanıcı Adı"
 msgstr ""
 
 #: includes/payment-gateways/paratika/class-gpos-paratika.php:96
-#: includes/payment-gateways/pro/class-gpos-akbank.php:74
-#: includes/payment-gateways/pro/class-gpos-finansbank.php:74
-#: includes/payment-gateways/pro/class-gpos-halkbank.php:74
-#: includes/payment-gateways/pro/class-gpos-isbank.php:74
-#: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:79
-#: includes/payment-gateways/pro/class-gpos-teb.php:74
-#: includes/payment-gateways/pro/class-gpos-vakifbank.php:74
-#: includes/payment-gateways/pro/class-gpos-ziraat.php:74
+#: includes/payment-gateways/pro/class-gpos-akbank.php:94
+#: includes/payment-gateways/pro/class-gpos-finansbank.php:95
+#: includes/payment-gateways/pro/class-gpos-halkbank.php:95
+#: includes/payment-gateways/pro/class-gpos-isbank.php:95
+#: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:100
+#: includes/payment-gateways/pro/class-gpos-teb.php:95
+#: includes/payment-gateways/pro/class-gpos-vakifbank.php:95
+#: includes/payment-gateways/pro/class-gpos-ziraat.php:96
 msgid "Şifre"
 msgstr ""
 
-#: includes/payment-gateways/pro/class-gpos-akbank.php:64
-#: includes/payment-gateways/pro/class-gpos-finansbank.php:64
-#: includes/payment-gateways/pro/class-gpos-garanti.php:64
-#: includes/payment-gateways/pro/class-gpos-halkbank.php:64
-#: includes/payment-gateways/pro/class-gpos-isbank.php:64
-#: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:64
-#: includes/payment-gateways/pro/class-gpos-teb.php:64
-#: includes/payment-gateways/pro/class-gpos-vakifbank.php:64
-#: includes/payment-gateways/pro/class-gpos-yapi-kredi.php:64
-#: includes/payment-gateways/pro/class-gpos-ziraat.php:64
+#: includes/payment-gateways/pro/class-gpos-akbank.php:84
+#: includes/payment-gateways/pro/class-gpos-finansbank.php:85
+#: includes/payment-gateways/pro/class-gpos-garanti.php:85
+#: includes/payment-gateways/pro/class-gpos-halkbank.php:85
+#: includes/payment-gateways/pro/class-gpos-isbank.php:85
+#: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:85
+#: includes/payment-gateways/pro/class-gpos-teb.php:85
+#: includes/payment-gateways/pro/class-gpos-vakifbank.php:85
+#: includes/payment-gateways/pro/class-gpos-yapi-kredi.php:86
+#: includes/payment-gateways/pro/class-gpos-ziraat.php:86
 msgid "Mağaza Numarası"
 msgstr ""
 
-#: includes/payment-gateways/pro/class-gpos-akbank.php:79
-#: includes/payment-gateways/pro/class-gpos-finansbank.php:79
-#: includes/payment-gateways/pro/class-gpos-garanti.php:84
-#: includes/payment-gateways/pro/class-gpos-halkbank.php:79
-#: includes/payment-gateways/pro/class-gpos-isbank.php:79
-#: includes/payment-gateways/pro/class-gpos-teb.php:79
-#: includes/payment-gateways/pro/class-gpos-yapi-kredi.php:74
-#: includes/payment-gateways/pro/class-gpos-ziraat.php:79
+#: includes/payment-gateways/pro/class-gpos-akbank.php:99
+#: includes/payment-gateways/pro/class-gpos-finansbank.php:100
+#: includes/payment-gateways/pro/class-gpos-garanti.php:105
+#: includes/payment-gateways/pro/class-gpos-halkbank.php:100
+#: includes/payment-gateways/pro/class-gpos-isbank.php:100
+#: includes/payment-gateways/pro/class-gpos-teb.php:100
+#: includes/payment-gateways/pro/class-gpos-yapi-kredi.php:96
+#: includes/payment-gateways/pro/class-gpos-ziraat.php:101
 msgid "3D Anahtarı"
 msgstr ""
 
-#: includes/payment-gateways/pro/class-gpos-akbank.php:90
-#: includes/payment-gateways/pro/class-gpos-denizbank.php:89
-#: includes/payment-gateways/pro/class-gpos-finansbank.php:90
-#: includes/payment-gateways/pro/class-gpos-garanti.php:93
-#: includes/payment-gateways/pro/class-gpos-halkbank.php:90
-#: includes/payment-gateways/pro/class-gpos-isbank.php:90
-#: includes/payment-gateways/pro/class-gpos-teb.php:90
-#: includes/payment-gateways/pro/class-gpos-ziraat.php:90
+#: includes/payment-gateways/pro/class-gpos-akbank.php:110
+#: includes/payment-gateways/pro/class-gpos-denizbank.php:111
+#: includes/payment-gateways/pro/class-gpos-finansbank.php:111
+#: includes/payment-gateways/pro/class-gpos-garanti.php:114
+#: includes/payment-gateways/pro/class-gpos-halkbank.php:111
+#: includes/payment-gateways/pro/class-gpos-isbank.php:111
+#: includes/payment-gateways/pro/class-gpos-teb.php:111
+#: includes/payment-gateways/pro/class-gpos-ziraat.php:112
 msgid "3D Tipi"
 msgstr ""
 
-#: includes/payment-gateways/pro/class-gpos-craftgate.php:81
+#: includes/payment-gateways/pro/class-gpos-craftgate.php:96
 msgid "Panel üzerinde bulunan Yönetim -> Üye İşyeri Ayarları arayüzündeki \"Üye İşyeri 3DSecure Callback Key\""
 msgstr ""
 
-#: includes/payment-gateways/pro/class-gpos-denizbank.php:64
-#: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:69
+#: includes/payment-gateways/pro/class-gpos-denizbank.php:86
+#: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:90
 msgid "Müşteri Numarası"
 msgstr ""
 
-#: includes/payment-gateways/pro/class-gpos-denizbank.php:69
+#: includes/payment-gateways/pro/class-gpos-denizbank.php:91
 msgid "Müşteri Şifre"
 msgstr ""
 
-#: includes/payment-gateways/pro/class-gpos-denizbank.php:74
+#: includes/payment-gateways/pro/class-gpos-denizbank.php:96
 msgid "Mağaza No (3D Host için zorunlu değildir.)"
 msgstr ""
 
-#: includes/payment-gateways/pro/class-gpos-denizbank.php:79
+#: includes/payment-gateways/pro/class-gpos-denizbank.php:101
 msgid "Mağaza Şifre (3D Host için zorunlu değildir.)"
 msgstr ""
 
-#: includes/payment-gateways/pro/class-gpos-garanti.php:69
-#: includes/payment-gateways/pro/class-gpos-vakifbank.php:69
-#: includes/payment-gateways/pro/class-gpos-yapi-kredi.php:69
+#: includes/payment-gateways/pro/class-gpos-garanti.php:90
+#: includes/payment-gateways/pro/class-gpos-vakifbank.php:90
+#: includes/payment-gateways/pro/class-gpos-yapi-kredi.php:91
 msgid "Terminal Numarası"
 msgstr ""
 
-#: includes/payment-gateways/pro/class-gpos-garanti.php:74
+#: includes/payment-gateways/pro/class-gpos-garanti.php:95
 msgid "Ödeme Kullanıcısı"
 msgstr ""
 
-#: includes/payment-gateways/pro/class-gpos-garanti.php:79
+#: includes/payment-gateways/pro/class-gpos-garanti.php:100
 msgid "Ödeme Kullanıcısı Şifre"
 msgstr ""
 
-#: includes/payment-gateways/pro/class-gpos-garanti.php:98
+#: includes/payment-gateways/pro/class-gpos-garanti.php:119
 msgid "İade Kullanıcısı"
 msgstr ""
 
-#: includes/payment-gateways/pro/class-gpos-garanti.php:103
+#: includes/payment-gateways/pro/class-gpos-garanti.php:124
 msgid "İade Kullanıcısı Şifre"
 msgstr ""
 
-#: includes/payment-gateways/pro/class-gpos-yapi-kredi.php:79
+#: includes/payment-gateways/pro/class-gpos-yapi-kredi.php:101
 msgid "PosNet Numarası"
 msgstr ""
 

@@ -26,8 +26,8 @@ class GPOS_Installments {
 	 * @return void
 	 */
 	public function __construct( string $platform, GPOS_Gateway_Account $account ) {
-		$amount      = $this->get_amount_to_be_paid_by_platform( $platform );
-		$this->rates = $this->get_rates_by_account( $account, $amount );
+		$platform_data = $this->get_platform_data_to_be_paid( $platform );
+		$this->rates   = $this->get_rates_by_account( $account, $platform_data );
 
 	}
 
@@ -41,46 +41,58 @@ class GPOS_Installments {
 	}
 
 	/**
-	 * Platforma özel taksitlendirilecek toplam ücreti bulma.
+	 * Platforma özel taksitlendirilecek toplam ücreti ve para birimini bulma.
 	 *
 	 * @param string $platform Ödemenin geçeceği platform.
 	 *
-	 * @return float
+	 * @return stdClass
 	 */
-	public function get_amount_to_be_paid_by_platform( $platform ) {
-		$amount = 0;
+	public function get_platform_data_to_be_paid( $platform ) {
 
 		switch ( $platform ) {
 			case 'woocommerce':
-				$amount = WC()->cart->get_total( 'float' );
+				$amount          = WC()->cart->get_total( 'float' );
+				$currency        = get_woocommerce_currency();
+				$currency_symbol = get_woocommerce_currency_symbol( $currency );
+				break;
+			case 'giwewp':
+				$amount   = 0;
+				$currency = give_get_currency();
 				break;
 			default:
-				$amount = 0;
+				$amount   = 0;
+				$currency = 'TRY';
 				break;
 		}
-		return $amount;
+		return (object) array(
+			'amount'          => $amount,
+			'currency'        => $currency,
+			'currency_symbol' => $currency_symbol,
+		);
 	}
 
 	/**
 	 * Ödeme geçidinin taksit hesaplama yöntemi ile rateleri hesaplama.
 	 *
 	 * @param GPOS_Gateway_Account $account Ödeme geçidinin tekil kimliği.
-	 * @param float                $amount Toplam geçilecek tutar.
+	 * @param stdClass             $platform_data Alışveriş tutar ve para birimi bilgisi.
 	 *
 	 * @return array Taksit oranları.
 	 */
-	public function get_rates_by_account( $account, $amount ) {
+	public function get_rates_by_account( $account, $platform_data ) {
 
 		$rates = array_map(
-			function( $installment ) use ( $account, $amount ) {
-				$calculated_amount = $account->installment_rate_calculate( (float) $installment->rate, (float) $amount );
+			function( $installment ) use ( $account, $platform_data ) {
+				$calculated_amount = $account->installment_rate_calculate( (float) $installment->rate, (float) $platform_data->amount );
 				return array(
 					'amount_total'       => number_format( $calculated_amount ),
 					'amount_per_month'   => number_format( $calculated_amount / $installment->number, 2 ),
 					'installment_number' => $installment->number,
+					'currency'           => $platform_data->currency,
+					'currency_symbol'    => $platform_data->currency_symbol,
 				);
 			},
-			array_filter( $account->installments, fn( $installment ) => $installment->enabled )
+			array_filter( $account->installments, fn( $installment ) => $installment->enabled || '1' === $installment->number )
 		);
 
 		return $rates;

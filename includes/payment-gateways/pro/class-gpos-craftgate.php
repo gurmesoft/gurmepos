@@ -8,7 +8,7 @@
 /**
  * GPOS_Craftgate sınıfı.
  */
-class GPOS_Craftgate extends GPOS_Need_Pro {
+class GPOS_Craftgate extends GPOS_Gateway {
 
 	/**
 	 * Ödeme geçidi benzersiz kimliği
@@ -23,6 +23,28 @@ class GPOS_Craftgate extends GPOS_Need_Pro {
 	 * @var string $title
 	 */
 	public $title = 'Craftgate';
+
+
+	/**
+	 * Ödeme geçidi ayar sınıfı
+	 *
+	 * @var string $settings_class
+	 */
+	public $settings_class = false;
+
+	/**
+	 * Ödeme geçidi
+	 *
+	 * @var string $gateway_class
+	 */
+	public $gateway_class = false;
+
+	/**
+	 * Pro gereksinimi
+	 *
+	 * @var boolean $is_need_pro
+	 */
+	public $is_need_pro = true;
 
 	/**
 	 * Logo urli
@@ -51,13 +73,6 @@ class GPOS_Craftgate extends GPOS_Need_Pro {
 	 * @var array $supports
 	 */
 	public $supports = array( 'three_d', 'regular', 'refund', 'save_card', 'recurring_with_saved_card', 'recurring_with_plan', 'installment_api' );
-
-	/**
-	 * Pro gereksinimi
-	 *
-	 * @var boolean $is_need_pro
-	 */
-	public $is_need_pro = true;
 
 	/**
 	 * Ödeme için gerekli alanların tanımı

@@ -48,6 +48,8 @@ class GPOS_Log {
 				'response'    => is_string( $log_data['response'] ) ? $log_data['response'] : wp_json_encode( $log_data['response'] ),
 			)
 		);
+
+		wp_cache_set( 'gpos_log', $this->direct_query() );
 	}
 
 	/**
@@ -56,7 +58,22 @@ class GPOS_Log {
 	 * @return array
 	 */
 	public function get() {
+		$logs = wp_cache_get( 'gpos_log' );
+		if ( false === $logs ) {
+			$logs = $this->direct_query();
+			wp_cache_set( 'gpos_log', $logs );
+		}
+		return $logs;
+	}
+
+
+	/**
+	 * Log kayıtlarını getirme. Doğrudan sorgu.
+	 *
+	 * @return array
+	 */
+	private function direct_query() {
 		global $wpdb;
-		return $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %i', $this->get_table_name() ) ); //phpcs:ignore 
+		return $wpdb->get_results( "SELECT * FROM `{$wpdb->prefix}gpos_log`" ); //phpcs:ignore 
 	}
 }

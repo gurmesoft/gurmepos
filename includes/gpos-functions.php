@@ -6,6 +6,40 @@
  */
 
 /**
+ * GurmePOS için görünüm parçalarını getirir.
+ *
+ * @param string $folder Dahil edilecek görünüm parçasının klasörü.
+ * @param string $part Dahil edilecek görünüm parçası.
+ * @param array  $args Görünüm içerisinde kullanılacak veriler.
+ *
+ *  @return void
+ */
+function gpos_get_template_part( $folder, $part, $args = array() ) {
+	if ( ! empty( $args ) && is_array( $args ) ) {
+		extract($args); // phpcs:ignore
+	}
+
+	$path = GPOS_PLUGIN_DIR_PATH;
+	include "{$path}template/template-parts/{$folder}/{$part}.php";
+}
+
+/**
+ * GurmePOS için görünümü getir.
+ *
+ * @param string $template Dahil edilecek görünüm.
+ * @param array  $args Görünüm içerisinde kullanılacak veriler.
+ *
+ * @return void
+ */
+function gpos_get_template( $template, $args = array() ) {
+	if ( ! empty( $args ) && is_array( $args ) ) {
+		extract($args); // phpcs:ignore
+	}
+	$path = GPOS_PLUGIN_DIR_PATH;
+	include "{$path}template/{$template}.php";
+}
+
+/**
  * WooCommerce'in kurulu ve aktif olup olmadığını kontrol eder.
  *
  * @return bool
@@ -13,7 +47,6 @@
 function gpos_is_woocommerce_enabled() : bool {
 	return class_exists( 'WooCommerce' );
 }
-
 
 /**
  * GurmePOS Pro eklentisinin kurulu ve aktif olup olmadığını kontrol eder.

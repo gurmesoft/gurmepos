@@ -21,13 +21,16 @@ class GPOS_Loader {
 			// Vendors
 			'vendor/autoload.php',
 
+			// Traits
+			'includes/traits/trait-gpos-customer.php',
+			'includes/traits/trait-gpos-credit-card.php',
+
 			// Abstracts
 			'includes/abstracts/abstract-gpos-options.php',
 			'includes/abstracts/abstract-gpos-gateway-settings.php',
-			'includes/abstracts/abstract-gpos-gateway-customer.php',
+
 			'includes/abstracts/abstract-gpos-payment-gateway.php',
 			'includes/abstracts/abstract-gpos-gateway.php',
-			'includes/abstracts/abstract-gpos-need-pro.php',
 
 			// Settings
 			'includes/settings/class-gpos-settings.php',

@@ -73,6 +73,10 @@ class GPOS_Admin_Menu {
 				'menu_slug'  => "{$this->prefix}-form-settings",
 			),
 			array(
+				'menu_title' => __( 'Kayıtlar', 'gurmepos' ),
+				'menu_slug'  => "{$this->prefix}-logs",
+			),
+			array(
 				'menu_title' => false,
 				'menu_slug'  => "{$this->prefix}-payment-gateway",
 				'hidden'     => true,
@@ -160,6 +164,7 @@ class GPOS_Admin_Menu {
 				'form_settings'        => gpos_form_settings()->get_settings(),
 				'strings'              => gpos_get_i18n_strings(),
 				'version'              => GPOS_VERSION,
+				'log'                  => gpos_log()->get(),
 			);
 
 			if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) ) && isset( $_GET['id'] ) && 'payment-gateway' === $page ) {

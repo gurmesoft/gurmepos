@@ -8,7 +8,7 @@
 /**
  * GPOS_Yapi_Kredi sınıfı.
  */
-class GPOS_Yapi_Kredi extends GPOS_Need_Pro {
+class GPOS_Yapi_Kredi extends GPOS_Gateway {
 
 	/**
 	 * Ödeme geçidi benzersiz kimliği
@@ -23,6 +23,28 @@ class GPOS_Yapi_Kredi extends GPOS_Need_Pro {
 	 * @var string $title
 	 */
 	public $title = 'Yapı Kredi';
+
+
+	/**
+	 * Ödeme geçidi ayar sınıfı
+	 *
+	 * @var string $settings_class
+	 */
+	public $settings_class = false;
+
+	/**
+	 * Ödeme geçidi
+	 *
+	 * @var string $gateway_class
+	 */
+	public $gateway_class = false;
+
+	/**
+	 * Pro gereksinimi
+	 *
+	 * @var boolean $is_need_pro
+	 */
+	public $is_need_pro = true;
 
 	/**
 	 * Logo urli

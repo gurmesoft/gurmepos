@@ -105,29 +105,59 @@ class GPOS_Gateway_Account {
 				admin_url( '/admin.php' ),
 			);
 
-			$this->is_default             = ! ! get_post_meta( $this->id, 'gpos_default_account', true );
-			$this->is_installments_active = ! ! get_post_meta( $this->id, 'gpos_is_installments_active', true );
+			$this->is_default = ! ! get_post_meta( $this->id, 'gpos_default_account', true );
 
 			$this->gateway_id = get_post_meta( $this->id, 'gpos_gateway_id', true );
 
-			$this->installments = get_post_meta( $this->id, 'gpos_installments', true );
-
-			if ( ! $this->installments ) {
-				$this->installments = $this->get_default_installments();
-			}
-
 			$gateway = gpos_payment_gateways()->get_gateway_by_gateway_id( $this->gateway_id );
 
-			if ( property_exists( $gateway, 'settings_class' ) && $gateway->settings_class && class_exists( $gateway->settings_class ) ) {
-				$settings               = $gateway->settings_class;
-				$this->gateway_settings = new $settings( $this->id );
-			}
+			$this->load_settings( $gateway );
+			$this->load_gateway( $gateway );
+			$this->load_installment_data();
 
-			if ( property_exists( $gateway, 'gateway_class' ) && $gateway->gateway_class && class_exists( $gateway->gateway_class ) ) {
-				$gateway             = $gateway->gateway_class;
-				$this->gateway_class = new $gateway();
-				$this->gateway_class->prepare_settings( $this->gateway_settings );
-			}
+		}
+	}
+
+	/**
+	 * Ayar sınıfını türeterek atama yapar.
+	 *
+	 * @param GPOS_Gateway $gateway Ödeme sınıfının tanım sınıfı.
+	 *
+	 * @return void
+	 */
+	protected function load_settings( $gateway ) {
+		if ( property_exists( $gateway, 'settings_class' ) && $gateway->settings_class && class_exists( $gateway->settings_class ) ) {
+			$settings               = $gateway->settings_class;
+			$this->gateway_settings = new $settings( $this->id );
+		}
+	}
+
+	/**
+	 * Ödeme sınıfını türeterek atama yapar.
+	 *
+	 * @param GPOS_Gateway $gateway Ödeme sınıfının tanım sınıfı.
+	 *
+	 * @return void
+	 */
+	protected function load_gateway( $gateway ) {
+		if ( property_exists( $gateway, 'gateway_class' ) && $gateway->gateway_class && class_exists( $gateway->gateway_class ) ) {
+			$gateway             = $gateway->gateway_class;
+			$this->gateway_class = new $gateway();
+			$this->gateway_class->prepare_settings( $this->gateway_settings );
+		}
+	}
+
+	/**
+	 * Taksit verilerini ayarlar.
+	 *
+	 * @return void
+	 */
+	protected function load_installment_data() {
+		$this->is_installments_active = ! ! get_post_meta( $this->id, 'gpos_is_installments_active', true );
+		$this->installments           = get_post_meta( $this->id, 'gpos_installments', true );
+
+		if ( ! $this->installments ) {
+			$this->installments = $this->get_default_installments();
 		}
 	}
 
@@ -211,10 +241,10 @@ class GPOS_Gateway_Account {
 	 */
 	private function get_default_installments() {
 		return array_map(
-			fn( $e ) => array(
+			fn( $installment ) => array(
 				'enabled' => false,
 				'rate'    => 0,
-				'number'  => $e,
+				'number'  => $installment,
 			),
 			gpos_supported_installment_counts()
 		);

@@ -119,5 +119,4 @@ class GPOS_Iyzico extends GPOS_Gateway {
 			),
 		);
 	}
-
 }

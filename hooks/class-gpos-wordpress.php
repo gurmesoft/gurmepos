@@ -127,18 +127,20 @@ class GPOS_WordPress {
 	 * @return mixed $template Şablon.
 	 */
 	public function template_include( $template ) {
-		if ( get_query_var( $this->redirect_query_var ) ) { // 3D Yönlendirmeleri için kullanılacak blok.
+		// 3D Yönlendirmeleri için kullanılacak blok.
+		if ( get_query_var( $this->redirect_query_var ) ) {
 			gpos_redirect()->render();
-			exit;
+		} else {
+			/**
+			* Harici eklentiler ile şablon dahil etmeyi sağlar.
+			* Örn : Pro plugins_loaded üzerinde çalıştığı için bu kanca ile şablon dahil edebilir.
+			*
+			* @param string $template
+			*/
+			do_action( 'gpos_template_include', $template );
+			return $template;
 		}
-		/**
-		 * Harici eklentiler ile şablon dahil etmeyi sağlar.
-		 * Örn : Pro plugins_loaded üzerinde çalıştığı için bu kanca ile şablon dahil edebilir.
-		 *
-		 * @param string $template
-		 */
-		do_action( 'gpos_template_include', $template );
-		return $template;
+
 	}
 
 	/**

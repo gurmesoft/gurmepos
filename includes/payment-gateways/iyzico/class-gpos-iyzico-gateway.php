@@ -75,14 +75,14 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 				$api_installment_list = $response->getInstallmentDetails()[0]->getInstallmentPrices();
 
 				$installments = array_map(
-					function( $i ) use ( $api_installment_list ) {
-						$find_installment = array_filter( $api_installment_list, fn( $api_installment ) => (string) $api_installment->getInstallmentNumber() === (string) $i );
+					function( $installment ) use ( $api_installment_list ) {
+						$find_installment = array_filter( $api_installment_list, fn( $api_installment ) => (string) $api_installment->getInstallmentNumber() === (string) $installment );
 						$finded           = empty( $find_installment ) ? false : $find_installment[ array_key_first( $find_installment ) ];
 						$rate             = $finded ? $finded->getTotalPrice() - 100 : false;
 						return array(
 							'enabled' => $rate ? true : false,
 							'rate'    => $rate ? (float) number_format( $rate, 2 ) : 0,
-							'number'  => $i,
+							'number'  => $installment,
 						);
 					},
 					gpos_supported_installment_counts()

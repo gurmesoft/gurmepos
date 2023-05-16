@@ -84,14 +84,14 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 			if ( '00' === $response['responseCode'] ) {
 				$api_installment_list = $response['installmentPaymentSystem']['installmentList'];
 				$installments         = array_map(
-					function( $i ) use ( $api_installment_list ) {
-						$find_installment = array_filter( $api_installment_list, fn( $api_installment ) => (string) $api_installment['count'] === (string) $i );
+					function( $installment ) use ( $api_installment_list ) {
+						$find_installment = array_filter( $api_installment_list, fn( $api_installment ) => (string) $api_installment['count'] === (string) $installment );
 						$finded           = empty( $find_installment ) ? $find_installment : $find_installment[ array_key_first( $find_installment ) ];
 						$rate             = array_key_exists( 'customerCostCommissionRate', $finded ) ? $finded['customerCostCommissionRate'] : false;
 						return array(
 							'enabled' => $rate ? true : false,
 							'rate'    => $rate ? (float) $rate : 0,
-							'number'  => $i,
+							'number'  => $installment,
 						);
 					},
 					gpos_supported_installment_counts()
@@ -185,11 +185,12 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 */
 	public function process_callback( array $post_data ) : GPOS_Gateway_Response {
 
-		if ( array_key_exists( 'merchantPaymentId', $post_data ) ) {
+		if ( array_key_exists( 'merchantPaymentId', $post_data )
+			&& array_key_exists( 'responseCode', $post_data )
+			&& '00' === $post_data['responseCode']
+		) {
 			$this->gateway_response->set_order_id( $post_data['merchantPaymentId'] );
-		}
 
-		if ( array_key_exists( 'responseCode', $post_data ) && '00' === $post_data['responseCode'] ) {
 			$request  = array(
 				'ACTION'   => 'QUERYTRANSACTION',
 				'PGTRANID' => $post_data['pgTranId'],

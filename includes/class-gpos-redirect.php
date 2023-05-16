@@ -22,7 +22,7 @@ class GPOS_Redirect {
 	 *
 	 * @var wpdb $db Veri tabanı bağlantısı
 	 */
-	private $db;
+	private $connection;
 
 	/**
 	 * Redirect için tanımlanmış benzersiz ödeme numarası.
@@ -40,7 +40,7 @@ class GPOS_Redirect {
 	public function __construct() {
 		global $wpdb;
 		$this->table_name = $wpdb->prefix . 'gpos_redirect';
-		$this->db         = $wpdb;
+		$this->connection = $wpdb;
 	}
 
 
@@ -50,8 +50,8 @@ class GPOS_Redirect {
 	 * @return string
 	 */
 	public function get_html_content() {
-		$html_content = $this->db->get_var(
-			$this->db->prepare( "SELECT `html_content` FROM {$this->table_name} WHERE `payment_id` = %s", $this->payment_id )
+		$html_content = $this->connection->get_var(
+			$this->connection->prepare( "SELECT `html_content` FROM {$this->table_name} WHERE `payment_id` = %s", $this->payment_id )
 		);
 
 		$this->delete_html_content();
@@ -65,7 +65,7 @@ class GPOS_Redirect {
 	 * @return void
 	 */
 	public function delete_html_content() {
-		$this->db->delete(
+		$this->connection->delete(
 			$this->table_name,
 			array( 'payment_id' => $this->payment_id )
 		);
@@ -85,7 +85,7 @@ class GPOS_Redirect {
 
 		if ( '' !== $this->payment_id ) {
 
-			$this->db->insert(
+			$this->connection->insert(
 				$this->table_name,
 				array(
 					'payment_id'   => $this->payment_id,
@@ -120,15 +120,16 @@ class GPOS_Redirect {
 		if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) ) && isset( $_GET['payment_id'] ) && '' !== $_GET['payment_id'] ) {
 			$this->payment_id = sanitize_text_field( wp_unslash( $_GET['payment_id'] ) );
 			echo $this->get_html_content(); // phpcs:ignore	
-		} else {
-			?>
-			<center style="font-family:Roboto;">
-				<div style="font-size:36px; margin:20px 0;">
-					<?php esc_html_e( 'Hatalı işlem, lütfen ödeme sayfasını yenileyerek tekrar deneyin.', 'gurmepos' ); ?>
-				</div>
-				<button style="background-color:#1c64f2; color:#fff; border-color:#1c64f2; border-radius:999px; padding:10px 20px;" onclick="window.history.back()">Ödeme Sayfasına Dön</button>
-			</center>
-			<?php
+			exit;
 		}
+
+		?>
+		<center style="font-family:Roboto;">
+			<div style="font-size:36px; margin:20px 0;">
+				<?php esc_html_e( 'Hatalı işlem, lütfen ödeme sayfasını yenileyerek tekrar deneyin.', 'gurmepos' ); ?>
+			</div>
+			<button style="background-color:#1c64f2; color:#fff; border-color:#1c64f2; border-radius:999px; padding:10px 20px;" onclick="window.history.back()">Ödeme Sayfasına Dön</button>
+		</center>
+		<?php
 	}
 }

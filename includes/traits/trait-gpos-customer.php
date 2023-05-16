@@ -1,14 +1,14 @@
-<?php //phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
+<?php
 /**
- * Ödeme geçitleri için müşteri abstract sınıfını barındırır.
+ * Müşteri yardımcısını barındırır.
  *
  * @package GurmeHub
  */
 
 /**
- * GPOS_Gateway_Customer sınıfı.
+ * GPOS_Customer sınıfı.
  */
-abstract class GPOS_Gateway_Customer {
+trait GPOS_Customer {
 
 	/**
 	 * Sipariş müşteri kimliği
