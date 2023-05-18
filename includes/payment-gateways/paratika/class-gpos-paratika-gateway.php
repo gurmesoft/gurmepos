@@ -10,14 +10,12 @@
  */
 final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 
-
 	/**
 	 * Ödeme geçidi ayarlarını taşır.
 	 *
 	 * @var array $settings;
 	 */
 	private $settings;
-
 
 	/**
 	 * Ödeme geçidinin çağrı atacağı adres.
@@ -35,19 +33,20 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 */
 	public function check_connection( $connection_data ) {
 		$is_test_mode = gpos_is_test_mode();
-		$api_url      = $is_test_mode ? 'https://entegrasyon.paratika.com.tr/paratika/api/v2' : 'https://vpos.paratika.com.tr/paratika/api/v2';
-
-		$request = array(
-			'ACTION'           => 'QUERYPAYMENTSYSTEMS',
-			'BIN'              => '545616',
-			'MERCHANT'         => $is_test_mode ? $connection_data->test_merchant : $connection_data->merchant,
-			'MERCHANTUSER'     => $is_test_mode ? $connection_data->test_merchant_user : $connection_data->merchant_user,
-			'MERCHANTPASSWORD' => $is_test_mode ? $connection_data->test_merchant_password : $connection_data->merchant_password,
-		);
 
 		try {
 
-			$response = $this->http_request->request( $api_url, 'POST', $request );
+			$response = $this->http_request->request(
+				$is_test_mode ? 'https://entegrasyon.paratika.com.tr/paratika/api/v2' : 'https://vpos.paratika.com.tr/paratika/api/v2',
+				'POST',
+				array(
+					'ACTION'           => 'QUERYPAYMENTSYSTEMS',
+					'BIN'              => '545616',
+					'MERCHANT'         => $is_test_mode ? $connection_data->test_merchant : $connection_data->merchant,
+					'MERCHANTUSER'     => $is_test_mode ? $connection_data->test_merchant_user : $connection_data->merchant_user,
+					'MERCHANTPASSWORD' => $is_test_mode ? $connection_data->test_merchant_password : $connection_data->merchant_password,
+				)
+			);
 
 			$result = array(
 				'result'  => '00' === $response['responseCode'] ? 'success' : 'error',
@@ -139,39 +138,56 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	}
 
 	/**
-	 * 3D Ödeme işlemi fonksiyonu.
+	 * Ödeme işlemi fonksiyonu.
 	 *
 	 * @return GPOS_Gateway_Response
 	 */
 	public function process_payment() : GPOS_Gateway_Response {
 		if ( 'threed' === $this->get_payment_type() ) {
-
-			$response = $this->get_session_token();
-			if ( array_key_exists( 'responseCode', $response ) && '00' === $response['responseCode'] ) {
-				$card     = $this->prepare_threed_credit_card();
-				$response = $this->http_request->request( "{$this->request_url}/post/sale3d/{$response['sessionToken']}", 'POST', $card );
-				$this->gateway_response->set_html_content( $response );
-			} else {
-				$this->gateway_response->set_success( false )->set_error_message( array_key_exists( 'errorMsg', $response ) ? $response['errorMsg'] : false );
-			}
+			$this->threed_payment();
 		} else {
-			$request  = array_merge(
-				array( 'ACTION' => 'SALE' ),
-				$this->settings,
-				$this->prepare_order_data(),
-				$this->prepare_regular_credit_card()
-			);
-			$response = $this->http_request->request( $this->request_url, 'POST', $request );
-			$this->log( __FUNCTION__, $request, $response );
-
-			if ( array_key_exists( 'responseCode', $response ) && '00' === $response['responseCode'] ) {
-				$this->process_callback( $response );
-			} else {
-				$this->gateway_response->set_success( false )->set_error_message( array_key_exists( 'errorMsg', $response ) ? $response['errorMsg'] : false );
-			}
+			$this->regular_payment();
 		}
 
 		return $this->gateway_response;
+	}
+
+	/**
+	 * 3D Ödeme işlemi
+	 *
+	 * @return void
+	 */
+	public function threed_payment() {
+		$response = $this->get_session_token();
+		if ( array_key_exists( 'responseCode', $response ) && '00' === $response['responseCode'] ) {
+			$card     = $this->prepare_credit_card();
+			$response = $this->http_request->request( "{$this->request_url}/post/sale3d/{$response['sessionToken']}", 'POST', $card );
+			$this->gateway_response->set_html_content( $response );
+		} else {
+			$this->gateway_response->set_success( false )->set_error_message( array_key_exists( 'errorMsg', $response ) ? $response['errorMsg'] : false );
+		}
+	}
+
+	/**
+	 * Regular işlemi
+	 *
+	 * @return void
+	 */
+	public function regular_payment() {
+		$request  = array_merge(
+			array( 'ACTION' => 'SALE' ),
+			$this->settings,
+			$this->prepare_order_data(),
+			$this->prepare_credit_card()
+		);
+		$response = $this->http_request->request( $this->request_url, 'POST', $request );
+		$this->log( __FUNCTION__, $request, $response );
+
+		if ( array_key_exists( 'responseCode', $response ) && '00' === $response['responseCode'] ) {
+			$this->process_callback( $response );
+		} else {
+			$this->gateway_response->set_success( false )->set_error_message( array_key_exists( 'errorMsg', $response ) ? $response['errorMsg'] : false );
+		}
 	}
 
 
@@ -185,38 +201,53 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 */
 	public function process_callback( array $post_data ) : GPOS_Gateway_Response {
 
+		$this->gateway_response
+		->set_success( false )
+		->set_error_message( array_key_exists( 'errorMsg', $post_data ) ? $post_data['errorMsg'] : __( '3D işleminde hata. Şifre yanlış girilmiş yada 3D sayfası terk edilmiş.', 'gurmepos' ) );
+
 		if ( array_key_exists( 'merchantPaymentId', $post_data )
 			&& array_key_exists( 'responseCode', $post_data )
 			&& '00' === $post_data['responseCode']
 		) {
 			$this->gateway_response->set_order_id( $post_data['merchantPaymentId'] );
 
-			$request  = array(
+			$request = array(
 				'ACTION'   => 'QUERYTRANSACTION',
 				'PGTRANID' => $post_data['pgTranId'],
 			);
-			$request  = array_merge( $request, $this->settings );
-			$response = $this->http_request->request( $this->request_url, 'POST', $request );
+
+			$response = $this->http_request->request( $this->request_url, 'POST', array_merge( $request, $this->settings ) );
 
 			$this->set_order_id( $post_data['merchantPaymentId'] )->log( __FUNCTION__, $request, $response );
 
 			if ( array_key_exists( 'responseCode', $response ) && '00' === $response['responseCode'] && '0' !== $response['transactionCount'] ) {
-				foreach ( $response['transactionList']  as $transaction ) {
-					if ( array_key_exists( 'pgTranReturnCode', $transaction ) && '00' === $transaction['pgTranReturnCode'] ) {
-						$this->gateway_response
-						->set_order_id( str_replace( "{$this->settings['MERCHANT']}-", '', $transaction['pgOrderId'] ) )
-						->set_payment_id( $transaction['pgTranId'] );
-						return $this->gateway_response;
-					}
-				}
-				$this->gateway_response->set_success( false )->set_error_message( __( 'Transactionlist içerisinde onaylanmış transaction bulunamadı.', 'gurmepos' ) );
+				$this->gateway_response = $this->find_success_transaction( $response );
 			}
-		} else {
-			$error_message = array_key_exists( 'errorMsg', $post_data ) ? $post_data['errorMsg'] : __( '3D işleminde hata. Şifre yanlış girilmiş yada 3D sayfası terk edilmiş.', 'gurmepos' );
-			$this->gateway_response->set_success( false )->set_error_message( $error_message );
 		}
 
 		return $this->gateway_response;
+	}
+
+
+	/**
+	 * Paratikadan dönen cevap içerisinden başarılı işlemi bulur.
+	 *
+	 * @param array $response Paratika cevabı
+	 *
+	 * -@return GPOS_Gateway_Response
+	 */
+	private function find_success_transaction( $response ) {
+		foreach ( $response['transactionList']  as $transaction ) {
+			if ( array_key_exists( 'pgTranReturnCode', $transaction ) && '00' === $transaction['pgTranReturnCode'] ) {
+				$this->gateway_response
+				->set_success( true )
+				->set_order_id( str_replace( "{$this->settings['MERCHANT']}-", '', $transaction['pgOrderId'] ) )
+				->set_payment_id( $transaction['pgTranId'] );
+				return $this->gateway_response;
+			}
+		}
+
+		return $this->gateway_response->set_success( false )->set_error_message( __( 'Transactionlist içerisinde onaylanmış transaction bulunamadı.', 'gurmepos' ) );
 	}
 
 	/**
@@ -256,60 +287,41 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 *
 	 * @return array $card
 	 */
-	private function prepare_threed_credit_card() {
-		$card = array();
+	private function prepare_credit_card() {
+		$card   = array();
+		$threed = 'threed' === $this->get_payment_type();
+
+		$card[ $threed ? 'installmentCount' : 'INSTALLMENTS' ] = $this->get_installment();
+
 		if ( $this->use_saved_card() ) {
 			/**
 			 * Todo.
 			 *
 			 * Kayıtlı kart geliştirmesi.
 			 */
-			$card['cardToken'] = '';
-		} else {
+			$card[ $threed ? 'cardToken' : 'CARDTOKEN' ] = '';
+			return $card;
+		}
+
+		if ( $threed ) {
 			$card['cardOwner']   = $this->get_customer_full_name();
 			$card['expiryMonth'] = $this->get_card_expiry_month();
 			$card['expiryYear']  = $this->get_card_expiry_year();
 			$card['cvv']         = $this->get_card_cvv();
 			$card['pan']         = $this->get_card_bin();
-
-			if ( $this->need_save_current_card() ) {
-				$card['saveCard'] = 'yes';
-			}
-		}
-
-		$card['installmentCount'] = $this->get_installment();
-		return $card;
-	}
-
-	/**
-	 * Ödeme için gerekli kart bilgilerini ayarlar.
-	 *
-	 * @return array $card
-	 */
-	private function prepare_regular_credit_card() {
-		$card = array();
-		if ( $this->use_saved_card() ) {
-			/**
-			 * Todo.
-			 *
-			 * Kayıtlı kart geliştirmesi.
-			 */
-			$card['CARDTOKEN'] = '';
 		} else {
 			$card['NAMEONCARD'] = $this->get_customer_full_name();
 			$card['CARDEXPIRY'] = $this->get_card_expiry_month() . $this->get_card_expiry_year();
 			$card['CARDCVV']    = $this->get_card_cvv();
 			$card['CARDPAN']    = $this->get_card_bin();
-
-			if ( $this->need_save_current_card() ) {
-				$card['SAVECARD'] = 'yes';
-			}
 		}
 
-		$card['INSTALLMENTS'] = $this->get_installment();
+		if ( $this->need_save_current_card() ) {
+			$card[ $threed ? 'saveCard' : 'SAVECARD' ] = 'yes';
+		}
+
 		return $card;
 	}
-
 
 	/**
 	 * Sipariş verisini hazırlar.
@@ -354,32 +366,20 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 */
 	public function log( $process, $request, $response ) {
 
-		if ( array_key_exists( 'CARDPAN', $request ) ) {
-			$request['CARDPAN'] = '**** **** **** ' . substr( $request['CARDPAN'], -4 );
-		}
+		$log_keys = array(
+			'CARDPAN',
+			'CARDEXPIRY',
+			'CARDCVV',
+			'pan',
+			'expiryMonth',
+			'expiryYear',
+			'cvv',
+		);
 
-		if ( array_key_exists( 'CARDEXPIRY', $request ) ) {
-			$request['CARDEXPIRY'] = '**/**';
-		}
-
-		if ( array_key_exists( 'CARDCVV', $request ) ) {
-			$request['CARDCVV'] = '***';
-		}
-
-		if ( array_key_exists( 'pan', $request ) ) {
-			$request['pan'] = '**** **** **** ' . substr( $request['pan'], -4 );
-		}
-
-		if ( array_key_exists( 'expiryMonth', $request ) ) {
-			$request['expiryMonth'] = '**';
-		}
-
-		if ( array_key_exists( 'expiryYear', $request ) ) {
-			$request['expiryYear'] = '**';
-		}
-
-		if ( array_key_exists( 'cvv', $request ) ) {
-			$request['cvv'] = '***';
+		foreach ( $log_keys as  $key ) {
+			if ( array_key_exists( $key, $request ) ) {
+				$request[ $key ] = str_replace( array( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ), '*', $request[ $key ] );
+			}
 		}
 
 		$this->logger( __CLASS__, $process, $request, $response );

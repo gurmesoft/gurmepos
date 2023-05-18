@@ -58,7 +58,7 @@ class GPOS_Yapi_Kredi extends GPOS_Gateway {
 	 *
 	 * @var array $supports
 	 */
-	public $supports = array( 'three_d', 'regular', 'refund' );
+	public $supports = array( 'threed', 'regular', 'refund' );
 
 	/**
 	 * Firma müşteri panel bilgisi

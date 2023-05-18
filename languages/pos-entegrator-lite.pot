@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-18T10:07:11+00:00\n"
+"POT-Creation-Date: 2023-05-18T12:01:15+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: gurmepos\n"
@@ -36,7 +36,7 @@ msgstr ""
 msgid "https://gurmehub.com/"
 msgstr ""
 
-#: hooks/class-gpos-wordpress.php:179
+#: hooks/class-gpos-wordpress.php:178
 msgid "Ayarlar"
 msgstr ""
 
@@ -85,7 +85,7 @@ msgid "Ücretsiz"
 msgstr ""
 
 #: i18n/gpos-strings.php:22
-#: includes/class-gpos-admin-menu.php:130
+#: includes/class-gpos-admin-menu.php:132
 msgid "Proya Yükselt"
 msgstr ""
 
@@ -337,7 +337,7 @@ msgstr ""
 msgid "Kayıtlar"
 msgstr ""
 
-#: includes/class-gpos-admin-menu.php:109
+#: includes/class-gpos-admin-menu.php:111
 msgid "WooCommerce Ayarları"
 msgstr ""
 
@@ -345,7 +345,7 @@ msgstr ""
 msgid "Her hangi bir pos entegrasyonunu aktif etmediniz lütfen ayarlarınızı tamamlayınız."
 msgstr ""
 
-#: includes/class-gpos-redirect.php:129
+#: includes/class-gpos-redirect.php:131
 msgid "Hatalı işlem, lütfen ödeme sayfasını yenileyerek tekrar deneyin."
 msgstr ""
 
@@ -353,8 +353,8 @@ msgstr ""
 msgid "Ödeme oturumu bulunamadı. Lütfen tekrar deneyiniz. "
 msgstr ""
 
-#: includes/payment-gateways/iyzico/class-gpos-iyzico-gateway.php:188
-#: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:215
+#: includes/payment-gateways/iyzico/class-gpos-iyzico-gateway.php:196
+#: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:206
 msgid "3D işleminde hata. Şifre yanlış girilmiş yada 3D sayfası terk edilmiş."
 msgstr ""
 
@@ -368,7 +368,7 @@ msgstr ""
 msgid "Api Şifresi"
 msgstr ""
 
-#: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:212
+#: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:250
 msgid "Transactionlist içerisinde onaylanmış transaction bulunamadı."
 msgstr ""
 
@@ -489,34 +489,34 @@ msgstr ""
 msgid "Geçersiz işlem lütfen sayfayı yenileyerek tekrar deneyiniz."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:266
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:270
 msgid "Bilinmeyen hata lütfen yönetim ile iletişime geçiniz"
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:343
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:354
 msgid "Kredi kartı numarası alanı boş bırakılamaz."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:344
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:355
 msgid "Kredi kartı son kullanım tarihi ay boş bırakılamaz."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:345
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:356
 msgid "Kredi kartı son kullanım tarihi yıl boş bırakılamaz."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:346
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:357
 msgid "Kredi kartı güvenlik alanı boş bırakılamaz."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:347
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:358
 msgid "Kart üzerindeki isim alanı boş bırakılamaz."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:373
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:384
 msgid "Bu ödeme yöntemi ayarları yönetici menüsü üzerinden yapılmaktadır."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:374
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:385
 msgid "Ayarlara gitmek için tıklayınız."
 msgstr ""

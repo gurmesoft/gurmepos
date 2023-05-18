@@ -114,6 +114,8 @@ class GPOS_Redirect {
 	 * 3D verilerini ekrana yazar.
 	 *
 	 * @return void
+	 *
+	 * @SuppressWarnings(PHPMD.ExitExpression)
 	 */
 	public function render() {
 

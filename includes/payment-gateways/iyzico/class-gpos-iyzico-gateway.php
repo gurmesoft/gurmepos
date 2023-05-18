@@ -23,6 +23,8 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 * Ödeme kuruluşunun bağlantı testi
 	 *
 	 * @param stdClass $connection_data Ödeme geçidi ayarları.
+	 *
+	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 */
 	public function check_connection( $connection_data ) {
 		$is_test_mode = gpos_is_test_mode();
@@ -59,6 +61,8 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 * Apilerinde taksit bilgisi gönderen kuruluşlar için otomatik getirir.
 	 *
 	 * @return array|bool Destek var ise taksitler yok ise false.
+	 *
+	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 */
 	public function get_installments() {
 		$installments = array();
@@ -125,6 +129,8 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 * Ödeme işlemi fonksiyonu.
 	 *
 	 * @return GPOS_Gateway_Response
+	 *
+	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 */
 	public function process_payment() : GPOS_Gateway_Response {
 
@@ -181,6 +187,8 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 * @param array $post_data Geri dönüş verileri.
 	 *
 	 * @return GPOS_Gateway_Response
+	 *
+	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 */
 	public function process_callback( array $post_data ) : GPOS_Gateway_Response {
 		$this->gateway_response->set_success( false )

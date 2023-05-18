@@ -158,6 +158,8 @@ function gpos_woocommerce_notice( string $message, string $notice_type = 'error'
  * Frontend için gerekli kelime, cümle çevirilerini döndürür.
  *
  * @return array $gpos_i18n
+ *
+ * @SuppressWarnings(PHPMD.UnusedLocalVariable)
  */
 function gpos_get_i18n_strings() {
 	include GPOS_PLUGIN_DIR_PATH . '/i18n/gpos-strings.php';

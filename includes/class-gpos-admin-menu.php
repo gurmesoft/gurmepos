@@ -90,6 +90,8 @@ class GPOS_Admin_Menu {
 	 * Admin menüye eklenecek menüleri ekler ve callback fonksiyonlarını organize eder
 	 *
 	 * @return void
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedLocalVariable)
 	 */
 	public function menu() {
 		include GPOS_PLUGIN_DIR_PATH . '/assets/images/icon.php';

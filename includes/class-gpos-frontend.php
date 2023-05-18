@@ -164,17 +164,17 @@ class GPOS_Frontend {
 	 */
 	public function standart_form() {
 		gpos_get_template( 'checkout-standart-form', array( 'form_settings' => $this->form_settings ) );
-		$this->three_d_field();
+		$this->threed_field();
 		$this->save_card_field();
 	}
 
 	/**
 	 * 3D onayı alma inputunu oluşturur
 	 */
-	public function three_d_field() {
-		if ( 'optional_three_d' === $this->form_settings['three_d'] ) {
+	public function threed_field() {
+		if ( 'optional_threed' === $this->form_settings['threed'] ) {
 			gpos_get_template( 'checkout-three-d-field' );
-		} elseif ( 'three_d' === $this->form_settings['three_d'] ) {
+		} elseif ( 'threed' === $this->form_settings['threed'] ) {
 			gpos_get_template( 'checkout-three-d-force-field' );
 		}
 	}

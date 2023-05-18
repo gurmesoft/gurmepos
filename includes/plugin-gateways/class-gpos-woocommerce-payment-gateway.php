@@ -116,10 +116,10 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 				);
 			} else {
 				// Regular işlemi bitir.
-				wp_send_json( $this->success_process( $response ) );
+				wp_send_json( $this->success_process( $response, true ) );
 			}
 		} else {
-			wp_send_json( $this->error_process( $response ) );
+			wp_send_json( $this->error_process( $response, true ) );
 		}
 
 	}
@@ -224,8 +224,10 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @param bool                  $on_checkout Ödeme sayfasında mı ?
 	 *
 	 * @return array|void
+	 *
+	 * @SuppressWarnings(PHPMD.ExitExpression)
 	 */
-	private function success_process( GPOS_Gateway_Response $response, $on_checkout = true ) {
+	private function success_process( GPOS_Gateway_Response $response, $on_checkout ) {
 		$order = $this->get_order( $response->get_order_id() );
 		$order->payment_complete( $response->get_payment_id() );
 		$order->add_order_note(
@@ -260,8 +262,10 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @param bool                  $on_checkout Ödeme sayfasında mı ?
 	 *
 	 * @return array|void
+	 *
+	 * @SuppressWarnings(PHPMD.ExitExpression)
 	 */
-	private function error_process( GPOS_Gateway_Response $response, $on_checkout = true ) {
+	private function error_process( GPOS_Gateway_Response $response, $on_checkout ) {
 		$order         = $this->get_order( $response->get_order_id() );
 		$error_message = $response->get_error_message() ? $response->get_error_message() : __( 'Bilinmeyen hata lütfen yönetim ile iletişime geçiniz', 'gurmepos' );
 
@@ -312,9 +316,16 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @param string     $reason iade bedeni.
 	 *
 	 * @return boolean — True or false based on success, or a WP_Error object.
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
 	 */
 	public function process_refund( $order_id, $amount = null, $reason = '' ) {
-		return true;
+		/**
+		 * Todo.
+		 *
+		 * İade işlemi.
+		 */
+		return false;
 	}
 
 	/**

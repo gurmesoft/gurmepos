@@ -76,7 +76,7 @@ abstract class GPOS_Options {
 				'success_status' => 'processing',
 			),
 			'gpos_form_settings'        => array(
-				'three_d'                    => 'three_d',
+				'threed'                     => 'threed',
 				'form_user_name'             => false,
 				'save_card'                  => false,
 				'subscription'               => false,

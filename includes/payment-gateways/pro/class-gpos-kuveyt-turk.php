@@ -57,7 +57,7 @@ class GPOS_Kuveyt_Turk extends GPOS_Gateway {
 	 *
 	 * @var array $supports
 	 */
-	public $supports = array( 'three_d' );
+	public $supports = array( 'threed' );
 
 	/**
 	 * Firma müşteri panel bilgisi

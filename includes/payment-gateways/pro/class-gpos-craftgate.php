@@ -72,7 +72,7 @@ class GPOS_Craftgate extends GPOS_Gateway {
 	 *
 	 * @var array $supports
 	 */
-	public $supports = array( 'three_d', 'regular', 'refund', 'save_card', 'recurring_with_saved_card', 'recurring_with_plan', 'installment_api' );
+	public $supports = array( 'threed', 'regular', 'refund', 'save_card', 'recurring_with_saved_card', 'recurring_with_plan', 'installment_api' );
 
 	/**
 	 * Ödeme için gerekli alanların tanımı
@@ -94,7 +94,7 @@ class GPOS_Craftgate extends GPOS_Gateway {
 			array(
 				'type'  => 'text',
 				'label' => __( 'Panel üzerinde bulunan Yönetim -> Üye İşyeri Ayarları arayüzündeki "Üye İşyeri 3DSecure Callback Key"', 'gurmepos' ),
-				'model' => 'three_d_callback_key',
+				'model' => 'threed_callback_key',
 			),
 		);
 	}

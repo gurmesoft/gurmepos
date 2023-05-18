@@ -8,7 +8,7 @@
 $gpos_i18n = array(
 	'default' => array(
 		'payment_method'                  => __( 'Ödeme Yöntemi', 'gurmepos' ),
-		'three_d'                         => __( '3D Ödeme', 'gurmepos' ),
+		'threed'                          => __( '3D Ödeme', 'gurmepos' ),
 		'regular'                         => __( 'Regular Ödeme', 'gurmepos' ),
 		'save_card'                       => __( 'Kayıtlı Kart', 'gurmepos' ),
 		'recurring_with_saved_card'       => __( 'Tekrarlı Ödeme (Kayıtlı Kart)', 'gurmepos' ),
