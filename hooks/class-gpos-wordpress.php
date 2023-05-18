@@ -42,7 +42,6 @@ class GPOS_WordPress {
 		add_filter( 'script_loader_tag', array( $this, 'script_loader' ), 10, 3 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 10, 3 );
 		add_filter( 'plugin_action_links_' . GPOS_PLUGIN_BASENAME, array( $this, 'actions_links' ) );
-
 	}
 
 	/**
@@ -155,7 +154,7 @@ class GPOS_WordPress {
 	public function script_loader( $tag, $handle, $src ) {
 
 		if ( "{$this->prefix}-js" === $handle ) {
-			$tag = "<script type='module' id='{$this->prefix}-js' src='{$src}'></script>";
+			$tag = str_replace( 'id', 'type="module" id', $tag );
 		}
 		return $tag;
 	}

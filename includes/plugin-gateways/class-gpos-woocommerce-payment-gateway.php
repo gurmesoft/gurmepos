@@ -195,22 +195,26 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 			->set_customer_last_name( $last_name );
 		}
 
-			$order_items = $order->get_items();
+		$order_lines = $order->get_items( array( 'line_item', 'shipping', 'fee', 'tax' ) );
 
-		if ( false === empty( $order_items ) ) {
-			foreach ( $order_items as $order_item ) {
-				$this->gateway->add_order_item(
-					new GPOS_Order_Item(
-						$order_item->get_id(),
-						$order_item->get_name(),
-						1,
-						(float) wc_get_order_item_meta( $order_item->get_id(), '_line_total', true ),
-					)
-				);
+		if ( false === empty( $order_lines ) ) {
+			foreach ( $order_lines as $order_line ) {
+
+				$item_total = 'tax' === $order_line->get_type() ? $order_line->get_tax_total() : $order_line->get_total();
+
+				if ( $item_total > 0 ) {
+					$this->gateway->add_order_item(
+						new GPOS_Order_Item(
+							$order_line->get_id(),
+							$order_line->get_name(),
+							1,
+							$item_total,
+						)
+					);
+				}
 			}
 		}
 	}
-
 
 	/**
 	 * Başarılı işlem sonucu WooCommerce siparişine ve ürünlerine
@@ -322,9 +326,9 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 		wp_enqueue_script( 'wc-credit-card-form' );
 
 		if ( $this->description ) {
-			_e( "<p class='gpos-description'>{$this->description}</p>", 'gurmepos' ); // phpcs:ignore
+			echo wp_kses_post( "<p class='gpos-description'>{$this->description}</p>" );
 		}
-		gpos_frontend()->render();
+		gpos_frontend();
 	}
 
 	/**
@@ -344,7 +348,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 			);
 
 			foreach ( $fields as $field => $error ) {
-				if ( isset( $_POST[ "{$this->id}-{$field}" ] ) && empty( $_POST[ "{$this->id}-{$field}" ] ) ) { // phpcs:ignore
+				if ( isset( $_POST[ "{$this->id}-{$field}" ] ) && empty( $_POST[ "{$this->id}-{$field}" ] ) ) {
 					$warning = true;
 					wc_add_notice( $error, 'error' );
 				}
@@ -365,9 +369,10 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 				display: none !important;
 			}
 		</style>
-		<h3>
-			Bu ödeme yöntemi ayarları yönetici menüsü üzerinden yapılmaktadır ayarlara gitmek için <a href="<?php echo esc_url( admin_url( 'admin.php?page=gpos-payment-gateways' ) ); ?>">tıklayınız.</a> 
-		</h3>
+			<h3>
+				<?php esc_html_e( 'Bu ödeme yöntemi ayarları yönetici menüsü üzerinden yapılmaktadır.', 'gurmepos' ); ?> 
+				<a href="<?php echo esc_url( admin_url( 'admin.php?page=gpos-payment-gateways' ) ); ?>"><?php esc_html_e( 'Ayarlara gitmek için tıklayınız.', 'gurmepos' ); ?></a> 
+			</h3>
 		<?php
 	}
 }

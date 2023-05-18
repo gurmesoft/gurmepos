@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-16T09:03:29+00:00\n"
+"POT-Creation-Date: 2023-05-18T10:07:11+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: gurmepos\n"
@@ -36,7 +36,7 @@ msgstr ""
 msgid "https://gurmehub.com/"
 msgstr ""
 
-#: hooks/class-gpos-wordpress.php:180
+#: hooks/class-gpos-wordpress.php:179
 msgid "Ayarlar"
 msgstr ""
 
@@ -341,6 +341,10 @@ msgstr ""
 msgid "WooCommerce Ayarları"
 msgstr ""
 
+#: includes/class-gpos-frontend.php:146
+msgid "Her hangi bir pos entegrasyonunu aktif etmediniz lütfen ayarlarınızı tamamlayınız."
+msgstr ""
+
 #: includes/class-gpos-redirect.php:129
 msgid "Hatalı işlem, lütfen ödeme sayfasını yenileyerek tekrar deneyin."
 msgstr ""
@@ -485,26 +489,34 @@ msgstr ""
 msgid "Geçersiz işlem lütfen sayfayı yenileyerek tekrar deneyiniz."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:262
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:266
 msgid "Bilinmeyen hata lütfen yönetim ile iletişime geçiniz"
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:339
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:343
 msgid "Kredi kartı numarası alanı boş bırakılamaz."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:340
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:344
 msgid "Kredi kartı son kullanım tarihi ay boş bırakılamaz."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:341
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:345
 msgid "Kredi kartı son kullanım tarihi yıl boş bırakılamaz."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:342
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:346
 msgid "Kredi kartı güvenlik alanı boş bırakılamaz."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:343
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:347
 msgid "Kart üzerindeki isim alanı boş bırakılamaz."
+msgstr ""
+
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:373
+msgid "Bu ödeme yöntemi ayarları yönetici menüsü üzerinden yapılmaktadır."
+msgstr ""
+
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:374
+msgid "Ayarlara gitmek için tıklayınız."
 msgstr ""

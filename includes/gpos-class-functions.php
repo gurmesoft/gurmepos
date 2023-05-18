@@ -82,12 +82,13 @@ function gpos_form_settings() {
 /**
  * GurmePOS frontend sınıfını döndürür.
  *
- * @param string $enqueue_type Script ve Style dahil etme tipi. 'function' , 'tag' vb.
+ * @param string $enqueue_type Script ve stillerin dahil edilme tipi. 'direct' yada 'action' parametrelerini alabilir.
+ * @param string $platform Eklenti çalıştırıldığı ödeme platformu.
  *
  * @return GPOS_Frontend
  */
-function gpos_frontend( $enqueue_type = 'function' ) {
-	return new GPOS_Frontend( $enqueue_type );
+function gpos_frontend( $enqueue_type = 'direct', $platform = 'woocommerce' ) {
+	return new GPOS_Frontend( $enqueue_type, $platform );
 }
 
 /**

@@ -121,16 +121,18 @@ class GPOS_Vue {
 	 * @return void
 	 */
 	public function require() {
-		echo '<div id="app"></div>'; // phpcs:ignore
-			wp_enqueue_script(
-				"{$this->prefix}-js",
-				"{$this->asset_dir_url}/vue/js/{$this->vue_page}/main.js",
-				array( 'jquery' ),
-				$this->version,
-				false
-			);
 
-			$css_files = scandir( GPOS_PLUGIN_DIR_PATH . '/assets/vue/css/' );
+		echo wp_kses_post( '<div id="app"></div>' );
+
+		wp_enqueue_script(
+			"{$this->prefix}-js",
+			"{$this->asset_dir_url}/vue/js/{$this->vue_page}/main.js",
+			array( 'jquery' ),
+			$this->version,
+			false
+		);
+
+		$css_files = scandir( GPOS_PLUGIN_DIR_PATH . '/assets/vue/css/' );
 
 		if ( $css_files ) {
 
@@ -162,6 +164,4 @@ class GPOS_Vue {
 		}
 
 	}
-
-
 }

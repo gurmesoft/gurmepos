@@ -330,7 +330,7 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 				'name'        => $line_item->get_name(),
 				'quantity'    => $line_item->get_quantity(),
 				'description' => $line_item->get_name(),
-				'amount'      => $line_item->get_total(),
+				'amount'      => number_format( $line_item->get_total(), 2, '.', '' ),
 			);
 		}
 

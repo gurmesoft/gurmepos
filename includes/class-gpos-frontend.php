@@ -11,6 +11,22 @@
 class GPOS_Frontend {
 
 	/**
+	 * Eklenti Prefix
+	 *
+	 * @var string $prefix
+	 */
+	protected $prefix = GPOS_PREFIX;
+
+	/**
+	 * Eklenti çalıştırıldığı ödeme platformu
+	 *
+	 * woocommerce, givewp vs.
+	 *
+	 * @var string $platform
+	 */
+	protected $platform;
+
+	/**
 	 * Form ayarlarını taşır.
 	 *
 	 * @var string
@@ -32,21 +48,106 @@ class GPOS_Frontend {
 	protected $version = GPOS_VERSION;
 
 	/**
-	 * Script ve Style dahil etme tipi.
-	 *
-	 * @var string $enqueue_type
-	 */
-	protected $enqueue_type;
-
-
-	/**
 	 * Kurucu fonksiyon.
 	 *
-	 * @param string $enqueue_type Script ve Style dahil etme tipi. 'function' , 'tag' vb.
+	 * @param string $enqueue_type Script ve stillerin dahil edilme tipi. 'direct' yada 'action' parametrelerini alabilir.
+	 * @param string $platform Eklenti çalıştırıldığı ödeme platformu.
+	 *
+	 * @return void
 	 */
-	public function __construct( $enqueue_type = 'function' ) {
-		$this->enqueue_type  = $enqueue_type;
+	public function __construct( $enqueue_type = 'direct', $platform = 'woocommerce' ) {
+		$this->platform      = $platform;
 		$this->form_settings = gpos_form_settings()->get_settings();
+
+		/**
+		 * Platformlar için dahil edilme yöntemini tetikler.
+		 *
+		 * Örn: GiveWP için GPOS_Frontend::enqueue_action çalıştırılması gerekirken,
+		 * WooCommerce için GPOS_Frontend::enqueue_direct çalıştırılmalıdır.
+		 */
+		call_user_func( array( $this, "enqueue_{$enqueue_type}" ) );
+
+		/**
+		 * Formu ekrana yansıtmak için tetiklenir.
+		 */
+		call_user_func( array( $this, 'render_form' ) );
+
+	}
+
+	/**
+	 * Stil ve script dosyalarını doğrudan dahil etme.
+	 *
+	 * @return void
+	 */
+	public function enqueue_direct() {
+		$this->enqueue_style();
+		$this->enqueue_script();
+	}
+
+	/**
+	 * Stil ve script dosyalarını wp_print_{dosya-tipi} ile dahil etme.
+	 *
+	 * @return void
+	 */
+	public function enqueue_action() {
+		add_action( 'wp_print_styles', array( $this, 'enqueue_style' ) );
+		add_action( 'wp_print_scripts', array( $this, 'enqueue_script' ) );
+	}
+
+	/**
+	 * Stil dosyasını dahil eder.
+	 *
+	 * @return void
+	 */
+	public function enqueue_style() {
+		wp_enqueue_style( "{$this->prefix}-form-style", "{$this->asset_dir_url}/form_style.css", array(), GPOS_VERSION, false );
+	}
+
+	/**
+	 * Script dosyasını dahil eder.
+	 *
+	 * @return void
+	 */
+	public function enqueue_script() {
+		wp_enqueue_script( "{$this->prefix}-form-script", "{$this->asset_dir_url}/form_script.js", array( 'jquery' ), GPOS_VERSION, false );
+	}
+
+	/**
+	 * Frontend formunu render eder.
+	 *
+	 * @return void
+	 */
+	public function render_form() {
+
+		gpos_set_transaction_cookie();
+
+		$default_account = gpos_gateway_accounts()->get_default_account();
+		if ( $default_account ) {
+
+			$gateway = gpos_payment_gateways()->get_gateway_by_gateway_id( $default_account->gateway_id );
+
+			wp_nonce_field( 'gpos_process_payment', '_gpos_wpnonce' );
+
+			if ( gpos_is_test_mode() ) {
+				$this->test_mode( $gateway->test_cards );
+			}
+
+			if ( 'standart_form' === $this->form_settings['display_type'] ) {
+				$this->standart_form();
+			}
+
+			if ( $default_account->is_installments_active ) {
+				$this->installment_options( gpos_installments( $this->platform, $default_account ) );
+			}
+		} else {
+			?>
+				<div class="empty-gateway-container">
+					<p class="empty-gateway-content">
+					<?php esc_html_e( 'Her hangi bir pos entegrasyonunu aktif etmediniz lütfen ayarlarınızı tamamlayınız.', 'gurmepos' ); ?>
+					</p>
+				</div>
+			<?php
+		}
 	}
 
 	/**
@@ -97,82 +198,4 @@ class GPOS_Frontend {
 		gpos_get_template( 'row-style-installment', array( 'installment' => $installment ) );
 	}
 
-	/**
-	 * Frontend formunu render eder.
-	 *
-	 * @param string $platform Ödeme formunun render edildiği platform.
-	 */
-	public function render( $platform = 'woocommerce' ) {
-		if ( 'function' === $this->enqueue_type ) {
-			$this->enqueue_with_function();
-		} elseif ( 'tag' === $this->enqueue_type ) {
-			$this->enqueue_with_tag();
-		}
-
-		gpos_set_transaction_cookie();
-
-		$default_account = gpos_gateway_accounts()->get_default_account();
-		if ( $default_account ) {
-
-			$gateway = gpos_payment_gateways()->get_gateway_by_gateway_id( $default_account->gateway_id );
-
-			wp_nonce_field( 'gpos_process_payment', '_gpos_wpnonce' );
-
-			if ( gpos_is_test_mode() ) {
-				$this->test_mode( $gateway->test_cards );
-			}
-
-			if ( 'standart_form' === $this->form_settings['display_type'] ) {
-				$this->standart_form();
-			}
-
-			if ( $default_account->is_installments_active ) {
-				$this->installment_options( gpos_installments( $platform, $default_account ) );
-			}
-		} else {
-			?>
-				<div class="empty-gateway-container">
-					<p class="empty-gateway-content">Her hangi bir pos entegrasyonunu aktif etmediniz lütfen ayarlarınızı tamamlayınız.
-					</p>
-				</div>
-			<?php
-		}
-	}
-
-	/**
-	 * Script ve Stilleri WordPress fonksiyonları ile dahil eder.
-	 *
-	 * @return void
-	 */
-	private function enqueue_with_function() {
-		wp_enqueue_script(
-			'gpos_script',
-			"{$this->asset_dir_url}/form_script.js",
-			array( 'jquery' ),
-			$this->version,
-			false
-		);
-
-		wp_enqueue_style(
-			'gpos_style',
-			"{$this->asset_dir_url}/form_style.css",
-			array(),
-			$this->version,
-		);
-	}
-
-	/**f
-	 * Script ve Stilleri HTML etiketi ile dahil eder.
-	 *
-	 * @return void
-	 */
-	private function enqueue_with_tag() {
-		//phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
-		//@codingStandardsIgnoreStart
-		?>
-			<script src="<?php echo esc_url( "{$this->asset_dir_url}/form_script.js" ); ?>" id='gpos_script'></script>
-			<link rel="stylesheet" id="gpos_style" href="<?php echo esc_url( "{$this->asset_dir_url}/form_style.css" ); ?>" media="all">	
-		<?php
-		//@codingStandardsIgnoreEnd
-	}
 }

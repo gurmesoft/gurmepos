@@ -16,7 +16,7 @@
  */
 function gpos_get_template_part( $folder, $part, $args = array() ) {
 	if ( ! empty( $args ) && is_array( $args ) ) {
-		extract($args); // phpcs:ignore
+		extract( $args ); //phpcs:ignore  WordPress.PHP.DontExtract.extract_extract
 	}
 
 	$path = GPOS_PLUGIN_DIR_PATH;
@@ -33,7 +33,7 @@ function gpos_get_template_part( $folder, $part, $args = array() ) {
  */
 function gpos_get_template( $template, $args = array() ) {
 	if ( ! empty( $args ) && is_array( $args ) ) {
-		extract($args); // phpcs:ignore
+		extract( $args ); //phpcs:ignore  WordPress.PHP.DontExtract.extract_extract
 	}
 	$path = GPOS_PLUGIN_DIR_PATH;
 	include "{$path}template/{$template}.php";

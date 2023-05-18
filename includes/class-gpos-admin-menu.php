@@ -148,7 +148,7 @@ class GPOS_Admin_Menu {
 	 */
 	public function view() {
 
-		$page = isset( $_GET['page'] ) ? str_replace( "{$this->prefix}-" , '', gpos_clean( $_GET['page'] )) : false ; // phpcs:ignore
+		$page = isset( $_GET['page'] ) ? str_replace( "{$this->prefix}-", '', gpos_clean( $_GET['page'] ) ) : false; //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( $page ) {
 
 			$localize = array(
