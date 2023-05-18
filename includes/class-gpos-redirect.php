@@ -119,9 +119,9 @@ class GPOS_Redirect {
 	 */
 	public function render() {
 
-		if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) ) && isset( $_GET['payment_id'] ) && '' !== $_GET['payment_id'] ) {
-			$this->payment_id = sanitize_text_field( wp_unslash( $_GET['payment_id'] ) );
-			echo wp_kses_post( $this->get_html_content() );
+		if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( gpos_clean( $_GET['_wpnonce'] ) ) && isset( $_GET['payment_id'] ) && '' !== $_GET['payment_id'] ) {
+			$this->payment_id = gpos_clean( $_GET['payment_id'] );
+			echo $this->get_html_content(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			exit;
 		}
 

@@ -12,6 +12,13 @@
 class GPOS_WooCommerce {
 
 	/**
+	 * Eklenti Prefix
+	 *
+	 * @var string $prefix
+	 */
+	protected $prefix = GPOS_PREFIX;
+
+	/**
 	 * GPOS_WooCommerce kurucu fonksiyonu
 	 *
 	 * @return void
@@ -55,13 +62,8 @@ class GPOS_WooCommerce {
 	 * @return void
 	 */
 	public function before_checkout_form() {
-
-		if ( isset( $_GET['gpos_error_nonce'] )
-			&& wp_verify_nonce( gpos_clean( $_GET['gpos_error_nonce'] ) )
-			&& isset( $_GET['gpos_error'] )
-			&& false === empty( $_GET['gpos_error'] )
-		) {
-			wc_add_notice( gpos_clean( $_GET['gpos_error'] ), 'error' );
+		if ( isset( $_GET[ "{$this->prefix}_error" ] ) ) {                                          //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			wc_add_notice( hex2bin( gpos_clean( $_GET[ "{$this->prefix}_error" ] ) ), 'error' );    //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 	}
 

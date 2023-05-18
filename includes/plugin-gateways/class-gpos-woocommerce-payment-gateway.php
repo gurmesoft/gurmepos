@@ -286,8 +286,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 		wp_safe_redirect(
 			add_query_arg(
 				array(
-					'gpos_error'       => $error_message,
-					'gpos_error_nonce' => wp_create_nonce(),
+					"{$this->id}_error" => bin2hex( $error_message ),
 				),
 				wc_get_checkout_url()
 			)
