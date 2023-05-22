@@ -5,9 +5,16 @@ Kolay, hızlı entegre edilebilir sanal pos geçidii uygulaması. Ödeme kurulu�
 ## Ödeme Kuruluşları
  - iyzico
  - paratika
+ ## Bankalara
+  - Yapıkredi
+  - Akbank
+
+ # Entegrasyonlar
+ - wooCommerce Sanal POS Entegrasyonu [wooCommerce Sanal POS Entegrasyonu ](https://posentegrator.com/woocommerce-sanal-pos-entegrasyonu/?utm_campaign=wporg&utm_source=baslik&utm_medium=readme)
+ - GiveWP Sanal POS Entegrasyonu [GiveWP Sanal POS Entegrasyonu ](https://posentegrator.com/givewp-sanal-pos-entegrasyonu/?utm_campaign=wporg&utm_source=baslik&utm_medium=readme)
 
 ## Uyumluluk
-WooCommerce
+ - Flatsome
 
 
 # POS Entegrator - Payment Gateways Collections
@@ -18,14 +25,8 @@ Tested up to: 6.2
 Stable tag: 1.0.0
 License: GPLv2
 
-This Plugin requires [Mailster Newsletter Plugin for WordPress](https://mailster.co/?utm_campaign=wporg&utm_source=postal+integration+for+mailster&utm_medium=readme)
+WordPress Ödeme Eklentisi [WordPress Ödeme Eklentisi](https://posentegrator/?utm_campaign=wporg&utm_source=baslik&utm_medium=readme)
 
-## Privacy Policy
+## Gizlilik Politikası
 
-Postal Server Integration For Mailster uses [Appsero](https://appsero.com) SDK to collect some telemetry data upon user's confirmation. This helps us to troubleshoot problems faster & make product improvements.
-
-Appsero SDK **does not gather any data by default.** The SDK only starts gathering basic telemetry data **when a user allows it via the admin notice**. We collect the data to ensure a great user experience for all our users.
-
-Integrating Appsero SDK **DOES NOT IMMEDIATELY** start gathering data, **without confirmation from users in any case.**
-
-Learn more about how [Appsero collects and uses this data](https://appsero.com/privacy-policy/).
+POS Entegratör;, kullanıcının onayı üzerine bazı telemetri verilerini toplar. Bu, sorunları daha hızlı gidermemize ve ürün iyileştirmeleri yapmamıza yardımcı olur.
