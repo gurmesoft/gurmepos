@@ -104,12 +104,29 @@ class GPOS_Frontend {
 	}
 
 	/**
-	 * Script dosyasını dahil eder.
+	 * Stil dosyasını dahil eder.
 	 *
 	 * @return void
 	 */
 	public function enqueue_script() {
-		wp_enqueue_script( "{$this->prefix}-form-script", "{$this->asset_dir_url}/form_script.js", array( 'jquery' ), GPOS_VERSION, false );
+		wp_enqueue_style( "{$this->prefix}-form-js", "{$this->asset_dir_url}/form_script.js", array( 'jquery' ), GPOS_VERSION, false );
+	}
+
+
+	/**
+	 * Frontend taksit seçeneklerini render eder.
+	 *
+	 * @param GPOS_Installments $installment Taksit sayısı,aylık ödeme, toplam fiyat vb özellikleri döndüren sınıf.
+	 */
+	public function installment_options( GPOS_Installments $installment ) {
+		if ( 'row_view' === $this->form_settings['installment_wiev'] ) {
+			gpos_get_template( 'row-style-installment', array( 'installment' => $installment ) );
+		}
+
+		if ( 'table_view' === $this->form_settings['installment_wiev'] ) {
+			gpos_get_template( 'table-style-installment', array( 'installment' => $installment ) );
+		}
+
 	}
 
 	/**
@@ -179,7 +196,6 @@ class GPOS_Frontend {
 		}
 	}
 
-
 	/**
 	 * Kart saklama onayı alma inputunu oluşturur
 	 */
@@ -187,15 +203,6 @@ class GPOS_Frontend {
 		if ( true === $this->form_settings['save_card'] ) {
 			gpos_get_template( 'checkout-save-card-field' );
 		}
-	}
-
-	/**
-	 * Frontend taksit seçeneklerini render eder.
-	 *
-	 * @param GPOS_Installments $installment Taksit sayısı,aylık ödeme, toplam fiyat vb özellikleri döndüren sınıf.
-	 */
-	public function installment_options( GPOS_Installments $installment ) {
-		gpos_get_template( 'row-style-installment', array( 'installment' => $installment ) );
 	}
 
 }

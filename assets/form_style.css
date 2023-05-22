@@ -93,6 +93,7 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   margin: 0px !important;
+  cursor: pointer;
 }
 
 .gpos-checkbox {
@@ -190,7 +191,7 @@
 }
 
 .gpos-installment-header {
-  display: flex;
+  display: flex !important;
   justify-content: space-between;
   align-items: center;
   background-color: #f3f4f6;
@@ -203,7 +204,7 @@
 }
 
 .gpos-installment-row {
-  display: flex;
+  display: flex !important;
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
@@ -240,6 +241,63 @@
   align-items: start;
 }
 
+/* Taksit Tablosu CSS - Tablo Görünüm */
+.gpos-installment-table-wrapper {
+  position: relative !important;
+  margin-top: 16px !important;
+}
+
+.gpos-installment-table-wrapper input {
+  margin-right: 0px !important;
+}
+
+.gpos-installment-table {
+  width: 100% !important;
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+  text-align: left !important;
+}
+
+.gpos-installment-table-thead {
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+  background-color: #f9fafb !important;
+}
+
+.gpos-installment-table-td {
+  padding: 12px 24px 12px 24px !important;
+  border-bottom-width: 1px !important;
+  border-color: #e5e7eb !important;
+}
+
+.gpos-installment-table-tr {
+  background-color: #ffffff !important;
+}
+
+.gpos-installment-table-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px !important;
+}
+
+.gpos-installment-table-label {
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  color: #6b7280 !important;
+  cursor: pointer !important;
+}
+
+.gpos-installment-table-price {
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  color: #6b7280 !important;
+  cursor: pointer !important;
+}
+
+.gpos-installment-row input {
+  margin: 1px !important;
+}
+
 @media only screen and (max-width: 600px) {
   .gpos-between {
     display: block;
@@ -256,5 +314,14 @@
   .gpos-cvv-input {
     width: 100%;
     margin-top: 8px;
+  }
+
+  .gpos-installment-row {
+    padding: 6px !important;
+    font-size: 11px !important;
+  }
+
+  .gpos-installment-row input {
+    margin: 1px !important;
   }
 }

@@ -63,7 +63,7 @@ class GPOS_Log {
 			$logs = $this->direct_query();
 			wp_cache_set( 'gpos_log', $logs );
 		}
-		return $logs;
+		return array_reverse( $logs );
 	}
 
 

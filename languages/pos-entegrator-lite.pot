@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-18T14:45:44+00:00\n"
+"POT-Creation-Date: 2023-05-22T06:48:18+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: gurmepos\n"
@@ -341,7 +341,7 @@ msgstr ""
 msgid "WooCommerce Ayarları"
 msgstr ""
 
-#: includes/class-gpos-frontend.php:146
+#: includes/class-gpos-frontend.php:163
 msgid "Her hangi bir pos entegrasyonunu aktif etmediniz lütfen ayarlarınızı tamamlayınız."
 msgstr ""
 
