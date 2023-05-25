@@ -11,38 +11,39 @@ li.gpos-upgrade-pro {
 	height: 32px;
 	line-height: 1.4;
 }
-/* Plugins sayfasında: etkinleştir ve ayarlar kısmında Proya yukselt ibaresi için stiller */
-.upgrade-pro{
-	
-	color:#F0A500;
-	font-weight: bold;
+
+li.gpos-upgrade-pro img {
+	width: 16px;
+	height: 16px !important;
 }
 
- .upgrade-pro:hover {
-	color:#F0A500; 
+li.gpos-upgrade-pro .new-tab {
+	margin-top: 2px;
+	margin-left: 6px;
 }
-/* Bitis / Plugins sayfası için yazılan stiller */
 
+li.gpos-upgrade-pro .fire {
+	margin-top: 2px;
+	margin-right: 6px;
+}
 
-li.gpos-upgrade-pro a{
-	color:#FFFFFF !important;
-	display:flex !important;
+li.gpos-upgrade-pro a {
+	color: #FFFFFF !important;
+	display: flex !important;
 	font-size: 14px !important;
 	line-height: 22px !important;
 	font-weight: 600;
 }
 
-li.gpos-upgrade-pro img{
-	width: 16px;
-	height: 16px !important;
-	float: none !important;
+/* Plugins sayfasında: etkinleştir ve ayarlar kısmında Proya yukselt ibaresi için stiller */
+a.upgrade-pro {
+	color: #F0A500;
+	font-weight: bold;
 }
 
-li.gpos-upgrade-pro .new-tab{	
-	margin-top: 2px;
-	margin-left: 6px;
+a.upgrade-pro:hover {
+	color: #F0A500;
 }
-li.gpos-upgrade-pro .fire{
-	margin-top: 2px;
-	margin-right: 6px;
-}
+
+/* Bitis / Plugins sayfası için yazılan stiller */
+

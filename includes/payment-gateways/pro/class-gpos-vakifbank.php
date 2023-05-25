@@ -111,7 +111,7 @@ class GPOS_Vakifbank extends GPOS_Gateway {
 				'expiry_year'  => '2024',
 				'expiry_month' => '11',
 				'cvv'          => '715',
-				'secure'       => '',
+				'secure'       => '123456',
 			),
 		);
 	}

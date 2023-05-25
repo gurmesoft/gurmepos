@@ -72,7 +72,7 @@ abstract class GPOS_Options {
 				'title'          => __( 'Banka/Kredi Kartı', 'gurmepos' ),
 				'button_text'    => __( 'Ödeme', 'gurmepos' ),
 				'description'    => '',
-				'icon'           => GPOS_ASSETS_DIR_URL . '/images/visa-martercard.png',
+				'icon'           => GPOS_ASSETS_DIR_URL . '/images/visa-mastercard.png',
 				'success_status' => 'processing',
 			),
 			'gpos_form_settings'        => array(

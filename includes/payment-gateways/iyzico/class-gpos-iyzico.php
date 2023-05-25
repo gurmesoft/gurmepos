@@ -22,7 +22,7 @@ class GPOS_Iyzico extends GPOS_Gateway {
 	 *
 	 * @var string $title
 	 */
-	public $title = 'Iyzico';
+	public $title = 'iyzico';
 
 	/**
 	 * Ödeme geçidi ayar sınıfı
@@ -88,7 +88,7 @@ class GPOS_Iyzico extends GPOS_Gateway {
 			),
 			array(
 				'type'  => 'text',
-				'label' => __( 'Api Şifresi', 'gurmepos' ),
+				'label' => __( 'Güvenlik Anahtarı', 'gurmepos' ),
 				'model' => 'api_secret',
 			),
 		);

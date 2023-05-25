@@ -109,7 +109,7 @@ class GPOS_Frontend {
 	 * @return void
 	 */
 	public function enqueue_script() {
-		wp_enqueue_style( "{$this->prefix}-form-js", "{$this->asset_dir_url}/form_script.js", array( 'jquery' ), GPOS_VERSION, false );
+		wp_enqueue_script( "{$this->prefix}-form-js", "{$this->asset_dir_url}/form_script.js", array( 'jquery' ), GPOS_VERSION, false );
 	}
 
 

@@ -9,6 +9,14 @@
  * GurmePOS cevap sınıfı
  */
 class GPOS_Gateway_Response {
+
+	/**
+	 * İşlemin gerçekleştiği ödeme geçidi.
+	 *
+	 * @var string $gateway
+	 */
+	private $gateway;
+
 	/**
 	 * İşlemin başarılı olup olmadığını belirtir.
 	 *
@@ -51,6 +59,18 @@ class GPOS_Gateway_Response {
 	 */
 	private $items_transaction_ids;
 
+
+	/**
+	 * GPOS_Gateway_Response kurucu fonksiyonu.
+	 *
+	 * @param string $gateway Ödeme geçidi.
+	 *
+	 * @return void
+	 */
+	public function __construct( string $gateway ) {
+		$this->set_gateway( $gateway );
+	}
+
 	/**
 	 * İşlemin başarılı olup olmadığını belirten özelliğin değerini ayarlar.
 	 *
@@ -87,6 +107,26 @@ class GPOS_Gateway_Response {
 	 */
 	public function get_order_id() {
 		return $this->order_id;
+	}
+
+
+	/**
+	 * İşlemin geçtiği ödeme geçidini ayarlar.
+	 *
+	 * @param string $gateway Ödeme geçidi.
+	 */
+	public function set_gateway( $gateway ) {
+		$this->gateway = $gateway;
+		return $this;
+	}
+
+	/**
+	 * İşlemin geçtiği ödeme geçidini getirir.
+	 *
+	 * @return string Ödeme geçidi.
+	 */
+	public function get_gateway() {
+		return str_replace( [ 'GPOS', 'PRO', '_', 'Gateway' ], '', $this->gateway );
 	}
 
 	/**

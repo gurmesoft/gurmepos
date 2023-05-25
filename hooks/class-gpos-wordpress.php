@@ -42,6 +42,7 @@ class GPOS_WordPress {
 		add_filter( 'script_loader_tag', array( $this, 'script_loader' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 10, 3 );
 		add_filter( 'plugin_action_links_' . GPOS_PLUGIN_BASENAME, array( $this, 'actions_links' ) );
+		add_action( 'admin_notices', array( $this, 'admin_notice' ) );
 	}
 
 	/**
@@ -174,34 +175,34 @@ class GPOS_WordPress {
 	 * @return array
 	 */
 	public function actions_links( $links ) {
-		$gpos_asset_dir_url = GPOS_ASSETS_DIR_URL;
-		// kullanıcı'nın kullandığı sürümü kontrol edip ona göre menüyü düzenler
-		if ( gpos_is_pro_active() ) { // pro sürüm aktifse
-			$new_links = array(
-				'settings' => sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=gpos-payment-gateways' ), __( 'Ayarlar', 'gurmepos' ) ),
-			);
-		}
-		if ( ! gpos_is_pro_active() ) { // ücretsiz versiyon kullanılıyorsa
-			$new_links = array(
-				'settings'    => sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=gpos-payment-gateways' ), __( 'Ayarlar', 'gurmepos' ) ),
-				'pro-yukselt' => sprintf(
-					"<a href='%s' class='upgrade-pro'>%s",
-					(
-					add_query_arg(
-						array(
-							'utm_source'   => 'WordPress',
-							'utm_medium'   => 'organic',
-							'utm_campaign' => 'eklentiler',
-						),
-						'https://posentegrator.com'
-					)
-					),
-					__( 'Yükselt', 'gurmepos' )
-				),
 
+		$new_links = array(
+			'settings' => sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=gpos-payment-gateways' ), __( 'Ayarlar', 'gurmepos' ) ),
+		);
+
+		if ( ! gpos_is_pro_active() ) {
+			$new_links['upgrade-pro'] = sprintf(
+				"<a href='%s' class='upgrade-pro'>%s </a>",
+				gpos_create_utm_link( 'eklentiler' ),
+				__( 'Yükselt', 'gurmepos' )
 			);
+
 		}
 		return array_merge( $links, $new_links );
 	}
 
+	/**
+	 *  Admin panelinde Notice gösterir
+	 *
+	 * @return void
+	 */
+	public function admin_notice() {
+		if ( ! get_user_meta( get_current_user_id(), 'gpos_hide_rating_message', true ) ) {
+			gpos_get_template( 'store-rating-notice' );
+		}
+
+		if ( gpos_is_woocommerce_enabled() && 'yes' !== get_option( 'woocommerce_gpos_settings' )['enabled'] ) {
+			gpos_get_template( 'wc-gateway-disabled' );
+		}
+	}
 }

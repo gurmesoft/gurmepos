@@ -83,7 +83,7 @@ class GPOS_Paratika extends GPOS_Gateway {
 		return array(
 			array(
 				'type'  => 'text',
-				'label' => __( 'Kurum/Firma Id', 'gurmepos' ),
+				'label' => __( 'Kurum/Firma ID', 'gurmepos' ),
 				'model' => 'merchant',
 			),
 			array(

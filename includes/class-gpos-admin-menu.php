@@ -135,14 +135,7 @@ class GPOS_Admin_Menu {
 					__( 'Proya Yükselt', 'gurmepos' ),
 				),
 				'manage_woocommerce',
-				add_query_arg(
-					array(
-						'utm_source'   => 'WordPress',
-						'utm_medium'   => 'organic',
-						'utm_campaign' => 'sol_menu',
-					),
-					'https://posentegrator.com'
-				),
+				gpos_create_utm_link( 'sol_menu' ),
 				false,
 				'gpos-target-blank gpos-upgrade-pro',
 			);

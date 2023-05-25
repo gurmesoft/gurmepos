@@ -66,6 +66,7 @@ class GPOS_Loader {
 			'includes/gpos-functions.php',
 
 			// Inc classes
+			'includes/class-gpos-firebase.php',
 			'includes/class-gpos-redirect.php',
 			'includes/class-gpos-installments.php',
 			'includes/class-gpos-http-request.php',
@@ -84,6 +85,8 @@ class GPOS_Loader {
 			// Hooks
 			'hooks/class-gpos-ajax.php',
 			'hooks/class-gpos-wordpress.php',
+			'hooks/class-gpos-schedule.php',
+
 		);
 
 		foreach ( $files as $file ) {
@@ -92,5 +95,6 @@ class GPOS_Loader {
 
 		new GPOS_Ajax();
 		new GPOS_WordPress();
+		new GPOS_Schedule();
 	}
 }

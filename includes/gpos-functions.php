@@ -173,7 +173,7 @@ function gpos_get_i18n_strings() {
  */
 function gpos_set_transaction_cookie() {
 
-	if ( false === isset( $_COOKIE[ GPOS_SESSION_ID_KEY ] ) && false === headers_sent() ) {
+	if ( false === headers_sent() ) {
 		$name    = GPOS_SESSION_ID_KEY;
 		$value   = time();
 		$options = array(
@@ -220,5 +220,24 @@ function gpos_supported_installment_counts() {
 			'11' => '11',
 			'12' => '12',
 		)
+	);
+}
+
+
+/**
+ * Yönlendirme linkleri için utm eklemeleri yapar.
+ *
+ * @param string $utm_camping Parametre : utm_campaign.
+ *
+ * @return string
+ */
+function gpos_create_utm_link( $utm_camping ) {
+	return add_query_arg(
+		array(
+			'utm_source'   => 'WordPress',
+			'utm_medium'   => 'organic',
+			'utm_campaign' => $utm_camping,
+		),
+		'https://posentegrator.com'
 	);
 }

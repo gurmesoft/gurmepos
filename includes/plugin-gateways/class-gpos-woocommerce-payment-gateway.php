@@ -58,7 +58,6 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 		$this->init_settings();
 
 		add_action( "woocommerce_api_{$this->id}_callback", array( $this, 'process_callback' ) );
-
 	}
 
 	/**
@@ -87,7 +86,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 		$this->set_order_properties( $order );
 
 		if ( $threed ) {
-			$this->gateway->set_callback_url( home_url( "/wc-api/{$this->id}_callback" ) );
+			$this->gateway->set_callback_url( home_url( "/wc-api/{$this->id}_callback/" ) );
 		} else {
 			$this->gateway->set_payment_type( 'regular' );
 		}
@@ -132,7 +131,6 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	public function process_callback() {
 		$this->gateway = gpos_gateway_accounts()->get_default_gateway();
 		$response      = $this->gateway->process_callback( gpos_clean( $_REQUEST ) ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
-
 		if ( $response->is_success() ) {
 			$this->success_process( $response, false );
 		}
@@ -232,7 +230,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 		$order->payment_complete( $response->get_payment_id() );
 		$order->add_order_note(
 			// translators: %s => Ödeme geçidi benzersiz numarası.
-			sprintf( __( 'Ödeme başarıyla tamamlandı. Ödeme numarası: %s', 'iyzibazaar' ), $response->get_payment_id() )
+			sprintf( __( 'Ödeme başarıyla tamamlandı. Ödeme numarası: %s', 'gurmepos' ), $response->get_payment_id() )
 		);
 		$item_transactions = $response->get_items_transaction_ids();
 
@@ -241,6 +239,17 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 				wc_update_order_item_meta( $item_id, '_gpos_transaction_id', $transaction );
 			}
 		}
+
+		gpos_firebase()->schedule_event(
+			'success',
+			array(
+				'site'            => home_url(),
+				'payment_gateway' => $response->get_gateway(),
+				'payment_plugin'  => 'woocommerce',
+				'total'           => $order->get_total(),
+				'currency'        => $order->get_currency(),
+			)
+		);
 
 		if ( $on_checkout ) {
 			return array(
@@ -272,7 +281,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 		if ( $order ) {
 			$order->add_order_note(
 				// translators: %s => Ödeme geçidi hatası.
-				sprintf( __( 'Ödeme işleminde hata: %s', 'iyzibazaar' ), $error_message )
+				sprintf( __( 'Ödeme işleminde hata: %s', 'gurmepos' ), $error_message )
 			);
 		}
 

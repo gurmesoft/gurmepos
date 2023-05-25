@@ -24,6 +24,15 @@ function gpos_settings() {
 }
 
 /**
+ * Http istemci sınıfı.
+ *
+ * @return GPOS_Http_Request
+ */
+function gpos_http_request() {
+	return new GPOS_Http_Request();
+}
+
+/**
  * Post tiplerinin register edildiği sınıfı döndürür.
  *
  * @return GPOS_Post_Types
@@ -128,4 +137,13 @@ function gpos_session() {
  */
 function gpos_log() {
 	return new GPOS_Log();
+}
+
+/**
+ * Firebase işlemleri.
+ *
+ * @return GPOS_Firebase
+ */
+function gpos_firebase() {
+	return new GPOS_Firebase();
 }

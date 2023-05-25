@@ -59,6 +59,7 @@ class GPOS_Ajax {
 				'update_account_settings'     => array( $this, 'update_account_settings' ),
 				'remove_gateway_account'      => array( $this, 'remove_gateway_account' ),
 				'check_connection'            => array( $this, 'check_connection' ),
+				'hide_notice'                 => array( $this, 'hide_notice' ),
 			)
 		);
 
@@ -239,5 +240,15 @@ class GPOS_Ajax {
 	 */
 	public function check_connection( $request ) {
 		return gpos_gateway_account( $request->id )->gateway_class->check_connection( $request->settings );
+	}
+
+	/**
+	 * Geri dönüş fonksiyonu; hide_notice.
+	 *
+	 * @return mixed
+	 */
+	public function hide_notice() {
+		return update_user_meta( get_current_user_id(), 'gpos_hide_rating_message', true );
+
 	}
 }

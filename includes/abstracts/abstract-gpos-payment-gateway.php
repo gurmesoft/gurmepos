@@ -82,7 +82,6 @@ abstract class GPOS_Payment_Gateway {
 	 */
 	public $platform;
 
-
 	/**
 	 * GPOS_Payment_Gateway kurucu fonksiyonu
 	 *
@@ -90,8 +89,8 @@ abstract class GPOS_Payment_Gateway {
 	 */
 	public function __construct() {
 		$this->logger           = new GPOS_Log();
-		$this->http_request     = new GPOS_Http_Request();
-		$this->gateway_response = new GPOS_Gateway_Response();
+		$this->http_request     = gpos_http_request();
+		$this->gateway_response = new GPOS_Gateway_Response( get_class( $this ) );
 	}
 
 	/**
