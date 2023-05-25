@@ -128,13 +128,21 @@ class GPOS_Admin_Menu {
 		if ( ! gpos_is_pro_active() ) {
 			global $submenu;
 
-			$gpos_asset_dir_url = GPOS_ASSETS_DIR_URL;
-			$pro_text           = __( 'Proya Yükselt', 'gurmepos' );
-
 			$submenu[ $this->parent_slug ][] = array(
-				"<img src='{$gpos_asset_dir_url}/images/fire.svg' class='fire'> {$pro_text} <img src='{$gpos_asset_dir_url}/images/new-tab.svg' class='new-tab'>",
+				sprintf(
+					'<img src="%1$s/images/fire.svg" class="fire"> %2$s <img src="%1$s/images/new-tab.svg" class="new-tab">',
+					GPOS_ASSETS_DIR_URL,
+					__( 'Proya Yükselt', 'gurmepos' ),
+				),
 				'manage_woocommerce',
-				'https://posentegrator.com',
+				add_query_arg(
+					array(
+						'utm_source'   => 'WordPress',
+						'utm_medium'   => 'organic',
+						'utm_campaign' => 'sol_menu',
+					),
+					'https://posentegrator.com'
+				),
 				false,
 				'gpos-target-blank gpos-upgrade-pro',
 			);

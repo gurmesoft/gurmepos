@@ -88,7 +88,7 @@ class GPOS_Paratika extends GPOS_Gateway {
 			),
 			array(
 				'type'  => 'text',
-				'label' => __( 'Kullanıcı Adı', 'gurmepos' ),
+				'label' => __( 'Kullanıcı Adı/E-mail', 'gurmepos' ),
 				'model' => 'merchant_user',
 			),
 			array(

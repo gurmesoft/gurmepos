@@ -174,9 +174,34 @@ class GPOS_WordPress {
 	 * @return array
 	 */
 	public function actions_links( $links ) {
-		$new_links = array(
-			'settings' => sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=gpos-payment-gateways' ), __( 'Ayarlar', 'gurmepos' ) ),
-		);
+		$gpos_asset_dir_url = GPOS_ASSETS_DIR_URL;
+		// kullanıcı'nın kullandığı sürümü kontrol edip ona göre menüyü düzenler
+		if ( gpos_is_pro_active() ) { // pro sürüm aktifse
+			$new_links = array(
+				'settings' => sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=gpos-payment-gateways' ), __( 'Ayarlar', 'gurmepos' ) ),
+			);
+		}
+		if ( ! gpos_is_pro_active() ) { // ücretsiz versiyon kullanılıyorsa
+			$new_links = array(
+				'settings'    => sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=gpos-payment-gateways' ), __( 'Ayarlar', 'gurmepos' ) ),
+				'pro-yukselt' => sprintf(
+					"<a href='%s' class='upgrade-pro'>%s",
+					(
+					add_query_arg(
+						array(
+							'utm_source'   => 'WordPress',
+							'utm_medium'   => 'organic',
+							'utm_campaign' => 'eklentiler',
+						),
+						'https://posentegrator.com'
+					)
+					),
+					__( 'Yükselt', 'gurmepos' )
+				),
+
+			);
+		}
 		return array_merge( $links, $new_links );
 	}
+
 }

@@ -11,6 +11,18 @@ li.gpos-upgrade-pro {
 	height: 32px;
 	line-height: 1.4;
 }
+/* Plugins sayfasında: etkinleştir ve ayarlar kısmında Proya yukselt ibaresi için stiller */
+.upgrade-pro{
+	
+	color:#F0A500;
+	font-weight: bold;
+}
+
+ .upgrade-pro:hover {
+	color:#F0A500; 
+}
+/* Bitis / Plugins sayfası için yazılan stiller */
+
 
 li.gpos-upgrade-pro a{
 	color:#FFFFFF !important;
@@ -22,11 +34,15 @@ li.gpos-upgrade-pro a{
 
 li.gpos-upgrade-pro img{
 	width: 16px;
+	height: 16px !important;
+	float: none !important;
 }
 
-li.gpos-upgrade-pro .new-tab{
+li.gpos-upgrade-pro .new-tab{	
+	margin-top: 2px;
 	margin-left: 6px;
 }
 li.gpos-upgrade-pro .fire{
+	margin-top: 2px;
 	margin-right: 6px;
 }

@@ -50,7 +50,7 @@ class GPOS_Isbank extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/isbank.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/isbankasi.png';
 
 	/**
 	 * Desteklenen özellikler
