@@ -142,8 +142,8 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 		$payment_request->setLocale( \Iyzipay\Model\Locale::TR );
 		$payment_request->setConversationId( $this->get_order_id() );
 		$payment_request->setInstallment( $this->get_installment() );
-		$payment_request->setPaidPrice( $this->get_order_total() );
-		$payment_request->setPrice( $this->get_order_total() );
+		$payment_request->setPaidPrice( number_format( $this->get_order_total(), 2, '.', '' ) );
+		$payment_request->setPrice( number_format( $this->get_order_total(), 2, '.', '' ) );
 		$payment_request->setBuyer( $this->prepare_buyer() );
 		$payment_request->setBillingAddress( $this->prepare_address() );
 		$payment_request->setShippingAddress( $this->prepare_address() );
@@ -311,7 +311,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 			$basket_item->setName( $order_item->get_name() );
 			$basket_item->setItemType( \Iyzipay\Model\BasketItemType::PHYSICAL );
 			$basket_item->setCategory1( 'Todo...' ); // Todo. Kategoriye ne gelecek ?
-			$basket_item->setPrice( $order_item->get_total() );
+			$basket_item->setPrice( number_format( $order_item->get_total(), 2, '.', '' ) );
 
 			if ( $basket_item->getId() && (int) $basket_item->getPrice() > 0 ) {
 				array_push( $basket_items, $basket_item );

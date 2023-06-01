@@ -51,7 +51,7 @@ class GPOS_Admin_Menu {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->parent_title = __( 'Pos Entegratör', 'gurmepos' );
+		$this->parent_title = __( 'POS Entegratör', 'gurmepos' );
 
 		if ( gpos_is_test_mode() ) {
 			$this->parent_title = $this->parent_title . ' <span class="gpos-test-badge">test</span>';

@@ -234,7 +234,7 @@ function gpos_supported_installment_counts() {
 function gpos_create_utm_link( $utm_camping ) {
 	return add_query_arg(
 		array(
-			'utm_source'   => 'WordPress',
+			'utm_source'   => 'wp_plugin',
 			'utm_medium'   => 'organic',
 			'utm_campaign' => $utm_camping,
 		),

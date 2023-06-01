@@ -30,9 +30,7 @@ li.gpos-upgrade-pro .fire {
 li.gpos-upgrade-pro a {
 	color: #FFFFFF !important;
 	display: flex !important;
-	font-size: 14px !important;
 	line-height: 22px !important;
-	font-weight: 600;
 }
 
 /* Plugins sayfasında: etkinleştir ve ayarlar kısmında Proya yukselt ibaresi için stiller */
@@ -46,4 +44,3 @@ a.upgrade-pro:hover {
 }
 
 /* Bitis / Plugins sayfası için yazılan stiller */
-

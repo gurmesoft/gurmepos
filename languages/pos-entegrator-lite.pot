@@ -9,13 +9,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-26T13:02:59+00:00\n"
+"POT-Creation-Date: 2023-06-01T07:51:05+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"X-Generator: WP-CLI 2.8.0\n"
 "X-Domain: gurmepos\n"
 
 #. Plugin Name of the plugin
 #: i18n/gpos-strings.php:20
+#: includes/class-gpos-admin-menu.php:54
 #: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:44
 msgid "POS Entegratör"
 msgstr ""
@@ -321,10 +322,6 @@ msgstr ""
 msgid "Ödeme"
 msgstr ""
 
-#: includes/class-gpos-admin-menu.php:54
-msgid "Pos Entegratör"
-msgstr ""
-
 #: includes/class-gpos-admin-menu.php:64
 msgid "Başlangıç"
 msgstr ""
@@ -545,8 +542,8 @@ msgstr ""
 msgid "Merhaba Sevgili WordPress sever."
 msgstr ""
 
-#: template/store-rating-notice.php:13
-msgid "kurup deneyimlediğini fark ettim bu harika! Lütfen bize bir iyilik yapıp, eklentimizi yaymamıza ve motivasyonumuzu artırmamıza destek ol. Bize WordPress`te 5 yıldız verip yorum yazar mısın?"
+#: template/store-rating-notice.php:12
+msgid "POS Entegratörü kurup deneyimlediğini fark ettim bu harika! Lütfen bize bir iyilik yapıp, eklentimizi yaymamıza ve motivasyonumuzu artırmamıza destek ol. Bize WordPress`te 5 yıldız verip yorum yazar mısın?"
 msgstr ""
 
 #: template/store-rating-notice.php:15
