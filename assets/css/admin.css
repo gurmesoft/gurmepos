@@ -1,11 +1,3 @@
-.gpos-test-badge {
-	padding: 4px;
-	background: #FDF6B2;
-	color: #723B13;
-	border-radius: 6px;
-	font-size: 8px;
-}
-
 li.gpos-upgrade-pro {
 	background-color: #F0A500;
 	height: 32px;
@@ -44,3 +36,20 @@ a.upgrade-pro:hover {
 }
 
 /* Bitis / Plugins sayfası için yazılan stiller */
+
+#wpadminbar .gpos-test-mode-active>.ab-item {
+	margin: 0 2px;
+	color: #fff;
+	background-color: #ffba00;
+}
+
+#wpadminbar .gpos-test-mode-active:hover>a.ab-item {
+	background-color: #ffba00 !important;
+	color: #fff !important;
+}
+
+#wpadminbar .gpos-test-mode-active:hover .ab-label,
+#wpadminbar .gpos-test-mode-active:hover .ab-label {
+	background-color: #ffba00 !important;
+	color: #fff !important;
+}

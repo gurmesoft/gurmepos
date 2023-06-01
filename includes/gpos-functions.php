@@ -49,6 +49,15 @@ function gpos_is_woocommerce_enabled() : bool {
 }
 
 /**
+ * GiveWP'in kurulu ve aktif olup olmadığını kontrol eder.
+ *
+ * @return bool
+ */
+function gpos_is_givewp_enabled() : bool {
+	return class_exists( 'Give' );
+}
+
+/**
  * GurmePOS Pro eklentisinin kurulu ve aktif olup olmadığını kontrol eder.
  *
  * @return bool

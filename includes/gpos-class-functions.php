@@ -15,6 +15,15 @@ function gpos_vue() {
 }
 
 /**
+ * Yönetici menü ve bar için kullanılır.
+ *
+ * @return GPOS_Admin
+ */
+function gpos_admin() {
+	return new GPOS_Admin();
+}
+
+/**
  * Genel ayar sınıfını döndürür.
  *
  * @return GPOS_Settings

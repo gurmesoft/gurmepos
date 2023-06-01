@@ -36,13 +36,15 @@ class GPOS_WordPress {
 
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'query_vars', array( $this, 'query_vars' ) );
+		add_action( 'admin_notices', array( $this, 'admin_notice' ) );
 		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
-		add_action( 'admin_menu', array( new GPOS_Admin_Menu(), 'menu' ) );
 		add_action( 'template_include', array( $this, 'template_include' ) );
 		add_filter( 'script_loader_tag', array( $this, 'script_loader' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 10, 3 );
 		add_filter( 'plugin_action_links_' . GPOS_PLUGIN_BASENAME, array( $this, 'actions_links' ) );
-		add_action( 'admin_notices', array( $this, 'admin_notice' ) );
+
+		add_action( 'admin_menu', array( gpos_admin(), 'admin_menu' ) );
+		add_action( 'admin_bar_menu', array( gpos_admin(), 'admin_bar_menu' ), 10001 );
 	}
 
 	/**
@@ -205,4 +207,5 @@ class GPOS_WordPress {
 			gpos_get_template( 'wc-gateway-disabled' );
 		}
 	}
+
 }

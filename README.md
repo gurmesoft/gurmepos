@@ -22,7 +22,7 @@ Kolay, hızlı entegre edilebilir sanal pos geçidii uygulaması. Ödeme kurulu�
 POS Entegrator
 Requires at least: 5.7  
 Tested up to: 6.2
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2
 
 WordPress Ödeme Eklentisi [WordPress Ödeme Eklentisi](https://posentegrator/?utm_campaign=wporg&utm_source=baslik&utm_medium=readme)

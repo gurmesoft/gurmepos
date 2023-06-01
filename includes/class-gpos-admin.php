@@ -6,9 +6,9 @@
  */
 
 /**
- * GurmePOS admin menü sınıfı
+ * GurmePOS admin menü ve bar sınıfı
  */
-class GPOS_Admin_Menu {
+class GPOS_Admin {
 
 	/**
 	 * Eklenti prefix
@@ -51,11 +51,7 @@ class GPOS_Admin_Menu {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->parent_title = __( 'POS Entegratör', 'gurmepos' );
-
-		if ( gpos_is_test_mode() ) {
-			$this->parent_title = $this->parent_title . ' <span class="gpos-test-badge">test</span>';
-		}
+		$this->parent_title = 'POS Entegratör';
 
 		$this->parent_slug = 'gurmepos';
 
@@ -83,7 +79,6 @@ class GPOS_Admin_Menu {
 			),
 
 		);
-
 	}
 
 	/**
@@ -93,7 +88,10 @@ class GPOS_Admin_Menu {
 	 *
 	 * @SuppressWarnings(PHPMD.UnusedLocalVariable)
 	 */
-	public function menu() {
+	public function admin_menu() {
+
+		$this->check_integrated_plugins();
+
 		include GPOS_PLUGIN_DIR_PATH . '/assets/images/icon.php';
 
 		add_menu_page(
@@ -105,13 +103,6 @@ class GPOS_Admin_Menu {
 			$icon,
 			59
 		);
-
-		if ( gpos_is_woocommerce_enabled() ) {
-			$this->sub_menu_pages[] = array(
-				'menu_title' => __( 'WooCommerce Ayarları', 'gurmepos' ),
-				'menu_slug'  => "{$this->prefix}-woocommerce-settings",
-			);
-		}
 
 		foreach ( $this->sub_menu_pages as $sub_menu_page ) {
 
@@ -178,6 +169,75 @@ class GPOS_Admin_Menu {
 			->set_vue_page( $page )
 			->set_localize( $localize )
 			->require();
+		}
+	}
+
+
+	/**
+	 * Display admin bar when active.
+	 *
+	 * @param WP_Admin_Bar $wp_admin_bar WP_Admin_Bar instance, passed by reference.
+	 *
+	 * @return void
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+	 */
+	public function admin_bar_menu( WP_Admin_Bar $wp_admin_bar ) {
+		if ( current_user_can( 'manage_options' ) ) {
+
+			include GPOS_PLUGIN_DIR_PATH . '/assets/images/icon.php';
+
+			$this->check_integrated_plugins();
+
+			$admin_bar_args = array(
+				'id'    => $this->parent_slug,
+				'title' => sprintf(
+					'<span class="ab-icon"><img style="width:20px;height:20px;" src="%s"></span><span class="ab-label">POS Entegrator%s</span>',
+					$icon,
+					gpos_is_test_mode() ? __( ' Test Modu Aktif' ) : ''
+				),
+				'href'  => admin_url( 'admin.php?page=gpos-payment-gateways' ),
+			);
+
+			if ( gpos_is_test_mode() ) {
+				$admin_bar_args['meta'] = array(
+					'class' => 'gpos-test-mode-active',
+				);
+			}
+
+			$wp_admin_bar->add_node( $admin_bar_args );
+
+			foreach ( $this->sub_menu_pages as $sub_menu_page ) {
+
+				if ( isset( $sub_menu_page['hidden'] ) && $sub_menu_page['hidden'] ||
+					$sub_menu_page['menu_slug'] === $this->parent_slug
+				) {
+					continue;
+				}
+
+				$wp_admin_bar->add_node(
+					array(
+						'parent' => $this->parent_slug,
+						'id'     => $sub_menu_page['menu_slug'],
+						'title'  => $sub_menu_page['menu_title'],
+						'href'   => admin_url( "admin.php?page={$sub_menu_page['menu_slug']}" ),
+					)
+				);
+			}
+		}
+	}
+
+	/**
+	 * Entegrasyon gerçekleştirilen diğer eklentilerin ayar sayfaları.
+	 *
+	 * @return void
+	 */
+	private function check_integrated_plugins() {
+		if ( gpos_is_woocommerce_enabled() ) {
+			$this->sub_menu_pages[] = array(
+				'menu_title' => __( 'WooCommerce Ayarlar', 'gurmepos' ),
+				'menu_slug'  => "{$this->prefix}-woocommerce-settings",
+			);
 		}
 	}
 }

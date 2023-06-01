@@ -66,13 +66,13 @@ class GPOS_Loader {
 			'includes/gpos-functions.php',
 
 			// Inc classes
+			'includes/class-gpos-admin.php',
 			'includes/class-gpos-firebase.php',
 			'includes/class-gpos-redirect.php',
 			'includes/class-gpos-installments.php',
 			'includes/class-gpos-http-request.php',
 			'includes/class-gpos-gateway-response.php',
 			'includes/class-gpos-payment-gateways.php',
-			'includes/class-gpos-admin-menu.php',
 			'includes/class-gpos-post-types.php',
 			'includes/class-gpos-gateway-accounts.php',
 			'includes/class-gpos-gateway-account.php',
