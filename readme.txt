@@ -14,15 +14,15 @@ Kolay, hızlı entegre edilebilir wordpress ödeme eklentisi. Ödeme kuruluşlar
 
 POS, e-ticaret mağazaların veya web sitelerinin ödeme altyapılarıyla entegre olarak müşterilere güvenli ve kolay ödeme alma imkanı sunan önemli bir eklentidir. 
 Bu entegratörler, e-ticaret sitelerinde, bağış toplama süreçlerinde, formlarda ve diğer çevrimiçi işlemlerde kullanılabilir. 
-Kullanıcılara farklı ödeme yöntemleriyle ödeme alma, kolay ve güvenli bir şekilde ödeme geçişi sağlama gibi işlevleri yerine getirir.
+Kullanıcılara farklı ödeme yöntemleriyle işlem yapma, kolay ve güvenli bir şekilde ödeme almalarını sağlar.
 
 ## Ödeme Kuruluşları
     - iyzico
     - paratika
 
 ## Entegrasyonlar
- - wooCommerce Sanal POS Entegrasyonu [wooCommerce Sanal POS Entegrasyonu ](https://posentegrator.com/woocommerce-sanal-pos-entegrasyonu/?utm_campaign=wporg&utm_source=baslik&utm_medium=readme)
- - GiveWP Sanal POS Entegrasyonu [GiveWP Sanal POS Entegrasyonu ](https://posentegrator.com/givewp-sanal-pos-entegrasyonu/?utm_campaign=wporg&utm_source=baslik&utm_medium=readme)
+    - wooCommerce Sanal POS Entegrasyonu [wooCommerce Sanal POS Entegrasyonu](https://posentegrator.com/woocommerce-sanal-pos-entegrasyonu/?utm_campaign=wporg&utm_source=baslik&utm_medium=readme)
+    - GiveWP Sanal POS Entegrasyonu [GiveWP Sanal POS Entegrasyonu](https://posentegrator.com/givewp-sanal-pos-entegrasyonu/?utm_campaign=wporg&utm_source=baslik&utm_medium=readme)
 
 ## Uyumluluk
 ### Temalar
