@@ -20,9 +20,9 @@ Kullanıcılara farklı ödeme yöntemleriyle işlem yapma, kolay ve güvenli bi
     - iyzico
     - paratika
 
-## Entegrasyonlar
-    - wooCommerce Sanal POS Entegrasyonu [wooCommerce Sanal POS Entegrasyonu](https://posentegrator.com/woocommerce-sanal-pos-entegrasyonu/?utm_campaign=wporg&utm_source=baslik&utm_medium=readme)
-    - GiveWP Sanal POS Entegrasyonu [GiveWP Sanal POS Entegrasyonu](https://posentegrator.com/givewp-sanal-pos-entegrasyonu/?utm_campaign=wporg&utm_source=baslik&utm_medium=readme)
+#Entegrasyonlar
+- wooCommerce Sanal POS Entegrasyonu [wooCommerce Sanal POS Entegrasyonu](https://posentegrator.com/woocommerce-sanal-pos-entegrasyonu/?utm_campaign=wporg&utm_source=baslik&utm_medium=readme)
+- GiveWP Sanal POS Entegrasyonu [GiveWP Sanal POS Entegrasyonu](https://posentegrator.com/givewp-sanal-pos-entegrasyonu/?utm_campaign=wporg&utm_source=baslik&utm_medium=readme)
 
 ## Uyumluluk
 ### Temalar
