@@ -68,6 +68,7 @@ $gpos_i18n = array(
 		'pay_button_value'                => __( 'Ödeme Butonu Yazısı', 'gurmepos' ),
 		'pay_to_status'                   => __( 'Başarılı Ödemelerin Geçeceği durum', 'gurmepos' ),
 		'pay_form_desc'                   => __( 'Ödeme Formunun Açıklama Alanı', 'gurmepos' ),
+		'soon'                            => __( 'Yakında', 'gurmepos' ),
 
 		'paratika'                        => array(
 			'description' => __( 'Paratika müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz.', 'gurmepos' ),

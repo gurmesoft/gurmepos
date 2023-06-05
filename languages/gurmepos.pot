@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-06-03T21:02:04+00:00\n"
+"POT-Creation-Date: 2023-06-05T06:38:42+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.0\n"
 "X-Domain: gurmepos\n"
@@ -285,31 +285,35 @@ msgstr ""
 msgid "Ödeme Formunun Açıklama Alanı"
 msgstr ""
 
-#: i18n/gpos-strings.php:73
+#: i18n/gpos-strings.php:71
+msgid "Yakında"
+msgstr ""
+
+#: i18n/gpos-strings.php:74
 msgid "Paratika müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz."
 msgstr ""
 
-#: i18n/gpos-strings.php:76
+#: i18n/gpos-strings.php:77
 msgid "Ozan müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz."
 msgstr ""
 
-#: i18n/gpos-strings.php:79
+#: i18n/gpos-strings.php:80
 msgid "Sipay müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz."
 msgstr ""
 
-#: i18n/gpos-strings.php:82
+#: i18n/gpos-strings.php:83
 msgid "iyzico müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz."
 msgstr ""
 
-#: i18n/gpos-strings.php:85
+#: i18n/gpos-strings.php:86
 msgid "Esnekpos müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz."
 msgstr ""
 
-#: i18n/gpos-strings.php:88
+#: i18n/gpos-strings.php:89
 msgid "Param müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz."
 msgstr ""
 
-#: i18n/gpos-strings.php:91
+#: i18n/gpos-strings.php:92
 msgid "PayTR müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz."
 msgstr ""
 
@@ -326,7 +330,7 @@ msgid "Başlangıç"
 msgstr ""
 
 #: includes/class-gpos-admin.php:64
-msgid "Ödeme Kuruluşları"
+msgid "Sanal POS'lar"
 msgstr ""
 
 #: includes/class-gpos-admin.php:68

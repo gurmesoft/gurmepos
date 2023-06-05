@@ -61,7 +61,7 @@ class GPOS_Admin {
 				'menu_slug'  => $this->parent_slug,
 			),
 			array(
-				'menu_title' => __( 'Ödeme Kuruluşları', 'gurmepos' ),
+				'menu_title' => __( 'Sanal POS\'lar', 'gurmepos' ),
 				'menu_slug'  => "{$this->prefix}-payment-gateways",
 			),
 			array(

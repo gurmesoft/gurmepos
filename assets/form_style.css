@@ -94,6 +94,7 @@
   box-sizing: border-box;
   margin: 0px !important;
   cursor: pointer;
+  padding: 14px 0px 14px 0px !important;
 }
 
 .gpos-checkbox {
