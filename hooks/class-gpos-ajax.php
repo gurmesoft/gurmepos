@@ -69,7 +69,6 @@ class GPOS_Ajax {
 				add_action( "wp_ajax_nopriv_{$this->prefix}_{$endpoint}", array( $this, 'middleware' ) );
 			}
 		}
-
 	}
 
 	/**
@@ -203,10 +202,10 @@ class GPOS_Ajax {
 	 *
 	 * @param stdClass $request İstek parametreleri.
 	 *
-	 * @return mixed
+	 * @return void
 	 */
 	public function update_account_settings( $request ) {
-		return gpos_gateway_account( $request->id )->gateway_settings->save_settings( (array) $request->settings );
+		gpos_gateway_account( $request->id )->gateway_settings->save_settings( (array) $request->settings );
 	}
 
 	/**
@@ -249,6 +248,5 @@ class GPOS_Ajax {
 	 */
 	public function hide_notice() {
 		return update_user_meta( get_current_user_id(), 'gpos_hide_rating_message', true );
-
 	}
 }

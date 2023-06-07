@@ -167,7 +167,7 @@ class GPOS_Gateway_Account {
 	 * @param float $rate Taksit oranı
 	 * @param float $amount Taksitlendirilecek tutar.
 	 *
-	 * @var float
+	 * @return float
 	 */
 	public function installment_rate_calculate( float $rate, float $amount ) {
 		$gateway = gpos_payment_gateways()->get_gateway_by_gateway_id( $this->gateway_id );

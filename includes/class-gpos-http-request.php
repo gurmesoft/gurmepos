@@ -23,7 +23,7 @@ class GPOS_Http_Request {
 	 * @param array $headers Http isteği başlığı.
 	 * @return $this
 	 */
-	public function set_headers( $headers ) {
+	public function set_headers( array $headers ) {
 		$this->headers = $headers;
 		return $this;
 	}
@@ -31,7 +31,7 @@ class GPOS_Http_Request {
 	/**
 	 * Http isteği başlığını döndürür.
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function get_headers() {
 		return $this->headers;
@@ -45,7 +45,7 @@ class GPOS_Http_Request {
 	 * @param mixed  $body İstekte gönderilecek parametreler.
 	 *
 	 * @throws Exception İstekte hata durumunda fırlatılır.
-	 * @return array $response
+	 * @return array|string $response
 	 */
 	public function request( $url, $method = 'POST', $body = array() ) {
 		$http_response = wp_remote_request(

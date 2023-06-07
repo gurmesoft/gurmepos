@@ -29,7 +29,7 @@ class GPOS_Frontend {
 	/**
 	 * Form ayarlarını taşır.
 	 *
-	 * @var string
+	 * @var array
 	 */
 	public $form_settings;
 
@@ -100,7 +100,7 @@ class GPOS_Frontend {
 	 * @return void
 	 */
 	public function enqueue_style() {
-		wp_enqueue_style( "{$this->prefix}-form-style", "{$this->asset_dir_url}/form_style.css", array(), GPOS_VERSION, false );
+		wp_enqueue_style( "{$this->prefix}-form-style", "{$this->asset_dir_url}/form_style.css", array(), GPOS_VERSION );
 	}
 
 	/**

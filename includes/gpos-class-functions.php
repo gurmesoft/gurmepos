@@ -73,7 +73,7 @@ function gpos_gateway_accounts() {
  *
  * @param int $id Ödeme geçidi hesap idsi.
  *
- * @return GPOS_Account
+ * @return GPOS_Gateway_Account
  */
 function gpos_gateway_account( int $id ) {
 	return new GPOS_Gateway_Account( $id );

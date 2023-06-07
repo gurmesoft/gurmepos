@@ -115,7 +115,7 @@ abstract class GPOS_Gateway {
 	/**
 	 * Test ödemesi için gerekli alanların tanımı
 	 *
-	 * @var array
+	 * @return array
 	 */
 	abstract public function get_test_credit_cards() : array;
 
@@ -125,7 +125,7 @@ abstract class GPOS_Gateway {
 	 * @param float $rate Taksit oranı
 	 * @param float $amount Taksitlendirilecek tutar.
 	 *
-	 * @var float
+	 * @return float
 	 */
 	public function installment_rate_calculate( float $rate, float $amount ) {
 		$amount += ( $amount / 100 ) * (float) $rate;
