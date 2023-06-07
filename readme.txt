@@ -14,11 +14,10 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-Kolay, hızlı entegre edilebilir wordpress ödeme eklentisi. Ödeme kuruluşları, fintech ler ile çalışabilir.
+Kolay, hızlı entegre edilebilir wordpress ödeme eklentisi. Ödeme kuruluşları ve fintech ler ile çalışabilir.
 
-POS, e-ticaret mağazaların veya web sitelerinin ödeme altyapılarıyla entegre olarak müşterilere güvenli ve kolay ödeme alma imkanı sunan önemli bir eklentidir. 
-Bu entegratörler, e-ticaret sitelerinde, bağış toplama süreçlerinde, formlarda ve diğer çevrimiçi işlemlerde kullanılabilir. 
-Kullanıcılara farklı ödeme yöntemleriyle işlem yapma, kolay ve güvenli bir şekilde ödeme almalarını sağlar.
+POS Entegratör, e-ticaret sitelerinde, bağış toplama süreçlerinde, formlarda ve diğer çevrimiçi işlemlerde kullanılabilir. 
+Kullanıcılara farklı ödeme yöntemleriyle (sanal poslar) işlem yapma, kolay ve güvenli bir şekilde ödeme almalarını sağlar.
 
 ## Ödeme Kuruluşları
  - iyzico
@@ -29,7 +28,7 @@ Kullanıcılara farklı ödeme yöntemleriyle işlem yapma, kolay ve güvenli bi
  - GiveWP Sanal POS Entegrasyonu [GiveWP Sanal POS Entegrasyonu](https://posentegrator.com/givewp-sanal-pos-entegrasyonu/?utm_campaign=wporg&utm_source=baslik&utm_medium=readme)
 
 
-## POS Entegrator (Pro)
+##POS Entegrator (Pro)
 
 WordPress Ödeme Eklentisi [WordPress Ödeme Eklentisi](https://posentegrator.com/?utm_campaign=wporg&utm_source=baslik&utm_medium=readme)
 
