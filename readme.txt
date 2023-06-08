@@ -6,7 +6,7 @@ Plugin URI: https://posentegrator.com/
 Tags: payment gateway, sanal pos, ödeme, payment
 Requires at least: 4.7
 Tested up to: 6.2
-Stable tag: 1.0.3
+{{versiyon}}
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -103,8 +103,3 @@ Evet. Ödeme yapan kişinin bankası döviz ile ödeme imkanı sağlıyorsa, far
 
 POS Entegratör komisyon ücreti almaz. POS Entegratör bir ödeme eklentisidir. Komisyon oranı, kullanacağınız banka ya da ödeme kuruluşları tarafından belirlenir.
 
-== Changelog == 
-= v1.0.3 05.06.2023 =
- - Desteklenen Ödeme kuruluşları ve bankalar için entegrasyon sağlandı.
- - Yeni Özellik: Taksitli alışveriş özelliği eklendi.
- - Yeni Özellik: Pro için GiveWP desteği eklendi.
