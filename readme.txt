@@ -6,7 +6,7 @@ Plugin URI: https://posentegrator.com/
 Tags: payment gateway, sanal pos, ödeme, payment
 Requires at least: 4.7
 Tested up to: 6.2
-{{versiyon}}
+Stable tag: {{versiyon}}
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
