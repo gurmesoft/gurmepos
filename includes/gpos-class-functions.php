@@ -151,8 +151,8 @@ function gpos_log() {
 /**
  * Firebase işlemleri.
  *
- * @return GPOS_Firebase
+ * @return GPOS_Tracker
  */
-function gpos_firebase() {
-	return new GPOS_Firebase();
+function gpos_tracker() {
+	return new GPOS_Tracker();
 }

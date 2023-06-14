@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Iyzipay\\' => array($vendorDir . '/iyzico/iyzipay-php/src/Iyzipay'),
+    'GurmeHub\\' => array($vendorDir . '/gurmehub/plugin-helper/src'),
 );

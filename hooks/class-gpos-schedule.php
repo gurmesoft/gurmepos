@@ -16,6 +16,6 @@ class GPOS_Schedule {
 	 * @return void
 	 */
 	public function __construct() {
-		add_action( 'gpos_add_success_transaction', array( gpos_firebase(), 'add_success_transaction' ) );
+		add_action( 'gpos_add_success_transaction', array( gpos_tracker(), 'add_success_transaction' ) );
 	}
 }

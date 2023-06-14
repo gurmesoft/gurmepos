@@ -1,6 +1,43 @@
 {
     "packages": [
         {
+            "name": "gurmehub/plugin-helper",
+            "version": "1.0.15",
+            "version_normalized": "1.0.15.0",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.gurmesoft.com/gurmehub/plugin-helper.git",
+                "reference": "6626b08f60b22e3d9d5eb20de31e192710560ed7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.gurmesoft.com/api/v4/projects/33/packages/composer/archives/gurmehub/plugin-helper.zip?sha=6626b08f60b22e3d9d5eb20de31e192710560ed7",
+                "reference": "6626b08f60b22e3d9d5eb20de31e192710560ed7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "GurmeHub\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "GurmeHub ",
+            "keywords": [
+                "analytics",
+                "plugin",
+                "theme",
+                "wordpress"
+            ],
+            "install-path": "../gurmehub/plugin-helper"
+        },
+        {
             "name": "iyzico/iyzipay-php",
             "version": "v2.0.52",
             "version_normalized": "2.0.52.0",

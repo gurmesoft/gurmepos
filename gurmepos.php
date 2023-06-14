@@ -31,6 +31,11 @@ require_once GPOS_PLUGIN_DIR_PATH . 'includes/class-gpos-loader.php';
 // Hadi Başlayalım...
 GPOS_Loader::instance();
 
+// GurmeHub Plugin Helper
+$client = new \GurmeHub\Client( GPOS_PLUGIN_BASEFILE );
+// Yardımcı bilgiler
+$client->insights();
+
 /**
  * İlk yüklemede ön tanımlı ayarları yükleme
  *

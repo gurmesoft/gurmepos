@@ -240,7 +240,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 			}
 		}
 
-		gpos_firebase()->schedule_event(
+		gpos_tracker()->schedule_event(
 			'success',
 			array(
 				'site'            => home_url(),

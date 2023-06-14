@@ -53,6 +53,7 @@ class GPOS_WordPress {
 	 * @return void
 	 */
 	public function init() {
+
 		// Post Tipleri Kaydı.
 		gpos_post_types()->register();
 

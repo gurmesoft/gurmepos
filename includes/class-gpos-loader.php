@@ -67,7 +67,7 @@ class GPOS_Loader {
 
 			// Inc classes
 			'includes/class-gpos-admin.php',
-			'includes/class-gpos-firebase.php',
+			'includes/class-gpos-tracker.php',
 			'includes/class-gpos-redirect.php',
 			'includes/class-gpos-installments.php',
 			'includes/class-gpos-http-request.php',

@@ -8,7 +8,7 @@
 /**
  * GurmePOS işlemi sınıfı
  */
-class GPOS_Firebase {
+class GPOS_Tracker {
 
 	/**
 	 * Eklenti Prefix
@@ -32,7 +32,7 @@ class GPOS_Firebase {
 	private $http;
 
 	/**
-	 * GPOS_Firebase kurucu fonksiyonu
+	 * GPOS_Tracker kurucu fonksiyonu
 	 *
 	 * @return void
 	 */
@@ -69,7 +69,7 @@ class GPOS_Firebase {
 			 *
 			 * @param array $data Çalıştırılacak fonksiyon.
 			 */
-			apply_filters( 'gpos_firebase_success_transaction_data', $data ),
+			apply_filters( 'gpos_success_transaction_data', $data ),
 		);
 	}
 

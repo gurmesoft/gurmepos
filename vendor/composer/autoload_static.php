@@ -4,12 +4,16 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit81d9945e4443550c788afbf72ba91014
+class ComposerStaticInitb7ea2b4d5f2e1435c3daafe82b7f0a60
 {
     public static $prefixLengthsPsr4 = array (
         'I' => 
         array (
             'Iyzipay\\' => 8,
+        ),
+        'G' => 
+        array (
+            'GurmeHub\\' => 9,
         ),
     );
 
@@ -17,6 +21,10 @@ class ComposerStaticInit81d9945e4443550c788afbf72ba91014
         'Iyzipay\\' => 
         array (
             0 => __DIR__ . '/..' . '/iyzico/iyzipay-php/src/Iyzipay',
+        ),
+        'GurmeHub\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gurmehub/plugin-helper/src',
         ),
     );
 
@@ -27,9 +35,9 @@ class ComposerStaticInit81d9945e4443550c788afbf72ba91014
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit81d9945e4443550c788afbf72ba91014::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit81d9945e4443550c788afbf72ba91014::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit81d9945e4443550c788afbf72ba91014::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitb7ea2b4d5f2e1435c3daafe82b7f0a60::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitb7ea2b4d5f2e1435c3daafe82b7f0a60::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitb7ea2b4d5f2e1435c3daafe82b7f0a60::$classMap;
 
         }, null, ClassLoader::class);
     }
