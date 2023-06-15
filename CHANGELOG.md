@@ -1,0 +1,37 @@
+== Changelog ==
+
+= v1.1.37 - (2023-06-15) =
+
+
+Bug Fixes
+
+* CHANGELOG dosyasının ismi degistirildi
+
+= v1.1.36 - (2023-06-14) =
+
+
+Bug Fixes
+
+* Github release duzeltildi
+
+= v1.1.35 - (2023-06-14) =
+
+
+Bug Fixes
+
+* Github release duzeltildi
+* Github release duzeltildi
+* README düzenlendi
+* README düzenlendi
+
+= v1.1.34 - (2023-06-14) =
+
+
+Bug Fixes
+
+* CI duzenlemeleri
+* README düzenlendi
+
+= v1.1.33 - (2023-06-14) =
+
+* İlk versiyon
