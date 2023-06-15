@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v1.2.1 - (2023-06-15) =
+
+
+Bug Fixes
+
+* Eklenti ana yükleme dosyasına canlı ortam değişkeni eklendi
+
 = v1.2.0 - (2023-06-15) =
 
 
