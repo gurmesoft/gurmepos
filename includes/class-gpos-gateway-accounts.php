@@ -32,8 +32,14 @@ class GPOS_Gateway_Accounts {
 			)
 		);
 
-		return array_map( array( $this, 'get_account' ), $accounts );
+		return array_values(
+			array_filter(
+				array_map( array( $this, 'get_account' ), $accounts ),
+				fn( $account ) => false !== $account
+			)
+		);
 	}
+
 
 	/**
 	 * Yeni hesap ekleme.
@@ -60,7 +66,7 @@ class GPOS_Gateway_Accounts {
 		update_post_meta( $account_id, 'gpos_gateway_id', $gateway_id );
 
 		$gpos_account = $this->get_account( $account_id );
-		$gpos_account->update_is_default( true );
+		$gpos_account->set_default();
 		return $gpos_account;
 	}
 
@@ -85,7 +91,7 @@ class GPOS_Gateway_Accounts {
 	public function get_account( $account_id ) {
 		$account = new GPOS_Gateway_Account( $account_id );
 
-		return $account->id ? $account : false;
+		return $account->id && $account->gateway_settings && $account->gateway_class ? $account : false;
 	}
 
 	/**
@@ -95,20 +101,7 @@ class GPOS_Gateway_Accounts {
 	 */
 	public function get_default_account() {
 
-		$default_account_id = wp_cache_get( 'gpos_default_account' );
-
-		if ( false === $default_account_id ) {
-			global $wpdb;
-
-			$default_account_id = $wpdb->get_var(  //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-				"SELECT post_id
-				FROM {$wpdb->postmeta}
-				WHERE meta_key = 'gpos_default_account' 
-				AND meta_value = '1'"
-			);
-
-			wp_cache_set( 'gpos_default_account', $default_account_id );
-		}
+		$default_account_id = get_option( 'gpos_default_account' );
 
 		if ( $default_account_id ) {
 			return $this->get_account( (int) $default_account_id );

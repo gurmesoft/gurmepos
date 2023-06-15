@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-06-15T05:40:29+00:00\n"
+"POT-Creation-Date: 2023-06-15T06:50:58+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: gurmepos\n"
@@ -21,7 +21,7 @@ msgid "POS Entegratör"
 msgstr ""
 
 #. Plugin URI of the plugin
-msgid "https://posentegrator.com/"
+msgid "https://posentegrator.com"
 msgstr ""
 
 #. Description of the plugin
@@ -33,15 +33,23 @@ msgid "GurmeHub"
 msgstr ""
 
 #. Author URI of the plugin
-msgid "https://gurmehub.com/"
+msgid "https://gurmehub.com"
 msgstr ""
 
-#: hooks/class-gpos-wordpress.php:183
+#: hooks/class-gpos-wordpress.php:185
 msgid "Ayarlar"
 msgstr ""
 
-#: hooks/class-gpos-wordpress.php:190
+#: hooks/class-gpos-wordpress.php:192
 msgid "Yükselt"
+msgstr ""
+
+#: hooks/class-gpos-wordpress.php:237
+msgid "Dökümanlar"
+msgstr ""
+
+#: hooks/class-gpos-wordpress.php:245
+msgid "Topluluk Formu"
 msgstr ""
 
 #: i18n/gpos-strings.php:10
@@ -154,11 +162,11 @@ msgid "3D Ayarları"
 msgstr ""
 
 #: i18n/gpos-strings.php:38
-msgid "3Dsiz Ödeme"
+msgid "3D'siz Ödeme"
 msgstr ""
 
 #: i18n/gpos-strings.php:39
-msgid "Kullanıcılar direkt olarak ödemeyi tamamlar"
+msgid "Kullanıcılar direkt olarak ödemeyi tamamlar."
 msgstr ""
 
 #: i18n/gpos-strings.php:40
@@ -166,7 +174,7 @@ msgid "Kullanıcıya Sor"
 msgstr ""
 
 #: i18n/gpos-strings.php:41
-msgid "Kullanıcılar ödeme sırasında 3D seçeneğini belirler"
+msgid "Kullanıcılar ödeme sırasında 3D seçeneğini belirler."
 msgstr ""
 
 #: i18n/gpos-strings.php:42
@@ -174,7 +182,7 @@ msgid "3D Zorunlu"
 msgstr ""
 
 #: i18n/gpos-strings.php:43
-msgid "Kullanıcılar ödeme sonrasında 3D Ekranına yönlendirilir."
+msgid "Kullanıcılar ödeme sonrasında 3D Ekranına yönlendirilir. "
 msgstr ""
 
 #: i18n/gpos-strings.php:44
@@ -186,7 +194,7 @@ msgid "Form üzerinden Ad Soyad Bilgisi Al"
 msgstr ""
 
 #: i18n/gpos-strings.php:46
-msgid "Kart üzerindeki isim bilgisi için sipariş alanlarını kullan. Ayarın kapalı olması durumunda kart numarası bölümünü üstünde isim alanı oluşacaktır."
+msgid "Kart üzerindeki isim bilgisi için sipariş alanlarını kullan . Ayarın kapalı olması durumunda kart numarası bölümünü üstünde isim alanı oluşacaktır. "
 msgstr ""
 
 #: i18n/gpos-strings.php:47
@@ -194,7 +202,7 @@ msgid "Kart Saklama"
 msgstr ""
 
 #: i18n/gpos-strings.php:48
-msgid "Kart Saklama özelliği ile müşterileriniz ödeme sırasında kartlarını kayıt edebilir."
+msgid "Kart Saklama özelliği ile müşterileriniz ödeme sırasında kartlarını kayıt edebilir. "
 msgstr ""
 
 #: i18n/gpos-strings.php:49
@@ -202,7 +210,7 @@ msgid "Tekrarlı Ödeme"
 msgstr ""
 
 #: i18n/gpos-strings.php:50
-msgid "WooCommerce Subscriber Eklenti ile abonelikli ürün satışı yapın"
+msgid "WooCommerce Subscriber Eklenti ile abonelikli ürün satışı yapın."
 msgstr ""
 
 #: i18n/gpos-strings.php:51
@@ -214,15 +222,15 @@ msgid "Standart Ödeme Formu"
 msgstr ""
 
 #: i18n/gpos-strings.php:53
-msgid "Standart WooCommerce ödeme formu"
+msgid "Standart WooCommerce ödeme formu."
 msgstr ""
 
 #: i18n/gpos-strings.php:54
-msgid "Tek satır ödeme formu"
+msgid "Tek Satır Ödeme Formu"
 msgstr ""
 
 #: i18n/gpos-strings.php:55
-msgid "Tek satır kredi kartı formu"
+msgid "Tek satır kredi kartı formu."
 msgstr ""
 
 #: i18n/gpos-strings.php:56
@@ -234,7 +242,7 @@ msgid "Ayarları Kaydet"
 msgstr ""
 
 #: i18n/gpos-strings.php:58
-msgid "Bağlantıyı test et"
+msgid "Bağlantıyı Test Et"
 msgstr ""
 
 #: i18n/gpos-strings.php:59
@@ -246,7 +254,7 @@ msgid "Test Modu Aktif"
 msgstr ""
 
 #: i18n/gpos-strings.php:61
-msgid "Test modu aktif iken test APIleri ile çalışmanız gerekmektedir."
+msgid "Test modu aktif iken test APIleri ile çalışmanız gerekmektedir . "
 msgstr ""
 
 #: i18n/gpos-strings.php:62
@@ -266,7 +274,7 @@ msgid "Henüz bir pos aktif etmediniz"
 msgstr ""
 
 #: i18n/gpos-strings.php:66
-msgid " Hemen ödeme almaya başlamak için anlaşmalı olduğunuz ödeme kuruluşunun bağlantısını gerçekleştirin."
+msgid " Hemen ödeme almaya başlamak için anlaşmalı olduğunuz ödeme kuruluşunun bağlantısını gerçekleştirin . "
 msgstr ""
 
 #: i18n/gpos-strings.php:67
@@ -278,7 +286,7 @@ msgid "Ödeme Butonu Yazısı"
 msgstr ""
 
 #: i18n/gpos-strings.php:69
-msgid "Başarılı Ödemelerin Geçeceği durum"
+msgid "Başarılı Ödemelerin Geçeceği Durum"
 msgstr ""
 
 #: i18n/gpos-strings.php:70
@@ -290,31 +298,83 @@ msgid "Yakında"
 msgstr ""
 
 #: i18n/gpos-strings.php:74
-msgid "Paratika müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz."
+msgid "Paratika Posunuzun entegre edilmesi için Kurum/Firma ID ve kullanıcı bilgileri gereklidir. Kurum/Firma ID bilgisine Paratika Pos Panelinde: Bilgilerim -> Temel Bilgiler adımlarını izleyerek ulaşabilirsiniz. Eğer daha önce kullanıcı oluşturmamış iseniz yine aynı panelde Kullanıcılar -> Kullanıcı Ekle adımlarını izleyerek kullanıcı oluşturmanız gereklidir. "
 msgstr ""
 
 #: i18n/gpos-strings.php:77
-msgid "Ozan müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz."
+msgid "Ozan Sanal Pos entegrasyonu için gerekli olan bilgiler Ozan Sanal Pos Ekranından temin edilecektir. "
 msgstr ""
 
 #: i18n/gpos-strings.php:80
-msgid "Sipay müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz."
+msgid "Sipay Sanal Posunuzun entegre edilmesi için gerekli api bilgilerini:  Sipay Sanal Pos Paneline giriş sağlayıp Ayarlar -> Entegrasyon & API sayfasından elde edebilirsiniz. "
 msgstr ""
 
 #: i18n/gpos-strings.php:83
-msgid "iyzico müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz."
+msgid "Iyzico entegrasyonu için api ve güvenlik anahtarı bilgileri gereklidir. Iyzico merchant panelinizin Ayarlar->Firma Ayarları kısmından api ve güvenlik anahtarlarınıza erişebilirsiniz. "
 msgstr ""
 
 #: i18n/gpos-strings.php:86
-msgid "Esnekpos müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz."
+msgid "Esnekpos entegrasyonu için gerekli olan bilgiler Esnekpos kullanıcı panelinden temin edilecektir. "
 msgstr ""
 
 #: i18n/gpos-strings.php:89
-msgid "Param müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz."
+msgid "Param POS  entegrasyonu içi Param API bilgileri gereklidir. Bu bilgilere erişmek için Param internet şubesi girişi yapıp, ParamPos Menüsü altında \"Entegrasyon Bilgilerim\" sekmesine tıkladıktan sonra  açılan sayfadan  gerekli bilgilere ulaşabilirsiniz. "
 msgstr ""
 
 #: i18n/gpos-strings.php:92
-msgid "PayTR müşteri paneline giriş yapıp Kullanıcılar menüsünden api servislerini kullanabileceğiniz api kullanıcısı ve şifresi oluşturabilirsiniz."
+msgid "PayTR entegrasyonu için API Entegrasyon Bilgileri gereklidir. Bu bilgiler : PayTR kullanıcı panelinin :  Bilgi menüsü ->  API Entergrasyon Bilgileri başlığı altında yer almaktadır."
+msgstr ""
+
+#: i18n/gpos-strings.php:95
+msgid "Akbank Sanal Pos entegrasyonu için gerekli olan bilgiler Akbank Sanal Pos Ekranından temin edilecektir."
+msgstr ""
+
+#: i18n/gpos-strings.php:98
+msgid "Craftgate entegrasyonu için API Entegrasyon Bilgileri gereklidir. Bu bilgiler : Craftgate kontrol panelinin :  Yönetim Menüsü ->Üye İşyeri Ayarları Sekmesi ->  API Erişim Bilgileri başlığı altında yer almaktadır."
+msgstr ""
+
+#: i18n/gpos-strings.php:101
+msgid "Denizbank Sanal Pos panelinize giriş yaptıktan sonra entegrasyon bilgileri için, eğer daha önce oluşturmadıysanız yeni bir api kullanıcısı oluşturmanız gereklidir. Giriş yaptıktan sonra sol tarafta bulunan Kullanıcı Yönetim Sistemi menüsünden Kullanıcı düzenleme ve yetkilendirme sayfasına giriş yaparak api kullanıcı kaydı oluşturabilirsiniz. Oluşturduğunuz APİ kullanıcı bilgilerini, ilgili yerlere doldurarak entegrasyonu sağlayabilirsiniz."
+msgstr ""
+
+#: i18n/gpos-strings.php:104
+msgid "Finansbank panelinize giriş yaptıktan sonra entegrasyon bilgileri için: eğer daha önce oluşturmadıysanız Yönetim Menüsünden Kullanıcı Yönetimi yardımı ile APİ kullanıcısı oluşturunuz. Oluşturduğunuz APİ kullanıcı bilgilerini POS Entegratör’de ilgili yerlere doldurunuz. "
+msgstr ""
+
+#: i18n/gpos-strings.php:107
+msgid "Garanti Pos entegrasyonu için gerekli olan bilgileri Garanti Sanal Pos Ekranından temin ediniz. "
+msgstr ""
+
+#: i18n/gpos-strings.php:110
+msgid "Halkbank panelinize giriş yaptıktan sonra yönetim menüsüne tıklayınız .Eğer daha önce kullanıcı oluşturulmamış ise Kullanıcı listesi bölümünden \"APİ KULLANICISI\" oluşturuyoruz. Gerekli bilgileri sol taraftaki menülerden alıp POS Entegratör’de ilgili yerlere dolduruyoruz."
+msgstr ""
+
+#: i18n/gpos-strings.php:113
+msgid "ING Bank Pos entegrasyonu için gerekli olan bilgiler ING Bank Sanal Pos Ekranından temin edilecektir."
+msgstr ""
+
+#: i18n/gpos-strings.php:116
+msgid "İş bankası sanal pos sistemine giriş yapıldıktan sonra eğer daha önceden APİ kullanıcısı oluşturulmamış ise öncelikle “Yönetim” başlığı altından “Yeni Kullanıcı Ekle”  kısmına giriş yapılarak APİ kullanıcısı oluşturulmalıdır. Daha sonra  APİ kullanıcı bilgileri ilgili yerlere doldurulmalı. "
+msgstr ""
+
+#: i18n/gpos-strings.php:119
+msgid "Kuveyt Türk Pos entegrasyonu için gerekli olan bilgiler Kuveyt Türk  Sanal Pos Ekranından temin edilecektir."
+msgstr ""
+
+#: i18n/gpos-strings.php:122
+msgid "TEB bankası sanal pos panelinize giriş yaptıktan sonra yönetim menüsüne tıklıyoruz .Eğer daha önce kullanıcı oluşturulmamış ise Kullanıcı listesi bölümünden \"APİ KULLANICISI\" oluşturuyoruz. Gerekli bilgileri POS Entegratör’de ilgili yerlere dolduruyoruz. "
+msgstr ""
+
+#: i18n/gpos-strings.php:125
+msgid "Vakıfbankın panelinden \"YÖNETİM\" sekmesi altında bulunan \"ÜYE İŞYERİ İŞLEMLERİ\" bölümünü tıklıyoruz. Açılan sayfada firmamız için gerekli bilgiler bulunmakta. Bu bilgileri POS Entegratör’de ilgili yerlere dolduruyoruz. "
+msgstr ""
+
+#: i18n/gpos-strings.php:128
+msgid "Yapıkredi Sanal Pos entegrasyonu için gerekli olan bilgiler Yapıkredi Sanal Pos Ekranından temin edilecektir."
+msgstr ""
+
+#: i18n/gpos-strings.php:131
+msgid "Ziraat Bankası Sanal Pos paneline giriş yapıldıktan sonra eğer daha önceden api kullanıcısı oluşturmadıysanız ilk önce “Yönetim” sekmesine basıyoruz, “Yeni Kullanıcı Ekle ” alanından \"Rol\" APİ Kullanıcısı seçilerek yeni kullanıcı tanımı yapıyoruz. Daha sonra  bu alanda tanımlamış olduğunuz \"Kullanıcı Adı\" ve \"Şifre\" bilgilerini POS Entegratör’de ilgili alanlara dolduruyoruz."
 msgstr ""
 
 #: includes/abstracts/abstract-gpos-options.php:72
@@ -342,7 +402,7 @@ msgid "Kayıtlar"
 msgstr ""
 
 #: includes/class-gpos-admin.php:238
-msgid "WooCommerce Ayarlar"
+msgid "WooCommerce"
 msgstr ""
 
 #: includes/class-gpos-frontend.php:163
@@ -500,44 +560,44 @@ msgid "Geçersiz işlem lütfen sayfayı yenileyerek tekrar deneyiniz."
 msgstr ""
 
 #. translators: %s => Ödeme geçidi benzersiz numarası.
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:233
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:246
 msgid "Ödeme başarıyla tamamlandı. Ödeme numarası: %s"
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:279
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:292
 msgid "Bilinmeyen hata lütfen yönetim ile iletişime geçiniz"
 msgstr ""
 
 #. translators: %s => Ödeme geçidi hatası.
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:284
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:297
 msgid "Ödeme işleminde hata: %s"
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:362
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:375
 msgid "Kredi kartı numarası alanı boş bırakılamaz."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:363
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:376
 msgid "Kredi kartı son kullanım tarihi ay boş bırakılamaz."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:364
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:377
 msgid "Kredi kartı son kullanım tarihi yıl boş bırakılamaz."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:365
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:378
 msgid "Kredi kartı güvenlik alanı boş bırakılamaz."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:366
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:379
 msgid "Kart üzerindeki isim alanı boş bırakılamaz."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:392
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:405
 msgid "Bu ödeme yöntemi ayarları yönetici menüsü üzerinden yapılmaktadır."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:393
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:406
 msgid "Ayarlara gitmek için tıklayınız."
 msgstr ""
 

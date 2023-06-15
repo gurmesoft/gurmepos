@@ -105,7 +105,7 @@ class GPOS_Gateway_Account {
 				admin_url( '/admin.php' ),
 			);
 
-			$this->is_default = ! ! get_post_meta( $this->id, 'gpos_default_account', true );
+			$this->is_default = (int) get_option( 'gpos_default_account' ) === (int) $this->id;
 
 			$this->gateway_id = get_post_meta( $this->id, 'gpos_gateway_id', true );
 
@@ -126,12 +126,11 @@ class GPOS_Gateway_Account {
 	 * @return void
 	 */
 	protected function load_settings( $gateway ) {
-		if ( property_exists( $gateway, 'settings_class' ) && $gateway->settings_class && class_exists( $gateway->settings_class ) ) {
+		if ( is_object( $gateway ) && property_exists( $gateway, 'settings_class' ) && $gateway->settings_class && class_exists( $gateway->settings_class ) ) {
 			$settings               = $gateway->settings_class;
 			$this->gateway_settings = new $settings( $this->id );
 		}
 	}
-
 	/**
 	 * Ödeme sınıfını türeterek atama yapar.
 	 *
@@ -140,7 +139,7 @@ class GPOS_Gateway_Account {
 	 * @return void
 	 */
 	protected function load_gateway( $gateway ) {
-		if ( property_exists( $gateway, 'gateway_class' ) && $gateway->gateway_class && class_exists( $gateway->gateway_class ) ) {
+		if ( is_object( $gateway ) && property_exists( $gateway, 'gateway_class' ) && $gateway->gateway_class && class_exists( $gateway->gateway_class ) ) {
 			$gateway             = $gateway->gateway_class;
 			$this->gateway_class = new $gateway();
 			$this->gateway_class->prepare_settings( $this->gateway_settings );
@@ -222,16 +221,10 @@ class GPOS_Gateway_Account {
 	/**
 	 * Hesabın varsayılan durumunu değiştirir.
 	 *
-	 * @param bool $status Varsayılan olma durumu.
-	 *
-	 * @return int|bool — Güncelleme işlemi başarılı ise meta idsi başarısız ise false döndürür.
+	 * @return void
 	 */
-	public function update_is_default( bool $status ) {
-		if ( $status ) {
-			array_walk( gpos_gateway_accounts()->get_accounts(), fn ( $account ) => $account->update_is_default( false ) );
-			wp_cache_set( 'gpos_default_account', $this->id );
-		}
-		return update_post_meta( $this->id, 'gpos_default_account', $status );
+	public function set_default() {
+		update_option( 'gpos_default_account', $this->id );
 	}
 
 	/**

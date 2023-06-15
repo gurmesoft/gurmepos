@@ -1,5 +1,13 @@
 == Changelog ==
 
+= v1.1.38 - (2023-06-15) =
+
+
+Bug Fixes
+
+* Görsel ve metinsel hatalar giderildi.
+* Varsayilan hesap secim motoru degistirildi, 3D geri donus sonrasi try catch eklenip hatanin gosterimi duzenlendi
+
 = v1.1.37 - (2023-06-15) =
 
 

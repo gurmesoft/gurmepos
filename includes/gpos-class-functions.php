@@ -149,7 +149,7 @@ function gpos_log() {
 }
 
 /**
- * Firebase işlemleri.
+ * Bilgi toplama işlemleri.
  *
  * @return GPOS_Tracker
  */

@@ -25,6 +25,7 @@ class GPOS_WordPress {
 	 */
 	protected $redirect_query_var;
 
+
 	/**
 	 * GPOS_WordPress kurucu fonksiyonu
 	 *
@@ -42,9 +43,10 @@ class GPOS_WordPress {
 		add_filter( 'script_loader_tag', array( $this, 'script_loader' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_filter( 'plugin_action_links_' . GPOS_PLUGIN_BASENAME, array( $this, 'actions_links' ) );
-
+		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 		add_action( 'admin_menu', array( gpos_admin(), 'admin_menu' ) );
 		add_action( 'admin_bar_menu', array( gpos_admin(), 'admin_bar_menu' ), 10001 );
+
 	}
 
 	/**
@@ -185,7 +187,7 @@ class GPOS_WordPress {
 
 		if ( ! gpos_is_pro_active() ) {
 			$new_links['upgrade-pro'] = sprintf(
-				"<a href='%s' class='upgrade-pro'>%s </a>",
+				"<a href='%s' class='upgrade-pro' target='_blank'>%s </a>",
 				gpos_create_utm_link( 'eklentiler' ),
 				__( 'Yükselt', 'gurmepos' )
 			);
@@ -209,4 +211,43 @@ class GPOS_WordPress {
 		}
 	}
 
+	/**
+	 * Eklentiler sayfasında satıra link ekleme
+	 *
+	 * @param array  $links var olan linkler
+	 * @param string $file Eklentimizin dosya yolunu alır
+	 * @return array
+	 */
+	public function plugin_row_meta( $links, $file ) {
+
+		if ( GPOS_PLUGIN_BASENAME === $file ) {
+			$args = array(
+				'utm_source'   => 'wp_plugin',
+				'utm_medium'   => 'organic',
+				'utm_campaign' => 'eklentiler',
+			);
+
+			$row_meta = array(
+				'docs'             => sprintf(
+					'<a href="%s" target="_blank">%s</a>',
+					add_query_arg(
+						$args,
+						'https://yardim.gurmehub.com/docs/pos-entegrator/'
+					),
+					__( 'Dökümanlar', 'gurmepos' )
+				),
+				'communitysupport' => sprintf(
+					'<a href="%s" target="_blank">%s</a>',
+					add_query_arg(
+						$args,
+						'https://forum.gurmehub.com/c/gurmehub/pos-entegrator/31/'
+					),
+					__( 'Topluluk Formu', 'gurmepos' )
+				),
+			);
+
+			$links = array_merge( $links, $row_meta );
+		}
+		return $links;
+	}
 }

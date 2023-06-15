@@ -90,7 +90,7 @@ class GPOS_Tracker {
 		);
 
 		if ( array_key_exists( $type, $events ) && false === empty( $events[ $type ] ) && defined( 'GPOS_PRODUCTION' ) ) {
-			wp_schedule_single_event( strtotime( '+1 Minutes' ), "{$this->prefix}_{$events[ $type ]}", array( $data ) );
+			wp_schedule_single_event( strtotime( '+10 Minutes' ), "{$this->prefix}_{$events[ $type ]}", array( $data ) );
 		}
 	}
 

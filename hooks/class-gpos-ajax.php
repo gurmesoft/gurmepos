@@ -161,7 +161,7 @@ class GPOS_Ajax {
 	 * @return mixed
 	 */
 	public function update_default_status( $request ) {
-		return gpos_gateway_account( $request->id )->update_is_default( $request->default );
+		return gpos_gateway_account( $request->id )->set_default();
 	}
 
 	/**

@@ -122,6 +122,13 @@ class GPOS_Vue {
 	 */
 	public function require() {
 
+		wp_enqueue_style(
+			"{$this->prefix}-admin-inline",
+			"{$this->asset_dir_url}/css/admin-inline.css",
+			array(),
+			$this->version,
+		);
+		
 		echo wp_kses_post( '<div id="app"></div>' );
 
 		wp_enqueue_script(

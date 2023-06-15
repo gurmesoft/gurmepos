@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: POS Entegratör
- * Plugin URI: https://posentegrator.com/
+ * Plugin URI: https://posentegrator.com
  * Description: GurmeHub tüm banka ve ödeme kuruluşları destekli özelleştirilebilir POS eklentisi
- * Version: 1.1.37
+ * Version: 1.1.38
  * Author: GurmeHub
- * Author URI: https://gurmehub.com/
+ * Author URI: https://gurmehub.com
  * Text Domain: gurmepos
  * Requires at least: 5.8
  * Requires PHP: 7.4
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 define( 'GPOS_PREFIX', 'gpos' );
-define( 'GPOS_VERSION', '1.1.37' );
+define( 'GPOS_VERSION', '1.1.38' );
 define( 'GPOS_PRODUCTION', true );
 define( 'GPOS_PLUGIN_BASEFILE', __FILE__ );
 define( 'GPOS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );

@@ -100,7 +100,6 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 					'messages' => gpos_woocommerce_notice( $e->getMessage() ),
 				)
 			);
-
 		}
 
 		if ( $response->is_success() ) {
@@ -127,16 +126,30 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * Geri dönüş fonksiyonu ödeme geçitlerinden gelen veriler bu fonksiyonda karşılanır.
 	 *
 	 * @return void
+	 *
+	 * @SuppressWarnings(PHPMD.ExitExpression)
 	 */
 	public function process_callback() {
-		$this->gateway = gpos_gateway_accounts()->get_default_gateway();
-		$response      = $this->gateway->process_callback( gpos_clean( $_REQUEST ) ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		if ( $response->is_success() ) {
-			$this->success_process( $response, false );
+
+		try {
+			$this->gateway = gpos_gateway_accounts()->get_default_gateway();
+			$response      = $this->gateway->process_callback( gpos_clean( $_REQUEST ) ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( $response->is_success() ) {
+				$this->success_process( $response, false );
+			}
+
+			$this->error_process( $response, false );
+		} catch ( Exception $e ) {
+			wp_safe_redirect(
+				add_query_arg(
+					array(
+						"{$this->id}_error" => bin2hex( $e->getMessage() ),
+					),
+					wc_get_checkout_url()
+				)
+			);
+			exit;
 		}
-
-		$this->error_process( $response, false );
-
 	}
 
 	/**

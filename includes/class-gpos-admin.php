@@ -121,7 +121,7 @@ class GPOS_Admin {
 
 			$submenu[ $this->parent_slug ][] = array(
 				sprintf(
-					'<img src="%1$s/images/fire.svg" class="fire"> %2$s <img src="%1$s/images/new-tab.svg" class="new-tab">',
+					'%2$s <img src="%1$s/images/new-tab.svg" class="new-tab">',
 					GPOS_ASSETS_DIR_URL,
 					__( 'Proya Yükselt', 'gurmepos' ),
 				),
@@ -235,7 +235,7 @@ class GPOS_Admin {
 	private function check_integrated_plugins() {
 		if ( gpos_is_woocommerce_enabled() ) {
 			$this->sub_menu_pages[] = array(
-				'menu_title' => __( 'WooCommerce Ayarlar', 'gurmepos' ),
+				'menu_title' => __( 'WooCommerce', 'gurmepos' ),
 				'menu_slug'  => "{$this->prefix}-woocommerce-settings",
 			);
 		}
