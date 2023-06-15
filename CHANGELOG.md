@@ -1,5 +1,13 @@
 == Changelog ==
 
+= v1.2.0 - (2023-06-15) =
+
+
+Features
+
+* WooCommerce vergiyle girilmiş fiyatlar ayarı için, dahil ve hariç fiyat girebilme özelliği eklendi.
+* WooCommerce vergiyle girilmiş fiyatlar ayarı için, dahil ve hariç fiyat girebilme özelliği eklendi.
+
 = v1.1.38 - (2023-06-15) =
 
 

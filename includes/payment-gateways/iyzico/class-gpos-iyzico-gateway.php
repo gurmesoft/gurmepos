@@ -111,9 +111,9 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	}
 
 	/**
-	 * GPOS_Paratika_Gateway kurucu fonksiyon değerindedir gerekli ayarlamaları yapar.
+	 * GPOS_Iyzico_Gateway kurucu fonksiyon değerindedir gerekli ayarlamaları yapar.
 	 *
-	 * @param GPOS_Paratika_Settings|stdClass $settings Ödeme geçidi ayarlarını içerir.
+	 * @param GPOS_Iyzico_Settings|stdClass $settings Ödeme geçidi ayarlarını içerir.
 	 *
 	 * @return void
 	 */

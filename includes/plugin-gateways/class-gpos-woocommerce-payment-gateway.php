@@ -206,12 +206,12 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 			->set_customer_last_name( $last_name );
 		}
 
-		$order_lines = $order->get_items( array( 'line_item', 'shipping', 'fee', 'tax' ) );
+		$order_lines = $order->get_items( array( 'line_item', 'shipping', 'fee' ) );
 
 		if ( false === empty( $order_lines ) ) {
 			foreach ( $order_lines as $order_line ) {
 
-				$item_total = 'tax' === $order_line->get_type() ? ( $order_line->get_tax_total() + $order_line->get_shipping_tax_total() ) : $order_line->get_total();
+				$item_total = $order_line->get_total() + $order_line->get_total_tax();
 
 				if ( $item_total > 0 ) {
 					$this->gateway->add_order_item(
