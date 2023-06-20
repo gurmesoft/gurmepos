@@ -28,35 +28,35 @@ trait GPOS_Credit_Card {
 	/**
 	 * Kredi kartı numarası
 	 *
-	 * @var int $card_bin
+	 * @var int|string $card_bin
 	 */
 	protected $card_bin;
 
 	/**
 	 * Kredi kartı güvenlik numarası
 	 *
-	 * @var int $card_cvv
+	 * @var int|string $card_cvv
 	 */
 	protected $card_cvv;
 
 	/**
 	 * Kredi kartı son kullanım yıl
 	 *
-	 * @var int $card_expiry_year
+	 * @var int|string $card_expiry_year
 	 */
 	protected $card_expiry_year;
 
 	/**
 	 * Kredi kartı son kullanım ay
 	 *
-	 * @var int $card_exp_month
+	 * @var int|string $card_exp_month
 	 */
 	protected $card_expiry_month;
 
 	/**
 	 * Taksit sayısı
 	 *
-	 * @var int $installment
+	 * @var int|string $installment
 	 */
 	protected $installment = 1;
 
@@ -106,18 +106,18 @@ trait GPOS_Credit_Card {
 	/**
 	 * Kredi kartı numara bilgisini ayarlar
 	 *
-	 * @param int $card_bin Kredi kartı numara bilgisi.
+	 * @param int|string $card_bin Kredi kartı numara bilgisi.
 	 * @return $this
 	 */
 	public function set_card_bin( $card_bin ) {
-		$this->card_bin = str_replace( ' ', '', trim( $card_bin ) );
+		$this->card_bin = str_replace( ' ', '', trim( (string) $card_bin ) );
 		return $this;
 	}
 
 	/**
 	 * Kredi kartı numara bilgisini döndürür
 	 *
-	 * @return int
+	 * @return int|string
 	 */
 	public function get_card_bin() {
 		return $this->card_bin;
@@ -126,18 +126,18 @@ trait GPOS_Credit_Card {
 	/**
 	 * Kredi kartı güvenlik numarası bilgisini ayarlar
 	 *
-	 * @param int $card_cvv Kredi kartı güvenlik numarası bilgisi.
+	 * @param int|string $card_cvv Kredi kartı güvenlik numarası bilgisi.
 	 * @return $this
 	 */
 	public function set_card_cvv( $card_cvv ) {
-		$this->card_cvv = str_replace( ' ', '', trim( $card_cvv ) );
+		$this->card_cvv = str_replace( ' ', '', trim( (string) $card_cvv ) );
 		return $this;
 	}
 
 	/**
 	 * Kredi kartı güvenlik numarası bilgisini döndürür
 	 *
-	 * @return int
+	 * @return int|string
 	 */
 	public function get_card_cvv() {
 		return $this->card_cvv;
@@ -146,18 +146,18 @@ trait GPOS_Credit_Card {
 	/**
 	 * Kredi kartı son kullanım tarihi yıl bilgisini ayarlar
 	 *
-	 * @param int $card_expiry_year Kredi kartı son kullanım tarihi yıl bilgisi.
+	 * @param int|string $card_expiry_year Kredi kartı son kullanım tarihi yıl bilgisi.
 	 * @return $this
 	 */
 	public function set_card_expiry_year( $card_expiry_year ) {
-		$this->card_expiry_year = str_replace( ' ', '', trim( $card_expiry_year ) );
+		$this->card_expiry_year = str_replace( ' ', '', trim( (string) $card_expiry_year ) );
 		return $this;
 	}
 
 	/**
 	 * Kredi kartı son kullanım tarihi yıl bilgisini döndürür
 	 *
-	 * @return int
+	 * @return int|string
 	 */
 	public function get_card_expiry_year() {
 		return $this->card_expiry_year;
@@ -166,18 +166,18 @@ trait GPOS_Credit_Card {
 	/**
 	 * Kredi kartı son kullanım tarihi ay bilgisini ayarlar
 	 *
-	 * @param int $card_expiry_month Kredi kartı son kullanım tarihi ay bilgisi.
+	 * @param int|string $card_expiry_month Kredi kartı son kullanım tarihi ay bilgisi.
 	 * @return $this
 	 */
 	public function set_card_expiry_month( $card_expiry_month ) {
-		$this->card_expiry_month = str_replace( ' ', '', trim( $card_expiry_month ) );
+		$this->card_expiry_month = str_replace( ' ', '', trim( (string) $card_expiry_month ) );
 		return $this;
 	}
 
 	/**
 	 * Kredi kartı son kullanım tarihi ay bilgisini döndürür
 	 *
-	 * @return int
+	 * @return int|string
 	 */
 	public function get_card_expiry_month() {
 		return $this->card_expiry_month;
@@ -186,7 +186,7 @@ trait GPOS_Credit_Card {
 	/**
 	 * Taksit seçeneğini ayarlar
 	 *
-	 * @param int $installment Taksit seçeneği.
+	 * @param int|string $installment Taksit seçeneği.
 	 * @return $this
 	 */
 	public function set_installment( $installment ) {
@@ -197,7 +197,7 @@ trait GPOS_Credit_Card {
 	/**
 	 * Taksit seçeneğini döndürür
 	 *
-	 * @return int
+	 * @return int|string
 	 */
 	public function get_installment() {
 		return $this->installment;

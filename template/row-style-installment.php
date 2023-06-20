@@ -2,7 +2,9 @@
 /**
  * Satır görünümlü taksit seçenekleri
  *
- * @package Gurmepos
+ * @package GurmeHub
+ *
+ * @var GPOS_Installments $installment
  */
 
 ?>

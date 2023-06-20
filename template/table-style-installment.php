@@ -2,7 +2,9 @@
 /**
  * Tablo görünümlü taksit seçenekleri
  *
- * @package Gurmepos
+ * @package GurmeHub
+ *
+ * @var GPOS_Installments $installment
  */
 
 ?>
@@ -35,8 +37,7 @@
 				<?php echo '1' === $rate['installment_number'] ? 'Tek Çekim' : esc_html( $rate['installment_number'] ); ?>&nbsp;<?php echo '1' === $rate['installment_number'] ? '' : 'Taksit'; ?>
 				</label>
 				</div>
-			</th>
-				
+			</th>	
 			<td class="gpos-installment-table-td">
 				<span class="gpos-installment-table-price"><?php echo esc_html( $rate['amount_total'] ); ?><?php echo esc_attr( $rate['currency_symbol'] ); ?></span>
 			</td>

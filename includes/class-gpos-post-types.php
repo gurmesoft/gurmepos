@@ -59,8 +59,6 @@ class GPOS_Post_Types {
 		 * kayıt edilen tiplerin izlenmesini kolaylaştırmak için eklenmiştir.
 		 *
 		 * Post Tipi => array(Argümanlar...) olarak tanılanmalıdır.
-		 *
-		 * @param array
 		 */
 		$hooked_post_types = apply_filters( 'gpos_post_types', array() );
 		return has_filter( 'gpos_post_types' ) ? array_merge( $this->post_types, $hooked_post_types ) : $this->post_types;

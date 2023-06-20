@@ -30,6 +30,8 @@ class Updater {
 		$this->plugin = $plugin;
 
 		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'check_plugin_update' ) );
+		add_filter( 'plugins_api', array( $this, 'plugins_api_filter' ), 10, 3 );
+
 	}
 
 	/**
@@ -55,18 +57,35 @@ class Updater {
 		$latest_info     = $this->plugin->get_latest_info();
 		$current_version = $this->plugin->get_current_version();
 
-		if ( ! $latest_info || ! property_exists( $latest_info, 'success' ) || false === $latest_info->success ) {
+		if ( ! $latest_info ) {
 			return $transient_data;
 		}
 
-		if ( version_compare( $current_version, $latest_info->plugin->version, '<' ) ) {
-			echo '<pre>';
-			var_dump( $transient_data->no_update );
-
+		if ( version_compare( $current_version, $latest_info->new_version, '<' ) ) {
 			$transient_data->response[ $basename ] = $latest_info;
-
 		}
 
-		// return $transient_data;
+		return $transient_data;
+	}
+
+
+	/**
+	 * WordPress 'plugins_api_filter' kancası için güncelleme bilgileri
+	 *
+	 * @param object|array $data Eklentilerin güncelleme bilgisini taşıyan dizi.
+	 * @param string       $action Bilgilerin gösterileceği aksiyon.
+	 * @param bool|object  $args Gösterilecek eklentinin argümanları.
+	 *
+	 * @return stdClass $transient_data Eklentilerin güncelleme bilgisini taşıyan dizi.
+	 */
+	public function plugins_api_filter( $data, $action = '', $args = null ) {
+
+		if ( 'plugin_information' !== $action || ! isset( $args->slug ) || 'gurmepos-pro' !== $args->slug ) {
+			return $data;
+		}
+
+		$latest_info = $this->plugin->get_latest_info();
+
+		return false === $latest_info ? $data : $latest_info;
 	}
 }

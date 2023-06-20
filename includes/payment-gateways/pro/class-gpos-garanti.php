@@ -29,14 +29,14 @@ class GPOS_Garanti extends GPOS_Gateway {
 	 *
 	 * @var string $settings_class
 	 */
-	public $settings_class = false;
+	public $settings_class = '';
 
 	/**
 	 * Ödeme geçidi
 	 *
 	 * @var string $gateway_class
 	 */
-	public $gateway_class = false;
+	public $gateway_class = '';
 
 	/**
 	 * Pro gereksinimi
@@ -67,9 +67,9 @@ class GPOS_Garanti extends GPOS_Gateway {
 	public $merchant_panel = 'https://sube.garantibbva.com.tr/isube/login/login/passwordentrypersonal-tr';
 
 	/**
-	 * Desteklenen özellikler
+	 * Desteklenen para birimleri
 	 *
-	 * @var array $supports
+	 * @var array $currencies
 	 */
 	public $currencies = array( 'TRY', 'EUR', 'USD', 'GBP', 'JPY', 'RUB' );
 
@@ -130,7 +130,7 @@ class GPOS_Garanti extends GPOS_Gateway {
 	/**
 	 * Test ödemesi için kredi kartı
 	 *
-	 * @var array
+	 * @return array
 	 */
 	public function get_test_credit_cards() : array {
 		return array(

@@ -55,7 +55,7 @@ class GPOS_Gateway_Response {
 	/**
 	 * Ürünlerin ödeme kuruluşu tarafındaki benzersiz numaraları.
 	 *
-	 * @var string $items_transaction_ids
+	 * @var array $items_transaction_ids
 	 */
 	private $items_transaction_ids;
 

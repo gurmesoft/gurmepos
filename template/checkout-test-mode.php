@@ -2,7 +2,7 @@
 /**
  * Checkoutta test kartlarını gösterir
  *
- * @package Gurmepos
+ * @package GurmeHub
  */
 
 ?>

@@ -300,7 +300,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	/**
 	 * Iyzico için ürün bilgisi
 	 *
-	 * @return \Iyzipay\Model\PaymentCard
+	 * @return array
 	 */
 	private function prepare_basket_items() {
 		$basket_items = array();
@@ -331,7 +331,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 * @return void
 	 */
 	public function log( $process, $request, $response ) {
-		if ( method_exists( $request, 'getPaymentCard' ) ) {
+		if ( method_exists( $request, 'getPaymentCard' ) && $request instanceof \Iyzipay\Request\CreatePaymentRequest ) {
 			$payment_card = $request->getPaymentCard();
 			$payment_card->setCardNumber( '**** **** **** **** ' . substr( $payment_card->getCardNumber(), -4 ) );
 			$payment_card->setExpireMonth( '**' );

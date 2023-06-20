@@ -36,10 +36,10 @@ class GPOS_WordPress {
 		$this->redirect_query_var = "{$this->prefix}_redirect_action";
 
 		add_action( 'init', array( $this, 'init' ) );
-		add_action( 'query_vars', array( $this, 'query_vars' ) );
+		add_filter( 'query_vars', array( $this, 'query_vars' ) );
 		add_action( 'admin_notices', array( $this, 'admin_notice' ) );
 		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
-		add_action( 'template_include', array( $this, 'template_include' ) );
+		add_filter( 'template_include', array( $this, 'template_include' ) );
 		add_filter( 'script_loader_tag', array( $this, 'script_loader' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_filter( 'plugin_action_links_' . GPOS_PLUGIN_BASENAME, array( $this, 'actions_links' ) );
@@ -169,7 +169,7 @@ class GPOS_WordPress {
 	 */
 	public function admin_enqueue_scripts() {
 		wp_enqueue_script( "{$this->prefix}-admin-js", GPOS_ASSETS_DIR_URL . '/js/admin.js', array( 'jquery' ), GPOS_VERSION, false );
-		wp_enqueue_style( "{$this->prefix}-admin-css", GPOS_ASSETS_DIR_URL . '/css/admin.css', array(), GPOS_VERSION, false );
+		wp_enqueue_style( "{$this->prefix}-admin-css", GPOS_ASSETS_DIR_URL . '/css/admin.css', array(), GPOS_VERSION );
 	}
 
 	/**
@@ -220,7 +220,7 @@ class GPOS_WordPress {
 	 */
 	public function plugin_row_meta( $links, $file ) {
 
-		if ( GPOS_PLUGIN_BASENAME === $file ) {
+		if ( GPOS_PLUGIN_BASENAME === $file ) { // @phpstan-ignore-line
 			$args = array(
 				'utm_source'   => 'wp_plugin',
 				'utm_medium'   => 'organic',

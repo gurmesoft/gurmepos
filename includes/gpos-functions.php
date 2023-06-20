@@ -12,7 +12,7 @@
  * @param string $part Dahil edilecek görünüm parçası.
  * @param array  $args Görünüm içerisinde kullanılacak veriler.
  *
- *  @return void
+ * @return void
  */
 function gpos_get_template_part( $folder, $part, $args = array() ) {
 	if ( ! empty( $args ) && is_array( $args ) ) {
@@ -72,7 +72,7 @@ function gpos_is_pro_active() : bool {
  * @return bool
  */
 function gpos_is_ajax() : bool {
-	return function_exists( 'wp_doing_ajax' ) ? wp_doing_ajax() : DOING_AJAX;
+	return function_exists( 'wp_doing_ajax' ) ? wp_doing_ajax() : DOING_AJAX; // @phpstan-ignore-line
 }
 
 /**
@@ -88,16 +88,15 @@ function gpos_is_test_mode() : bool {
  * Veri temizleme işlemi. sanitize_text_field fonksiyonunu kullanır.
  * Gönderilen parametre dizi ise (array) her elemanını için tekrar kendini çağırır.
  *
- * @param string|array $var Temizlenecek veri.
+ * @param mixed $var Temizlenecek veri.
  *
- * @return string|array
+ * @return mixed
  */
 function gpos_clean( $var ) {
 	if ( is_array( $var ) ) {
 		return array_map( 'gpos_clean', $var );
-	} else {
-		return is_scalar( $var ) ? sanitize_text_field( wp_unslash( $var ) ) : $var;
 	}
+	return is_scalar( $var ) ? sanitize_text_field( wp_unslash( $var ) ) : $var;
 }
 
 
@@ -172,7 +171,7 @@ function gpos_woocommerce_notice( string $message, string $notice_type = 'error'
  */
 function gpos_get_i18n_strings() {
 	include GPOS_PLUGIN_DIR_PATH . '/i18n/gpos-strings.php';
-	return $gpos_i18n;
+	return $gpos_i18n; // @phpstan-ignore-line
 }
 
 /**
@@ -184,12 +183,12 @@ function gpos_set_transaction_cookie() {
 
 	if ( false === headers_sent() ) {
 		$name    = GPOS_SESSION_ID_KEY;
-		$value   = time();
+		$value   = (string) time();
 		$options = array(
 			'expires'  => GPOS_SESSION_LIFETIME,
 			'secure'   => false,
-			'path'     => COOKIEPATH ? COOKIEPATH : '/',
-			'domain'   => COOKIE_DOMAIN,
+			'path'     => COOKIEPATH ? COOKIEPATH : '/', // @phpstan-ignore-line
+			'domain'   => COOKIE_DOMAIN, // @phpstan-ignore-line
 			'httponly' => false,
 		);
 

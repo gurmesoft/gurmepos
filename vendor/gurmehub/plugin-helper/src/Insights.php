@@ -27,6 +27,7 @@ class Insights extends \GurmeHub\Api {
 		register_deactivation_hook( $this->plugin->get_basefile(), array( $this, 'deactivation' ) );
 
 		add_action( $this->plugin->get_plugin() . '_tracker_event', array( $this, 'send_tracking_data' ) );
+		add_action( 'upgrader_process_complete', array( $this, 'upgrader_process_complete' ), 10, 2 );
 	}
 
 
@@ -71,6 +72,24 @@ class Insights extends \GurmeHub\Api {
 	 */
 	public function deactivation() {
 
+	}
+
+
+	/**
+	 * WordPress eklenti güncellemesinden sonra tetiklenen kancaya atanmış method.
+	 *
+	 * @param WP_Upgrader $upgrader WordPress güncelleme sınıfı.
+	 * @param array       $hook_extra Güncellemedeki extra bilgiler
+	 */
+	public function upgrader_process_complete( $upgrader, $hook_extra ) {
+
+		if ( false === $upgrader->bulk && $hook_extra['plugin'] === $this->plugin->get_basename() ) {
+			$this->send_tracking_data();
+		}
+
+		if ( true === $upgrader->bulk && in_array( $this->plugin->get_basename(), $hook_extra['plugins'], true ) ) {
+			$this->send_tracking_data();
+		}
 	}
 
 

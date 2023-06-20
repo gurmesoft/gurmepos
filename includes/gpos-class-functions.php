@@ -8,7 +8,7 @@
 /**
  * Vue.js renderlarını ekrana getirmek için kullanılır.
  *
- * @return GPOS_vue
+ * @return GPOS_Vue
  */
 function gpos_vue() {
 	return new GPOS_Vue();

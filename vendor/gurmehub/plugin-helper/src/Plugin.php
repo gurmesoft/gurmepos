@@ -26,13 +26,10 @@ class Plugin extends \GurmeHub\Api {
 	 * Kurucu method.
 	 *
 	 * @param string $basefile Eklenti klasör/dosyaismi (gurmepos/gurmepos.php)
-	 * @param string $license Lisans anahtarı.
-	 *
 	 * @return void
 	 */
-	public function __construct( $basefile, $license ) {
+	public function __construct( $basefile ) {
 		$this->basefile = $basefile;
-		$this->license  = $license;
 	}
 
 	/**
@@ -63,7 +60,7 @@ class Plugin extends \GurmeHub\Api {
 	}
 
 	/**
-	 * Eklenti kurulu versiyonu.
+	 * Eklenti slug.
 	 *
 	 * @return string
 	 */
@@ -75,10 +72,23 @@ class Plugin extends \GurmeHub\Api {
 	/**
 	 * Eklenti son versiyon bilgilerini döndürür.
 	 *
-	 * @return stdClass
+	 * @return false|object $latest_info Eklenti güncel bilgileri.
 	 */
 	public function get_latest_info() {
-		return $this->request( array( 'plugin' => $this->get_plugin() ), 'checkUpdate' );
+		$latest_info_data = $this->request( array( 'plugin' => $this->get_plugin() ), 'checkUpdate' );
+
+		if ( ! property_exists( $latest_info_data, 'success' ) || false === $latest_info_data->success || true === is_wp_error( $latest_info_data ) ) {
+			return false;
+		}
+
+		$latest_info = $latest_info_data->plugin;
+
+		$latest_info->banners_rtl = (array) $latest_info->banners_rtl;
+		$latest_info->banners     = (array) $latest_info->banners;
+		$latest_info->icons       = (array) $latest_info->icons;
+		$latest_info->sections    = (array) $latest_info->sections;
+
+		return $latest_info;
 	}
 
 

@@ -2,7 +2,7 @@
 /**
  * WooCommerce Ödemeler Pos Entegratör deaktif ise uyarı gösteren notice.
  *
- * @package Gurmepos
+ * @package GurmeHub
  */
 
 ?>

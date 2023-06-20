@@ -7,7 +7,7 @@ namespace GurmeHub;
 class Api {
 
 	/**
-	 * GurmeHub Firebase URL.
+	 * GurmeHub Tracker URL.
 	 *
 	 * @var string $url;
 	 */
@@ -21,7 +21,7 @@ class Api {
 	 * @param string $route İstek atılacak uç nokta
 	 * @param string $http_type İstek tipi
 	 *
-	 * @return array|bool array of results including HTTP headers or WP_Error if the request failed
+	 * @return WP_Error|stdClass|string|array
 	 */
 	public function request( $params, $route, $http_type = 'POST' ) {
 		$response = false;

@@ -18,6 +18,13 @@ class GPOS_Admin {
 	protected $prefix = GPOS_PREFIX;
 
 	/**
+	 * Eklenti simgesi
+	 *
+	 * @var string $icon
+	 */
+	protected $icon = '';
+
+	/**
 	 * Eklenti menü ismi
 	 *
 	 * @var string $parent_title
@@ -49,8 +56,15 @@ class GPOS_Admin {
 	 * GPOS_Admin_Menu kurucu fonksiyonu
 	 *
 	 * @return void
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedLocalVariable)
 	 */
 	public function __construct() {
+
+		include GPOS_PLUGIN_DIR_PATH . '/assets/images/icon.php';
+
+		$this->icon = $icon; // @phpstan-ignore-line
+
 		$this->parent_title = 'POS Entegratör';
 
 		$this->parent_slug = 'gurmepos';
@@ -85,22 +99,18 @@ class GPOS_Admin {
 	 * Admin menüye eklenecek menüleri ekler ve callback fonksiyonlarını organize eder
 	 *
 	 * @return void
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-	 */
+	 *   */
 	public function admin_menu() {
 
 		$this->check_integrated_plugins();
-
-		include GPOS_PLUGIN_DIR_PATH . '/assets/images/icon.php';
 
 		add_menu_page(
 			$this->parent_title,
 			$this->parent_title,
 			'manage_options',
 			$this->parent_slug,
-			false,
-			$icon,
+			'__return_false',
+			$this->icon,
 			59
 		);
 
@@ -162,7 +172,7 @@ class GPOS_Admin {
 			);
 
 			if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) ) && isset( $_GET['id'] ) && 'payment-gateway' === $page ) {
-				$localize['gateway_account'] = gpos_gateway_account( sanitize_text_field( wp_unslash( $_GET['id'] ) ) );
+				$localize['gateway_account'] = gpos_gateway_account( (int) gpos_clean( $_GET['id'] ) );
 			}
 
 			gpos_vue()
@@ -179,13 +189,9 @@ class GPOS_Admin {
 	 * @param WP_Admin_Bar $wp_admin_bar WP_Admin_Bar instance, passed by reference.
 	 *
 	 * @return void
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedLocalVariable)
 	 */
 	public function admin_bar_menu( WP_Admin_Bar $wp_admin_bar ) {
 		if ( current_user_can( 'manage_options' ) ) {
-
-			include GPOS_PLUGIN_DIR_PATH . '/assets/images/icon.php';
 
 			$this->check_integrated_plugins();
 
@@ -193,7 +199,7 @@ class GPOS_Admin {
 				'id'    => $this->parent_slug,
 				'title' => sprintf(
 					'<span class="ab-icon"><img style="width:20px;height:20px;" src="%s"></span><span class="ab-label">POS Entegrator%s</span>',
-					$icon,
+					$this->icon,
 					gpos_is_test_mode() ? __( ' Test Modu Aktif' ) : ''
 				),
 				'href'  => admin_url( 'admin.php?page=gpos-payment-gateways' ),

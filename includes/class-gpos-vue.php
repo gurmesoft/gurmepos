@@ -49,7 +49,7 @@ class GPOS_Vue {
 	/**
 	 * Vue içerisinde kullanılacak window değişkenlerini taşır.
 	 *
-	 * @var string $localize_variables
+	 * @var array $localize_variables
 	 */
 	protected $localize_variables = array();
 
@@ -58,7 +58,7 @@ class GPOS_Vue {
 	 *
 	 * @var string $plugin_dir_path
 	 */
-	protected $plugin_dir_path = GPOS_PLUGIN_DIR_PATH;
+	protected $plugin_dir_path = GPOS_PLUGIN_DIR_PATH; // @phpstan-ignore-line
 
 	/**
 	 * Eklenti asset dosyalarının bulunduğu dizinin klasör linki.
@@ -157,7 +157,6 @@ class GPOS_Vue {
 					"{$this->asset_dir_url}/vue/css/{$file}",
 					array(),
 					$this->version,
-					false
 				);
 			}
 		}

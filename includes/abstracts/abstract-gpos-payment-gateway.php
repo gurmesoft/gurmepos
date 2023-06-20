@@ -22,7 +22,7 @@ abstract class GPOS_Payment_Gateway {
 	/**
 	 * Sipariş kimliği
 	 *
-	 * @var int $order_id
+	 * @var int|string $order_id
 	 */
 	protected $order_id;
 
@@ -123,7 +123,7 @@ abstract class GPOS_Payment_Gateway {
 	/**
 	 * Sipariş kimliğini ayarlar
 	 *
-	 * @param int $order_id Sipariş kimliği.
+	 * @param int|string $order_id Sipariş kimliği.
 	 *
 	 * @return $this
 	 */
@@ -135,7 +135,7 @@ abstract class GPOS_Payment_Gateway {
 	/**
 	 * Sipariş kimliğini döndürür
 	 *
-	 * @return int
+	 * @return int|string
 	 */
 	public function get_order_id() {
 		return $this->order_id;
@@ -144,7 +144,7 @@ abstract class GPOS_Payment_Gateway {
 	/**
 	 * Sipariş toplamını ayarlar
 	 *
-	 * @param int $order_total Sipariş toplam tutarı.
+	 * @param float $order_total Sipariş toplam tutarı.
 	 *
 	 * @return $this
 	 */
@@ -156,7 +156,7 @@ abstract class GPOS_Payment_Gateway {
 	/**
 	 * Sipariş toplamını döndürür
 	 *
-	 * @return int
+	 * @return float
 	 */
 	public function get_order_total() {
 		return $this->order_total;
@@ -165,7 +165,7 @@ abstract class GPOS_Payment_Gateway {
 	/**
 	 * Sipariş para birimini ayarlar
 	 *
-	 * @param int $currency Sipariş para birimi.
+	 * @param string $currency Sipariş para birimi.
 	 *
 	 * @return $this
 	 */
@@ -177,7 +177,7 @@ abstract class GPOS_Payment_Gateway {
 	/**
 	 * Sipariş para birimini döndürür
 	 *
-	 * @return int
+	 * @return string
 	 */
 	public function get_currency() {
 		return $this->currency;
@@ -186,7 +186,7 @@ abstract class GPOS_Payment_Gateway {
 	/**
 	 * Ödeme geçidi geri dönüş urli.
 	 *
-	 * @param int $callback_url Sipariş kimliği.
+	 * @param string $callback_url Sipariş kimliği.
 	 *
 	 * @return $this
 	 */
@@ -198,7 +198,7 @@ abstract class GPOS_Payment_Gateway {
 	/**
 	 * Sipariş kimliğini döndürür
 	 *
-	 * @return int
+	 * @return string
 	 */
 	public function get_callback_url() {
 		return $this->callback_url;

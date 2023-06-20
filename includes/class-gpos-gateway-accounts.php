@@ -46,7 +46,7 @@ class GPOS_Gateway_Accounts {
 	 *
 	 * @param string $gateway_id Ödeme kuruluşunun anahtarı.
 	 *
-	 * @return int|WP_Error — Ekleme işlemi başarılı ise hesap idsi başarısız ise hata döndürür.
+	 * @return GPOS_Gateway_Account|WP_Error — Ekleme işlemi başarılı ise hesap, başarısız ise hata döndürür.
 	 */
 	public function add_account( string $gateway_id ) {
 
@@ -57,7 +57,7 @@ class GPOS_Gateway_Accounts {
 			'post_type'      => $this->post_type,
 		);
 
-		$account_id = wp_insert_post( $account );
+		$account_id = wp_insert_post( $account, true );
 
 		if ( is_wp_error( $account_id ) ) {
 			return $account_id;
@@ -90,8 +90,7 @@ class GPOS_Gateway_Accounts {
 	 */
 	public function get_account( $account_id ) {
 		$account = new GPOS_Gateway_Account( $account_id );
-
-		return $account->id && $account->gateway_settings && $account->gateway_class ? $account : false;
+		return $account->id && is_object( $account->gateway_class ) && is_object( $account->gateway_settings ) ? $account : false;
 	}
 
 	/**

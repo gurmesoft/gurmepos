@@ -93,18 +93,18 @@ class GPOS_Order_Item {
 	}
 
 	/**
-	 * Ürünün miktarını döndürür.
+	 * Ürünün ücretini döndürür.
 	 *
-	 * @return int Ürünün miktarı.
+	 * @return float Ürünün ücreti.
 	 */
 	public function get_total() {
 		return $this->total;
 	}
 
 	/**
-	 * Ürünün miktarını ayarlar ve sınıfın kendisini döndürür.
+	 * Ürünün ücretini ayarlar ve sınıfın kendisini döndürür.
 	 *
-	 * @param int $total Yeni ürün miktarı.
+	 * @param float $total Ürün ücreti.
 	 * @return GPOS_Order_Item Sınıfın kendisi.
 	 */
 	public function set_total( $total ) {
@@ -114,16 +114,16 @@ class GPOS_Order_Item {
 
 
 	/**
-	 * Ürünün ücretini döndürür.
+	 * Ürünün adedini döndürür.
 	 *
-	 * @return int Ürünün ücreti.
+	 * @return int Ürün adedi.
 	 */
 	public function get_quantity() {
 		return $this->quantity;
 	}
 
 	/**
-	 * Ürünün ücretini ayarlar ve sınıfın kendisini döndürür.
+	 * Ürünün adedini ayarlar ve sınıfın kendisini döndürür.
 	 *
 	 * @param int $quantity Yeni ürün ücreti.
 	 * @return GPOS_Order_Item Sınıfın kendisi.

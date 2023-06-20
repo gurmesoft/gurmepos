@@ -3,6 +3,9 @@
  * GurmePOS Form Data
  *
  * @package GurmeHub
+ *
+ * @var string $action
+ * @var array $form_data
  */
 
 ?>

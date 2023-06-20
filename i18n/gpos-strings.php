@@ -2,7 +2,7 @@
 /**
  * Frontend uygulaması için kelime ve cümle çevirileri.
  *
- * @package Gurmehub
+ * @package GurmeHub
  */
 
 $gpos_i18n = array(
@@ -31,7 +31,7 @@ $gpos_i18n = array(
 		'actions'                         => __( 'Aksiyonlar', 'gurmepos' ),
 		'not_active_comp'                 => __( 'Aktif bir ödeme kuruluşunuz bulunmamakta.', 'gurmepos' ),
 		'test_mode'                       => __( 'Test Modu', 'gurmepos' ),
-		'test_mode_content'               => __( 'Tüm uygulamayı test moduna geçirir ve test apileri ile test yapmanıza yarar', 'gurmepos' ),
+		'test_mode_content'               => __( 'Tüm uygulamayı test moduna geçirir ve test apileri ile test yapmanıza yarar.', 'gurmepos' ),
 		'help_title'                      => __( 'Uygulama ile ilgili', 'gurmepos' ),
 		'help_title_link'                 => __( 'yardım dökümanlarını inceleyin', 'gurmepos' ),
 		'3d_settings'                     => __( '3D Ayarları', 'gurmepos' ),
@@ -58,7 +58,6 @@ $gpos_i18n = array(
 		'connect_test'                    => __( 'Bağlantıyı Test Et', 'gurmepos' ),
 		'delete_gateway'                  => __( 'Ödeme kuruluşunu kaldır', 'gurmepos' ),
 		'test_mode_title'                 => __( 'Test Modu Aktif', 'gurmepos' ),
-		'test_mode_content'               => __( 'Test modu aktif iken test APIleri ile çalışmanız gerekmektedir . ', 'gurmepos' ),
 		'gateway_screen'                  => __( 'Sanal POS Ekranı', 'gurmepos' ),
 		'supports_features'               => __( 'Desteklenen Özellikler', 'gurmepos' ),
 		'supports_currency'               => __( 'Desteklenen Para Birimleri', 'gurmepos' ),

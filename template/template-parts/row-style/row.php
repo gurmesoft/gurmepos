@@ -2,7 +2,9 @@
 /**
  * Satır görünümlü taksit seçenekleri
  *
- * @package Gurmepos
+ * @package Gurmehub
+ *
+ * @var array $rate
  */
 
 ?>

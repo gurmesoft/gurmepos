@@ -102,7 +102,7 @@ class GPOS_Paratika extends GPOS_Gateway {
 	/**
 	 * Test ödemesi için kredi kartı
 	 *
-	 * @var array
+	 * @return array
 	 */
 	public function get_test_credit_cards() : array {
 		return array(
@@ -131,7 +131,7 @@ class GPOS_Paratika extends GPOS_Gateway {
 	 * @param float $rate Taksit oranı
 	 * @param float $amount Taksitlendirilecek tutar.
 	 *
-	 * @var float
+	 * @return float
 	 */
 	public function installment_rate_calculate( float $rate, float $amount ) {
 		$amount = ( ( $amount * 100 ) / ( 100 - $rate ) );

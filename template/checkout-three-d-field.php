@@ -2,7 +2,7 @@
 /**
  * Checkoutta 3D seçim inputunu gösterir.
  *
- * @package Gurmepos
+ * @package GurmeHub
  */
 
 ?>

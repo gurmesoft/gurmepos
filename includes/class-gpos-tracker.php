@@ -58,7 +58,8 @@ class GPOS_Tracker {
 		 *      "payment_gateway": "paratika",
 		 *      "payment_plugin": "woocommerce",
 		 *      "total": 200,
-		 *      "currency": "TRY"
+		 *      "currency": "TRY",
+		 *      "is_test": 1,
 		 *  }
 		 */
 		$this->http->request(

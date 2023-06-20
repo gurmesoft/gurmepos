@@ -1,5 +1,14 @@
 == Changelog ==
 
+= v1.2.2 - (2023-06-20) =
+
+
+Bug Fixes
+
+* Arkaplan iyilestirmeleri yapildi
+* Arkaplan iyilestirmeleri yapildi
+* Önyüz ve arkaplan iyileştirmeleri yapıldı.
+
 = v1.2.1 - (2023-06-15) =
 
 
@@ -12,7 +21,6 @@ Bug Fixes
 
 Features
 
-* WooCommerce vergiyle girilmiş fiyatlar ayarı için, dahil ve hariç fiyat girebilme özelliği eklendi.
 * WooCommerce vergiyle girilmiş fiyatlar ayarı için, dahil ve hariç fiyat girebilme özelliği eklendi.
 
 = v1.1.38 - (2023-06-15) =
@@ -43,8 +51,6 @@ Bug Fixes
 Bug Fixes
 
 * Github release duzeltildi
-* Github release duzeltildi
-* README düzenlendi
 * README düzenlendi
 
 = v1.1.34 - (2023-06-14) =

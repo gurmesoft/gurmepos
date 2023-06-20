@@ -97,7 +97,7 @@ class GPOS_Iyzico extends GPOS_Gateway {
 	/**
 	 * Test ödemesi için kredi kartı
 	 *
-	 * @var array
+	 * @return array
 	 */
 	public function get_test_credit_cards() : array {
 		return array(

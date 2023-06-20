@@ -45,30 +45,24 @@ class GPOS_Installments {
 	 *
 	 * @param string $platform Ödemenin geçeceği platform.
 	 *
-	 * @return stdClass
+	 * @return object
 	 */
 	public function get_platform_data_to_be_paid( $platform ) {
-
-		switch ( $platform ) {
-			case 'woocommerce':
-				$amount          = WC()->cart->get_total( 'float' );
-				$currency        = get_woocommerce_currency();
-				$currency_symbol = get_woocommerce_currency_symbol( $currency );
-				break;
-			case 'giwewp':
-				$amount   = 0;
-				$currency = give_get_currency();
-				break;
-			default:
-				$amount   = 0;
-				$currency = 'TRY';
-				break;
-		}
-		return (object) array(
-			'amount'          => $amount,
-			'currency'        => $currency,
-			'currency_symbol' => $currency_symbol,
+		$data = (object) array(
+			'amount'          => 0,
+			'currency'        => 'TRY',
+			'currency_symbol' => 'TRY',
 		);
+
+		if ( 'woocommerce' === $platform ) {
+			$data = (object) array(
+				'amount'          => WC()->cart->get_total( 'float' ),
+				'currency'        => get_woocommerce_currency(),
+				'currency_symbol' => get_woocommerce_currency_symbol( get_woocommerce_currency() ),
+			);
+		}
+
+		return apply_filters( 'gpos_platform_data_to_be_paid', $data, $platform );
 	}
 
 	/**

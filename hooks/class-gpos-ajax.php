@@ -158,10 +158,10 @@ class GPOS_Ajax {
 	 *
 	 * @param stdClass $request İstek parametreleri.
 	 *
-	 * @return mixed
+	 * @return void
 	 */
 	public function update_default_status( $request ) {
-		return gpos_gateway_account( $request->id )->set_default();
+		gpos_gateway_account( $request->id )->set_default();
 	}
 
 	/**
@@ -169,10 +169,10 @@ class GPOS_Ajax {
 	 *
 	 * @param stdClass $request İstek parametreleri.
 	 *
-	 * @return mixed
+	 * @return void
 	 */
 	public function add_gateway_account( $request ) {
-		return gpos_gateway_accounts()->add_account( $request->gateway );
+		gpos_gateway_accounts()->add_account( $request->gateway );
 	}
 
 	/**

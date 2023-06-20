@@ -43,7 +43,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 		$this->woocommerce_settings = gpos_woocommerce_settings();
 		$this->method_title         = __( 'POS Entegratör', 'gurmepos' );
 		$this->method_description   = __( 'POS Entegratör - Çoklu ödeme çözümleri', 'gurmepos' );
-		$this->enabled              = true;
+		$this->enabled              = 'yes';
 		$this->title                = $this->woocommerce_settings->get_setting_by_key( 'title' );
 		$this->description          = $this->woocommerce_settings->get_setting_by_key( 'description' );
 		$this->icon                 = $this->woocommerce_settings->get_setting_by_key( 'icon' );
@@ -51,8 +51,6 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 		$this->has_fields           = true;
 		/**
 		 * WooCommerce için ödeme geçidinin desteklediği özellikleri düzenler.
-		 *
-		 * @param array
 		 */
 		$this->supports = apply_filters( 'gpos_woocommerce_payment_supports', array() );
 		$this->init_settings();
@@ -63,9 +61,9 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	/**
 	 * WooCommerce sipariş sayfasından ödeme tetiklenir.
 	 *
-	 * @param string $order_id Sipariş numarası.
+	 * @param int $order_id Sipariş numarası.
 	 *
-	 * @return void
+	 * @return array|void
 	 */
 	public function process_payment( $order_id ) {
 
@@ -210,8 +208,9 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 
 		if ( false === empty( $order_lines ) ) {
 			foreach ( $order_lines as $order_line ) {
-
-				$item_total = $order_line->get_total() + $order_line->get_total_tax();
+				$total      = method_exists( $order_line, 'get_total' ) ? $order_line->get_total() : 0;
+				$tax        = method_exists( $order_line, 'get_total_tax' ) ? $order_line->get_total_tax() : 0;
+				$item_total = floatval( $total + $tax );
 
 				if ( $item_total > 0 ) {
 					$this->gateway->add_order_item(
@@ -234,7 +233,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @param GPOS_Gateway_Response $response Ödeme geçidi cevabı
 	 * @param bool                  $on_checkout Ödeme sayfasında mı ?
 	 *
-	 * @return array|void
+	 * @return array
 	 *
 	 * @SuppressWarnings(PHPMD.ExitExpression)
 	 */
@@ -261,6 +260,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 				'payment_plugin'  => 'woocommerce',
 				'total'           => $order->get_total(),
 				'currency'        => $order->get_currency(),
+				'is_test'         => gpos_is_test_mode(),
 			)
 		);
 
@@ -283,7 +283,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @param GPOS_Gateway_Response $response Ödeme geçidi cevabı
 	 * @param bool                  $on_checkout Ödeme sayfasında mı ?
 	 *
-	 * @return array|void
+	 * @return array
 	 *
 	 * @SuppressWarnings(PHPMD.ExitExpression)
 	 */
@@ -321,7 +321,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 *
 	 * @param mixed $uniq_order_id benzersiz değer eklenmiş sipariş numarası.
 	 *
-	 * @return WC_Order WooCommerce Sipariş.
+	 * @return bool|WC_Order WooCommerce Sipariş.
 	 */
 	private function get_order( $uniq_order_id ) {
 		$id_array = explode( '_', $uniq_order_id );

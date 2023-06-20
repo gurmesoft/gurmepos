@@ -75,7 +75,7 @@ class GPOS_Redirect {
 	/**
 	 * 3D yönlendirme verilerini veri tabanında yazar.
 	 *
-	 * @param array $html_content Yönlendirme verileri.
+	 * @param string $html_content Yönlendirme verileri.
 	 *
 	 * @return GPOS_Redirect
 	 */

@@ -21,13 +21,6 @@ class Client {
 	protected $updater;
 
 	/**
-	 * Eklenti lisans sınıfı
-	 *
-	 * @var \GurmeHub\License $license
-	 */
-	protected $license;
-
-	/**
 	 * Eklenti veri toplama sınıfı.
 	 *
 	 * @var \GurmeHub\Insights $insights
@@ -38,13 +31,11 @@ class Client {
 	 * Kurucu method.
 	 *
 	 * @param string $basefile Eklenti klasör/dosyaismi (gurmepos/gurmepos.php)
-	 * @param string $license Lisans anahtarı.
 	 *
 	 * @return void
 	 */
-	public function __construct( $basefile, $license = '' ) {
-
-		$this->plugin = new \GurmeHub\Plugin( $basefile, $license );
+	public function __construct( $basefile ) {
+		$this->plugin = new \GurmeHub\Plugin( $basefile );
 	}
 
 	/**
