@@ -1,13 +1,18 @@
 == Changelog ==
 
+= v1.2.3 - (2023-06-21) =
+
+
+Bug Fixes
+
+* README contributer ve isim degisiklikleri yapildi
+
 = v1.2.2 - (2023-06-20) =
 
 
 Bug Fixes
 
 * Arkaplan iyilestirmeleri yapildi
-* Arkaplan iyilestirmeleri yapildi
-* Önyüz ve arkaplan iyileştirmeleri yapıldı.
 
 = v1.2.1 - (2023-06-15) =
 
