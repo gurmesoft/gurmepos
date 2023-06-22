@@ -1,5 +1,13 @@
 == Changelog ==
 
+= v1.2.5 - (2023-06-22) =
+
+
+Bug Fixes
+
+* Ödeme oturumu süreleri uzatıldı.
+* Ödeme oturumu süreleri uzatıldı.
+
 = v1.2.4 - (2023-06-22) =
 
 

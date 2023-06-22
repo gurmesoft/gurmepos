@@ -111,7 +111,6 @@ $gpos_i18n = array(
 		'transaction_logs'                 => __( 'Transaction Logs', 'gurmepos' ),
 		'transaction_logs_desc'            => __( 'On this table, you can view in detail every transaction that goes through your payment gateway.', 'gurmepos' ),
 		'logs'                             => __( 'Logs', 'gurmepos' ),
-		'logs'                             => __( 'Logs', 'gurmepos' ),
 		'deletion_completed'               => __( 'Deletion completed', 'gurmepos' ),
 		'ok'                               => __( 'OK', 'gurmepos' ),
 		'back_to'                          => __( 'Back To', 'gurmepos' ),
