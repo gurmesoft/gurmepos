@@ -193,7 +193,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	public function process_callback( array $post_data ) : GPOS_Gateway_Response {
 		$this->gateway_response->set_success( false )
 		->set_order_id( $post_data['conversationId'] )
-		->set_error_message( __( '3D işleminde hata. Şifre yanlış girilmiş yada 3D sayfası terk edilmiş.', 'gurmepos' ) );
+		->set_error_message( __( 'Error in 3D rendering. The password was entered incorrectly or the 3D page was abandoned.', 'gurmepos' ) );
 
 		if ( 'success' === $post_data['status'] ) {
 			$request = new \Iyzipay\Request\CreateThreedsPaymentRequest();

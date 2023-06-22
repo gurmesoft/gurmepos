@@ -83,17 +83,17 @@ class GPOS_Craftgate extends GPOS_Gateway {
 		return array(
 			array(
 				'type'  => 'text',
-				'label' => __( 'Api Anahtarı', 'gurmepos' ),
+				'label' => __( 'Api Key', 'gurmepos' ),
 				'model' => 'api_key',
 			),
 			array(
 				'type'  => 'text',
-				'label' => __( 'Api Şifresi', 'gurmepos' ),
+				'label' => __( 'Api Password', 'gurmepos' ),
 				'model' => 'api_secret',
 			),
 			array(
 				'type'  => 'text',
-				'label' => __( 'Panel üzerinde bulunan Yönetim -> Üye İşyeri Ayarları arayüzündeki "Üye İşyeri 3DSecure Callback Key"', 'gurmepos' ),
+				'label' => __( 'Member 3DSecure Callback Key" in the Administration -> Merchant Settings interface on the panel."', 'gurmepos' ),
 				'model' => 'threed_callback_key',
 			),
 		);

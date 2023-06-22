@@ -182,14 +182,14 @@ class GPOS_WordPress {
 	public function actions_links( $links ) {
 
 		$new_links = array(
-			'settings' => sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=gpos-payment-gateways' ), __( 'Ayarlar', 'gurmepos' ) ),
+			'settings' => sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=gpos-payment-gateways' ), __( 'Settings', 'gurmepos' ) ),
 		);
 
 		if ( ! gpos_is_pro_active() ) {
 			$new_links['upgrade-pro'] = sprintf(
 				"<a href='%s' class='upgrade-pro' target='_blank'>%s </a>",
 				gpos_create_utm_link( 'eklentiler' ),
-				__( 'Yükselt', 'gurmepos' )
+				__( 'Upgrade', 'gurmepos' )
 			);
 
 		}
@@ -234,7 +234,7 @@ class GPOS_WordPress {
 						$args,
 						'https://yardim.gurmehub.com/docs/pos-entegrator/'
 					),
-					__( 'Dökümanlar', 'gurmepos' )
+					__( 'Docs', 'gurmepos' )
 				),
 				'communitysupport' => sprintf(
 					'<a href="%s" target="_blank">%s</a>',
@@ -242,7 +242,7 @@ class GPOS_WordPress {
 						$args,
 						'https://forum.gurmehub.com/c/gurmehub/pos-entegrator/31/'
 					),
-					__( 'Topluluk Formu', 'gurmepos' )
+					__( 'Community Form', 'gurmepos' )
 				),
 			);
 

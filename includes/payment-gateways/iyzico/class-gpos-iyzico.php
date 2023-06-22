@@ -83,12 +83,12 @@ class GPOS_Iyzico extends GPOS_Gateway {
 		return array(
 			array(
 				'type'  => 'text',
-				'label' => __( 'Api Anahtarı', 'gurmepos' ),
+				'label' => __( 'Api Key', 'gurmepos' ),
 				'model' => 'api_key',
 			),
 			array(
 				'type'  => 'text',
-				'label' => __( 'Güvenlik Anahtarı', 'gurmepos' ),
+				'label' => __( 'Security Key', 'gurmepos' ),
 				'model' => 'api_secret',
 			),
 		);

@@ -203,7 +203,7 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 
 		$this->gateway_response
 		->set_success( false )
-		->set_error_message( array_key_exists( 'errorMsg', $post_data ) ? $post_data['errorMsg'] : __( '3D işleminde hata. Şifre yanlış girilmiş yada 3D sayfası terk edilmiş.', 'gurmepos' ) );
+		->set_error_message( array_key_exists( 'errorMsg', $post_data ) ? $post_data['errorMsg'] : __( 'Error in 3D rendering. The password was entered incorrectly or the 3D page was abandoned.', 'gurmepos' ) );
 
 		if ( array_key_exists( 'merchantPaymentId', $post_data )
 			&& array_key_exists( 'responseCode', $post_data )
@@ -247,7 +247,7 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 			}
 		}
 
-		return $this->gateway_response->set_success( false )->set_error_message( __( 'Transactionlist içerisinde onaylanmış transaction bulunamadı.', 'gurmepos' ) );
+		return $this->gateway_response->set_success( false )->set_error_message( __( 'No confirmed transactions were found in the transactionlist.', 'gurmepos' ) );
 	}
 
 	/**

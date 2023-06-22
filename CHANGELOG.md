@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v1.2.4 - (2023-06-22) =
+
+
+Bug Fixes
+
+* Eklenti anadili İngilizce olarak değiştirildi, Türkçe çeviriye uygun hale getirildi. Türkçe çeviriler eklendi.
+
 = v1.2.3 - (2023-06-21) =
 
 

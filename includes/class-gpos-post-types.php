@@ -27,7 +27,7 @@ class GPOS_Post_Types {
 		$this->post_types = array(
 			'gpos_account' => array(
 				'labels' => array(
-					'name' => __( 'ÖdeGeç Account', 'gpos' ),
+					'name' => __( 'PayLate Account', 'gpos' ),
 				),
 				'public' => false,
 			),

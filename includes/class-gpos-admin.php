@@ -71,19 +71,19 @@ class GPOS_Admin {
 
 		$this->sub_menu_pages = array(
 			array(
-				'menu_title' => __( 'Başlangıç', 'gurmepos' ),
+				'menu_title' => __( 'Dashboard', 'gurmepos' ),
 				'menu_slug'  => $this->parent_slug,
 			),
 			array(
-				'menu_title' => __( 'Sanal POS\'lar', 'gurmepos' ),
+				'menu_title' => __( 'Virtual POS', 'gurmepos' ),
 				'menu_slug'  => "{$this->prefix}-payment-gateways",
 			),
 			array(
-				'menu_title' => __( 'Form Ayarları', 'gurmepos' ),
+				'menu_title' => __( 'Form Settings', 'gurmepos' ),
 				'menu_slug'  => "{$this->prefix}-form-settings",
 			),
 			array(
-				'menu_title' => __( 'Kayıtlar', 'gurmepos' ),
+				'menu_title' => __( 'Logs', 'gurmepos' ),
 				'menu_slug'  => "{$this->prefix}-logs",
 			),
 			array(
@@ -133,7 +133,7 @@ class GPOS_Admin {
 				sprintf(
 					'%2$s <img src="%1$s/images/new-tab.svg" class="new-tab">',
 					GPOS_ASSETS_DIR_URL,
-					__( 'Proya Yükselt', 'gurmepos' ),
+					__( 'Upgrade Pro', 'gurmepos' ),
 				),
 				'manage_woocommerce',
 				gpos_create_utm_link( 'sol_menu' ),
@@ -169,6 +169,12 @@ class GPOS_Admin {
 				'strings'              => gpos_get_i18n_strings(),
 				'version'              => GPOS_VERSION,
 				'log'                  => gpos_log()->get(),
+				'alert_texts'          => array(
+					'ok'                     => __( 'OK', 'gurmepos' ),
+					'setting_saved'          => __( 'The settings have been saved.', 'gurmepos' ),
+					'installments_applied'   => __( 'Installments were applied', 'gurmepos' ),
+					'installments_get_error' => __( 'Error when bringing in installments', 'gurmepos' ),
+				),
 			);
 
 			if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) ) && isset( $_GET['id'] ) && 'payment-gateway' === $page ) {
@@ -200,7 +206,7 @@ class GPOS_Admin {
 				'title' => sprintf(
 					'<span class="ab-icon"><img style="width:20px;height:20px;" src="%s"></span><span class="ab-label">POS Entegrator%s</span>',
 					$this->icon,
-					gpos_is_test_mode() ? __( ' Test Modu Aktif' ) : ''
+					gpos_is_test_mode() ? __( 'Test Mode Active', 'gurmepos' ) : ''
 				),
 				'href'  => admin_url( 'admin.php?page=gpos-payment-gateways' ),
 			);

@@ -10,16 +10,16 @@
 <div class="test-mode-container">
 	<div class="test-mode-title gpos-flex gpos-item-center">
 		<img src="<?php echo esc_url( GPOS_ASSETS_DIR_URL ); ?>/images/warning.svg" style="width: 20px; height: 20px;">
-		<span>Test Modu Aktif</span>
+		<span><?php esc_html_e( 'Test Mode Active', 'gurmepos' ); ?></span>
 	</div>
-	<p class="test-mode-content">Test modu aktif iken ödemeleriniz Test API’leri ile gerçekleşecektir.</p>
+	<p class="test-mode-content"><?php esc_html_e( 'While the test mode is active, your payments will be made with the Test APIs.' ); ?></p>
 		<?php if ( false === empty( $test_cards ) ) : ?>
 	<table>
 		<tr>
-			<th>Kart Numarası</th>
-			<th>Ay/Yıl</th>
-			<th>Cvv</th>
-			<th>3D</th>
+			<th><?php esc_html_e( 'Card Number', 'gurmepos' ); ?></th>
+			<th><?php esc_html_e( 'Month/Year', 'gurmepos' ); ?></th>
+			<th><?php esc_html_e( 'CVV', 'gurmepos' ); ?></th>
+			<th><?php esc_html_e( '3D', 'gurmepos' ); ?></th>
 			<th></th>
 		</tr>
 			<?php foreach ( $test_cards as $card ) : ?>

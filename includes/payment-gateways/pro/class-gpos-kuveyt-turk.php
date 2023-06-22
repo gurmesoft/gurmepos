@@ -82,22 +82,22 @@ class GPOS_Kuveyt_Turk extends GPOS_Gateway {
 		return array(
 			array(
 				'type'  => 'text',
-				'label' => __( 'Mağaza Numarası', 'gurmepos' ),
+				'label' => __( 'Merchant ID', 'gurmepos' ),
 				'model' => 'merchant_id',
 			),
 			array(
 				'type'  => 'text',
-				'label' => __( 'Müşteri Numarası', 'gurmepos' ),
+				'label' => __( 'Client ID', 'gurmepos' ),
 				'model' => 'client_id',
 			),
 			array(
 				'type'  => 'text',
-				'label' => __( 'Kullanıcı Adı', 'gurmepos' ),
+				'label' => __( 'Username', 'gurmepos' ),
 				'model' => 'merchant_user',
 			),
 			array(
 				'type'  => 'text',
-				'label' => __( 'Şifre', 'gurmepos' ),
+				'label' => __( 'Password', 'gurmepos' ),
 				'model' => 'merchant_password',
 			),
 		);

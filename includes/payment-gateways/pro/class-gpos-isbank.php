@@ -82,22 +82,22 @@ class GPOS_Isbank extends GPOS_Gateway {
 		return array(
 			array(
 				'type'  => 'text',
-				'label' => __( 'Mağaza Numarası', 'gurmepos' ),
+				'label' => __( 'Merchant ID', 'gurmepos' ),
 				'model' => 'merchant_id',
 			),
 			array(
 				'type'  => 'text',
-				'label' => __( 'Kullanıcı Adı', 'gurmepos' ),
+				'label' => __( 'Username', 'gurmepos' ),
 				'model' => 'merchant_user',
 			),
 			array(
 				'type'  => 'text',
-				'label' => __( 'Şifre', 'gurmepos' ),
+				'label' => __( 'Password', 'gurmepos' ),
 				'model' => 'merchant_password',
 			),
 			array(
 				'type'  => 'text',
-				'label' => __( '3D Anahtarı', 'gurmepos' ),
+				'label' => __( '3D Key', 'gurmepos' ),
 				'model' => 'merchant_threed_store_key',
 			),
 			array(
@@ -108,7 +108,7 @@ class GPOS_Isbank extends GPOS_Gateway {
 					'3d_pay_hosting' => '3D Pay Hosting',
 					'3d_host'        => '3D Host',
 				),
-				'label'   => __( '3D Tipi', 'gurmepos' ),
+				'label'   => __( '3D Type', 'gurmepos' ),
 				'model'   => 'merchant_threed_type',
 			),
 		);

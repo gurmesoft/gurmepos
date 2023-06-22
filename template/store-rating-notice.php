@@ -7,14 +7,14 @@
 
 ?>
 <div class="notice notice-info" id="gpos-rating-notice">
-	<p><?php esc_html_e( 'Merhaba Sevgili WordPress sever.', 'gurmepos' ); ?></p>
+	<p><?php esc_html_e( 'Hello Dear WordPress lovers.', 'gurmepos' ); ?></p>
 	<?php
-	esc_html_e( 'POS Entegratörü kurup deneyimlediğini fark ettim bu harika! Lütfen bize bir iyilik yapıp, eklentimizi yaymamıza ve motivasyonumuzu artırmamıza destek ol. Bize WordPress`te 5 yıldız verip yorum yazar mısın?', 'gurmepos' );
+	esc_html_e( 'I noticed that you have installed and experimented with POS Entegrator, that`s great! Please do us a favor and help us spread our plugin and increase our motivation. Can you give us 5 stars and write a comment on WordPress?', 'gurmepos' );
 	?>
-	<p><strong>Fuat POYRAZ | GurmeHub Kurucusu</strong></p>
-	<p><a class="gpos-hide-notice" href="https://wordpress.org/plugins/pos-entegrator/#reviews" target="_blank"><?php esc_html_e( 'Evet, bunu hak ediyorsun', 'gurmepos' ); ?></a></p> 
-	<p><a class="gpos-hide-notice" href=""><?php esc_html_e( 'Hayır, belki daha sonra', 'gurmepos' ); ?></a></p> 
-	<p><a class="gpos-hide-notice" href=""><?php esc_html_e( 'Zaten yorum yaptım', 'gurmepos' ); ?></a></p>
+	<p><strong>Fuat POYRAZ |<?php esc_html_e( 'GurmeHub Founder', 'gurmepos' ); ?></strong></p>
+	<p><a class="gpos-hide-notice" href="https://wordpress.org/plugins/pos-entegrator/#reviews" target="_blank"><?php esc_html_e( 'Yes, you deserve it', 'gurmepos' ); ?></a></p> 
+	<p><a class="gpos-hide-notice" href=""><?php esc_html_e( 'No, maybe later', 'gurmepos' ); ?></a></p> 
+	<p><a class="gpos-hide-notice" href=""><?php esc_html_e( 'I already commented', 'gurmepos' ); ?></a></p>
 
 	<?php wp_nonce_field(); ?>		 
 </div>

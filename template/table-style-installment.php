@@ -14,10 +14,10 @@
 	<thead class="gpos-installment-table-thead">
 		<tr>
 			<th class="gpos-installment-table-td">
-				Taksit Sayısı
+			<?php esc_html_e( 'Installment Number', 'gurmepos' ); ?>
 			</th>
 			<th class="gpos-installment-table-td">
-				Aylık Ödeme
+			<?php esc_html_e( 'Monthly Payment', 'gurmepos' ); ?>
 			</th>
 		</tr>
 	</thead>
@@ -34,7 +34,7 @@
 					<?php echo '1' === $rate['installment_number'] ? 'checked' : ''; ?>
 					>
 					<label class="gpos-installment-table-label" for="installment-<?php echo esc_attr( $rate['installment_number'] ); ?>">
-				<?php echo '1' === $rate['installment_number'] ? 'Tek Çekim' : esc_html( $rate['installment_number'] ); ?>&nbsp;<?php echo '1' === $rate['installment_number'] ? '' : 'Taksit'; ?>
+				<?php echo '1' === $rate['installment_number'] ? esc_html_e( 'One Shot Pay', 'gurmepos' ) : esc_html( $rate['installment_number'] ); ?>&nbsp;<?php echo '1' === $rate['installment_number'] ? '' : esc_html_e( 'Installment', 'gurmepos' ); ?>
 				</label>
 				</div>
 			</th>	

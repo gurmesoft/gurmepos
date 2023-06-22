@@ -42,7 +42,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	public function __construct() {
 		$this->woocommerce_settings = gpos_woocommerce_settings();
 		$this->method_title         = __( 'POS Entegratör', 'gurmepos' );
-		$this->method_description   = __( 'POS Entegratör - Çoklu ödeme çözümleri', 'gurmepos' );
+		$this->method_description   = __( 'POS Entegratör - Multiple payment solutions', 'gurmepos' );
 		$this->enabled              = 'yes';
 		$this->title                = $this->woocommerce_settings->get_setting_by_key( 'title' );
 		$this->description          = $this->woocommerce_settings->get_setting_by_key( 'description' );
@@ -71,7 +71,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 			wp_send_json(
 				array(
 					'result'   => 'failure',
-					'messages' => gpos_woocommerce_notice( __( 'Geçersiz işlem lütfen sayfayı yenileyerek tekrar deneyiniz.', 'gurmepos' ) ),
+					'messages' => gpos_woocommerce_notice( __( 'Invalid operation, please try again by refreshing the page.', 'gurmepos' ) ),
 				)
 			);
 		}
@@ -242,7 +242,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 		$order->payment_complete( $response->get_payment_id() );
 		$order->add_order_note(
 			// translators: %s => Ödeme geçidi benzersiz numarası.
-			sprintf( __( 'Ödeme başarıyla tamamlandı. Ödeme numarası: %s', 'gurmepos' ), $response->get_payment_id() )
+			sprintf( __( 'Payment completed successfully. Payment number: %s', 'gurmepos' ), $response->get_payment_id() )
 		);
 		$item_transactions = $response->get_items_transaction_ids();
 
@@ -289,12 +289,12 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 */
 	private function error_process( GPOS_Gateway_Response $response, $on_checkout ) {
 		$order         = $this->get_order( $response->get_order_id() );
-		$error_message = $response->get_error_message() ? $response->get_error_message() : __( 'Bilinmeyen hata lütfen yönetim ile iletişime geçiniz', 'gurmepos' );
+		$error_message = $response->get_error_message() ? $response->get_error_message() : __( 'Unknown error please contact admin', 'gurmepos' );
 
 		if ( $order ) {
 			$order->add_order_note(
 				// translators: %s => Ödeme geçidi hatası.
-				sprintf( __( 'Ödeme işleminde hata: %s', 'gurmepos' ), $error_message )
+				sprintf( __( 'Error in payment process: %s', 'gurmepos' ), $error_message )
 			);
 		}
 
@@ -372,11 +372,11 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 		$warning = false;
 		if ( isset( $_POST['payment_method'] ) && $this->id === $_POST['payment_method'] ) {
 			$fields = array(
-				'card-bin'          => __( 'Kredi kartı numarası alanı boş bırakılamaz.', 'gurmepos' ),
-				'card-expiry-month' => __( 'Kredi kartı son kullanım tarihi ay boş bırakılamaz.', 'gurmepos' ),
-				'card-expiry-year'  => __( 'Kredi kartı son kullanım tarihi yıl boş bırakılamaz.', 'gurmepos' ),
-				'card-cvv'          => __( 'Kredi kartı güvenlik alanı boş bırakılamaz.', 'gurmepos' ),
-				'holder-name'       => __( 'Kart üzerindeki isim alanı boş bırakılamaz.', 'gurmepos' ),
+				'card-bin'          => __( 'The credit card number field cannot be left blank.', 'gurmepos' ),
+				'card-expiry-month' => __( 'Credit card expiration date cannot be left blank.', 'gurmepos' ),
+				'card-expiry-year'  => __( 'The credit card expiration date cannot be left blank.', 'gurmepos' ),
+				'card-cvv'          => __( 'Credit card security field cannot be left blank.', 'gurmepos' ),
+				'holder-name'       => __( 'The name field on the card cannot be left blank.', 'gurmepos' ),
 			);
 
 			foreach ( $fields as $field => $error ) {
@@ -402,8 +402,8 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 			}
 		</style>
 			<h3>
-				<?php esc_html_e( 'Bu ödeme yöntemi ayarları yönetici menüsü üzerinden yapılmaktadır.', 'gurmepos' ); ?> 
-				<a href="<?php echo esc_url( admin_url( 'admin.php?page=gpos-payment-gateways' ) ); ?>"><?php esc_html_e( 'Ayarlara gitmek için tıklayınız.', 'gurmepos' ); ?></a> 
+				<?php esc_html_e( 'These payment method settings are made through the admin menu.', 'gurmepos' ); ?> 
+				<a href="<?php echo esc_url( admin_url( 'admin.php?page=gpos-payment-gateways' ) ); ?>"><?php esc_html_e( 'Click to go to settings.', 'gurmepos' ); ?></a> 
 			</h3>
 		<?php
 	}

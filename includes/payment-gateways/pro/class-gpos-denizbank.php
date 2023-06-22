@@ -83,22 +83,22 @@ class GPOS_Denizbank extends GPOS_Gateway {
 		return array(
 			array(
 				'type'  => 'text',
-				'label' => __( 'Müşteri Numarası', 'gurmepos' ),
+				'label' => __( 'Client ID', 'gurmepos' ),
 				'model' => 'client_id',
 			),
 			array(
 				'type'  => 'text',
-				'label' => __( 'Müşteri Şifre', 'gurmepos' ),
+				'label' => __( 'Client Password', 'gurmepos' ),
 				'model' => 'client_password',
 			),
 			array(
 				'type'  => 'text',
-				'label' => __( 'Mağaza No (3D Host için zorunlu değildir.)', 'gurmepos' ),
+				'label' => __( 'Store Number (Not required for 3D Host.)', 'gurmepos' ),
 				'model' => 'merchant_id',
 			),
 			array(
 				'type'  => 'text',
-				'label' => __( 'Mağaza Şifre (3D Host için zorunlu değildir.)', 'gurmepos' ),
+				'label' => __( 'Store Password (Not required for 3D Host.)', 'gurmepos' ),
 				'model' => 'merchant_password',
 			),
 			array(
@@ -108,7 +108,7 @@ class GPOS_Denizbank extends GPOS_Gateway {
 					'3d_pay'  => '3D Pay',
 					'3d_host' => '3D Host',
 				),
-				'label'   => __( '3D Tipi', 'gurmepos' ),
+				'label'   => __( '3D Type', 'gurmepos' ),
 				'model'   => 'merchant_threed_type',
 			),
 		);

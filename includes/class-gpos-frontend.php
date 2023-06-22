@@ -160,7 +160,7 @@ class GPOS_Frontend {
 			?>
 				<div class="empty-gateway-container">
 					<p class="empty-gateway-content">
-					<?php esc_html_e( 'Her hangi bir pos entegrasyonunu aktif etmediniz lütfen ayarlarınızı tamamlayınız.', 'gurmepos' ); ?>
+					<?php esc_html_e( 'You have not activated any pos integration, please complete your settings.', 'gurmepos' ); ?>
 					</p>
 				</div>
 			<?php

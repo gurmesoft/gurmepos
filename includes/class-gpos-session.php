@@ -45,7 +45,7 @@ class GPOS_Session {
 		$payment_id = array_key_exists( GPOS_SESSION_ID_KEY, $_COOKIE ) ? gpos_clean( $_COOKIE[ GPOS_SESSION_ID_KEY ] ) : false;
 
 		if ( false === $payment_id ) {
-			throw new Exception( __( 'Ödeme oturumu bulunamadı. Lütfen tekrar deneyiniz. ', 'gurmepos' ) );
+			throw new Exception( __( 'Payment session not found. Please try again. ', 'gurmepos' ) );
 		}
 
 		return $payment_id;

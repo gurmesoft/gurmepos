@@ -16,36 +16,36 @@ $years  = array( '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030',
 	<div class="gpos-full-row" style="margin-bottom: 20px;">
 		<div class="gpos-full-width">
 			<?php if ( true === $form_settings['form_user_name'] ) : ?>
-			<label for="holder-name" class="gpos-label">Ad Soyad</label>
+			<label for="holder-name" class="gpos-label"><?php esc_html_e( 'Name Surname', 'gurmepos' ); ?></label>
 			<div class="gpos-relative" style="margin-bottom: 20px">
 				<div class="gpos-input-svg">
 					<img src="<?php echo esc_url( GPOS_ASSETS_DIR_URL ); ?>/images/user.svg"
 						style="width: 20px; height: 20px;">
 				</div>
 				<input name="gpos-holder-name" id="holder-name" class="gpos-form-input" type="text"
-					placeholder="Kart üzerindeki ad soyad">
+					placeholder="<?php esc_attr( 'Name on the card' ); ?>">
 			</div>
 			<?php endif; ?>
 
-			<label for="gpos-card-bin" class="gpos-label">Kart Numarası</label>
+			<label for="gpos-card-bin" class="gpos-label"><?php esc_html_e( 'Card Number', 'gurmepos' ); ?></label>
 			<div class="gpos-relative">
 				<div class="gpos-input-svg">
 					<img src="<?php echo esc_url( GPOS_ASSETS_DIR_URL ); ?>/images/card.svg"
 						style="width: 20px; height: 20px;">
 				</div>
 				<input name="gpos-card-bin" id="gpos-card-bin" class="wc-credit-card-form-card-number gpos-form-input"
-					inputmode="numeric" type="tel" autocomplete="cc-number" placeholder="Kredi Kartı Numarası">
+					inputmode="numeric" type="tel" autocomplete="cc-number" placeholder="<?php esc_attr( 'Card number' ); ?>">
 			</div>
 		</div>
 	</div>
 
 	<div class="gpos-between">
 		<div class="gpos-expiry-wrapper">
-			<label class="gpos-label">Son Kullanma Tarihi</label>
+			<label class="gpos-label"><?php esc_html_e( 'Expiration Date', 'gurmepos' ); ?></label>
 			<div class="gpos-flex">
 				<div class="gpos-expiry-input">
 					<select name="gpos-card-expiry-month" class="gpos-half-input" id="gpos-card-expiry-month">
-						<option value="ay">Ay</option>
+						<option value="ay"><?php esc_html_e( 'Month', 'gurmepos' ); ?></option>
 						<?php foreach ( $months as $month ) : ?>
 						<option value="<?php echo esc_attr( $month ); ?>"><?php echo esc_html( $month ); ?></option>
 						<?php endforeach ?>
@@ -53,7 +53,7 @@ $years  = array( '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030',
 				</div>
 				<div class="gpos-expiry-input">
 					<select name="gpos-card-expiry-year" class="gpos-half-input" id="gpos-card-expiry-year">
-						<option value="">Yıl</option>
+						<option value=""><?php esc_html_e( 'Year', 'gurmepos' ); ?></option>
 						<?php foreach ( $years as $year ) : ?>
 						<option value="<?php echo esc_attr( $year ); ?>"><?php echo esc_html( $year ); ?></option>
 						<?php endforeach ?>
@@ -63,7 +63,7 @@ $years  = array( '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030',
 		</div>
 		<div class="gpos-cvv-input">
 			<div class="gpos-flex gpos-item-center">
-				<label for="gpos-card-cvv" class="gpos-label">CVV</label>
+				<label for="gpos-card-cvv" class="gpos-label"><?php esc_html_e( 'CVV' ); ?></label>
 				<img src="<?php echo esc_url( $asset_dir_url ); ?>/images/info.svg"
 					style="width: 15px; height: 15px;">
 			</div>

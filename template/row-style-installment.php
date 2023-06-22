@@ -9,8 +9,8 @@
 
 ?>
 <div class="gpos-installment-header">
-	<span>Taksit Sayısı</span>
-	<span>Aylık Ödeme</span>
+	<span><?php esc_html_e( 'Installment Number', 'gurmepos' ); ?></span>
+	<span><?php esc_html_e( 'Monthly Payment', 'gurmepos' ); ?></span>
 </div>
 <?php
 

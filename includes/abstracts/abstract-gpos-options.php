@@ -69,8 +69,8 @@ abstract class GPOS_Options {
 
 		$default_settings = array(
 			'gpos_woocommerce_settings' => array(
-				'title'          => __( 'Banka/Kredi Kartı', 'gurmepos' ),
-				'button_text'    => __( 'Ödeme', 'gurmepos' ),
+				'title'          => __( 'Debit/Credit Card', 'gurmepos' ),
+				'button_text'    => __( 'Payment', 'gurmepos' ),
 				'description'    => '',
 				'icon'           => GPOS_ASSETS_DIR_URL . '/images/visa-mastercard.png',
 				'success_status' => 'processing',
@@ -83,8 +83,7 @@ abstract class GPOS_Options {
 				'display_type'               => 'standart_form',
 				'installment_wiev'           => 'table_view',
 				'no_installment_desc_status' => false,
-				'no_installment_desc'        => 'Yürürlükteki mevzuat gereğince, telekomünikasyon, kuyum, doğrudan pazarlama, yurtdışı harcamalar, yemek, gıda, kozmetik, ofis malzemesi, hediye kart ve hediye çeki gibi somut mal veya hizmet içermeyen ürünlere ilişkin alışverişlerde taksit uygulanamamaktadır.
-				',
+				'no_installment_desc'        => __( 'No installment desc...', 'gurmepos' ),
 
 			),
 		);

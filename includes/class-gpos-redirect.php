@@ -128,7 +128,7 @@ class GPOS_Redirect {
 		?>
 		<center style="font-family:Roboto;">
 			<div style="font-size:36px; margin:20px 0;">
-				<?php esc_html_e( 'Hatalı işlem, lütfen ödeme sayfasını yenileyerek tekrar deneyin.', 'gurmepos' ); ?>
+				<?php esc_html_e( 'Incorrect transaction, please refresh the payment page and try again.', 'gurmepos' ); ?>
 			</div>
 			<button style="background-color:#1c64f2; color:#fff; border-color:#1c64f2; border-radius:999px; padding:10px 20px;" onclick="window.history.back()">Ödeme Sayfasına Dön</button>
 		</center>
