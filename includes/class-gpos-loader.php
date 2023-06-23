@@ -48,6 +48,7 @@ class GPOS_Loader {
 			'includes/payment-gateways/iyzico/class-gpos-iyzico.php',
 
 			// Pro ile gelecekler
+			'includes/payment-gateways/pro/class-gpos-esnekpos.php',
 			'includes/payment-gateways/pro/class-gpos-craftgate.php',
 			'includes/payment-gateways/pro/class-gpos-akbank.php',
 			'includes/payment-gateways/pro/class-gpos-denizbank.php',

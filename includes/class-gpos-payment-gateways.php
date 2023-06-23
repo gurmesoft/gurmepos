@@ -27,6 +27,7 @@ class GPOS_Payment_Gateways {
 			'GPOS_Iyzico',
 			'GPOS_Craftgate',
 			'GPOS_Akbank',
+			'GPOS_Esnekpos',
 			'GPOS_Denizbank',
 			'GPOS_Finansbank',
 			'GPOS_Garanti',

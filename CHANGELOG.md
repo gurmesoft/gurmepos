@@ -1,5 +1,13 @@
 == Changelog ==
 
+= v1.3.0 - (2023-06-23) =
+
+
+Features
+
+* Esnekpos Eklendi.
+* Esnekpos Eklendi.
+
 = v1.2.5 - (2023-06-22) =
 
 

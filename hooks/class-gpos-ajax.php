@@ -169,10 +169,10 @@ class GPOS_Ajax {
 	 *
 	 * @param stdClass $request İstek parametreleri.
 	 *
-	 * @return void
+	 * @return GPOS_Gateway_Account
 	 */
 	public function add_gateway_account( $request ) {
-		gpos_gateway_accounts()->add_account( $request->gateway );
+		return gpos_gateway_accounts()->add_account( $request->gateway );
 	}
 
 	/**
