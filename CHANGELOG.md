@@ -1,5 +1,20 @@
 == Changelog ==
 
+= v1.3.9 - (2023-06-25) =
+
+
+Bug Fixes
+
+* haberlesme eklendi
+* haberlesme eklendi
+
+= v1.3.8 - (2023-06-25) =
+
+
+Bug Fixes
+
+* haberlesme eklendi
+
 = v1.3.6 - (2023-06-25) =
 
 
