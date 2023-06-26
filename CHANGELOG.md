@@ -1,5 +1,16 @@
 == Changelog ==
 
+= v1.3.11 - (2023-06-26) =
+
+
+Bug Fixes
+
+* Eklenti ikonu guncellendi
+* Eklenti ikonu guncellendi
+* Ingilizce cevirileri eklendi
+* İngilizce çevirilieri düzeltildi.
+* Ingilizce metinler duzenlendi
+
 = v1.3.10 - (2023-06-25) =
 
 

@@ -130,7 +130,9 @@ class GPOS_Redirect {
 			<div style="font-size:36px; margin:20px 0;">
 				<?php esc_html_e( 'Incorrect transaction, please refresh the payment page and try again.', 'gurmepos' ); ?>
 			</div>
-			<button style="background-color:#1c64f2; color:#fff; border-color:#1c64f2; border-radius:999px; padding:10px 20px;" onclick="window.history.back()">Ödeme Sayfasına Dön</button>
+			<button style="background-color:#1c64f2; color:#fff; border-color:#1c64f2; border-radius:999px; padding:10px 20px;" onclick="window.history.back()">
+			<?php esc_html_e( 'Back to payment page', 'gurmepos' ); ?>
+		</button>
 		</center>
 		<?php
 	}

@@ -22,9 +22,9 @@ $gpos_i18n = array(
 		'update_pro'                       => __( 'Pro Upgrade', 'gurmepos' ),
 		'announcements'                    => __( 'Announcements', 'gurmepos' ),
 		'add_payment_comp'                 => __( 'Add Payment Method', 'gurmepos' ),
-		'establishment'                    => __( 'Establishment', 'gurmepos' ),
-		'find_comp'                        => __( 'Can`t find the establishment you`re looking for?', 'gurmepos' ),
-		'contact_us'                       => __( 'Contact us', 'gurmepos' ),
+		'establishment'                    => __( 'Payment Provider', 'gurmepos' ),
+		'find_comp'                        => __( 'Can`t find the payment provider you`re looking for?', 'gurmepos' ),
+		'contact_us'                       => __( 'Contact Us', 'gurmepos' ),
 		'features'                         => __( 'Features', 'gurmepos' ),
 		'currency'                         => __( 'Currencies', 'gurmepos' ),
 		'status'                           => __( 'Status', 'gurmepos' ),
@@ -56,7 +56,7 @@ $gpos_i18n = array(
 		'pay_credit_cart'                  => __( 'Payment by credit card', 'gurmepos' ),
 		'save_settings'                    => __( 'Save Settings', 'gurmepos' ),
 		'connect_test'                     => __( 'Test the connection', 'gurmepos' ),
-		'delete_gateway'                   => __( 'Remove payment establishment', 'gurmepos' ),
+		'delete_gateway'                   => __( 'Remove payment provider', 'gurmepos' ),
 		'test_mode_title'                  => __( 'Test Mode Active', 'gurmepos' ),
 		'gateway_screen'                   => __( 'Virtual POS Screen', 'gurmepos' ),
 		'supports_features'                => __( 'Supported Features', 'gurmepos' ),
@@ -106,7 +106,7 @@ $gpos_i18n = array(
 		'gurmehub_feedback'                => __( 'GurmeHub Feedback', 'gurmepos' ),
 		'gurmehub_feedback_desc'           => __( 'Your suggestions are very valuable to us so that our applications can work better. You can support us to improve our products by giving feedback.', 'gurmepos' ),
 		'give_feedback'                    => __( 'Give Feedback', 'gurmepos' ),
-		'pos_entegrator_help'              => __( 'Before using our POS Integrator application, you can use the application much more efficiently by examining our documents.', 'gurmepos' ),
+		'pos_entegrator_help'              => __( 'Before using our POS Entegratör application, you can use the application much more efficiently by examining our documents.', 'gurmepos' ),
 		'docs'                             => __( 'Docs', 'gurmepos' ),
 		'transaction_logs'                 => __( 'Transaction Logs', 'gurmepos' ),
 		'transaction_logs_desc'            => __( 'On this table, you can view in detail every transaction that goes through your payment gateway.', 'gurmepos' ),
@@ -156,13 +156,13 @@ $gpos_i18n = array(
 			'description' => __( 'After logging into your Denizbank Virtual Pos panel, you need to create a new API user for integration information, if you have not created one before. After logging in, you can create an API user record by logging into the User Editing and Authorization page from the User Management System menu on the left. You can provide integration by filling in the API user information you have created in the relevant places.', 'gurmepos' ),
 		),
 		'finansbank'                       => array(
-			'description' => __( 'For integration information after logging into your Finansbank panel: If you have not created one before, create an API user with the help of User Management from the Administration Menu. Fill in the API user information you created to the relevant places in the POS Entegrator.', 'gurmepos' ),
+			'description' => __( 'For integration information after logging into your Finansbank panel: If you have not created one before, create an API user with the help of User Management from the Administration Menu. Fill in the API user information you created to the relevant places in the POS Entegratör.', 'gurmepos' ),
 		),
 		'garanti'                          => array(
 			'description' => __( 'Obtain the necessary information for the Garanti Pos integration from the Garanti Virtual Pos Screen.			', 'gurmepos' ),
 		),
 		'halkbank'                         => array(
-			'description' => __( 'After logging into your Halkbank panel, click on the management menu. If no user has been created before, we create an "API USER" from the User list section. We take the necessary information from the menus on the left and fill it in the relevant places in the POS Entegrator.', 'gurmepos' ),
+			'description' => __( 'After logging into your Halkbank panel, click on the management menu. If no user has been created before, we create an "API USER" from the User list section. We take the necessary information from the menus on the left and fill it in the relevant places in the POS Entegratör.', 'gurmepos' ),
 		),
 		'ingbank'                          => array(
 			'description' => __( 'The information required for ING Bank Pos integration will be obtained from the ING Bank Virtual Pos Screen.', 'gurmepos' ),
@@ -174,16 +174,16 @@ $gpos_i18n = array(
 			'description' => __( 'Information required for Kuveyt Türk Pos integration will be obtained from the Kuveyt Türk Virtual Pos Screen.', 'gurmepos' ),
 		),
 		'teb'                              => array(
-			'description' => __( 'After logging into your TEB bank virtual pos panel, we click on the management menu. If no user has been created before, we create an "API USER" from the User list section. We fill in the necessary information in the relevant places in the POS Entegrator. ', 'gurmepos' ),
+			'description' => __( 'After logging into your TEB bank virtual pos panel, we click on the management menu. If no user has been created before, we create an "API USER" from the User list section. We fill in the necessary information in the relevant places in the POS Entegratör. ', 'gurmepos' ),
 		),
 		'vakifbank'                        => array(
-			'description' => __( 'We click on the "CONTRACTED MERCHANT TRANSACTIONS" section under the "MANAGEMENT" tab from the Vakıfbank Virtual Pos panel. The page that opens contains the necessary information for our company. We fill this information in the relevant places in POS Entegrator.', 'gurmepos' ),
+			'description' => __( 'We click on the "CONTRACTED MERCHANT TRANSACTIONS" section under the "MANAGEMENT" tab from the Vakıfbank Virtual Pos panel. The page that opens contains the necessary information for our company. We fill this information in the relevant places in POS Entegratör.', 'gurmepos' ),
 		),
 		'yapi-kredi'                       => array(
 			'description' => __( 'The information required for the Yapıkredi Virtual POS integration will be obtained from the Yapıkredi Virtual POS Screen.', 'gurmepos' ),
 		),
 		'ziraat'                           => array(
-			'description' => __( 'After logging into Ziraat Bank Virtual Pos panel, if you have not created an API user before, first we click on the "Management" tab, we define a new user by selecting "Role" API User from the "Add New User" field. Then, we fill in the "User Name" and "Password" information you have defined in this field in the relevant fields in POS Entegrator.', 'gurmepos' ),
+			'description' => __( 'After logging into Ziraat Bank Virtual Pos panel, if you have not created an API user before, first we click on the "Management" tab, we define a new user by selecting "Role" API User from the "Add New User" field. Then, we fill in the "User Name" and "Password" information you have defined in this field in the relevant fields in POS Entegratör.', 'gurmepos' ),
 		),
 	),
 );
