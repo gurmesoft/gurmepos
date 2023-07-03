@@ -28,16 +28,6 @@ class Insights extends \GurmeHub\Api {
 
 		add_action( $this->plugin->get_plugin() . '_tracker_event', array( $this, 'send_tracking_data' ) );
 		add_action( 'upgrader_process_complete', array( $this, 'upgrader_process_complete' ), 10, 2 );
-
-		add_action(
-			'auto_update_plugin',
-			function( $e, $d ) {
-				var_dump( $e, $d );
-				die;
-			},
-			10,
-			2
-		);
 	}
 
 

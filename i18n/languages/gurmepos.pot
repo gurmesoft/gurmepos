@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-07-03T08:17:41+00:00\n"
+"POT-Creation-Date: 2023-07-03T10:00:52+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: gurmepos\n"
@@ -661,12 +661,12 @@ msgstr ""
 msgid "Error in 3D rendering. The password was entered incorrectly or the 3D page was abandoned."
 msgstr ""
 
-#: includes/payment-gateways/iyzico/class-gpos-iyzico.php:86
+#: includes/payment-gateways/iyzico/class-gpos-iyzico.php:85
 #: includes/payment-gateways/pro/class-gpos-craftgate.php:86
 msgid "Api Key"
 msgstr ""
 
-#: includes/payment-gateways/iyzico/class-gpos-iyzico.php:91
+#: includes/payment-gateways/iyzico/class-gpos-iyzico.php:90
 msgid "Security Key"
 msgstr ""
 

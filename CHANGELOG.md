@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v1.3.14 - (2023-07-03) =
+
+
+Bug Fixes
+
+* Plugin helper zorunlu guncellemesi
+
 = v1.3.13 - (2023-07-03) =
 
 

@@ -38,7 +38,6 @@ class GPOS_Iyzico extends GPOS_Gateway {
 	 */
 	public $gateway_class = 'GPOS_Iyzico_Gateway';
 
-
 	/**
 	 * Firma müşteri panel bilgisi
 	 *

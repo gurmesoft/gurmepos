@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "gurmehub/plugin-helper",
-            "version": "1.1.1",
-            "version_normalized": "1.1.1.0",
+            "version": "1.1.2",
+            "version_normalized": "1.1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://gitlab.gurmesoft.com/gurmehub/plugin-helper.git",
-                "reference": "f98ed8d039d33d0aae4ccd45bd178914b6d0530c"
+                "reference": "85f099b69b0d28a526a34667a145d58c51566265"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://gitlab.gurmesoft.com/api/v4/projects/33/packages/composer/archives/gurmehub/plugin-helper.zip?sha=f98ed8d039d33d0aae4ccd45bd178914b6d0530c",
-                "reference": "f98ed8d039d33d0aae4ccd45bd178914b6d0530c",
+                "url": "https://gitlab.gurmesoft.com/api/v4/projects/33/packages/composer/archives/gurmehub/plugin-helper.zip?sha=85f099b69b0d28a526a34667a145d58c51566265",
+                "reference": "85f099b69b0d28a526a34667a145d58c51566265",
                 "shasum": ""
             },
             "require": {
