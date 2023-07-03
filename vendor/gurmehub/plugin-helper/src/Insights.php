@@ -28,6 +28,16 @@ class Insights extends \GurmeHub\Api {
 
 		add_action( $this->plugin->get_plugin() . '_tracker_event', array( $this, 'send_tracking_data' ) );
 		add_action( 'upgrader_process_complete', array( $this, 'upgrader_process_complete' ), 10, 2 );
+
+		add_action(
+			'auto_update_plugin',
+			function( $e, $d ) {
+				var_dump( $e, $d );
+				die;
+			},
+			10,
+			2
+		);
 	}
 
 
@@ -83,11 +93,11 @@ class Insights extends \GurmeHub\Api {
 	 */
 	public function upgrader_process_complete( $upgrader, $hook_extra ) {
 
-		if ( false === $upgrader->bulk && $hook_extra['plugin'] === $this->plugin->get_basename() ) {
+		if ( false === $upgrader->bulk && array_key_exists( 'plugin', $hook_extra ) && $hook_extra['plugin'] === $this->plugin->get_basename() ) {
 			$this->send_tracking_data();
 		}
 
-		if ( true === $upgrader->bulk && in_array( $this->plugin->get_basename(), $hook_extra['plugins'], true ) ) {
+		if ( true === $upgrader->bulk && array_key_exists( 'plugins', $hook_extra ) && in_array( $this->plugin->get_basename(), $hook_extra['plugins'], true ) ) {
 			$this->send_tracking_data();
 		}
 	}

@@ -159,7 +159,7 @@ class GPOS_WordPress {
 	public function script_loader( $tag, $handle ) {
 
 		if ( "{$this->prefix}-js" === $handle ) {
-			$tag = str_replace( 'id', 'type="module" id', $tag );
+			$tag = str_replace( 'id=', 'type="module" id=', $tag );
 		}
 		return $tag;
 	}

@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v1.3.12 - (2023-07-03) =
+
+
+Bug Fixes
+
+* Site isimlerinden dolay kaynaklanabilecek link hataları düzeltildi
+
 = v1.3.11 - (2023-06-26) =
 
 
