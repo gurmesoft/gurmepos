@@ -285,7 +285,7 @@ abstract class GPOS_Payment_Gateway {
 	 *
 	 * @return GPOS_Gateway_Response
 	 */
-	abstract public function process_payment() : GPOS_Gateway_Response;
+	abstract public function process_payment();
 
 	/**
 	 * 3D Ödeme işlemleri için geri dönüş fonksiyonu.
@@ -294,7 +294,7 @@ abstract class GPOS_Payment_Gateway {
 	 *
 	 * @return GPOS_Gateway_Response
 	 */
-	abstract public function process_callback( array $post_data ) : GPOS_Gateway_Response;
+	abstract public function process_callback( array $post_data );
 
 	/**
 	 * Ödeme iade işlemi fonksiyonu.

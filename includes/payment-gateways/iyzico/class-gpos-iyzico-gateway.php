@@ -132,7 +132,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 *
 	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 */
-	public function process_payment() : GPOS_Gateway_Response {
+	public function process_payment() {
 
 		$payment_request = new \Iyzipay\Request\CreatePaymentRequest();
 		$payment_request->setPaymentSource( 'Gurmesoft' );
@@ -190,7 +190,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 *
 	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 */
-	public function process_callback( array $post_data ) : GPOS_Gateway_Response {
+	public function process_callback( array $post_data ) {
 		$this->gateway_response->set_success( false )
 		->set_order_id( $post_data['conversationId'] )
 		->set_error_message( __( 'Error in 3D rendering. The password was entered incorrectly or the 3D page was abandoned.', 'gurmepos' ) );

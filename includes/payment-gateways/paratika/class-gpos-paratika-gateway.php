@@ -142,7 +142,7 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 *
 	 * @return GPOS_Gateway_Response
 	 */
-	public function process_payment() : GPOS_Gateway_Response {
+	public function process_payment() {
 		if ( 'threed' === $this->get_payment_type() ) {
 			$this->threed_payment();
 		} else {
@@ -199,7 +199,7 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 *
 	 * @return GPOS_Gateway_Response
 	 */
-	public function process_callback( array $post_data ) : GPOS_Gateway_Response {
+	public function process_callback( array $post_data ) {
 
 		$this->gateway_response
 		->set_success( false )

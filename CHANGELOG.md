@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v1.3.13 - (2023-07-03) =
+
+
+Bug Fixes
+
+* PHP 5.6 ve öncesi için sınıf isimi ile geri döndürme kaldırıldı
+
 = v1.3.12 - (2023-07-03) =
 
 
