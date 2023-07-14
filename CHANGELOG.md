@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v3.0.1 - (2023-07-14) =
+
+
+Bug Fixes
+
+* Dil düzenlemesi tamamlandı
+
 = v3.0.0 - (2023-07-14) =
 
 ## ⚠ BREAKING CHANGES
