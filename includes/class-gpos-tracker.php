@@ -41,6 +41,18 @@ class GPOS_Tracker {
 	}
 
 	/**
+	 * Kredi kartının ilk 6 hanesi ile sorgumala yaparak, kart ile iligli tip, aile, ülke bilgilerini getirir.
+	 *
+	 * @param string $card_bin Kartın ilk 6 hanesi.
+	 */
+	public function get_card_bin_info( $card_bin ) {
+		return $this->http->request(
+			"{$this->url}/checkBin?bin={$card_bin}",
+			'GET',
+		);
+	}
+
+	/**
 	 * Başarılı ödeme verisi kayıt etme.
 	 *
 	 * @param array $data Ödeme verisi.

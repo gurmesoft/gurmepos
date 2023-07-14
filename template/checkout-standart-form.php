@@ -30,11 +30,14 @@ $years  = array( '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030',
 			<label for="gpos-card-bin" class="gpos-label"><?php esc_html_e( 'Card Number', 'gurmepos' ); ?></label>
 			<div class="gpos-relative">
 				<div class="gpos-input-svg">
-					<img src="<?php echo esc_url( GPOS_ASSETS_DIR_URL ); ?>/images/card.svg"
-						style="width: 20px; height: 20px;">
+					<img src="<?php echo esc_url( GPOS_ASSETS_DIR_URL ); ?>/images/card.svg" style="width: 20px; height: 20px;">
 				</div>
-				<input name="gpos-card-bin" id="gpos-card-bin" class="wc-credit-card-form-card-number gpos-form-input"
+
+				<input name="gpos-card-bin" id="gpos-card-bin" oninput="gpos_bin_input(this)" class="wc-credit-card-form-card-number gpos-form-input"
 					inputmode="numeric" type="tel" autocomplete="cc-number" placeholder="<?php esc_attr( 'Card number' ); ?>">
+				<div class="gpos-input-svg gpos-loading" style="right:0 !important;">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 91.3 91.1"><circle cx="45.7" cy="45.7" r="45.7"/><circle fill="#FFF" cx="45.7" cy="24.4" r="12.5"/></svg>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -64,7 +67,7 @@ $years  = array( '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030',
 		<div class="gpos-cvv-input">
 			<div class="gpos-flex gpos-item-center">
 				<label for="gpos-card-cvv" class="gpos-label"><?php esc_html_e( 'CVV' ); ?></label>
-				<img src="<?php echo esc_url( $asset_dir_url ); ?>/images/info.svg"
+				<img src="<?php echo esc_url( GPOS_ASSETS_DIR_URL ); ?>/images/info.svg"
 					style="width: 15px; height: 15px;">
 			</div>
 

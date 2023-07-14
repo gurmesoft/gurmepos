@@ -170,7 +170,7 @@ function gpos_woocommerce_notice( string $message, string $notice_type = 'error'
  * @SuppressWarnings(PHPMD.UnusedLocalVariable)
  */
 function gpos_get_i18n_strings() {
-	include GPOS_PLUGIN_DIR_PATH . '/i18n/gpos-strings.php';
+	include GPOS_PLUGIN_DIR_PATH . '/languages/gpos-strings.php';
 	return $gpos_i18n; // @phpstan-ignore-line
 }
 
@@ -248,4 +248,36 @@ function gpos_create_utm_link( $utm_camping ) {
 		),
 		'https://posentegrator.com'
 	);
+}
+
+/**
+ * GurmePOS için ödeme formlarındaki nonce kontrolünü gerçekleştirir.
+ *
+ * @param string $contex Varsayılan olarak json döner.
+ *
+ * @return mixed
+ */
+function gpos_validate_nonce( $contex = 'json' ) {
+
+	if ( isset( $_POST ['_gpos_wpnonce'] ) && false === wp_verify_nonce( gpos_clean( $_POST ['_gpos_wpnonce'] ), 'gpos_process_payment' ) ) {
+		$result = array(
+			'result'   => 'failure',
+			'messages' => gpos_woocommerce_notice( __( 'Invalid operation, please try again by refreshing the page.', 'gurmepos' ) ),
+		);
+
+		return 'json' === $contex ? wp_send_json( $result ) : $result;
+	}
+}
+
+
+/**
+ * GurmePOS dil ve etki alanı tanımlamaları.
+ *
+ * @return void
+ */
+function gpos_load_plugin_text_domain() {
+	$locale = determine_locale();
+	unload_textdomain( 'gurmepos' );
+	load_textdomain( 'gurmepos', GPOS_PLUGIN_DIR_PATH . 'languages/gurmepos-' . $locale . '.mo' );
+	load_plugin_textdomain( 'gurmepos', false, plugin_basename( dirname( GPOS_PLUGIN_BASEFILE ) ) . '/languages' );
 }

@@ -13,7 +13,7 @@ li.gpos-upgrade-pro .new-tab {
 	margin-top: 2px;
 	margin-left: 6px;
 }
-	
+
 
 li.gpos-upgrade-pro a {
 	color: #FFFFFF !important;
@@ -49,3 +49,65 @@ a.upgrade-pro:hover {
 	background-color: #ffba00 !important;
 	color: #fff !important;
 }
+
+
+/* İşlemler tablosu için stiller*/
+.process-type {
+	padding: 8px 16px;
+	text-align: center;
+	text-transform: capitalize;
+	width: fit-content;
+	cursor: pointer;
+}
+
+.transaction {
+	padding: 8px 16px;
+	text-align: center;
+	width: fit-content;
+	cursor: pointer;
+	text-align: start;
+	font-weight: bold;
+}
+
+.status-type {
+	padding: 8px 16px;
+	text-align: center;
+	border-radius: 4px;
+	text-transform: capitalize;
+	width: fit-content;
+	cursor: pointer;
+	color: #777777;
+	background-color: #e5e5e5;
+}
+
+.status-type.gpos_completed {
+	color: #5b841b !important;
+	background-color: #c6e1c6 !important;
+}
+
+.status-type.gpos_started {
+	color: #94660c !important;
+	background-color: #f8dda7 !important;
+}
+
+.status-type.gpos_failed {
+	color: #761919 !important;
+	background-color: #eba3a3 !important;
+}
+
+
+.payment-plugin{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: fit-content;
+}
+
+.payment-plugin img.woocommerce{
+	width: 50px;
+} 
+
+.payment-plugin img.givewp{
+	width: 50px;
+} 

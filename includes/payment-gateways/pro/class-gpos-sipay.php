@@ -1,6 +1,6 @@
 <?php
 /**
- * Paratika ödeme geçidinin tüm özelliklerini uygulamaya tanıtır.
+ * Sipay ödeme geçidinin tüm özelliklerini uygulamaya tanıtır.
  *
  * @package Gurmehub
  */
@@ -44,6 +44,13 @@ class GPOS_Sipay extends GPOS_Gateway {
 	 * @var boolean $is_need_pro
 	 */
 	public $is_need_pro = true;
+
+	/**
+	 * Ortak ödeme formu mu ?
+	 *
+	 * @var boolean $is_common_form
+	 */
+	public $is_common_form = false;
 
 	/**
 	 * Logo urli

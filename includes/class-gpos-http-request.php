@@ -48,6 +48,7 @@ class GPOS_Http_Request {
 	 * @return array|string $response
 	 */
 	public function request( $url, $method = 'POST', $body = array() ) {
+
 		$http_response = wp_remote_request(
 			$url,
 			array(

@@ -63,9 +63,11 @@ class Plugin extends \GurmeHub\Api {
 	 * Eklenti slug.
 	 *
 	 * @return string
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedLocalVariable)
 	 */
 	public function get_plugin() {
-		list( $folder, $mainfile ) = explode( '/', $this->get_basename() );
+		list( $main_folder, $mainfile ) = explode( '/', $this->get_basename() );
 		return str_replace( '.php', '', $mainfile );
 	}
 

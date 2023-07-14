@@ -18,13 +18,13 @@ class GPOS_Frontend {
 	protected $prefix = GPOS_PREFIX;
 
 	/**
-	 * Eklenti çalıştırıldığı ödeme platformu
+	 * Ödeme alma eklentisi
 	 *
 	 * woocommerce, givewp vs.
 	 *
-	 * @var string $platform
+	 * @var string $plugin
 	 */
-	protected $platform;
+	protected $plugin;
 
 	/**
 	 * Form ayarlarını taşır.
@@ -51,16 +51,16 @@ class GPOS_Frontend {
 	 * Kurucu fonksiyon.
 	 *
 	 * @param string $enqueue_type Script ve stillerin dahil edilme tipi. 'direct' yada 'action' parametrelerini alabilir.
-	 * @param string $platform Eklenti çalıştırıldığı ödeme platformu.
+	 * @param string $plugin Eklenti çalıştırıldığı ödeme pluginu.
 	 *
 	 * @return void
 	 */
-	public function __construct( $enqueue_type = 'direct', $platform = 'woocommerce' ) {
-		$this->platform      = $platform;
+	public function __construct( $enqueue_type = 'direct', $plugin = 'woocommerce' ) {
+		$this->plugin        = $plugin;
 		$this->form_settings = gpos_form_settings()->get_settings();
 
 		/**
-		 * Platformlar için dahil edilme yöntemini tetikler.
+		 * Eklentilir için dahil edilme yöntemini tetikler.
 		 *
 		 * Örn: GiveWP için GPOS_Frontend::enqueue_action çalıştırılması gerekirken,
 		 * WooCommerce için GPOS_Frontend::enqueue_direct çalıştırılmalıdır.
@@ -100,7 +100,7 @@ class GPOS_Frontend {
 	 * @return void
 	 */
 	public function enqueue_style() {
-		wp_enqueue_style( "{$this->prefix}-form-style", "{$this->asset_dir_url}/form_style.css", array(), GPOS_VERSION );
+		wp_enqueue_style( "{$this->prefix}-form-style", "{$this->asset_dir_url}/css/form.css", array(), GPOS_VERSION );
 	}
 
 	/**
@@ -109,7 +109,14 @@ class GPOS_Frontend {
 	 * @return void
 	 */
 	public function enqueue_script() {
-		wp_enqueue_script( "{$this->prefix}-form-js", "{$this->asset_dir_url}/form_script.js", array( 'jquery' ), GPOS_VERSION, false );
+		wp_enqueue_script( "{$this->prefix}-form-js", "{$this->asset_dir_url}/js/form.js", array( 'jquery' ), GPOS_VERSION, false );
+		wp_localize_script(
+			"{$this->prefix}-form-js",
+			'gpos',
+			array(
+				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			)
+		);
 	}
 
 
@@ -119,6 +126,9 @@ class GPOS_Frontend {
 	 * @param GPOS_Installments $installment Taksit sayısı,aylık ödeme, toplam fiyat vb özellikleri döndüren sınıf.
 	 */
 	public function installment_options( GPOS_Installments $installment ) {
+		?>
+		<div class="gpos-installment-container">
+		<?php
 		if ( 'row_view' === $this->form_settings['installment_wiev'] ) {
 			gpos_get_template( 'row-style-installment', array( 'installment' => $installment ) );
 		}
@@ -126,6 +136,9 @@ class GPOS_Frontend {
 		if ( 'table_view' === $this->form_settings['installment_wiev'] ) {
 			gpos_get_template( 'table-style-installment', array( 'installment' => $installment ) );
 		}
+		?>
+		</div>
+		<?php
 
 	}
 
@@ -139,6 +152,7 @@ class GPOS_Frontend {
 		gpos_set_transaction_cookie();
 
 		$default_account = gpos_gateway_accounts()->get_default_account();
+
 		if ( $default_account ) {
 
 			$gateway = gpos_payment_gateways()->get_gateway_by_gateway_id( $default_account->gateway_id );
@@ -146,15 +160,28 @@ class GPOS_Frontend {
 			wp_nonce_field( 'gpos_process_payment', '_gpos_wpnonce' );
 
 			if ( gpos_is_test_mode() ) {
-				$this->test_mode( $gateway->test_cards );
+				$this->test_mode( $gateway );
 			}
 
-			if ( 'standart_form' === $this->form_settings['display_type'] ) {
-				$this->standart_form();
-			}
+			if ( false === $gateway->is_common_form ) {
 
-			if ( $default_account->is_installments_active ) {
-				$this->installment_options( gpos_installments( $this->platform, $default_account ) );
+				if ( 'standart_form' === $this->form_settings['display_type'] ) {
+					$this->standart_form();
+				}
+
+				$this->threed_field();
+
+				$this->save_card_field();
+
+				$this->hidden_card_infos();
+
+				if ( $default_account->is_installments_active ) {
+					$this->installment_options( gpos_installments( $this->plugin, $default_account ) );
+				}
+			} else {
+				?>
+					<input type="hidden" name="gpos-common-form" id="gpos-common-form" value="on">
+				<?php
 			}
 		} else {
 			?>
@@ -170,10 +197,10 @@ class GPOS_Frontend {
 	/**
 	 * Test modu uyarısını döndürür.
 	 *
-	 * @param array $test_cards Test kartları
+	 * @param GPOS_Gateway $gateway Ödeme geçidi
 	 */
-	public function test_mode( $test_cards ) {
-		gpos_get_template( 'checkout-test-mode', array( 'test_cards' => $test_cards ) );
+	public function test_mode( $gateway ) {
+		gpos_get_template( 'checkout-test-mode', array( 'gateway' => $gateway ) );
 	}
 
 	/**
@@ -181,8 +208,6 @@ class GPOS_Frontend {
 	 */
 	public function standart_form() {
 		gpos_get_template( 'checkout-standart-form', array( 'form_settings' => $this->form_settings ) );
-		$this->threed_field();
-		$this->save_card_field();
 	}
 
 	/**
@@ -205,4 +230,10 @@ class GPOS_Frontend {
 		}
 	}
 
+	/**
+	 * Kartın aile, ülke gibi bilgilerini taşıyan gizli alanlar.
+	 */
+	private function hidden_card_infos() {
+		gpos_get_template( 'hidden-card-info-fields' );
+	}
 }

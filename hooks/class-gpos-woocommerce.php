@@ -30,6 +30,8 @@ class GPOS_WooCommerce {
 		add_filter( 'woocommerce_payment_complete_order_status', array( $this, 'complete_order_status' ) );
 		// Ödeme formundan önceki üst kontent. Hataları görüntülemek için kullanıldı.
 		add_action( 'woocommerce_before_checkout_form', array( $this, 'before_checkout_form' ) );
+		// Sipariş ürünlerinin gizlenmiş bilgileri
+		add_filter( 'woocommerce_hidden_order_itemmeta', array( $this, 'hidden_order_itemmeta' ) );
 	}
 
 	/**
@@ -65,6 +67,23 @@ class GPOS_WooCommerce {
 		if ( isset( $_GET[ "{$this->prefix}_error" ] ) ) {                                          //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			wc_add_notice( hex2bin( gpos_clean( $_GET[ "{$this->prefix}_error" ] ) ), 'error' );    //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
+	}
+
+	/**
+	 *
+	 *
+	 * Sipariş sonrası ekranında müşteriden, WooCommerce sipariş detay sayfasında
+	 * yöneticiden sipariş ürünlerinin  meta bilgilerini gizler.
+	 *
+	 * @param  array $hidden_metas Gizli metalar.
+	 * @return array $hidden_metas
+	 */
+	public function hidden_order_itemmeta( $hidden_metas ) {
+		$hidden_metas = array_merge(
+			$hidden_metas,
+			array( '_gpos_transaction_id' )
+		);
+		return $hidden_metas;
 	}
 
 }

@@ -90,12 +90,12 @@ trait GPOS_Customer {
 	/**
 	 * Siparişin müşteri kimliğini ayarlar
 	 *
-	 * @param int $customer_id Müşteri kimliği.
+	 * @param int $value Müşteri kimliği.
 	 *
 	 * @return $this
 	 */
-	public function set_customer_id( $customer_id ) {
-		$this->customer_id = $customer_id;
+	public function set_customer_id( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
 		return $this;
 	}
 
@@ -105,18 +105,18 @@ trait GPOS_Customer {
 	 * @return int
 	 */
 	public function get_customer_id() {
-		return $this->customer_id;
+		return $this->get_prop( __FUNCTION__ );
 	}
 
 	/**
 	 * Müşteri adını ayarlar
 	 *
-	 * @param string $customer_first_name  Müşteri adı.
+	 * @param string $value  Müşteri adı.
 	 *
 	 * @return $this
 	 */
-	public function set_customer_first_name( $customer_first_name ) {
-		$this->customer_first_name = $customer_first_name;
+	public function set_customer_first_name( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
 		return $this;
 	}
 
@@ -127,18 +127,18 @@ trait GPOS_Customer {
 	 * @return string
 	 */
 	public function get_customer_first_name() {
-		return $this->customer_first_name;
+		return $this->get_prop( __FUNCTION__ );
 	}
 
 	/**
 	 * Müşteri soyadını ayarlar
 	 *
-	 * @param string $customer_last_name Müşteri soyadı.
+	 * @param string $value Müşteri soyadı.
 	 *
 	 * @return $this
 	 */
-	public function set_customer_last_name( $customer_last_name ) {
-		$this->customer_last_name = $customer_last_name;
+	public function set_customer_last_name( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
 		return $this;
 	}
 
@@ -148,7 +148,7 @@ trait GPOS_Customer {
 	 * @return string
 	 */
 	public function get_customer_last_name() {
-		return $this->customer_last_name;
+		return $this->get_prop( __FUNCTION__ );
 	}
 
 	/**
@@ -163,12 +163,12 @@ trait GPOS_Customer {
 	/**
 	 * Müşteri adresini ayarlar
 	 *
-	 * @param string $customer_address Müşteri adresi.
+	 * @param string $value Müşteri adresi.
 	 *
 	 * @return $this
 	 */
-	public function set_customer_address( $customer_address ) {
-		$this->customer_address = $customer_address;
+	public function set_customer_address( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
 		return $this;
 	}
 
@@ -178,19 +178,19 @@ trait GPOS_Customer {
 	 * @return string
 	 */
 	public function get_customer_address() {
-		return $this->customer_address;
+		return $this->get_prop( __FUNCTION__ );
 	}
 
 
 	/**
 	 * Müşteri telefonunu ayarlar
 	 *
-	 * @param string $customer_phone Müşteri telefon.
+	 * @param string $value Müşteri telefon.
 	 *
 	 * @return $this
 	 */
-	public function set_customer_phone( $customer_phone ) {
-		$this->customer_phone = $customer_phone;
+	public function set_customer_phone( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
 		return $this;
 	}
 
@@ -200,18 +200,18 @@ trait GPOS_Customer {
 	 * @return string
 	 */
 	public function get_customer_phone() {
-		return $this->customer_phone;
+		return $this->get_prop( __FUNCTION__ );
 	}
 
 	/**
 	 * Müşteri mailini ayarlar
 	 *
-	 * @param string $customer_email Müşteri mail.
+	 * @param string $value Müşteri mail.
 	 *
 	 * @return $this
 	 */
-	public function set_customer_email( $customer_email ) {
-		$this->customer_email = $customer_email;
+	public function set_customer_email( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
 		return $this;
 	}
 
@@ -221,18 +221,18 @@ trait GPOS_Customer {
 	 * @return string
 	 */
 	public function get_customer_email() {
-		return $this->customer_email;
+		return $this->get_prop( __FUNCTION__ );
 	}
 
 	/**
 	 * Müşteri şehrini ayarlar
 	 *
-	 * @param string $customer_city Müşteri şehri.
+	 * @param string $value Müşteri şehri.
 	 *
 	 * @return $this
 	 */
-	public function set_customer_city( $customer_city ) {
-		$this->customer_city = $customer_city;
+	public function set_customer_city( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
 		return $this;
 	}
 
@@ -242,18 +242,18 @@ trait GPOS_Customer {
 	 * @return string
 	 */
 	public function get_customer_city() {
-		return $this->customer_city;
+		return $this->get_prop( __FUNCTION__ );
 	}
 
 	/**
 	 * Müşteri eyalet/bölge bilgisini ayarlar
 	 *
-	 * @param string $customer_state Müşteri şehri.
+	 * @param string $value Müşteri şehri.
 	 *
 	 * @return $this
 	 */
-	public function set_customer_state( $customer_state ) {
-		$this->customer_state = $customer_state;
+	public function set_customer_state( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
 		return $this;
 	}
 
@@ -263,17 +263,17 @@ trait GPOS_Customer {
 	 * @return string
 	 */
 	public function get_customer_state() {
-		return $this->customer_state;
+		return $this->get_prop( __FUNCTION__ );
 	}
 
 	/**
 	 * Müşteri ülkesini ayarlar
 	 *
-	 * @param string $customer_country Müşteri posta kodu.
+	 * @param string $value Müşteri posta kodu.
 	 * @return $this
 	 */
-	public function set_customer_country( $customer_country ) {
-		$this->customer_country = $customer_country;
+	public function set_customer_country( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
 		return $this;
 	}
 
@@ -283,17 +283,17 @@ trait GPOS_Customer {
 	 * @return string
 	 */
 	public function get_customer_country() {
-		return $this->customer_country;
+		return $this->get_prop( __FUNCTION__ );
 	}
 
 	/**
 	 * Müşteri posta kodunu ayarlar
 	 *
-	 * @param string $customer_zipcode Müşteri posta kodu.
+	 * @param string $value Müşteri posta kodu.
 	 * @return $this
 	 */
-	public function set_customer_zipcode( $customer_zipcode ) {
-		$this->customer_zipcode = $customer_zipcode;
+	public function set_customer_zipcode( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
 		return $this;
 	}
 
@@ -303,17 +303,17 @@ trait GPOS_Customer {
 	 * @return string
 	 */
 	public function get_customer_zipcode() {
-		return $this->customer_zipcode;
+		return $this->get_prop( __FUNCTION__ );
 	}
 
 	/**
 	 * Müşteri ip adresini ayarlar
 	 *
-	 * @param string $customer_ip_address Müşteri ip adresi.
+	 * @param string $value Müşteri ip adresi.
 	 * @return $this
 	 */
-	public function set_customer_ip_address( $customer_ip_address ) {
-		$this->customer_ip_address = $customer_ip_address;
+	public function set_customer_ip_address( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
 		return $this;
 	}
 
@@ -323,7 +323,7 @@ trait GPOS_Customer {
 	 * @return string
 	 */
 	public function get_customer_ip_address() {
-		return $this->customer_ip_address;
+		return $this->get_prop( __FUNCTION__ );
 	}
 
 }

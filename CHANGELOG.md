@@ -1,5 +1,34 @@
 == Changelog ==
 
+= v3.0.0 - (2023-07-14) =
+
+## ⚠ BREAKING CHANGES
+
+* **core:** Transaction kullanımına geçildi, Taksit gösterimi debit kartlar için devre dışı bırakıldı.
+
+
+Features
+
+* Transaction kullanımına geçildi, Taksit gösterimi debit kartlar için devre dışı bırakıldı.
+
+= v2.0.0 - (2023-07-14) =
+
+## ⚠ BREAKING CHANGES
+
+* **core:** Transaction kullanımına geçildi, Taksit gösterimi debit kartlar için devre dışı bırakıldı.
+
+
+Features
+
+* Transaction kullanımına geçildi, Taksit gösterimi debit kartlar için devre dışı bırakıldı.
+
+= v1.3.15 - (2023-07-14) =
+
+
+Bug Fixes
+
+* Plugin helper zorunlu guncellemesi
+
 = v1.3.14 - (2023-07-03) =
 
 

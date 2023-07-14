@@ -22,14 +22,14 @@ class GPOS_Gateway_Response {
 	 *
 	 * @var bool $success
 	 */
-	private $success = true;
+	private $success = false;
 
 	/**
 	 * Ödeme geçidine gönderilen sipariş numarası.
 	 *
-	 * @var mixed $order_id
+	 * @var mixed $transaction_id
 	 */
-	private $order_id;
+	private $transaction_id;
 
 	/**
 	 * Yönlendirme yapılmaması durumunda gösterilecek olan HTML içeriğini belirtir.
@@ -53,11 +53,11 @@ class GPOS_Gateway_Response {
 	private $payment_id;
 
 	/**
-	 * Ürünlerin ödeme kuruluşu tarafındaki benzersiz numaraları.
+	 * Satırların ödeme kuruluşu tarafındaki benzersiz numaraları.
 	 *
-	 * @var array $items_transaction_ids
+	 * @var array $payment_ids_of_lines
 	 */
-	private $items_transaction_ids;
+	private $payment_ids_of_lines;
 
 
 	/**
@@ -91,22 +91,22 @@ class GPOS_Gateway_Response {
 	}
 
 	/**
-	 * Ödeme geçidine gönderilen sipariş numarası ayarlar.
+	 * Ödeme geçidine gönderilen işlem numarası ayarlar.
 	 *
-	 * @param mixed $order_id Ödeme geçidine gönderilen sipariş numarası.
+	 * @param mixed $transaction_id Ödeme geçidine gönderilen işlem numarası.
 	 */
-	public function set_order_id( $order_id ) {
-		$this->order_id = $order_id;
+	public function set_transaction_id( $transaction_id ) {
+		$this->transaction_id = $transaction_id;
 		return $this;
 	}
 
 	/**
-	 * Ödeme geçidine gönderilen sipariş numarası döndürür.
+	 * Ödeme geçidine gönderilen işlem numarası döndürür.
 	 *
-	 * @return mixed Ödeme geçidine gönderilen sipariş numarası.
+	 * @return mixed Ödeme geçidine gönderilen işlem numarası.
 	 */
-	public function get_order_id() {
-		return $this->order_id;
+	public function get_transaction_id() {
+		return $this->transaction_id;
 	}
 
 
@@ -168,7 +168,7 @@ class GPOS_Gateway_Response {
 	}
 
 	/**
-	 * Ödeme kuruluşu tarafındaki benzersiz numarayı ayarlar.
+	 * İşlemin ödeme kuruluşu tarafındaki benzersiz numarasını ayarlar.
 	 *
 	 * @param string $payment_id Ödeme kuruluşu tarafındaki benzersiz numara
 	 */
@@ -178,7 +178,7 @@ class GPOS_Gateway_Response {
 	}
 
 	/**
-	 * Ödeme kuruluşu tarafındaki benzersiz numarayı döndürür.
+	 * İşlemin ödeme kuruluşu tarafındaki benzersiz numarasını döndürür.
 	 *
 	 * @return string Ödeme kuruluşu tarafındaki benzersiz numara.
 	 */
@@ -187,22 +187,22 @@ class GPOS_Gateway_Response {
 	}
 
 	/**
-	 * Ödeme kuruluşu tarafında kırılımların benzersiz numaraları ayarlar.
+	 * Ödeme kuruluşu tarafında satırların benzersiz numaraları ayarlar.
 	 *
-	 * @param string $item_id Ürünün site tarafındaki numarası
-	 * @param string $transaction_id Ödeme kuruluşu tarafındaki benzersiz numara
+	 * @param string $line_id Ürünün site tarafındaki numarası
+	 * @param string $payment_id Ödeme kuruluşu tarafındaki benzersiz numara
 	 */
-	public function set_item_transaction_id( $item_id, $transaction_id ) {
-		$this->items_transaction_ids[ $item_id ] = $transaction_id;
+	public function set_payment_id_of_line( $line_id, $payment_id ) {
+		$this->payment_ids_of_lines[ $line_id ] = $payment_id;
 		return $this;
 	}
 
 	/**
-	 * Ödeme kuruluşu tarafında kırılımların benzersiz numaralarını döndürür.
+	 * Ödeme kuruluşu tarafında satırların benzersiz numaralarını döndürür.
 	 *
-	 * @return array Ürünlerin ödeme kuruluşu tarafındaki benzersiz numarası.
+	 * @return array
 	 */
-	public function get_items_transaction_ids() {
-		return $this->items_transaction_ids;
+	public function get_payment_ids_of_lines() {
+		return $this->payment_ids_of_lines;
 	}
 }

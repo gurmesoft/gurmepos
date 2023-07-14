@@ -25,17 +25,25 @@ class GPOS_Payment_Gateways {
 		$this->payment_gateways = array(
 			'GPOS_Paratika',
 			'GPOS_Iyzico',
-			'GPOS_Craftgate',
 			'GPOS_Akbank',
-			'GPOS_Esnekpos',
+			// 'GPOS_Albaraka', Devam Ediyor.
+			'GPOS_Craftgate',
 			'GPOS_Denizbank',
+			'GPOS_Esnekpos',
 			'GPOS_Finansbank',
 			'GPOS_Garanti',
 			'GPOS_Halkbank',
+			'GPOS_Ingbank',
 			'GPOS_Isbank',
 			'GPOS_Kuveyt_Turk',
+			// 'GPOS_Ozan', Devam Ediyor.
+			'GPOS_Param',
+			// 'GPOS_Paytr', Devam Ediyor.
+			// 'GPOS_Sekerbank', Devam Ediyor.
+			// 'GPOS_Sipay', Devam Ediyor.
 			'GPOS_Teb',
 			'GPOS_Vakifbank',
+			// 'GPOS_Wyld',  Devam Ediyor.
 			'GPOS_Yapi_Kredi',
 			'GPOS_Ziraat',
 		);
@@ -64,6 +72,8 @@ class GPOS_Payment_Gateways {
 	 * Anahtarı gönderilen ödeme geçidini döndürür.
 	 *
 	 * @param string $gateway_id Ödeme kuruluşunun idsi.
+	 *
+	 * @return false|GPOS_Gateway
 	 */
 	public function get_gateway_by_gateway_id( string $gateway_id ) {
 		$gateway = array_filter( $this->get_payment_gateways(), fn ( $gateway ) => $gateway_id === $gateway->id );

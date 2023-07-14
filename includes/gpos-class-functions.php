@@ -42,12 +42,12 @@ function gpos_http_request() {
 }
 
 /**
- * Post tiplerinin register edildiği sınıfı döndürür.
+ * Post tipleri ile ilgili işlemlerin gerçekleştiği sınıfı döndürür.
  *
- * @return GPOS_Post_Types
+ * @return GPOS_Post_Operations
  */
-function gpos_post_types() {
-	return new GPOS_Post_Types();
+function gpos_post_operations() {
+	return new GPOS_Post_Operations();
 }
 
 /**
@@ -140,19 +140,30 @@ function gpos_session() {
 }
 
 /**
- * Log sınıfını döndürür
- *
- * @return GPOS_Log
- */
-function gpos_log() {
-	return new GPOS_Log();
-}
-
-/**
  * Bilgi toplama işlemleri.
  *
  * @return GPOS_Tracker
  */
 function gpos_tracker() {
 	return new GPOS_Tracker();
+}
+
+/**
+ * İşlem bilgisi sınıfı.
+ *
+ * @param null|WP_Post|int|string $id İşlem.
+ *
+ * @return GPOS_Transaction
+ */
+function gpos_transaction( $id = null ) {
+	return new GPOS_Transaction( $id );
+}
+
+/**
+ * İşlem bilgisi listeleme sınıfı.
+ *
+ * @return GPOS_Transactions
+ */
+function gpos_transactions() {
+	return new GPOS_Transactions();
 }

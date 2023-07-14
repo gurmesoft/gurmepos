@@ -74,6 +74,13 @@ abstract class GPOS_Gateway {
 	public $is_need_pro = false;
 
 	/**
+	 * Ortak ödeme formu mu ?
+	 *
+	 * @var boolean $is_common_form
+	 */
+	public $is_common_form = false;
+
+	/**
 	 * Ayar alanları
 	 *
 	 * @var array $fields

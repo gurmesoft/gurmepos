@@ -26,16 +26,6 @@
     "isEntry": true,
     "src": "src/pages/gurmepos/main.js"
   },
-  "src/pages/logs/main.js": {
-    "file": "js/logs/main.js",
-    "imports": [
-      "_main.js",
-      "_main.js",
-      "_main.js"
-    ],
-    "isEntry": true,
-    "src": "src/pages/logs/main.js"
-  },
   "src/pages/payment-gateway/main.js": {
     "file": "js/payment-gateway/main.js",
     "imports": [
@@ -59,6 +49,22 @@
     ],
     "isEntry": true,
     "src": "src/pages/payment-gateways/main.js"
+  },
+  "src/pages/transaction/main.css": {
+    "file": "css/main.css",
+    "src": "src/pages/transaction/main.css"
+  },
+  "src/pages/transaction/main.js": {
+    "css": [
+      "css/main.css"
+    ],
+    "file": "js/transaction/main.js",
+    "imports": [
+      "_main.js",
+      "_main.js"
+    ],
+    "isEntry": true,
+    "src": "src/pages/transaction/main.js"
   },
   "src/pages/woocommerce-settings/main.js": {
     "file": "js/woocommerce-settings/main.js",

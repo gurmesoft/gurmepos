@@ -45,7 +45,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 
 			return array(
 				'result'  => $response->getStatus() === 'success' ? 'success' : 'error',
-				'message' => $response->getStatus() === 'success' ? 'Bağlantı Başarılı' : $response->getErrorMessage(),
+				'message' => $response->getStatus() === 'success' ? __( 'Connection Success', 'gurmepos' ) : $response->getErrorMessage(),
 			);
 
 		} catch ( Exception $e ) {
@@ -138,12 +138,12 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 		$payment_request->setPaymentSource( 'Gurmesoft' );
 		$payment_request->setPaymentGroup( \Iyzipay\Model\PaymentGroup::PRODUCT );
 		$payment_request->setPaymentChannel( \Iyzipay\Model\PaymentChannel::WEB );
-		$payment_request->setCurrency( $this->get_currency() );
+		$payment_request->setCurrency( $this->transaction->get_currency() );
 		$payment_request->setLocale( \Iyzipay\Model\Locale::TR );
-		$payment_request->setConversationId( $this->get_order_id() );
-		$payment_request->setInstallment( $this->get_installment() );
-		$payment_request->setPaidPrice( number_format( $this->get_order_total(), 2, '.', '' ) );
-		$payment_request->setPrice( number_format( $this->get_order_total(), 2, '.', '' ) );
+		$payment_request->setConversationId( $this->transaction->get_id() );
+		$payment_request->setInstallment( $this->transaction->get_installment() );
+		$payment_request->setPaidPrice( number_format( $this->transaction->get_total(), 2, '.', '' ) );
+		$payment_request->setPrice( number_format( $this->transaction->get_total(), 2, '.', '' ) );
 		$payment_request->setBuyer( $this->prepare_buyer() );
 		$payment_request->setBillingAddress( $this->prepare_address() );
 		$payment_request->setShippingAddress( $this->prepare_address() );
@@ -151,31 +151,28 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 		$payment_request->setPaymentCard( $this->prepare_payment_card() );
 		$payment_request->setBasketItems( $this->prepare_basket_items() );
 
-		if ( 'threed' === $this->get_payment_type() ) {
+		$security_type = $this->transaction->get_security_type();
+
+		if ( 'threed' === $security_type ) {
+			$process = GPOS_Transaction_Utils::LOG_PROCESS_START_3D;
 			$payment_request->setCallbackUrl( $this->get_callback_url() );
 			$response = \Iyzipay\Model\ThreedsInitialize::create( $payment_request, $this->settings );
-
-			if ( 'success' === $response->getStatus() ) {
-				$this->gateway_response->set_html_content( $response->getHtmlContent() );
-			} else {
-				$this->gateway_response->set_success( false )->set_error_message( $response->getErrorMessage() );
-			}
 		} else {
+			$process  = GPOS_Transaction_Utils::LOG_PROCESS_REGULAR;
 			$response = \Iyzipay\Model\Payment::create( $payment_request, $this->settings );
-			$this->gateway_response->set_order_id( $response->getConversationId() );
-
-			if ( 'success' === $response->getStatus() ) {
-				$this->gateway_response->set_success( true )->set_payment_id( $response->getPaymentId() );
-
-				foreach ( $response->getPaymentItems() as $item ) {
-					$this->gateway_response->set_item_transaction_id( $item->getItemId(), $item->getPaymentTransactionId() );
-				}
-			} else {
-				$this->gateway_response->set_success( false )->set_error_message( $response->getErrorMessage() );
-			}
 		}
 
-		$this->log( __FUNCTION__, $payment_request, $response );
+		$this->log( $process, $payment_request, $response );
+
+		$response_status = $response->getStatus();
+
+		if ( 'success' === $response_status && 'threed' === $security_type ) {
+			$this->gateway_response->set_success( true )->set_html_content( $response->getHtmlContent() );
+		} elseif ( 'success' === $response_status && 'regular' === $security_type ) {
+			$this->set_payment_success( $response );
+		} else {
+			$this->set_payment_failed( $response );
+		}
 
 		return $this->gateway_response;
 
@@ -191,37 +188,61 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 */
 	public function process_callback( array $post_data ) {
-		$this->gateway_response->set_success( false )
-		->set_order_id( $post_data['conversationId'] )
-		->set_error_message( __( 'Error in 3D rendering. The password was entered incorrectly or the 3D page was abandoned.', 'gurmepos' ) );
+		$this->gateway_response->set_error_message( __( 'Error in 3D rendering. The password was entered incorrectly or the 3D page was abandoned.', 'gurmepos' ) );
 
-		if ( 'success' === $post_data['status'] ) {
+		if ( array_key_exists( 'conversationId', $post_data ) ) {
+			$this->transaction = gpos_transaction( $post_data['conversationId'] );
+			$this->gateway_response->set_transaction_id( $this->transaction->get_id() );
+			$this->log( GPOS_Transaction_Utils::LOG_PROCESS_CALLBACK_3D, [], $post_data );
+		}
+
+		if ( array_key_exists( 'status', $post_data ) && 'success' === $post_data['status'] ) {
 			$request = new \Iyzipay\Request\CreateThreedsPaymentRequest();
 			$request->setLocale( \Iyzipay\Model\Locale::TR );
 			$request->setConversationId( $post_data['conversationId'] );
 			$request->setPaymentId( $post_data['paymentId'] );
 			// 3D Sayfasından başarıyla gelen kullanıcı için kartından ödeme çekme bu çağrı ile gerçekleşir.
 			$response = \Iyzipay\Model\ThreedsPayment::create( $request, $this->settings );
-			$this->set_order_id( $post_data['conversationId'] )->log( __FUNCTION__, $request, $response );
+
+			$this->log( GPOS_Transaction_Utils::LOG_PROCESS_FINISH_3D, $request, $response );
 
 			if ( 'success' === $response->getStatus() ) {
-				$this->gateway_response
-				->set_success( true )
-				->set_error_message( false )
-				->set_order_id( $response->getConversationId() )
-				->set_payment_id( $response->getPaymentId() );
-
-				foreach ( $response->getPaymentItems() as $item ) {
-					$this->gateway_response->set_item_transaction_id( $item->getItemId(), $item->getPaymentTransactionId() );
-				}
+				$this->set_payment_success( $response );
 			} else {
 				// Yetersiz bakiye, Froud vb. gibi kartla ilgili durumlardan dolayı ödeme yapılamazsa bu blok hata mesajını değiştirir.
-				$this->gateway_response->set_error_message( $response->getErrorMessage() );
+				$this->set_payment_failed( $response );
 			}
 		}
 
 		return $this->gateway_response;
 
+	}
+
+	/**
+	 * Ödemenin başarılı olması durumunda yapılacak işlem.
+	 *
+	 * @param \Iyzipay\Model\ThreedsInitialize|\Iyzipay\Model\Payment $response iyzico cevap sınıfı.
+	 */
+	private function set_payment_success( $response ) {
+		$this->gateway_response
+			->set_success( true )
+			->set_transaction_id( $response->getConversationId() )
+			->set_payment_id( $response->getPaymentId() );
+
+		foreach ( $response->getPaymentItems() as $item ) {
+			$this->gateway_response->set_payment_id_of_line( $item->getItemId(), $item->getPaymentTransactionId() );
+		}
+	}
+
+	/**
+	 * Ödemenin başarısız olması durumunda yapılacak işlem.
+	 *
+	 * @param \Iyzipay\Model\ThreedsInitialize|\Iyzipay\Model\Payment $response iyzico cevap sınıfı.
+	 */
+	private function set_payment_failed( $response ) {
+		$this->gateway_response
+		->set_transaction_id( $response->getConversationId() )
+		->set_error_message( $response->getErrorMessage() );
 	}
 
 	/**
@@ -237,17 +258,17 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 */
 	private function prepare_buyer() {
 		$buyer = new \Iyzipay\Model\Buyer();
-		$buyer->setId( $this->get_customer_id() );
-		$buyer->setName( $this->get_customer_first_name() );
-		$buyer->setSurname( $this->get_customer_last_name() );
-		$buyer->setGsmNumber( $this->get_customer_phone() );
-		$buyer->setEmail( $this->get_customer_email() );
+		$buyer->setId( $this->transaction->get_customer_id() );
+		$buyer->setName( $this->transaction->get_customer_first_name() );
+		$buyer->setSurname( $this->transaction->get_customer_last_name() );
+		$buyer->setGsmNumber( $this->transaction->get_customer_phone() );
+		$buyer->setEmail( $this->transaction->get_customer_email() );
 		$buyer->setIdentityNumber( '11111111111' );
-		$buyer->setIp( $this->get_customer_ip_address() );
-		$buyer->setCity( $this->get_customer_city() );
-		$buyer->setCountry( $this->get_customer_country() );
-		$buyer->setZipCode( $this->get_customer_zipcode() );
-		$buyer->setRegistrationAddress( $this->get_customer_address() );
+		$buyer->setIp( $this->transaction->get_customer_ip_address() );
+		$buyer->setCity( $this->transaction->get_customer_city() );
+		$buyer->setCountry( $this->transaction->get_customer_country() );
+		$buyer->setZipCode( $this->transaction->get_customer_zipcode() );
+		$buyer->setRegistrationAddress( $this->transaction->get_customer_address() );
 		return $buyer;
 	}
 
@@ -259,11 +280,11 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 */
 	private function prepare_address() {
 		$address = new \Iyzipay\Model\Address();
-		$address->setContactName( $this->get_customer_full_name() );
-		$address->setCity( $this->get_customer_city() );
-		$address->setCountry( $this->get_customer_country() );
-		$address->setAddress( $this->get_customer_address() );
-		$address->setZipCode( $this->get_customer_zipcode() );
+		$address->setContactName( $this->transaction->get_customer_full_name() );
+		$address->setCity( $this->transaction->get_customer_city() );
+		$address->setCountry( $this->transaction->get_customer_country() );
+		$address->setAddress( $this->transaction->get_customer_address() );
+		$address->setZipCode( $this->transaction->get_customer_zipcode() );
 		return $address;
 	}
 
@@ -274,7 +295,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 */
 	private function prepare_payment_card() {
 		$payment_card = new \Iyzipay\Model\PaymentCard();
-		if ( $this->use_saved_card() ) {
+		if ( $this->transaction->need_use_saved_card() ) {
 			/**
 			 * Todo.
 			 *
@@ -283,13 +304,13 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 			$payment_card->setCardUserKey( '' );
 			$payment_card->setCardToken( '' );
 		} else {
-			$payment_card->setCardHolderName( $this->get_customer_full_name() );
-			$payment_card->setCardNumber( $this->get_card_bin() );
-			$payment_card->setExpireMonth( $this->get_card_expiry_month() );
-			$payment_card->setExpireYear( $this->get_card_expiry_year() );
-			$payment_card->setCvc( $this->get_card_cvv() );
+			$payment_card->setCardHolderName( $this->transaction->get_card_holder_name() );
+			$payment_card->setCardNumber( $this->transaction->get_card_bin() );
+			$payment_card->setExpireMonth( $this->transaction->get_card_expiry_month() );
+			$payment_card->setExpireYear( $this->transaction->get_card_expiry_year() );
+			$payment_card->setCvc( $this->transaction->get_card_cvv() );
 
-			if ( $this->need_save_current_card() ) {
+			if ( $this->transaction->need_save_current_card() ) {
 				$payment_card->setRegisterCard( 1 );
 			}
 		}
@@ -304,14 +325,14 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 */
 	private function prepare_basket_items() {
 		$basket_items = array();
-		foreach ( $this->get_order_items() as $order_item ) {
+		foreach ( $this->transaction->get_lines() as $line ) {
 
 			$basket_item = new \Iyzipay\Model\BasketItem();
-			$basket_item->setId( $order_item->get_id() );
-			$basket_item->setName( $order_item->get_name() );
+			$basket_item->setId( $line->get_id() );
+			$basket_item->setName( $line->get_name() );
 			$basket_item->setItemType( \Iyzipay\Model\BasketItemType::PHYSICAL );
 			$basket_item->setCategory1( 'Todo...' ); // Todo. Kategoriye ne gelecek ?
-			$basket_item->setPrice( number_format( $order_item->get_total(), 2, '.', '' ) );
+			$basket_item->setPrice( number_format( $line->get_total(), 2, '.', '' ) );
 
 			if ( $basket_item->getId() && (int) $basket_item->getPrice() > 0 ) {
 				array_push( $basket_items, $basket_item );
@@ -330,7 +351,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 *
 	 * @return void
 	 */
-	public function log( $process, $request, $response ) {
+	public function log( $process, $request = array(), $response = array() ) {
 		if ( method_exists( $request, 'getPaymentCard' ) && $request instanceof \Iyzipay\Request\CreatePaymentRequest ) {
 			$payment_card = $request->getPaymentCard();
 			$payment_card->setCardNumber( '**** **** **** **** ' . substr( $payment_card->getCardNumber(), -4 ) );
@@ -340,7 +361,10 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 			$request->setPaymentCard( $payment_card );
 		}
 
-		$this->logger( __CLASS__, $process, $request->getJsonObject(), $response->getRawResult() );
+		$request  = ! is_array( $request ) && is_object( $request ) && method_exists( $request, 'getJsonObject' ) ? $request->getJsonObject() : $request;
+		$response = ! is_array( $response ) && is_object( $response ) && method_exists( $response, 'getRawResult' ) ? $response->getRawResult() : $response;
+
+		$this->transaction->add_log( __CLASS__, $process, $request, $response );
 	}
 
 }

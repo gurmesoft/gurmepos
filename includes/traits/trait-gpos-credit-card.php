@@ -26,6 +26,13 @@ trait GPOS_Credit_Card {
 	protected $save_current_card = false;
 
 	/**
+	 * Gizli kredi kartı numarası
+	 *
+	 * @var string $masked_card_bin
+	 */
+	protected $masked_card_bin;
+
+	/**
 	 * Kredi kartı numarası
 	 *
 	 * @var int|string $card_bin
@@ -61,56 +68,42 @@ trait GPOS_Credit_Card {
 	protected $installment = 1;
 
 	/**
-	 * Ödemede kayıtlı kart kullanılacak mı?
+	 * Kart ailesi
 	 *
-	 * @param bool $use_saved_card Sipariş kimliği.
-	 *
-	 * @return $this
-	 */
-	public function set_use_saved_card( bool $use_saved_card ) {
-		$this->use_saved_card = $use_saved_card;
-		return $this;
-	}
+	 * @var string $card_family
+	 * */
+	protected $card_family;
 
 	/**
-	 * Ödemede kayıtlı kart kullanılacak mı ?
+	 * Kart markası
 	 *
-	 * @return bool
-	 */
-	public function use_saved_card() {
-		return $this->use_saved_card;
-	}
+	 * @var string $card_brand
+	 * */
+	protected $card_brand;
 
 	/**
-	 * Ödemede kullanılan kart kayıt edilecek mi?
+	 * Kart ülkesi
 	 *
-	 * @param bool $save_current_card Sipariş kimliği.
-	 *
-	 * @return $this
-	 */
-	public function set_save_current_card( bool $save_current_card ) {
-		$this->save_current_card = $save_current_card;
-		return $this;
-
-	}
+	 * @var string $card_country
+	 * */
+	protected $card_country;
 
 	/**
-	 * Ödemede kullanılan kart kayıt edilecek mi ?
+	 * Kart tipi
 	 *
-	 * @return bool
-	 */
-	public function need_save_current_card() {
-		return $this->save_current_card;
-	}
+	 * @var string $card_type
+	 * */
+	protected $card_type;
 
 	/**
 	 * Kredi kartı numara bilgisini ayarlar
 	 *
-	 * @param int|string $card_bin Kredi kartı numara bilgisi.
+	 * @param int|string $value Kredi kartı numara bilgisi.
 	 * @return $this
 	 */
-	public function set_card_bin( $card_bin ) {
-		$this->card_bin = str_replace( ' ', '', trim( (string) $card_bin ) );
+	public function set_card_bin( $value ) {
+		$this->card_bin = str_replace( ' ', '', (string) $value );
+		$this->set_masked_card_bin( $value );
 		return $this;
 	}
 
@@ -126,11 +119,11 @@ trait GPOS_Credit_Card {
 	/**
 	 * Kredi kartı güvenlik numarası bilgisini ayarlar
 	 *
-	 * @param int|string $card_cvv Kredi kartı güvenlik numarası bilgisi.
+	 * @param int|string $value Kredi kartı güvenlik numarası bilgisi.
 	 * @return $this
 	 */
-	public function set_card_cvv( $card_cvv ) {
-		$this->card_cvv = str_replace( ' ', '', trim( (string) $card_cvv ) );
+	public function set_card_cvv( $value ) {
+		$this->card_cvv = str_replace( ' ', '', (string) $value );
 		return $this;
 	}
 
@@ -146,11 +139,11 @@ trait GPOS_Credit_Card {
 	/**
 	 * Kredi kartı son kullanım tarihi yıl bilgisini ayarlar
 	 *
-	 * @param int|string $card_expiry_year Kredi kartı son kullanım tarihi yıl bilgisi.
+	 * @param int|string $value Kredi kartı son kullanım tarihi yıl bilgisi.
 	 * @return $this
 	 */
-	public function set_card_expiry_year( $card_expiry_year ) {
-		$this->card_expiry_year = str_replace( ' ', '', trim( (string) $card_expiry_year ) );
+	public function set_card_expiry_year( $value ) {
+		$this->card_expiry_year = str_replace( ' ', '', (string) $value );
 		return $this;
 	}
 
@@ -166,11 +159,11 @@ trait GPOS_Credit_Card {
 	/**
 	 * Kredi kartı son kullanım tarihi ay bilgisini ayarlar
 	 *
-	 * @param int|string $card_expiry_month Kredi kartı son kullanım tarihi ay bilgisi.
+	 * @param int|string $value Kredi kartı son kullanım tarihi ay bilgisi.
 	 * @return $this
 	 */
-	public function set_card_expiry_month( $card_expiry_month ) {
-		$this->card_expiry_month = str_replace( ' ', '', trim( (string) $card_expiry_month ) );
+	public function set_card_expiry_month( $value ) {
+		$this->card_expiry_month = str_replace( ' ', '', (string) $value );
 		return $this;
 	}
 
@@ -184,13 +177,33 @@ trait GPOS_Credit_Card {
 	}
 
 	/**
-	 * Taksit seçeneğini ayarlar
+	 * Kredi kartı üzerindeki isim bilgisi bilgisini ayarlar.
 	 *
-	 * @param int|string $installment Taksit seçeneği.
+	 * @param int|string $value Kredi kartı üzerindeki isim bilgisi bilgisi.
 	 * @return $this
 	 */
-	public function set_installment( $installment ) {
-		$this->installment = $installment;
+	public function set_card_holder_name( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Kredi kartı üzerindeki isim bilgisi bilgisini döndürür.
+	 *
+	 * @return string
+	 */
+	public function get_card_holder_name() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Taksit seçeneğini ayarlar
+	 *
+	 * @param int|string $value Taksit seçeneği.
+	 * @return $this
+	 */
+	public function set_installment( $value ) {
+		$this->set_prop( __FUNCTION__, str_replace( ' ', '', (string) $value ) );
 		return $this;
 	}
 
@@ -200,7 +213,171 @@ trait GPOS_Credit_Card {
 	 * @return int|string
 	 */
 	public function get_installment() {
-		return $this->installment;
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Gizli kredi kartı numara bilgisini ayarlar
+	 *
+	 * @param int|string $value Kredi kartı numara bilgisi.
+	 * @return $this
+	 */
+	public function set_masked_card_bin( $value ) {
+		$this->set_prop( __FUNCTION__, '**** **** **** ' . substr( trim( $value ), -4 ) );
+		return $this;
+	}
+
+	/**
+	 * Gizli kredi kartı numara bilgisini döndürür.
+	 *
+	 * @return int|string
+	 */
+	public function get_masked_card_bin() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Kredi yada banka kartı bilgisini ayarlar.
+	 *
+	 * @param string $value Kartı tipi bilgisi.
+	 * @return $this
+	 */
+	public function set_card_type( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Kredi yada banka kartı bilgisini döndürür.
+	 *
+	 * @return string
+	 */
+	public function get_card_type() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Kart firma bilgisini ayarlar. Master, Visa, Troy vs.
+	 *
+	 * @param string $value Kart firma bilgisi.
+	 * @return $this
+	 */
+	public function set_card_brand( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Kart firma bilgisini döndürür.
+	 *
+	 * @return string
+	 */
+	public function get_card_brand() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Kart aile bilgisini ayarlar. Axess, Bonus, Word vs.
+	 *
+	 * @param string|int $value Kartı aile bilgisi.
+	 * @return $this
+	 */
+	public function set_card_family( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Kart aile bilgisini döndürür.
+	 *
+	 * @return string
+	 */
+	public function get_card_family() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Kart banka bilgisini ayarlar. Akbank, Finansbank vs.
+	 *
+	 * @param string $value Kart banka bilgisi.
+	 *
+	 * @return $this
+	 */
+	public function set_card_bank_name( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Kart banka bilgisini döndürür.
+	 *
+	 * @return string
+	 */
+	public function get_card_bank_name() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Kart ülke bilgisini ayarlar. Türkiye vs.
+	 *
+	 * @param string $value Kart ülke bilgisi.
+	 * @return $this
+	 */
+	public function set_card_country( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Kart ülke bilgisini döndürür.
+	 *
+	 * @return string
+	 */
+	public function get_card_country() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Ödemede kayıtlı kart kullanılacak mı?
+	 *
+	 * @param bool $value Sipariş kimliği.
+	 *
+	 * @return $this
+	 */
+	public function set_use_saved_card( bool $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Ödemede kayıtlı kart kullanılacak mı ?
+	 *
+	 * @return bool
+	 */
+	public function need_use_saved_card() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Ödemede kullanılan kart kayıt edilecek mi?
+	 *
+	 * @param bool $value Sipariş kimliği.
+	 *
+	 * @return $this
+	 */
+	public function set_save_current_card( bool $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+
+	}
+
+	/**
+	 * Ödemede kullanılan kart kayıt edilecek mi ?
+	 *
+	 * @return bool
+	 */
+	public function need_save_current_card() {
+		return $this->get_prop( __FUNCTION__ );
 	}
 
 }

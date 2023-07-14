@@ -8,7 +8,7 @@
 /**
  * GPOS (Genel Satış Noktası) sistemindeki bir ürün satırını temsil eden sınıf.
  */
-class GPOS_Order_Item {
+class GPOS_Transaction_Line {
 	/**
 	 * Ürünün ID'si.
 	 *
@@ -38,7 +38,7 @@ class GPOS_Order_Item {
 	private $total;
 
 	/**
-	 * Yeni bir GPOS_Order_Item örneği oluşturur.
+	 * Yeni bir GPOS_Transaction_Line örneği oluşturur.
 	 *
 	 * @param int    $id Ürünün ID'si.
 	 * @param string $name Ürünün adı.
@@ -65,7 +65,7 @@ class GPOS_Order_Item {
 	 * Ürünün ID'sini ayarlar ve sınıfın kendisini döndürür.
 	 *
 	 * @param int $id Yeni ürün ID'si.
-	 * @return GPOS_Order_Item Sınıfın kendisi.
+	 * @return GPOS_Transaction_Line Sınıfın kendisi.
 	 */
 	public function set_id( $id ) {
 		$this->id = $id;
@@ -85,7 +85,7 @@ class GPOS_Order_Item {
 	 * Ürünün adını ayarlar ve sınıfın kendisini döndürür.
 	 *
 	 * @param string $name Yeni ürün adı.
-	 * @return GPOS_Order_Item Sınıfın kendisi.
+	 * @return GPOS_Transaction_Line Sınıfın kendisi.
 	 */
 	public function set_name( $name ) {
 		$this->name = $name;
@@ -105,7 +105,7 @@ class GPOS_Order_Item {
 	 * Ürünün ücretini ayarlar ve sınıfın kendisini döndürür.
 	 *
 	 * @param float $total Ürün ücreti.
-	 * @return GPOS_Order_Item Sınıfın kendisi.
+	 * @return GPOS_Transaction_Line Sınıfın kendisi.
 	 */
 	public function set_total( $total ) {
 		$this->total = $total;
@@ -126,7 +126,7 @@ class GPOS_Order_Item {
 	 * Ürünün adedini ayarlar ve sınıfın kendisini döndürür.
 	 *
 	 * @param int $quantity Yeni ürün ücreti.
-	 * @return GPOS_Order_Item Sınıfın kendisi.
+	 * @return GPOS_Transaction_Line Sınıfın kendisi.
 	 */
 	public function set_quantity( $quantity ) {
 		$this->quantity = $quantity;

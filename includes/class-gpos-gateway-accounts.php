@@ -112,16 +112,31 @@ class GPOS_Gateway_Accounts {
 	/**
 	 * Varsayılan ödeme hesabının ödeme geçidini türetip döndürür.
 	 *
-	 * @param string $platform Ödeme geçidinin çalıştığı platformu temsil eder varsayılan 'woocommerce'.
+	 * @param GPOS_Transaction|null $transaction Ödeme işlemi verileri.
 	 *
 	 * @return GPOS_Payment_Gateway|false
 	 */
-	public function get_default_gateway( $platform = 'woocommerce' ) {
-		$account = $this->get_default_account();
-		$gateway = $account ? $account->gateway_class : false;
+	public function get_gateway( $transaction = null ) {
+		$account = false;
+		$gateway = false;
 
-		if ( $gateway ) {
-			$gateway->platform = $platform;
+		// Kural 1 : Varsayılan Ödeme Hesabını Kullan.
+		$account = $this->get_default_account();
+
+		/**
+		 * Todo.
+		 *
+		 * Kural 2 : İşlem verisi içerisinden kart numarasını al ve gerekli bankaya yönlendir.
+		 * Kural 3 : ...
+		 */
+		if ( $account ) {
+			$gateway = $account->gateway_class;
+		}
+
+		if ( $gateway && $transaction ) {
+			$transaction->set_payment_gateway_id( $account->gateway_id );
+			$transaction->set_payment_gateway_class( get_class( $gateway ) );
+			$gateway->set_transaction( $transaction );
 		}
 
 		return $gateway;

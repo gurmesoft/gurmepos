@@ -67,25 +67,28 @@ abstract class GPOS_Options {
 	 */
 	private function get_default_settings() {
 
-		$default_settings = array(
-			'gpos_woocommerce_settings' => array(
-				'title'          => __( 'Debit/Credit Card', 'gurmepos' ),
-				'button_text'    => __( 'Payment', 'gurmepos' ),
-				'description'    => '',
-				'icon'           => GPOS_ASSETS_DIR_URL . '/images/visa-mastercard.png',
-				'success_status' => 'processing',
-			),
-			'gpos_form_settings'        => array(
-				'threed'                     => 'threed',
-				'form_user_name'             => false,
-				'save_card'                  => false,
-				'subscription'               => false,
-				'display_type'               => 'standart_form',
-				'installment_wiev'           => 'table_view',
-				'no_installment_desc_status' => false,
-				'no_installment_desc'        => __( 'No installment desc...', 'gurmepos' ),
+		$default_settings = apply_filters(
+			'gpos_default_settings',
+			array(
+				'gpos_woocommerce_settings' => array(
+					'title'          => __( 'Debit/Credit Card', 'gurmepos' ),
+					'button_text'    => __( 'Payment', 'gurmepos' ),
+					'description'    => '',
+					'icon'           => GPOS_ASSETS_DIR_URL . '/images/visa-mastercard.png',
+					'success_status' => 'processing',
+				),
+				'gpos_form_settings'        => array(
+					'threed'                     => 'threed',
+					'form_user_name'             => false,
+					'save_card'                  => false,
+					'subscription'               => false,
+					'display_type'               => 'standart_form',
+					'installment_wiev'           => 'table_view',
+					'no_installment_desc_status' => false,
+					'no_installment_desc'        => __( 'No installment desc...', 'gurmepos' ),
 
-			),
+				),
+			)
 		);
 
 		return array_key_exists( $this->options_table_key, $default_settings ) ? $default_settings[ $this->options_table_key ] : array();

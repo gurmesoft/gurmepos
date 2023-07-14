@@ -44,8 +44,11 @@ class GPOS_WordPress {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_filter( 'plugin_action_links_' . GPOS_PLUGIN_BASENAME, array( $this, 'actions_links' ) );
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
+		add_action( 'restrict_manage_posts', array( $this, 'restrict_manage_posts' ) );
 		add_action( 'admin_menu', array( gpos_admin(), 'admin_menu' ) );
 		add_action( 'admin_bar_menu', array( gpos_admin(), 'admin_bar_menu' ), 10001 );
+		add_filter( "manage_edit-{$this->prefix}_transaction_columns", array( gpos_admin(), 'transaction_columns' ) );
+		add_action( "manage_{$this->prefix}_transaction_posts_custom_column", array( gpos_admin(), 'transaction_custom_column' ) );
 
 	}
 
@@ -56,8 +59,11 @@ class GPOS_WordPress {
 	 */
 	public function init() {
 
+		// Languages
+		gpos_load_plugin_text_domain();
+
 		// Post Tipleri Kaydı.
-		gpos_post_types()->register();
+		gpos_post_operations()->register();
 
 		$rewrite_rules = apply_filters(
 			/**
@@ -206,7 +212,9 @@ class GPOS_WordPress {
 			gpos_get_template( 'store-rating-notice' );
 		}
 
-		if ( gpos_is_woocommerce_enabled() && 'yes' !== get_option( 'woocommerce_gpos_settings' )['enabled'] ) {
+		$wc_gpos_settings = get_option( 'woocommerce_gpos_settings', array() );
+
+		if ( gpos_is_woocommerce_enabled() && array_key_exists( 'enabled', $wc_gpos_settings ) && 'yes' !== $wc_gpos_settings['enabled'] ) {
 			gpos_get_template( 'wc-gateway-disabled' );
 		}
 	}
@@ -249,5 +257,45 @@ class GPOS_WordPress {
 			$links = array_merge( $links, $row_meta );
 		}
 		return $links;
+	}
+
+
+	/**
+	 * Postları düzenlemek için kullanılan WordPress kancası.
+	 *
+	 * @return void
+	 */
+	public function restrict_manage_posts() {
+		global $typenow;
+		global $wp_query;
+
+		if ( 'gpos_transaction' === $typenow ) {
+			$args = array(
+				'show_option_all'   => __( 'Select Process Type', 'gurmepos' ),
+				'show_option_none'  => '',
+				'option_none_value' => '-1',
+				'orderby'           => 'id',
+				'order'             => 'ASC',
+				'show_count'        => 0,
+				'hide_empty'        => 0,
+				'child_of'          => 0,
+				'exclude'           => '',
+				'echo'              => 1,
+				'selected'          => isset( $wp_query->query_vars['gpos_transaction_process_type'] ) ? $wp_query->query_vars['gpos_transaction_process_type'] : '',
+				'hierarchical'      => 1,
+				'name'              => 'gpos_transaction_process_type',
+				'id'                => '',
+				'class'             => 'postform',
+				'depth'             => 0,
+				'tab_index'         => 0,
+				'taxonomy'          => 'gpos_transaction_process_type',
+				'hide_if_empty'     => false,
+				'value_field'       => 'slug',
+				'required'          => false,
+				'aria_describedby'  => '',
+			);
+
+			wp_dropdown_categories( $args );
+		}
 	}
 }

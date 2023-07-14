@@ -60,6 +60,7 @@ class GPOS_Ajax {
 				'remove_gateway_account'      => array( $this, 'remove_gateway_account' ),
 				'check_connection'            => array( $this, 'check_connection' ),
 				'hide_notice'                 => array( $this, 'hide_notice' ),
+				'check_bin'                   => array( $this, 'check_bin' ),
 			)
 		);
 
@@ -248,5 +249,16 @@ class GPOS_Ajax {
 	 */
 	public function hide_notice() {
 		return update_user_meta( get_current_user_id(), 'gpos_hide_rating_message', true );
+	}
+
+	/**
+	 * Geri dönüş fonksiyonu; check_bin.
+	 *
+	 * @param stdClass $request İstek parametreleri.
+	 *
+	 * @return mixed
+	 */
+	public function check_bin( $request ) {
+		wp_send_json( gpos_tracker()->get_card_bin_info( $request->bin ) );
 	}
 }

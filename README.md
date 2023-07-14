@@ -7,7 +7,7 @@ Kullanıcılara farklı ödeme yöntemleriyle (sanal poslar) işlem yapma, kolay
 
 ## Ödeme Kuruluşları
  - iyzico
- - paratika
+ - Paratika
 
 # Entegrasyonlar
  - wooCommerce Sanal POS Entegrasyonu [wooCommerce Sanal POS Entegrasyonu](https://posentegrator.com/woocommerce-sanal-pos-entegrasyonu/?utm_campaign=wporg&utm_source=baslik&utm_medium=readme)
@@ -23,17 +23,29 @@ Gelişmiş özellikler ile kullanıcılarınızın kusursuz ödeme deneyimi yaş
 
 ## WordPress Banka Ödeme Entegrasyonları (Pro) 
 
-- Kuveyt Türk Katılım
-- Türkiye İş Bankası
-- Garanti BBVA
+- Akbank
+- Albaraka
 - Denizbank
-- Ziraat Bankası
 - QNB Finansbank
+- Garanti BBVA
 - Halkbank
+- ING Bank
+- Türkiye İş Bankası
+- Şeker Bank
+- Kuveyt Türk Katılım
 - TEB
+- Vakıfbank
+- Yapıkredi
+- Ziraat Bankası
 
 ## Ödeme Kuruluşları (Pro)
 - Craftgate
+- Esnekpos
+- Ozan
+- Param
+- PayTR
+- Sipay
+- Wyld
 
 [WordPress Sanal POS Entegrasyonları](https://posentegrator.com/sanal-pos-entegrasyonlari/?utm_campaign=wporg&utm_source=baslik&utm_medium=readme)
 

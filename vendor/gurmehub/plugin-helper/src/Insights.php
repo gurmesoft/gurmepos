@@ -37,14 +37,10 @@ class Insights extends \GurmeHub\Api {
 	 * @return bool
 	 */
 	private function is_local_server() {
-		$is_local   = 'no';
-		$host       = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : 'localhost';
-		$ip_address = isset( $_SERVER['SERVER_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['SERVER_ADDR'] ) ) : '127.0.0.1';
+		$is_local = 'no';
+		$host     = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : 'localhost';
 
-		if ( in_array( $ip_address, [ '127.0.0.1', '::1' ], true )
-			|| ! strpos( $host, '.' )
-			|| in_array( strrchr( $host, '.' ), [ '.test', '.testing', '.local', '.localhost', '.localdomain' ], true )
-		) {
+		if ( ! strpos( $host, '.' ) || in_array( strrchr( $host, '.' ), [ '.test', '.testing', '.local', '.localhost', '.localdomain' ], true ) ) {
 			$is_local = 'yes';
 		}
 

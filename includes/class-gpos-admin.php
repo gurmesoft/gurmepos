@@ -46,18 +46,9 @@ class GPOS_Admin {
 	public $sub_menu_pages;
 
 	/**
-	 * Eklenti alt menüler için vue router bilgisini taşır
-	 *
-	 * @var array $vue_router
-	 */
-	public $vue_router = array();
-
-	/**
 	 * GPOS_Admin_Menu kurucu fonksiyonu
 	 *
 	 * @return void
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedLocalVariable)
 	 */
 	public function __construct() {
 
@@ -78,12 +69,13 @@ class GPOS_Admin {
 				'menu_slug'  => "{$this->prefix}-form-settings",
 			),
 			array(
-				'menu_title' => __( 'Logs', 'gurmepos' ),
-				'menu_slug'  => "{$this->prefix}-logs",
+				'menu_title' => false,
+				'menu_slug'  => "{$this->prefix}-payment-gateway",
+				'hidden'     => true,
 			),
 			array(
 				'menu_title' => false,
-				'menu_slug'  => "{$this->prefix}-payment-gateway",
+				'menu_slug'  => "{$this->prefix}-transaction",
 				'hidden'     => true,
 			),
 
@@ -96,6 +88,7 @@ class GPOS_Admin {
 	 * @return void
 	 *   */
 	public function admin_menu() {
+		global $submenu;
 
 		$this->check_integrated_plugins();
 
@@ -122,7 +115,6 @@ class GPOS_Admin {
 		}
 
 		if ( ! gpos_is_pro_active() ) {
-			global $submenu;
 
 			$submenu[ $this->parent_slug ][] = array(
 				sprintf(
@@ -137,6 +129,13 @@ class GPOS_Admin {
 			);
 		}
 
+		/**
+		 * Yönetim menüsünde işlemler(transactions) menüsünü 2. sıraya almak için panel(dasboard) ile takas yapıldı.
+		 */
+		$index_of_zero                    = $submenu[ $this->parent_slug ][0];
+		$index_of_one                     = $submenu[ $this->parent_slug ][1];
+		$submenu[ $this->parent_slug ][0] = $index_of_one;
+		$submenu[ $this->parent_slug ][1] = $index_of_zero;
 	}
 
 
@@ -150,35 +149,9 @@ class GPOS_Admin {
 		$page = isset( $_GET['page'] ) ? str_replace( "{$this->prefix}-", '', gpos_clean( $_GET['page'] ) ) : false; //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( $page ) {
 
-			$localize = array(
-				'prefix'               => GPOS_PREFIX,
-				'assets_url'           => GPOS_ASSETS_DIR_URL,
-				'nonce'                => wp_create_nonce(),
-				'is_pro_active'        => gpos_is_pro_active(),
-				'is_test_mode'         => gpos_is_test_mode(),
-				'payment_gateways'     => gpos_get_payment_gateways(),
-				'gateway_accounts'     => gpos_gateway_accounts()->get_accounts(),
-				'wc_order_statuses'    => gpos_get_wc_order_statuses(),
-				'woocommerce_settings' => gpos_woocommerce_settings()->get_settings(),
-				'form_settings'        => gpos_form_settings()->get_settings(),
-				'strings'              => gpos_get_i18n_strings(),
-				'version'              => GPOS_VERSION,
-				'log'                  => gpos_log()->get(),
-				'alert_texts'          => array(
-					'ok'                     => __( 'OK', 'gurmepos' ),
-					'setting_saved'          => __( 'The settings have been saved.', 'gurmepos' ),
-					'installments_applied'   => __( 'Installments were applied', 'gurmepos' ),
-					'installments_get_error' => __( 'Error when bringing in installments', 'gurmepos' ),
-				),
-			);
-
-			if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) ) && isset( $_GET['id'] ) && 'payment-gateway' === $page ) {
-				$localize['gateway_account'] = gpos_gateway_account( (int) gpos_clean( $_GET['id'] ) );
-			}
-
 			gpos_vue()
 			->set_vue_page( $page )
-			->set_localize( $localize )
+			->set_localize( $this->get_localize_data( $page ) )
 			->require();
 		}
 	}
@@ -199,7 +172,7 @@ class GPOS_Admin {
 			$admin_bar_args = array(
 				'id'    => $this->parent_slug,
 				'title' => sprintf(
-					'<span class="ab-icon"><img style="width:20px;height:20px;" src="%s"></span><span class="ab-label">POS Entegratör%s</span>',
+					'<span class="ab-icon"><img style="width:20px;height:20px;" src="%s"></span><span class="ab-label">POS Entegratör %s</span>',
 					$this->icon,
 					gpos_is_test_mode() ? __( 'Test Mode Active', 'gurmepos' ) : ''
 				),
@@ -234,6 +207,49 @@ class GPOS_Admin {
 		}
 	}
 
+
+	/**
+	 * Vue render edildiğinde kullanacağı verileri düzenler.
+	 *
+	 * @param string $page Yüklenecek sayfa.
+	 *
+	 * @return array
+	 */
+	private function get_localize_data( $page ) {
+		$localize = array(
+			'prefix'               => GPOS_PREFIX,
+			'assets_url'           => GPOS_ASSETS_DIR_URL,
+			'nonce'                => wp_create_nonce(),
+			'is_pro_active'        => gpos_is_pro_active(),
+			'is_test_mode'         => gpos_is_test_mode(),
+			'payment_gateways'     => gpos_get_payment_gateways(),
+			'gateway_accounts'     => gpos_gateway_accounts()->get_accounts(),
+			'transactions'         => array_map( fn( $transaction ) =>  $transaction->to_array(), gpos_transactions()->get_transactions() ),
+			'wc_order_statuses'    => gpos_get_wc_order_statuses(),
+			'woocommerce_settings' => gpos_woocommerce_settings()->get_settings(),
+			'form_settings'        => gpos_form_settings()->get_settings(),
+			'strings'              => gpos_get_i18n_strings(),
+			'version'              => GPOS_VERSION,
+			'alert_texts'          => array(
+				'ok'                     => __( 'OK', 'gurmepos' ),
+				'setting_saved'          => __( 'The settings have been saved.', 'gurmepos' ),
+				'installments_applied'   => __( 'Installments were applied', 'gurmepos' ),
+				'installments_get_error' => __( 'Error when bringing in installments', 'gurmepos' ),
+			),
+		);
+		$nonce    = isset( $_GET['_wpnonce'] ) && wp_verify_nonce( gpos_clean( $_GET['_wpnonce'] ) );
+
+		if ( $nonce && isset( $_GET['id'] ) && 'payment-gateway' === $page ) {
+			$localize['gateway_account'] = gpos_gateway_account( (int) gpos_clean( $_GET['id'] ) );
+		}
+
+		if ( $nonce && isset( $_GET['transaction'] ) && 'transaction' === $page ) {
+			$localize['transaction'] = gpos_transaction( (int) gpos_clean( $_GET['transaction'] ) )->to_array();
+		}
+
+		return $localize;
+	}
+
 	/**
 	 * Entegrasyon gerçekleştirilen diğer eklentilerin ayar sayfaları.
 	 *
@@ -247,6 +263,39 @@ class GPOS_Admin {
 			);
 		}
 	}
+
+
+	/**
+	 * WordPress 'manage_edit-gpos_transaction_columns' kancası
+	 *
+	 * @param array $columns Kolonlar.
+	 *
+	 * @return array
+	 */
+	public function transaction_columns( $columns ) {
+
+		return array(
+			'cb'             => $columns['cb'],
+			'transaction'    => __( 'Transaction', 'gurmepos' ),
+			'payment_plugin' => __( 'Plugin', 'gurmepos' ),
+			'status'         => __( 'Status', 'gurmepos' ),
+			'process_type'   => __( 'Process Type', 'gurmepos' ),
+			'create_date'    => __( 'Date', 'gurmepos' ),
+		);
+	}
+
+	/**
+	 * WordPress 'manage_gpos_transaction_posts_custom_column' kancası
+	 *
+	 * @param string $column Kolon.
+	 *
+	 * @return void
+	 */
+	public function transaction_custom_column( $column ) {
+		global $post;
+		gpos_get_template_part( 'transaction-columns', str_replace( '_', '-', $column ), array( 'transaction' => gpos_transaction( $post->ID ) ) );
+	}
+
 
 	/**
 	 * Eklenti ikonunu döndürür

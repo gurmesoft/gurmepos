@@ -46,6 +46,13 @@ class GPOS_Esnekpos extends GPOS_Gateway {
 	public $is_need_pro = true;
 
 	/**
+	 * Ortak ödeme formu mu ?
+	 *
+	 * @var boolean $is_common_form
+	 */
+	public $is_common_form = false;
+
+	/**
 	 * Logo urli
 	 *
 	 * @var string $logo

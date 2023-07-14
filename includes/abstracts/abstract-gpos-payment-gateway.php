@@ -10,8 +10,6 @@
  */
 abstract class GPOS_Payment_Gateway {
 
-	use GPOS_Customer,GPOS_Credit_Card;
-
 	/**
 	 * Ödeme tipi
 	 *
@@ -20,39 +18,11 @@ abstract class GPOS_Payment_Gateway {
 	protected $payment_type = 'threed';
 
 	/**
-	 * Sipariş kimliği
-	 *
-	 * @var int|string $order_id
-	 */
-	protected $order_id;
-
-	/**
 	 * Ödeme geçidi geri dönüş urli.
 	 *
 	 * @var string $callback_url
 	 */
 	protected $callback_url;
-
-	/**
-	 * Sipariş ürünleri
-	 *
-	 * @var array $order_items
-	 */
-	protected $order_items = array();
-
-	/**
-	 * Sipariş toplam tutarı
-	 *
-	 * @var float $order_total
-	 */
-	protected $order_total;
-
-	/**
-	 * Ödeme işlemi yapılacak para birimi
-	 *
-	 * @var string $currency
-	 */
-	protected $currency = 'TRY';
 
 	/**
 	 * Http istekleri
@@ -69,18 +39,11 @@ abstract class GPOS_Payment_Gateway {
 	protected $gateway_response;
 
 	/**
-	 * Log sınıfı
+	 * Ödeme işlemi
 	 *
-	 * @var GPOS_Log $gateway_response
+	 * @var GPOS_Transaction $transaction
 	 */
-	protected $logger;
-
-	/**
-	 * Ödeme alınan platform
-	 *
-	 * @var string $platform
-	 */
-	public $platform;
+	public $transaction;
 
 	/**
 	 * GPOS_Payment_Gateway kurucu fonksiyonu
@@ -88,99 +51,19 @@ abstract class GPOS_Payment_Gateway {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->logger           = new GPOS_Log();
 		$this->http_request     = gpos_http_request();
 		$this->gateway_response = new GPOS_Gateway_Response( get_class( $this ) );
 	}
 
 	/**
-	 * Ödeme tipini ayarlar.
+	 * Ödeme işlemi verileri için sınıf
 	 *
-	 * @param string $payment_type Sipariş kimliği.
-	 *
-	 * @return $this
-	 *
-	 * @throws Exception Bilinmeyen ödeme tipi.
+	 * @param GPOS_Transaction $transaction Ödeme işlemi verileri.
 	 */
-	public function set_payment_type( $payment_type ) {
-		if ( in_array( $payment_type, array( 'regular', 'threed' ), true ) ) {
-			$this->payment_type = $payment_type;
-			return $this;
-		}
-
-		throw new Exception( 'Unknown payment type!' );
-	}
-
-	/**
-	 * Ödeme tipini getirir.
-	 *
-	 * @return string
-	 */
-	public function get_payment_type() {
-		return $this->payment_type;
-	}
-
-	/**
-	 * Sipariş kimliğini ayarlar
-	 *
-	 * @param int|string $order_id Sipariş kimliği.
-	 *
-	 * @return $this
-	 */
-	public function set_order_id( $order_id ) {
-		$this->order_id = $order_id;
-		return $this;
-	}
-
-	/**
-	 * Sipariş kimliğini döndürür
-	 *
-	 * @return int|string
-	 */
-	public function get_order_id() {
-		return $this->order_id;
-	}
-
-	/**
-	 * Sipariş toplamını ayarlar
-	 *
-	 * @param float $order_total Sipariş toplam tutarı.
-	 *
-	 * @return $this
-	 */
-	public function set_order_total( $order_total ) {
-		$this->order_total = $order_total;
-		return $this;
-	}
-
-	/**
-	 * Sipariş toplamını döndürür
-	 *
-	 * @return float
-	 */
-	public function get_order_total() {
-		return $this->order_total;
-	}
-
-	/**
-	 * Sipariş para birimini ayarlar
-	 *
-	 * @param string $currency Sipariş para birimi.
-	 *
-	 * @return $this
-	 */
-	public function set_currency( $currency ) {
-		$this->currency = $currency;
-		return $this;
-	}
-
-	/**
-	 * Sipariş para birimini döndürür
-	 *
-	 * @return string
-	 */
-	public function get_currency() {
-		return $this->currency;
+	public function set_transaction( GPOS_Transaction $transaction ) {
+		$transaction->set_searchable();
+		$this->gateway_response->set_transaction_id( $transaction->get_id() );
+		$this->transaction = $transaction;
 	}
 
 	/**
@@ -205,63 +88,7 @@ abstract class GPOS_Payment_Gateway {
 	}
 
 	/**
-	 * Sipariş ürünlerini ayarlar
-	 *
-	 * @param array $order_items Sipariş ürünleri.
-	 *
-	 * @return $this
-	 */
-	public function set_order_items( array $order_items ) {
-		$this->order_items = $order_items;
-		return $this;
-	}
-
-	/**
-	 * Sipariş ürünlerine yenisini ekler.
-	 *
-	 * @param GPOS_Order_Item $order_item Sipariş ürünü.
-	 *
-	 * @return $this
-	 */
-	public function add_order_item( GPOS_Order_Item $order_item ) {
-		$this->order_items[] = $order_item;
-		return $this;
-	}
-
-	/**
-	 * Sipariş ürünlerini döndürür
-	 *
-	 * @return array
-	 */
-	public function get_order_items() {
-		return $this->order_items;
-	}
-
-	/**
-	 * Ödeme geçidi loglarını tutar.
-	 *
-	 * @param string $gateway Ödeme geçidi.
-	 * @param string $process İşlem tipi.
-	 * @param mixed  $request Ödeme geçidine gönderilen veri.
-	 * @param mixed  $response Ödeme geçidinden alınan cevap.
-	 *
-	 * @return GPOS_Payment_Gateway
-	 */
-	public function logger( $gateway, $process, $request, $response ) {
-		$log_data = array(
-			'gateway'     => $gateway,
-			'platform'    => $this->platform,
-			'platform_id' => $this->get_order_id(),
-			'process'     => $process,
-			'request'     => $request,
-			'response'    => $response,
-		);
-		$this->logger->add( $log_data );
-		return $this;
-	}
-
-	/**
-	 * Ödeme geçidi ayarlarını setler.
+	 * Ödeme geçidi kayıtları.
 	 *
 	 * @param string $process İşlem tipi.
 	 * @param mixed  $request Gönderilen istek.

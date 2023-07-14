@@ -50,7 +50,7 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 
 			$result = array(
 				'result'  => '00' === $response['responseCode'] ? 'success' : 'error',
-				'message' => '00' === $response['responseCode'] ? 'Bağlantı Başarılı' : $response['errorMsg'],
+				'message' => '00' === $response['responseCode'] ? __( 'Connection Success', 'gurmepos' ) : $response['errorMsg'],
 			);
 
 		} catch ( Exception $e ) {
@@ -143,7 +143,7 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 * @return GPOS_Gateway_Response
 	 */
 	public function process_payment() {
-		if ( 'threed' === $this->get_payment_type() ) {
+		if ( 'threed' === $this->transaction->get_security_type() ) {
 			$this->threed_payment();
 		} else {
 			$this->regular_payment();
@@ -161,10 +161,12 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 		$response = $this->get_session_token();
 		if ( array_key_exists( 'responseCode', $response ) && '00' === $response['responseCode'] ) {
 			$card     = $this->prepare_credit_card();
-			$response = $this->http_request->request( "{$this->request_url}/post/sale3d/{$response['sessionToken']}", 'POST', $card );
-			$this->gateway_response->set_html_content( $response );
+			$url      = "{$this->request_url}/post/sale3d/{$response['sessionToken']}";
+			$response = $this->http_request->request( $url, 'POST', $card );
+			$this->log( GPOS_Transaction_Utils::LOG_PROCESS_REDIRECT_3D, array( 'url' => $url ), array( 'html_content' => $response ) );
+			$this->gateway_response->set_success( true )->set_html_content( $response );
 		} else {
-			$this->gateway_response->set_success( false )->set_error_message( array_key_exists( 'errorMsg', $response ) ? $response['errorMsg'] : false );
+			$this->gateway_response->set_error_message( array_key_exists( 'errorMsg', $response ) ? $response['errorMsg'] : false );
 		}
 	}
 
@@ -181,16 +183,14 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 			$this->prepare_credit_card()
 		);
 		$response = $this->http_request->request( $this->request_url, 'POST', $request );
-		$this->log( __FUNCTION__, $request, $response );
+		$this->log( GPOS_Transaction_Utils::LOG_PROCESS_REGULAR, $request, $response );
 
 		if ( array_key_exists( 'responseCode', $response ) && '00' === $response['responseCode'] ) {
 			$this->process_callback( $response );
 		} else {
-			$this->gateway_response->set_success( false )->set_error_message( array_key_exists( 'errorMsg', $response ) ? $response['errorMsg'] : false );
+			$this->gateway_response->set_error_message( array_key_exists( 'errorMsg', $response ) ? $response['errorMsg'] : false );
 		}
 	}
-
-
 
 	/**
 	 * 3D Ödeme işlemleri için geri dönüş fonksiyonu.
@@ -201,33 +201,34 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 */
 	public function process_callback( array $post_data ) {
 
-		$this->gateway_response
-		->set_success( false )
-		->set_error_message( array_key_exists( 'errorMsg', $post_data ) ? $post_data['errorMsg'] : __( 'Error in 3D rendering. The password was entered incorrectly or the 3D page was abandoned.', 'gurmepos' ) );
+		$this->gateway_response->set_error_message( array_key_exists( 'errorMsg', $post_data ) ? $post_data['errorMsg'] : __( 'Error in 3D rendering. The password was entered incorrectly or the 3D page was abandoned.', 'gurmepos' ) );
 
 		if ( array_key_exists( 'merchantPaymentId', $post_data )
 			&& array_key_exists( 'responseCode', $post_data )
 			&& '00' === $post_data['responseCode']
 		) {
-			$this->gateway_response->set_order_id( $post_data['merchantPaymentId'] );
+			$this->transaction = gpos_transaction( $post_data['merchantPaymentId'] );
+			$this->gateway_response->set_transaction_id( $post_data['merchantPaymentId'] );
 
-			$request = array(
-				'ACTION'   => 'QUERYTRANSACTION',
-				'PGTRANID' => $post_data['pgTranId'],
+			$this->log( GPOS_Transaction_Utils::LOG_PROCESS_CALLBACK_3D, [], $post_data );
+
+			$request  = array_merge(
+				array(
+					'ACTION'   => 'QUERYTRANSACTION',
+					'PGTRANID' => $post_data['pgTranId'],
+				),
+				$this->settings
 			);
+			$response = $this->http_request->request( $this->request_url, 'POST', $request );
 
-			$response = $this->http_request->request( $this->request_url, 'POST', array_merge( $request, $this->settings ) );
-
-			$this->set_order_id( $post_data['merchantPaymentId'] )->log( __FUNCTION__, $request, $response );
+			$this->log( GPOS_Transaction_Utils::LOG_PROCESS_FINISH_3D, $request, $response );
 
 			if ( array_key_exists( 'responseCode', $response ) && '00' === $response['responseCode'] && '0' !== $response['transactionCount'] ) {
 				$this->gateway_response = $this->find_success_transaction( $response );
 			}
 		}
-
 		return $this->gateway_response;
 	}
-
 
 	/**
 	 * Paratikadan dönen cevap içerisinden başarılı işlemi bulur.
@@ -239,15 +240,14 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	private function find_success_transaction( $response ) {
 		foreach ( $response['transactionList']  as $transaction ) {
 			if ( array_key_exists( 'pgTranReturnCode', $transaction ) && '00' === $transaction['pgTranReturnCode'] ) {
-				$this->gateway_response
+				return $this->gateway_response
 				->set_success( true )
-				->set_order_id( str_replace( "{$this->settings['MERCHANT']}-", '', $transaction['pgOrderId'] ) )
+				->set_transaction_id( str_replace( "{$this->settings['MERCHANT']}-", '', $transaction['pgOrderId'] ) )
 				->set_payment_id( $transaction['pgTranId'] );
-				return $this->gateway_response;
 			}
 		}
 
-		return $this->gateway_response->set_success( false )->set_error_message( __( 'No confirmed transactions were found in the transactionlist.', 'gurmepos' ) );
+		return $this->gateway_response->set_error_message( __( 'No confirmed transactions were found in the transaction list.', 'gurmepos' ) );
 	}
 
 	/**
@@ -277,7 +277,7 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 
 		$response = $this->http_request->request( $this->request_url, 'POST', $request );
 
-		$this->log( __FUNCTION__, $request, $response );
+		$this->log( GPOS_Transaction_Utils::LOG_PROCESS_AUTH, $request, $response );
 
 		return $response;
 	}
@@ -289,11 +289,11 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 */
 	private function prepare_credit_card() {
 		$card   = array();
-		$threed = 'threed' === $this->get_payment_type();
+		$threed = 'threed' === $this->transaction->get_security_type();
 
-		$card[ $threed ? 'installmentCount' : 'INSTALLMENTS' ] = $this->get_installment();
+		$card[ $threed ? 'installmentCount' : 'INSTALLMENTS' ] = $this->transaction->get_installment();
 
-		if ( $this->use_saved_card() ) {
+		if ( $this->transaction->need_use_saved_card() ) {
 			/**
 			 * Todo.
 			 *
@@ -304,19 +304,19 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 		}
 
 		if ( $threed ) {
-			$card['cardOwner']   = $this->get_customer_full_name();
-			$card['expiryMonth'] = $this->get_card_expiry_month();
-			$card['expiryYear']  = $this->get_card_expiry_year();
-			$card['cvv']         = $this->get_card_cvv();
-			$card['pan']         = $this->get_card_bin();
+			$card['cardOwner']   = $this->transaction->get_customer_full_name();
+			$card['expiryMonth'] = $this->transaction->get_card_expiry_month();
+			$card['expiryYear']  = $this->transaction->get_card_expiry_year();
+			$card['cvv']         = $this->transaction->get_card_cvv();
+			$card['pan']         = $this->transaction->get_card_bin();
 		} else {
-			$card['NAMEONCARD'] = $this->get_customer_full_name();
-			$card['CARDEXPIRY'] = $this->get_card_expiry_month() . $this->get_card_expiry_year();
-			$card['CARDCVV']    = $this->get_card_cvv();
-			$card['CARDPAN']    = $this->get_card_bin();
+			$card['NAMEONCARD'] = $this->transaction->get_customer_full_name();
+			$card['CARDEXPIRY'] = $this->transaction->get_card_expiry_month() . $this->transaction->get_card_expiry_year();
+			$card['CARDCVV']    = $this->transaction->get_card_cvv();
+			$card['CARDPAN']    = $this->transaction->get_card_bin();
 		}
 
-		if ( $this->need_save_current_card() ) {
+		if ( $this->transaction->need_save_current_card() ) {
 			$card[ $threed ? 'saveCard' : 'SAVECARD' ] = 'yes';
 		}
 
@@ -330,13 +330,13 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 */
 	private function prepare_order_data() {
 		$order_data                  = array();
-		$order_data['CUSTOMER']      = $this->get_customer_id();
-		$order_data['CUSTOMERNAME']  = $this->get_customer_full_name();
-		$order_data['CUSTOMERPHONE'] = $this->get_customer_phone();
-		$order_data['CUSTOMEREMAIL'] = $this->get_customer_email();
-		$order_data['CUSTOMERIP']    = $this->get_customer_ip_address();
+		$order_data['CUSTOMER']      = $this->transaction->get_customer_id();
+		$order_data['CUSTOMERNAME']  = $this->transaction->get_customer_full_name();
+		$order_data['CUSTOMERPHONE'] = $this->transaction->get_customer_phone();
+		$order_data['CUSTOMEREMAIL'] = $this->transaction->get_customer_email();
+		$order_data['CUSTOMERIP']    = $this->transaction->get_customer_ip_address();
 
-		foreach ( $this->get_order_items() as $line_item ) {
+		foreach ( $this->transaction->get_lines() as $line_item ) {
 			$order_data['ORDERITEMS'][] = array(
 				'productCode' => $line_item->get_id(),
 				'name'        => $line_item->get_name(),
@@ -347,10 +347,10 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 		}
 
 		$order_data['RETURNURL']         = $this->get_callback_url();
-		$order_data['AMOUNT']            = $this->get_order_total();
+		$order_data['AMOUNT']            = $this->transaction->get_total();
 		$order_data['ORDERITEMS']        = rawurlencode( wp_json_encode( $order_data['ORDERITEMS'] ) );
-		$order_data['MERCHANTPAYMENTID'] = $this->get_order_id();
-		$order_data['CURRENCY']          = $this->get_currency();
+		$order_data['MERCHANTPAYMENTID'] = $this->transaction->get_id();
+		$order_data['CURRENCY']          = $this->transaction->get_currency();
 
 		return $order_data;
 	}
@@ -382,7 +382,7 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 			}
 		}
 
-		$this->logger( __CLASS__, $process, $request, $response );
+		$this->transaction->add_log( __CLASS__, $process, $request, $response );
 	}
 
 }

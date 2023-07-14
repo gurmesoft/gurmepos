@@ -3,6 +3,8 @@
  * Checkoutta test kartlarını gösterir
  *
  * @package GurmeHub
+ *
+ * @var GPOS_Gateway $gateway
  */
 
 ?>
@@ -13,7 +15,7 @@
 		<span><?php esc_html_e( 'Test Mode Active', 'gurmepos' ); ?></span>
 	</div>
 	<p class="test-mode-content"><?php esc_html_e( 'While the test mode is active, your payments will be made with the Test APIs.' ); ?></p>
-		<?php if ( false === empty( $test_cards ) ) : ?>
+		<?php if ( false === empty( $gateway->test_cards ) && ! $gateway->is_common_form ) : ?>
 	<table>
 		<tr>
 			<th><?php esc_html_e( 'Card Number', 'gurmepos' ); ?></th>
@@ -22,7 +24,7 @@
 			<th><?php esc_html_e( '3D', 'gurmepos' ); ?></th>
 			<th></th>
 		</tr>
-			<?php foreach ( $test_cards as $card ) : ?>
+			<?php foreach ( $gateway->test_cards as $card ) : ?>
 		<tr>
 			<td><?php echo esc_html( $card['bin'] ); ?></td>
 			<td><?php echo esc_html( "{$card['expiry_month']}/{$card['expiry_year']}" ); ?></td>
