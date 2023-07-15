@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v3.0.2 - (2023-07-15) =
+
+
+Bug Fixes
+
+* Albaraka, Şekerbank bankalaraı eklendi. Ozan, Param, PayTR, Sipay,Wyld ödeme kuruluşları eklendi
+
 = v3.0.1 - (2023-07-14) =
 
 
