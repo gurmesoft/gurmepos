@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v3.0.4 - (2023-07-15) =
+
+
+Bug Fixes
+
+* major versiyonunun changelog dosyasını bozması duzenlendi
+
 = v3.0.3 - (2023-07-15) =
 
 
@@ -23,21 +30,7 @@ Bug Fixes
 
 = v3.0.0 - (2023-07-14) =
 
-## ⚠ BREAKING CHANGES
-
 * **core:** Transaction kullanımına geçildi, Taksit gösterimi debit kartlar için devre dışı bırakıldı.
-
-
-Features
-
-* Transaction kullanımına geçildi, Taksit gösterimi debit kartlar için devre dışı bırakıldı.
-
-= v2.0.0 - (2023-07-14) =
-
-## ⚠ BREAKING CHANGES
-
-* **core:** Transaction kullanımına geçildi, Taksit gösterimi debit kartlar için devre dışı bırakıldı.
-
 
 Features
 
@@ -77,9 +70,7 @@ Bug Fixes
 Bug Fixes
 
 * Eklenti ikonu guncellendi
-* Eklenti ikonu guncellendi
 * Ingilizce cevirileri eklendi
-* İngilizce çevirilieri düzeltildi.
 * Ingilizce metinler duzenlendi
 
 = v1.3.10 - (2023-06-25) =
