@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v3.0.3 - (2023-07-15) =
+
+
+Bug Fixes
+
+* changelog ve readme dosyalari ayrildi
+
 = v3.0.2 - (2023-07-15) =
 
 
