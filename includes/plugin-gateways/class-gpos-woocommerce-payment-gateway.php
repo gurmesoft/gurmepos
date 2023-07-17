@@ -306,6 +306,17 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 			);
 		}
 
+		gpos_tracker()->schedule_event(
+			'error',
+			array(
+				'error_code'      => $response->get_error_code(),
+				'error_message'   => $error_message,
+				'payment_gateway' => $response->get_gateway(),
+				'payment_plugin'  => 'woocommerce',
+				'is_test'         => gpos_is_test_mode(),
+			)
+		);
+
 		if ( $on_checkout ) {
 			return array(
 				'result'   => 'failure',

@@ -46,6 +46,13 @@ class GPOS_Gateway_Response {
 	private $error_message;
 
 	/**
+	 * İşlem hata kodu.
+	 *
+	 * @var string|int $error_code
+	 */
+	private $error_code = '';
+
+	/**
 	 * Ödeme kuruluşu tarafındaki benzersiz numara.
 	 *
 	 * @var string $error_message
@@ -165,6 +172,25 @@ class GPOS_Gateway_Response {
 	 */
 	public function get_error_message() {
 		return $this->error_message;
+	}
+
+	/**
+	 * İşlemin hata kodunu ayarlar.
+	 *
+	 * @param string $error_code Hata mesajı.
+	 */
+	public function set_error_code( $error_code ) {
+		$this->error_code = $error_code;
+		return $this;
+	}
+
+	/**
+	 * İşlemin hata kodunu döndürür.
+	 *
+	 * @return string Hata mesajı.
+	 */
+	public function get_error_code() {
+		return $this->error_code ? $this->error_code : '';
 	}
 
 	/**

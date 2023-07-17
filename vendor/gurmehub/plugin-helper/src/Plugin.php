@@ -26,6 +26,7 @@ class Plugin extends \GurmeHub\Api {
 	 * Kurucu method.
 	 *
 	 * @param string $basefile Eklenti klasör/dosyaismi (gurmepos/gurmepos.php)
+	 *
 	 * @return void
 	 */
 	public function __construct( $basefile ) {
@@ -51,6 +52,21 @@ class Plugin extends \GurmeHub\Api {
 	}
 
 	/**
+	 * Eklenti slug.
+	 *
+	 * @return string
+	 *
+	 * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+	 */
+	public function get_plugin() {
+		$name_arr = explode( '/', $this->get_basename() );
+		if ( 2 >= count( $name_arr ) && isset( $name_arr[1] ) ) {
+			return str_replace( [ '.php' ], [ '' ], $name_arr[1] );
+		}
+		return $this->get_basename();
+	}
+
+	/**
 	 * Eklenti kurulu versiyonu.
 	 *
 	 * @return string
@@ -59,17 +75,6 @@ class Plugin extends \GurmeHub\Api {
 		return get_plugin_data( $this->basefile )['Version'];
 	}
 
-	/**
-	 * Eklenti slug.
-	 *
-	 * @return string
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-	 */
-	public function get_plugin() {
-		list( $main_folder, $mainfile ) = explode( '/', $this->get_basename() );
-		return str_replace( '.php', '', $mainfile );
-	}
 
 	/**
 	 * Eklenti son versiyon bilgilerini döndürür.

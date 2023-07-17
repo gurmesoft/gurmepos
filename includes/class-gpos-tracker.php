@@ -80,9 +80,42 @@ class GPOS_Tracker {
 			/**
 			 * Gönderilecek veriyi düzenlemeye yarar.
 			 *
-			 * @param array $data Çalıştırılacak fonksiyon.
+			 * @param array $data Veri.
 			 */
 			apply_filters( 'gpos_success_transaction_data', $data ),
+		);
+	}
+
+	/**
+	 * Hata mesajlarını kayıt etme.
+	 *
+	 * @param array $data Hata verisi.
+	 *
+	 * @return void
+	 */
+	public function add_error_message( array $data ) {
+
+		/**
+		 * Hata verisi hassas veri içermemektedir.
+		 *
+		 * Örnek veri :
+		 *  {
+		 *      "error_code": "100001",
+		 *      "error_message": "Yetersiz bakiye",
+		 *      "payment_gateway": "paratika",
+		 *      "payment_plugin": "woocommerce",
+		 *      "is_test": 1,
+		 *  }
+		 */
+		$this->http->request(
+			"{$this->url}/addErrorMessage",
+			'POST',
+			/**
+			 * Gönderilecek veriyi düzenlemeye yarar.
+			 *
+			 * @param array $data Veri.
+			 */
+			apply_filters( 'gpos_error_message', $data ),
 		);
 	}
 
@@ -98,7 +131,7 @@ class GPOS_Tracker {
 	public function schedule_event( string $type, array $data ) {
 		$events = array(
 			'success' => 'add_success_transaction',
-			'error'   => '',
+			'error'   => 'add_error_message',
 			'info'    => '',
 		);
 

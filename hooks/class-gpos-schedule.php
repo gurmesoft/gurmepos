@@ -17,5 +17,6 @@ class GPOS_Schedule {
 	 */
 	public function __construct() {
 		add_action( 'gpos_add_success_transaction', array( gpos_tracker(), 'add_success_transaction' ) );
+		add_action( 'gpos_add_error_message', array( gpos_tracker(), 'add_error_message' ) );
 	}
 }

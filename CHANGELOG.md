@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v3.0.5 - (2023-07-17) =
+
+
+Bug Fixes
+
+* Param kullanıma hazır.
+
 = v3.0.4 - (2023-07-15) =
 
 

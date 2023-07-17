@@ -7,6 +7,8 @@
 
 /**
  * GPOS_Paratika_Gateway sınıfı.
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 
@@ -166,7 +168,9 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 			$this->log( GPOS_Transaction_Utils::LOG_PROCESS_REDIRECT_3D, array( 'url' => $url ), array( 'html_content' => $response ) );
 			$this->gateway_response->set_success( true )->set_html_content( $response );
 		} else {
-			$this->gateway_response->set_error_message( array_key_exists( 'errorMsg', $response ) ? $response['errorMsg'] : false );
+			$this->gateway_response
+			->set_error_code( array_key_exists( 'errorCode', $response ) ? $response['errorCode'] : false )
+			->set_error_message( array_key_exists( 'errorMsg', $response ) ? $response['errorMsg'] : false );
 		}
 	}
 
@@ -188,7 +192,9 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 		if ( array_key_exists( 'responseCode', $response ) && '00' === $response['responseCode'] ) {
 			$this->process_callback( $response );
 		} else {
-			$this->gateway_response->set_error_message( array_key_exists( 'errorMsg', $response ) ? $response['errorMsg'] : false );
+			$this->gateway_response
+			->set_error_code( array_key_exists( 'errorCode', $response ) ? $response['errorCode'] : false )
+			->set_error_message( array_key_exists( 'errorMsg', $response ) ? $response['errorMsg'] : false );
 		}
 	}
 
@@ -201,7 +207,9 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 */
 	public function process_callback( array $post_data ) {
 
-		$this->gateway_response->set_error_message( array_key_exists( 'errorMsg', $post_data ) ? $post_data['errorMsg'] : __( 'Error in 3D rendering. The password was entered incorrectly or the 3D page was abandoned.', 'gurmepos' ) );
+		$this->gateway_response
+		->set_error_code( array_key_exists( 'errorCode', $post_data ) ? $post_data['errorCode'] : false )
+		->set_error_message( array_key_exists( 'errorMsg', $post_data ) ? $post_data['errorMsg'] : __( 'Error in 3D rendering. The password was entered incorrectly or the 3D page was abandoned.', 'gurmepos' ) );
 
 		if ( array_key_exists( 'merchantPaymentId', $post_data )
 			&& array_key_exists( 'responseCode', $post_data )
@@ -304,13 +312,13 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 		}
 
 		if ( $threed ) {
-			$card['cardOwner']   = $this->transaction->get_customer_full_name();
+			$card['cardOwner']   = $this->transaction->get_card_holder_name();
 			$card['expiryMonth'] = $this->transaction->get_card_expiry_month();
 			$card['expiryYear']  = $this->transaction->get_card_expiry_year();
 			$card['cvv']         = $this->transaction->get_card_cvv();
 			$card['pan']         = $this->transaction->get_card_bin();
 		} else {
-			$card['NAMEONCARD'] = $this->transaction->get_customer_full_name();
+			$card['NAMEONCARD'] = $this->transaction->get_card_holder_name();
 			$card['CARDEXPIRY'] = $this->transaction->get_card_expiry_month() . $this->transaction->get_card_expiry_year();
 			$card['CARDCVV']    = $this->transaction->get_card_cvv();
 			$card['CARDPAN']    = $this->transaction->get_card_bin();

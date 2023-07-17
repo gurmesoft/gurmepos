@@ -242,6 +242,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	private function set_payment_failed( $response ) {
 		$this->gateway_response
 		->set_transaction_id( $response->getConversationId() )
+		->set_error_code( $response->getErrorCode() )
 		->set_error_message( $response->getErrorMessage() );
 	}
 
@@ -352,7 +353,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 * @return void
 	 */
 	public function log( $process, $request = array(), $response = array() ) {
-		if ( method_exists( $request, 'getPaymentCard' ) && $request instanceof \Iyzipay\Request\CreatePaymentRequest ) {
+		if ( $request instanceof \Iyzipay\Request\CreatePaymentRequest && method_exists( $request, 'getPaymentCard' ) ) {
 			$payment_card = $request->getPaymentCard();
 			$payment_card->setCardNumber( '**** **** **** **** ' . substr( $payment_card->getCardNumber(), -4 ) );
 			$payment_card->setExpireMonth( '**' );

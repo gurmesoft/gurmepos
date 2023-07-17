@@ -49,7 +49,7 @@ class GPOS_WordPress {
 		add_action( 'admin_bar_menu', array( gpos_admin(), 'admin_bar_menu' ), 10001 );
 		add_filter( "manage_edit-{$this->prefix}_transaction_columns", array( gpos_admin(), 'transaction_columns' ) );
 		add_action( "manage_{$this->prefix}_transaction_posts_custom_column", array( gpos_admin(), 'transaction_custom_column' ) );
-
+		add_action( 'upgrader_process_complete', array( $this, 'upgrader_process_complete' ), 10, 2 );
 	}
 
 	/**
@@ -214,7 +214,8 @@ class GPOS_WordPress {
 
 		$wc_gpos_settings = get_option( 'woocommerce_gpos_settings', array() );
 
-		if ( gpos_is_woocommerce_enabled() && array_key_exists( 'enabled', $wc_gpos_settings ) && 'yes' !== $wc_gpos_settings['enabled'] ) {
+		if ( ( gpos_is_woocommerce_enabled() && array_key_exists( 'enabled', $wc_gpos_settings ) && 'yes' !== $wc_gpos_settings['enabled'] ) ||
+		( gpos_is_woocommerce_enabled() && false === array_key_exists( 'enabled', $wc_gpos_settings ) ) ) {
 			gpos_get_template( 'wc-gateway-disabled' );
 		}
 	}
@@ -296,6 +297,23 @@ class GPOS_WordPress {
 			);
 
 			wp_dropdown_categories( $args );
+		}
+	}
+
+	/**
+	 * WordPress eklenti güncellemesinden sonra tetiklenen kancaya atanmış method.
+	 *
+	 * @param Plugin_Upgrader $upgrader WordPress güncelleme sınıfı.
+	 * @param array           $hook_extra Güncellemedeki extra bilgiler
+	 */
+	public function upgrader_process_complete( $upgrader, $hook_extra ) {
+
+		if ( false === $upgrader->bulk && array_key_exists( 'plugin', $hook_extra ) && GPOS_PLUGIN_BASENAME === $hook_extra['plugin'] ) {
+			gpos_activation();
+		}
+
+		if ( true === $upgrader->bulk && array_key_exists( 'plugins', $hook_extra ) && in_array( GPOS_PLUGIN_BASENAME, $hook_extra['plugins'], true ) ) {
+			gpos_activation();
 		}
 	}
 }

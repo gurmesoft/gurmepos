@@ -55,7 +55,6 @@ class GPOS_Http_Request {
 				'method'      => $method,
 				'timeout'     => 45,
 				'httpversion' => '1.0',
-				'sslverify'   => false,
 				'headers'     => $this->get_headers(),
 				'body'        => $body,
 			)
