@@ -35,7 +35,7 @@ Gelişmiş özellikler ile kullanıcılarınızın kusursuz ödeme deneyimi yaş
 - Kuveyt Türk Katılım
 - TEB
 - Vakıfbank
-- Yapıkredi
+- Yapı Kredi
 - Ziraat Bankası
 
 ## Ödeme Kuruluşları (Pro)

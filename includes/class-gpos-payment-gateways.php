@@ -26,24 +26,24 @@ class GPOS_Payment_Gateways {
 			'GPOS_Paratika',
 			'GPOS_Iyzico',
 			'GPOS_Akbank',
-			// 'GPOS_Albaraka', Devam Ediyor.
+			'GPOS_Albaraka',
 			'GPOS_Craftgate',
 			'GPOS_Denizbank',
 			'GPOS_Esnekpos',
 			'GPOS_Finansbank',
 			'GPOS_Garanti',
 			'GPOS_Halkbank',
-			'GPOS_Ingbank',
+			// 'GPOS_Ingbank',
 			'GPOS_Isbank',
 			'GPOS_Kuveyt_Turk',
 			// 'GPOS_Ozan', Devam Ediyor.
 			'GPOS_Param',
 			// 'GPOS_Paytr', Devam Ediyor.
-			// 'GPOS_Sekerbank', Devam Ediyor.
+			'GPOS_Sekerbank',
 			// 'GPOS_Sipay', Devam Ediyor.
 			'GPOS_Teb',
 			'GPOS_Vakifbank',
-			// 'GPOS_Wyld',  Devam Ediyor.
+			// 'GPOS_Wyld',
 			'GPOS_Yapi_Kredi',
 			'GPOS_Ziraat',
 		);

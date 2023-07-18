@@ -114,7 +114,8 @@ class GPOS_Frontend {
 			"{$this->prefix}-form-js",
 			'gpos',
 			array(
-				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+				'ajaxurl'   => admin_url( 'admin-ajax.php' ),
+				'assetsurl' => GPOS_ASSETS_DIR_URL,
 			)
 		);
 	}

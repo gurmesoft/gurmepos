@@ -631,4 +631,31 @@ class GPOS_Transaction {
 		return $array;
 	}
 
+	/**
+	 * İşlem inceleme linki.
+	 *
+	 * @param string|mixed $contex Varsayılan html dir, link dönmesi için farklı bir değer gönderilebilir.
+	 *
+	 * @return string
+	 */
+	public function get_preview_link( $contex = 'html' ) {
+		$src = add_query_arg(
+			array(
+				'page'        => 'gpos-transaction',
+				'transaction' => $this->id,
+				'_wpnonce'    => wp_create_nonce(),
+
+			),
+			admin_url( 'admin.php' ),
+		);
+		// translators: %1$s => Link, %2$s => Text
+		$html = sprintf( __( 'Click to view the details of transaction <a href="%1$s" target="_blank">#%2$s</a>.', 'gurmepos' ), $src, $this->id, );
+
+		if ( 'html' !== $contex ) {
+			return $src;
+		}
+
+		return $html;
+	}
+
 }

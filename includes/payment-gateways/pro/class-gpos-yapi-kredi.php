@@ -108,7 +108,6 @@ class GPOS_Yapi_Kredi extends GPOS_Gateway {
 				'label' => __( 'PosNet ID', 'gurmepos' ),
 				'model' => 'posnet_id',
 			),
-
 		);
 	}
 

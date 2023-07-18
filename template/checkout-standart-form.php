@@ -30,7 +30,7 @@ $years  = array( '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030',
 			<label for="gpos-card-bin" class="gpos-label"><?php esc_html_e( 'Card Number', 'gurmepos' ); ?></label>
 			<div class="gpos-relative">
 				<div class="gpos-input-svg">
-					<img src="<?php echo esc_url( GPOS_ASSETS_DIR_URL ); ?>/images/card.svg" style="width: 20px; height: 20px;">
+					<img id="gpos-mini-card" src="<?php echo esc_url( GPOS_ASSETS_DIR_URL ); ?>/images/mini-card/card.svg" style="width: 30px; object-fit: contain;">
 				</div>
 
 				<input name="gpos-card-bin" id="gpos-card-bin" oninput="gpos_bin_input(this)" class="wc-credit-card-form-card-number gpos-form-input"

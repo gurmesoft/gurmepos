@@ -47,7 +47,7 @@
   left: 0px;
   display: flex;
   align-items: center;
-  padding-left: 10px;
+  padding: 5px;
 }
 
 .gpos-label {
@@ -191,7 +191,7 @@
   color: #233876;
 }
 
-.gpos-installment-container{
+.gpos-installment-container {
   display: none;
 }
 
@@ -335,10 +335,11 @@
   display: none;
   z-index: 50;
 }
+
 .gpos-loading svg {
-  width: 23px;
+  width: 30px;
   animation-name: spin;
   animation-duration: 1000ms;
   animation-iteration-count: infinite;
-  animation-timing-function: linear; 
+  animation-timing-function: linear;
 }

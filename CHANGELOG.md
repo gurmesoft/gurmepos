@@ -1,5 +1,13 @@
 == Changelog ==
 
+= v3.0.6 - (2023-07-18) =
+
+
+Bug Fixes
+
+* İşlemler kopyalama butonu düzeltildi,
+* İşlemler kopyalama butonu düzeltildi,
+
 = v3.0.5 - (2023-07-17) =
 
 

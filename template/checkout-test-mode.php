@@ -15,7 +15,7 @@
 		<span><?php esc_html_e( 'Test Mode Active', 'gurmepos' ); ?></span>
 	</div>
 	<p class="test-mode-content"><?php esc_html_e( 'While the test mode is active, your payments will be made with the Test APIs.' ); ?></p>
-		<?php if ( false === empty( $gateway->test_cards ) && ! $gateway->is_common_form ) : ?>
+		<?php if ( false === empty( $gateway->test_cards ) ) : ?>
 	<table>
 		<tr>
 			<th><?php esc_html_e( 'Card Number', 'gurmepos' ); ?></th>
@@ -36,7 +36,7 @@
 					data-expiry_month="<?php echo esc_attr( $card['expiry_month'] ); ?>"
 					data-expiry_year="<?php echo esc_attr( $card['expiry_year'] ); ?>"
 					data-cvv="<?php echo esc_attr( $card['cvv'] ); ?>">
-					<img src="<?php echo esc_url( GPOS_ASSETS_DIR_URL ); ?>/images/card.svg"
+					<img src="<?php echo esc_url( GPOS_ASSETS_DIR_URL ); ?>/images/mini-card/card.svg"
 						style="width: 20px; height: 20px;">
 				</span>
 

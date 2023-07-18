@@ -229,8 +229,8 @@ $gpos_i18n = array(
 		'vakifbank'                        => array(
 			'description' => __( 'We click on the "CONTRACTED MERCHANT TRANSACTIONS" section under the "MANAGEMENT" tab from the Vakıfbank Virtual Pos panel. The page that opens contains the necessary information for our company. We fill this information in the relevant places in POS Entegratör.', 'gurmepos' ),
 		),
-		'yapi-kredi'                       => array(
-			'description' => __( 'The information required for the Yapıkredi Virtual POS integration will be obtained from the Yapıkredi Virtual POS Screen.', 'gurmepos' ),
+		'yapikredi'                       => array(
+			'description' => __( 'The information required for the Yapı Kredi Virtual POS integration will be obtained from the Yapı Kredi Virtual POS Screen.', 'gurmepos' ),
 		),
 		'ziraat'                           => array(
 			'description' => __( 'After logging into Ziraat Bank Virtual Pos panel, if you have not created an API user before, first we click on the "Management" tab, we define a new user by selecting "Role" API User from the "Add New User" field. Then, we fill in the "User Name" and "Password" information you have defined in this field in the relevant fields in POS Entegratör.', 'gurmepos' ),

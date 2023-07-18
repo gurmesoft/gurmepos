@@ -20,7 +20,7 @@
         url: `${window.gpos.ajaxurl}?action=gpos_check_bin&_wpnonce=${$(
           "#gpos_check_bin"
         ).val()}`,
-        
+
         type: "POST",
         dataType: "json",
         contentType: "application/json",
@@ -34,14 +34,25 @@
         },
         success: (response) => {
           if (response.success) {
+
+            // Taksitleri görüntüle
             response.data.type === "credit"
               ? $(".gpos-installment-container").show()
               : $(".gpos-installment-container").hide();
-            $("#gpos-card-type").val(response.data.type);
-            $("#gpos-card-brand").val(response.data.scheme);
-            $("#gpos-card-family").val(response.data.family);
-            $("#gpos-card-bank-name").val(response.data.bank.name);
-            $("#gpos-card-country").val(response.data.country.name);
+
+            // Kart ikonunu değiştir
+            let cardSrc = `${window.gpos.assetsurl}/images/mini-card/card.svg`;
+            cardSrc = ["visa", "mastercard"].includes(response.data?.scheme)
+              ? `${window.gpos.assetsurl}/images/mini-card/${response.data.scheme}.svg`
+              : cardSrc;
+            $("#gpos-mini-card").attr('src',cardSrc);
+
+            //Hidden verileri doldurma
+            $("#gpos-card-type").val(response.data?.type);
+            $("#gpos-card-brand").val(response.data?.scheme);
+            $("#gpos-card-family").val(response.data?.family);
+            $("#gpos-card-bank-name").val(response.data?.bank?.name);
+            $("#gpos-card-country").val(response.data?.country?.name);
           }
           $("#place_order").prop("disabled", false);
           $(".gpos-loading").css("display", "none");

@@ -115,18 +115,10 @@ class GPOS_Wyld extends GPOS_Gateway {
 		return array(
 			array(
 				'type'         => 'Master',
-				'bin'          => '5209 2200 0000 0002',
-				'expiry_year'  => '2030',
+				'bin'          => '4155 6501 0041 6111 ',
+				'expiry_year'  => '2026',
 				'expiry_month' => '12',
-				'cvv'          => '000',
-				'secure'       => '',
-			),
-			array(
-				'type'         => 'Visa',
-				'bin'          => '4256 6900 000 00001',
-				'expiry_year'  => '2030',
-				'expiry_month' => '12',
-				'cvv'          => '000',
+				'cvv'          => '656',
 				'secure'       => '',
 			),
 		);

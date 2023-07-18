@@ -65,10 +65,6 @@ class GPOS_Admin {
 				'menu_slug'  => "{$this->prefix}-payment-gateways",
 			),
 			array(
-				'menu_title' => __( 'Form Settings', 'gurmepos' ),
-				'menu_slug'  => "{$this->prefix}-form-settings",
-			),
-			array(
 				'menu_title' => false,
 				'menu_slug'  => "{$this->prefix}-payment-gateway",
 				'hidden'     => true,
@@ -77,6 +73,10 @@ class GPOS_Admin {
 				'menu_title' => false,
 				'menu_slug'  => "{$this->prefix}-transaction",
 				'hidden'     => true,
+			),
+			array(
+				'menu_title' => __( 'Form Settings', 'gurmepos' ),
+				'menu_slug'  => "{$this->prefix}-form-settings",
 			),
 
 		);
@@ -187,6 +187,12 @@ class GPOS_Admin {
 
 			$wp_admin_bar->add_node( $admin_bar_args );
 
+			$this->sub_menu_pages[3] = array(
+				'menu_slug'  => 'gpos-transactions',
+				'menu_title' => __( 'Transactions', 'gurmepos' ),
+				'href'       => admin_url( 'edit.php?post_type=gpos_transaction' ),
+			);
+
 			foreach ( $this->sub_menu_pages as $sub_menu_page ) {
 
 				if ( isset( $sub_menu_page['hidden'] ) && $sub_menu_page['hidden'] ||
@@ -200,7 +206,7 @@ class GPOS_Admin {
 						'parent' => $this->parent_slug,
 						'id'     => $sub_menu_page['menu_slug'],
 						'title'  => $sub_menu_page['menu_title'],
-						'href'   => admin_url( "admin.php?page={$sub_menu_page['menu_slug']}" ),
+						'href'   => isset( $sub_menu_page['href'] ) ? $sub_menu_page['href'] : admin_url( "admin.php?page={$sub_menu_page['menu_slug']}" ),
 					)
 				);
 			}
@@ -242,7 +248,6 @@ class GPOS_Admin {
 		if ( $nonce && isset( $_GET['id'] ) && 'payment-gateway' === $page ) {
 			$localize['gateway_account'] = gpos_gateway_account( (int) gpos_clean( $_GET['id'] ) );
 		}
-
 		if ( $nonce && isset( $_GET['transaction'] ) && 'transaction' === $page ) {
 			$localize['transaction'] = gpos_transaction( (int) gpos_clean( $_GET['transaction'] ) )->to_array();
 		}
