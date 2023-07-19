@@ -50,6 +50,8 @@ class GPOS_WordPress {
 		add_filter( "manage_edit-{$this->prefix}_transaction_columns", array( gpos_admin(), 'transaction_columns' ) );
 		add_action( "manage_{$this->prefix}_transaction_posts_custom_column", array( gpos_admin(), 'transaction_custom_column' ) );
 		add_action( 'upgrader_process_complete', array( $this, 'upgrader_process_complete' ), 10, 2 );
+		add_action( 'pre_get_comments', array( $this, 'pre_get_comments' ) );
+		add_filter( 'get_edit_post_link', array( $this, 'get_edit_post_link' ), 10, 2 );
 	}
 
 	/**
@@ -315,5 +317,38 @@ class GPOS_WordPress {
 		if ( true === $upgrader->bulk && array_key_exists( 'plugins', $hook_extra ) && in_array( GPOS_PLUGIN_BASENAME, $hook_extra['plugins'], true ) ) {
 			gpos_activation();
 		}
+	}
+
+	/**
+	 * Yorumları getiren sorgunun içerisinden işlem notlarını kaldıran method.
+	 *
+	 * @param WP_Comment_Query $query Sorgu.
+	 *
+	 * @return void
+	 */
+	public function pre_get_comments( $query ) {
+		$show_comments = array_key_exists( 'page', $_GET ) && 'gpos-transaction' === gpos_clean( $_GET['page'] ); //phpcs:ignore
+		if ( false === $show_comments ) {
+			$current_not_in                    = $query->query_vars['type__not_in'];
+			$current_not_in                    = is_array( $current_not_in ) ? array_merge( $current_not_in, array( 'transaction_note' ) ) : array( 'transaction_note' );
+			$query->query_vars['type__not_in'] = $current_not_in;
+		}
+	}
+
+	/**
+	 * Yorumları getiren sorgunun içerisinden işlem notlarını kaldıran method.
+	 *
+	 * @param string $link Düzenleme linki.
+	 * @param int    $post_id Post id.
+	 *
+	 * @return string
+	 */
+	public function get_edit_post_link( $link, $post_id ) {
+		$post = get_post( $post_id );
+		if ( 'gpos_transaction' === $post->post_type ) {
+			$transaction = gpos_transaction( $post_id );
+			return $transaction->get_edit_link();
+		}
+		return $link;
 	}
 }

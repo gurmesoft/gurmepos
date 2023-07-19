@@ -86,7 +86,7 @@ class GPOS_Post_Operations {
 		$this->post_types = array(
 			"{$this->prefix}_account"     => array(
 				'labels' => array(
-					'name' => __( 'GPOS Account', 'gpos' ),
+					'name' => 'GPOS Account',
 				),
 				'public' => false,
 			),

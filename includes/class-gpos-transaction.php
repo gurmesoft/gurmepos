@@ -632,14 +632,23 @@ class GPOS_Transaction {
 	}
 
 	/**
-	 * İşlem inceleme linki.
-	 *
-	 * @param string|mixed $contex Varsayılan html dir, link dönmesi için farklı bir değer gönderilebilir.
+	 * İşlem inceleme html.
 	 *
 	 * @return string
 	 */
-	public function get_preview_link( $contex = 'html' ) {
-		$src = add_query_arg(
+	public function get_edit_link_html() {
+		// translators: %1$s => Link, %2$s => Text
+		$html = sprintf( __( 'Click to view the details of transaction <a href="%1$s" target="_blank">#%2$s</a>.', 'gurmepos' ), $this->get_edit_link(), $this->id, );
+		return $html;
+	}
+
+	/**
+	 * İşlem inceleme linki.
+	 *
+	 * @return string
+	 */
+	public function get_edit_link() {
+		return add_query_arg(
 			array(
 				'page'        => 'gpos-transaction',
 				'transaction' => $this->id,
@@ -648,14 +657,6 @@ class GPOS_Transaction {
 			),
 			admin_url( 'admin.php' ),
 		);
-		// translators: %1$s => Link, %2$s => Text
-		$html = sprintf( __( 'Click to view the details of transaction <a href="%1$s" target="_blank">#%2$s</a>.', 'gurmepos' ), $src, $this->id, );
-
-		if ( 'html' !== $contex ) {
-			return $src;
-		}
-
-		return $html;
 	}
 
 }

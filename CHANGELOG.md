@@ -1,12 +1,24 @@
 == Changelog ==
 
+= v3.0.7 - (2023-07-19) =
+
+
+Bug Fixes
+
+* Çeviriler güncellendi, Sentry özelleştirildi, İşlem yorumları görünürlüğü değiştirildi. Hata ayıklama iyileştirildi.
+
 = v3.0.6 - (2023-07-18) =
 
 
 Bug Fixes
 
 * İşlemler kopyalama butonu düzeltildi,
-* İşlemler kopyalama butonu düzeltildi,
+* Kredi kartı formuna Mastercard Visa ikonları eklendi,
+* Vakıfbank güncellendi,
+* Albaraka güncellendi,
+* Sentry dahil edildi.
+* Görsel ve metinsel düzenlemeler yapıldı.
+
 
 = v3.0.5 - (2023-07-17) =
 

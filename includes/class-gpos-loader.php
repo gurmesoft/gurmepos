@@ -92,6 +92,7 @@ class GPOS_Loader {
 			'includes/class-gpos-vue.php',
 			'includes/class-gpos-frontend.php',
 			'includes/class-gpos-session.php',
+			'includes/class-gpos-sentry.php',
 
 			// Hooks
 			'hooks/class-gpos-ajax.php',
@@ -107,9 +108,7 @@ class GPOS_Loader {
 		new GPOS_Ajax();
 		new GPOS_WordPress();
 		new GPOS_Schedule();
+		new GPOS_Sentry( GPOS_PLUGIN_DIR_PATH ); // @phpstan-ignore-line
 
-		if ( defined( 'GPOS_PRODUCTION' ) && GPOS_PRODUCTION ) {
-			Sentry\init( [ 'dsn' => 'https://740a11000d444872b97e1de2b3903152@o4505543717355520.ingest.sentry.io/4505549325991936' ] );
-		}
 	}
 }

@@ -28,13 +28,11 @@
         data: JSON.stringify({
           bin: currentEight,
         }),
-        beforeSend: () => {
-          $("#place_order").prop("disabled", true);
-          $(".gpos-loading").css("display", "flex");
-        },
+        error: () => gpos_loading(false),
+        beforeSend: gpos_loading,
         success: (response) => {
+          gpos_loading(false);
           if (response.success) {
-
             // Taksitleri görüntüle
             response.data.type === "credit"
               ? $(".gpos-installment-container").show()
@@ -45,7 +43,7 @@
             cardSrc = ["visa", "mastercard"].includes(response.data?.scheme)
               ? `${window.gpos.assetsurl}/images/mini-card/${response.data.scheme}.svg`
               : cardSrc;
-            $("#gpos-mini-card").attr('src',cardSrc);
+            $("#gpos-mini-card").attr("src", cardSrc);
 
             //Hidden verileri doldurma
             $("#gpos-card-type").val(response.data?.type);
@@ -54,14 +52,14 @@
             $("#gpos-card-bank-name").val(response.data?.bank?.name);
             $("#gpos-card-country").val(response.data?.country?.name);
           }
-          $("#place_order").prop("disabled", false);
-          $(".gpos-loading").css("display", "none");
-        },
-        error: () => {
-          $("#place_order").prop("disabled", false);
-          $(".gpos-loading").css("display", "none");
         },
       });
     }
+  };
+
+  const gpos_loading = (status = true) => {
+    $("#place_order").prop("disabled", status);
+    $("#give-purchase-button").prop("disabled", status);
+    $(".gpos-loading").css("display", status ? "flex" : "none");
   };
 })(jQuery, window);

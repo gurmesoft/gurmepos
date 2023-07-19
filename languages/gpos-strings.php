@@ -137,7 +137,6 @@ $gpos_i18n = array(
 		'customer_zipcode'                 => __( 'Zip Code', 'gurmepos' ),
 		'customer_ip_address'              => __( 'IP Address', 'gurmepos' ),
 		'customer_phone'                   => __( 'Phone', 'gurmepos' ),
-		'platform_payment_id'              => __( 'Platform Id', 'gurmepos' ),
 		'created_date'                     => __( 'Created Date', 'gurmepos' ),
 		'total'                            => __( 'Total', 'gurmepos' ),
 		'type'                             => __( 'Type', 'gurmepos' ),
