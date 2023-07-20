@@ -211,12 +211,12 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 		->set_error_code( array_key_exists( 'errorCode', $post_data ) ? $post_data['errorCode'] : false )
 		->set_error_message( array_key_exists( 'errorMsg', $post_data ) ? $post_data['errorMsg'] : __( 'Error in 3D rendering. The password was entered incorrectly or the 3D page was abandoned.', 'gurmepos' ) );
 
-		if ( array_key_exists( 'merchantPaymentId', $post_data )
-			&& array_key_exists( 'responseCode', $post_data )
-			&& '00' === $post_data['responseCode']
-		) {
+		if ( array_key_exists( 'merchantPaymentId', $post_data ) ) {
 			$this->transaction = gpos_transaction( $post_data['merchantPaymentId'] );
 			$this->gateway_response->set_transaction_id( $post_data['merchantPaymentId'] );
+		}
+
+		if ( array_key_exists( 'responseCode', $post_data ) && '00' === $post_data['responseCode'] ) {
 
 			$this->log( GPOS_Transaction_Utils::LOG_PROCESS_CALLBACK_3D, [], $post_data );
 
@@ -390,7 +390,9 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 			}
 		}
 
-		$this->transaction->add_log( __CLASS__, $process, $request, $response );
+		if ( $this->transaction instanceof GPOS_Transaction ) {
+			$this->transaction->add_log( __CLASS__, $process, $request, $response );
+		}
 	}
 
 }

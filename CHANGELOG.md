@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v3.1.0 - (2023-07-20) =
+
+
+Features
+
+* Dil dosyaları güncellendi, Geri dönüş verilerinin uç noktaları değiştirildi.
+
 = v3.0.7 - (2023-07-19) =
 
 

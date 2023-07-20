@@ -100,7 +100,7 @@ class GPOS_Wyld extends GPOS_Gateway {
 			),
 			array(
 				'type'  => 'text',
-				'label' => __( 'API Key', 'gurmepos' ),
+				'label' => __( 'Api Key', 'gurmepos' ),
 				'model' => 'api_key',
 			),
 		);

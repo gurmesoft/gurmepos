@@ -31,15 +31,16 @@ class GPOS_Installer {
 	 */
 	public function install() {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		$this->current_db_version = GPOS_DB_VERSION;
+		$this->old_db_version     = get_option( 'gpos_db_version', '0.0.0' );
+
 		$this->install_latest_transaction_log_table();
 		$this->install_latest_redirect_table();
 		$this->install_latest_session_table();
 
-		$this->current_db_version = GPOS_DB_VERSION;
-		$this->old_db_version     = get_option( 'gpos_db_version', '0.0.0' );
-
 		if ( version_compare( $this->current_db_version, $this->old_db_version, '>' ) ) {
 			$this->version_update_000_to_100();
+			$this->version_update_000_to_101();
 			update_option( 'gpos_db_version', GPOS_DB_VERSION );
 		}
 
@@ -80,7 +81,7 @@ class GPOS_Installer {
 		$table_name      = "{$wpdb->prefix}gpos_redirect";
 		$main_sql_create = "CREATE TABLE {$table_name} (
 			id BIGINT AUTO_INCREMENT PRIMARY KEY,
-			payment_id VARCHAR(255) DEFAULT '', 
+			transaction_id VARCHAR(255) DEFAULT '', 
 			html_content LONGTEXT DEFAULT '', 
 			date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 		) $charset_collate;";
@@ -99,7 +100,7 @@ class GPOS_Installer {
 		$table_name      = "{$wpdb->prefix}gpos_session";
 		$main_sql_create = "CREATE TABLE {$table_name} (
 			session_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-			payment_id VARCHAR(255) DEFAULT '', 
+			transaction_id VARCHAR(255) DEFAULT '', 
 			session_key VARCHAR(255) DEFAULT '', 
 			session_value LONGTEXT DEFAULT '', 
 			date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -113,11 +114,28 @@ class GPOS_Installer {
 	 *
 	 * Güncellemeler
 	 *
-	 * 1- gpos_log tablosu kaldırıldı. Yerine en güncel tablolarda içerisindeki gpos_transaction_log eklendi.
+	 * 1- gpos_log tablosu kaldırıldı. Yerine en güncel tablolar içerisindeki gpos_transaction_log eklendi.
 	 */
 	private function version_update_000_to_100() {
 		global $wpdb;
 		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}gpos_log" ); //phpcs:ignore
+		$this->install_latest_transaction_log_table();
+	}
+
+	/**
+	 * Veri tabanında 1.0.0 versiyonundan 1.0.1 versiyonuna geçiş yapılırken uygulanan değişiklikler.
+	 *
+	 * Güncellemeler
+	 *
+	 * 1- Eski gpos_session tablosu kaldırıldı. Yeni gpos_session eklendi.
+	 * 1- Eski gpos_redirect tablosu kaldırıldı. Yeni gpos_redirect eklendi.
+	 */
+	private function version_update_000_to_101() {
+		global $wpdb;
+		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}gpos_redirect" ); //phpcs:ignore
+		$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}gpos_session" ); //phpcs:ignore
+		$this->install_latest_redirect_table();
+		$this->install_latest_session_table();
 	}
 
 }

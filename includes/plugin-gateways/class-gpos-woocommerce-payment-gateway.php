@@ -56,20 +56,19 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	public function __construct() {
 		$this->woocommerce_settings = gpos_woocommerce_settings();
 		$this->method_title         = __( 'POS Entegratör', 'gurmepos' );
-		$this->method_description   = __( 'POS Entegratör - Multiple payment solutions', 'gurmepos' );
-		$this->enabled              = 'yes';
-		$this->title                = $this->woocommerce_settings->get_setting_by_key( 'title' );
-		$this->description          = $this->woocommerce_settings->get_setting_by_key( 'description' );
-		$this->icon                 = $this->woocommerce_settings->get_setting_by_key( 'icon' );
-		$this->order_button_text    = $this->woocommerce_settings->get_setting_by_key( 'button_text' );
-		$this->has_fields           = true;
+		// translators: %s = POS Entegratör
+		$this->method_description = sprintf( __( '%s - Multiple payment solutions', 'gurmepos' ), 'POS Entegratör' );
+		$this->enabled            = 'yes';
+		$this->title              = $this->woocommerce_settings->get_setting_by_key( 'title' );
+		$this->description        = $this->woocommerce_settings->get_setting_by_key( 'description' );
+		$this->icon               = $this->woocommerce_settings->get_setting_by_key( 'icon' );
+		$this->order_button_text  = $this->woocommerce_settings->get_setting_by_key( 'button_text' );
+		$this->has_fields         = true;
 		/**
 		 * WooCommerce için ödeme geçidinin desteklediği özellikleri düzenler.
 		 */
 		$this->supports = apply_filters( 'gpos_woocommerce_payment_supports', array() );
 		$this->init_settings();
-
-		add_action( "woocommerce_api_{$this->id}_callback", array( $this, 'process_callback' ) );
 	}
 
 	/**
@@ -78,11 +77,22 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @param int $order_id Sipariş numarası.
 	 *
 	 * @return array|void
+	 *
+	 * @SuppressWarnings(PHPMD.CyclomaticComplexity)
 	 */
 	public function process_payment( $order_id ) {
 
 		// WordPress nonce kontrolünü gerçekleştirir.
-		gpos_validate_nonce();
+		if ( false === isset( $_POST['_gpos_nonce'] ) ||
+			false === wp_verify_nonce( gpos_clean( $_POST['_gpos_nonce'] ), 'gpos_process_payment' )
+			) {
+			wp_send_json(
+				array(
+					'result'   => 'failure',
+					'messages' => gpos_woocommerce_notice( __( 'Invalid operation, please try again by refreshing the page.', 'gurmepos' ) ),
+				)
+			);
+		};
 
 		$this->order       = wc_get_order( $order_id );
 		$this->transaction = gpos_transaction();
@@ -98,7 +108,9 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 		$this->set_order_properties();
 		$this->set_credit_card_properties();
 
-		$this->gateway = gpos_gateway_accounts()->get_gateway( $this->transaction )->set_callback_url( home_url( "/wc-api/{$this->id}_callback/" ) );
+		$this->gateway = gpos_gateway_accounts()
+		->get_gateway( $this->transaction )
+		->set_callback_url( home_url( "/gpos-wc-callback/{$this->transaction->get_id()}/" ) );
 
 		try {
 			$response = $this->gateway->process_payment();
@@ -111,7 +123,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 					wp_send_json(
 						array(
 							'result'   => 'success',
-							'redirect' => gpos_redirect()->set_html_content( $response->get_html_content() )->get_redirect_url(),
+							'redirect' => gpos_redirect( $this->transaction->get_id() )->set_html_content( $response->get_html_content() )->get_redirect_url(),
 						)
 					);
 				}
@@ -133,18 +145,15 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	/**
 	 * Geri dönüş fonksiyonu ödeme geçitlerinden gelen veriler bu fonksiyonda karşılanır.
 	 *
-	 * @return void
-	 *
-	 * @SuppressWarnings(PHPMD.ExitExpression)
+	 * @param int|string $transaction_id İşlem numarası.
 	 */
-	public function process_callback() {
+	public function process_callback( $transaction_id ) {
 
 		try {
-			$this->gateway = gpos_gateway_accounts()->get_gateway();
-			$response      = $this->gateway->process_callback( gpos_clean( $_REQUEST ) ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
-
-			$this->transaction = gpos_transaction( $response->get_transaction_id() );
+			$this->transaction = gpos_transaction( $transaction_id );
+			$this->gateway     = gpos_gateway_accounts()->get_gateway( $this->transaction );
 			$this->order       = wc_get_order( $this->transaction->get_plugin_transaction_id() );
+			$response          = $this->gateway->process_callback( gpos_clean( $_REQUEST ) ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			if ( $response->is_success() ) {
 				$this->success_process( $response, false );
@@ -152,15 +161,9 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 
 			$this->error_process( $response, false );
 		} catch ( Exception $e ) {
-			wp_safe_redirect(
-				add_query_arg(
-					array(
-						"{$this->id}_error" => bin2hex( $e->getMessage() ),
-					),
-					wc_get_checkout_url()
-				)
-			);
-			exit;
+			$error_response = new GPOS_Gateway_Response( get_class( $this->gateway ) );
+			$error_response->set_transaction_id( $this->transaction->get_id() )->set_error_message( $e->getMessage() );
+			$this->error_process( $error_response, false );
 		}
 	}
 

@@ -112,11 +112,11 @@ class GPOS_Gateway_Accounts {
 	/**
 	 * Varsayılan ödeme hesabının ödeme geçidini türetip döndürür.
 	 *
-	 * @param GPOS_Transaction|null $transaction Ödeme işlemi verileri.
+	 * @param GPOS_Transaction $transaction Ödeme işlemi verileri.
 	 *
 	 * @return GPOS_Payment_Gateway|false
 	 */
-	public function get_gateway( $transaction = null ) {
+	public function get_gateway( GPOS_Transaction $transaction ) {
 		$account = false;
 		$gateway = false;
 
@@ -133,7 +133,7 @@ class GPOS_Gateway_Accounts {
 			$gateway = $account->gateway_class;
 		}
 
-		if ( $gateway && $transaction ) {
+		if ( $gateway ) {
 			$transaction->set_payment_gateway_id( $account->gateway_id );
 			$transaction->set_payment_gateway_class( get_class( $gateway ) );
 			$gateway->set_transaction( $transaction );

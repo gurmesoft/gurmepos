@@ -19,11 +19,18 @@ class GPOS_WordPress {
 	protected $prefix = GPOS_PREFIX;
 
 	/**
-	 * Yönlendirme aksiyonu için uç nokta aksiyonu.
+	 * Yönlendirme aksiyonu için uç nokta.
 	 *
-	 * @var string $redirect_query_var
+	 * @var string $redirect_query_var_key
 	 */
-	protected $redirect_query_var;
+	protected $redirect_query_var_key = 'gpos_redirect';
+
+	/**
+	 * WooCommerce geri dönüş aksiyonu için uç nokta.
+	 *
+	 * @var string $wc_callback_query_var_key
+	 */
+	protected $wc_callback_query_var_key = 'gpos_wc_callback';
 
 
 	/**
@@ -32,8 +39,6 @@ class GPOS_WordPress {
 	 * @return void
 	 */
 	public function __construct() {
-
-		$this->redirect_query_var = "{$this->prefix}_redirect_action";
 
 		add_action( 'init', array( $this, 'init' ) );
 		add_filter( 'query_vars', array( $this, 'query_vars' ) );
@@ -77,14 +82,23 @@ class GPOS_WordPress {
 			'gpos_rewrite_rules',
 			array(
 				// 3D Yönlendirmesi için kullanılacak uç nokta.
-				"{$this->prefix}-redirect" => "index.php?{$this->redirect_query_var}=1",
+				array(
+					'regex' => "{$this->prefix}-redirect",
+					'query' => "index.php?{$this->redirect_query_var_key}=1",
+				),
+				// WooCommerce eklentisinde geri dönüş verileri için kullanılacak uç nokta.
+				array(
+					'regex' => "^{$this->prefix}-wc-callback/?([^/]*)/?",
+					'query' => 'index.php?' . $this->wc_callback_query_var_key . '=1&transaction_id=$matches[1]',
+				),
 			)
 		);
 
-		foreach ( $rewrite_rules as $regex => $query ) {
-			add_rewrite_rule( $regex, $query, 'top' );
+		foreach ( $rewrite_rules as  $rule ) {
+			add_rewrite_rule( $rule['regex'], $rule['query'], 'top' );
 		}
 
+		flush_rewrite_rules();
 	}
 
 	/**
@@ -97,16 +111,18 @@ class GPOS_WordPress {
 	public function query_vars( $vars ) {
 
 		$query_vars = apply_filters(
-			/**
-			 * Harici eklentiler için yeni sorgu parametreleri eklemekte kullanılır.
-			 * Örn : Pro plugins_loaded üzerinde çalıştığı için bu kanca ile sorgu parametreleri ekleyebilir.
-			 *
-			 * @param array Sorgu parametreleri dizisi
-			 */
+		/**
+		 * Harici eklentiler için yeni sorgu parametreleri eklemekte kullanılır.
+		 * Örn : Pro plugins_loaded üzerinde çalıştığı için bu kanca ile sorgu parametreleri ekleyebilir.
+		 *
+		 * @param array Sorgu parametreleri dizisi
+		 */
 			'gpos_query_vars',
 			array(
 				// 3D yönlendirmesi için kullanılacak sorgu parametresi.
-				$this->redirect_query_var,
+				$this->redirect_query_var_key,
+				$this->wc_callback_query_var_key,
+				'transaction_id',
 			)
 		);
 
@@ -137,22 +153,32 @@ class GPOS_WordPress {
 	 *
 	 * @param mixed $template Şablon.
 	 *
-	 * @return mixed $template Şablon.
+	 * @return mixed|void $template Şablon.
 	 */
 	public function template_include( $template ) {
 		// 3D Yönlendirmeleri için kullanılacak blok.
-		if ( get_query_var( $this->redirect_query_var ) ) {
-			gpos_redirect()->render();
-		} else {
-			/**
-			* Harici eklentiler ile şablon dahil etmeyi sağlar.
-			* Örn : Pro plugins_loaded üzerinde çalıştığı için bu kanca ile şablon dahil edebilir.
-			*
-			* @param string $template
-			*/
-			do_action( 'gpos_template_include', $template );
-			return $template;
+		if ( get_query_var( $this->redirect_query_var_key ) &&
+			isset( $_GET['transaction_id'] ) &&
+			isset( $_GET['_wpnonce'] ) &&
+			wp_verify_nonce( gpos_clean( $_GET['_wpnonce'] ) )
+			) {
+			return gpos_redirect( gpos_clean( $_GET['transaction_id'] ) )->render();
 		}
+
+		// WooCommerce geri dönüş noktası için kullanılacak blok.
+		if ( get_query_var( $this->wc_callback_query_var_key ) && get_query_var( 'transaction_id' ) ) {
+			return gpos_woocommerce_payment_gateway()->process_callback( gpos_clean( get_query_var( 'transaction_id' ) ) );
+		}
+
+		/**
+		* Harici eklentiler ile şablon dahil etmeyi sağlar.
+		* Örn : Pro plugins_loaded üzerinde çalıştığı için bu kanca ile şablon dahil edebilir.
+		*
+		* @param string $template
+		*/
+		apply_filters( 'gpos_template_include', $template );
+
+		return $template;
 
 	}
 

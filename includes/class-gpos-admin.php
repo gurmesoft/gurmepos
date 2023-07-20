@@ -29,58 +29,14 @@ class GPOS_Admin {
 	 *
 	 * @var string $parent_title
 	 */
-	public $parent_title;
+	public $parent_title = 'POS Entegratör';
 
 	/**
 	 * Eklenti menü urlini oluşturacak slug
 	 *
 	 * @var string $parent_slug
 	 */
-	public $parent_slug;
-
-	/**
-	 * Eklenti menüsünün alt menüleri
-	 *
-	 * @var array $sub_menu_pages
-	 */
-	public $sub_menu_pages;
-
-	/**
-	 * GPOS_Admin_Menu kurucu fonksiyonu
-	 *
-	 * @return void
-	 */
-	public function __construct() {
-
-		$this->icon           = $this->get_icon();
-		$this->parent_title   = 'POS Entegratör';
-		$this->parent_slug    = 'gurmepos';
-		$this->sub_menu_pages = array(
-			array(
-				'menu_title' => __( 'Dashboard', 'gurmepos' ),
-				'menu_slug'  => $this->parent_slug,
-			),
-			array(
-				'menu_title' => __( 'Virtual POS', 'gurmepos' ),
-				'menu_slug'  => "{$this->prefix}-payment-gateways",
-			),
-			array(
-				'menu_title' => false,
-				'menu_slug'  => "{$this->prefix}-payment-gateway",
-				'hidden'     => true,
-			),
-			array(
-				'menu_title' => false,
-				'menu_slug'  => "{$this->prefix}-transaction",
-				'hidden'     => true,
-			),
-			array(
-				'menu_title' => __( 'Form Settings', 'gurmepos' ),
-				'menu_slug'  => "{$this->prefix}-form-settings",
-			),
-
-		);
-	}
+	public $parent_slug = 'gurmepos';
 
 	/**
 	 * Admin menüye eklenecek menüleri ekler ve callback fonksiyonlarını organize eder
@@ -90,19 +46,17 @@ class GPOS_Admin {
 	public function admin_menu() {
 		global $submenu;
 
-		$this->check_integrated_plugins();
-
 		add_menu_page(
 			$this->parent_title,
 			$this->parent_title,
 			'manage_options',
 			$this->parent_slug,
 			'__return_false',
-			$this->icon,
+			$this->get_icon(),
 			59
 		);
 
-		foreach ( $this->sub_menu_pages as $sub_menu_page ) {
+		foreach ( $this->get_menu_pages() as $sub_menu_page ) {
 
 			add_submenu_page(
 				isset( $sub_menu_page['hidden'] ) && $sub_menu_page['hidden'] ? '' : $this->parent_slug,
@@ -166,14 +120,11 @@ class GPOS_Admin {
 	 */
 	public function admin_bar_menu( WP_Admin_Bar $wp_admin_bar ) {
 		if ( current_user_can( 'manage_options' ) ) {
-
-			$this->check_integrated_plugins();
-
 			$admin_bar_args = array(
 				'id'    => $this->parent_slug,
 				'title' => sprintf(
 					'<span class="ab-icon"><img style="width:20px;height:20px;" src="%s"></span><span class="ab-label">POS Entegratör %s</span>',
-					$this->icon,
+					$this->get_icon(),
 					gpos_is_test_mode() ? __( 'Test Mode Active', 'gurmepos' ) : ''
 				),
 				'href'  => admin_url( 'admin.php?page=gpos-payment-gateways' ),
@@ -187,13 +138,15 @@ class GPOS_Admin {
 
 			$wp_admin_bar->add_node( $admin_bar_args );
 
-			$this->sub_menu_pages[3] = array(
+			$menu_pages = $this->get_menu_pages();
+
+			$menu_pages[3] = array(
 				'menu_slug'  => 'gpos-transactions',
 				'menu_title' => __( 'Transactions', 'gurmepos' ),
 				'href'       => admin_url( 'edit.php?post_type=gpos_transaction' ),
 			);
 
-			foreach ( $this->sub_menu_pages as $sub_menu_page ) {
+			foreach ( $menu_pages as $sub_menu_page ) {
 
 				if ( isset( $sub_menu_page['hidden'] ) && $sub_menu_page['hidden'] ||
 					$sub_menu_page['menu_slug'] === $this->parent_slug
@@ -243,7 +196,8 @@ class GPOS_Admin {
 				'installments_get_error' => __( 'Error when bringing in installments', 'gurmepos' ),
 			),
 		);
-		$nonce    = isset( $_GET['_wpnonce'] ) && wp_verify_nonce( gpos_clean( $_GET['_wpnonce'] ) );
+
+		$nonce = isset( $_GET['_wpnonce'] ) && wp_verify_nonce( gpos_clean( $_GET['_wpnonce'] ) );
 
 		if ( $nonce && isset( $_GET['id'] ) && 'payment-gateway' === $page ) {
 			$localize['gateway_account'] = gpos_gateway_account( (int) gpos_clean( $_GET['id'] ) );
@@ -254,21 +208,6 @@ class GPOS_Admin {
 
 		return $localize;
 	}
-
-	/**
-	 * Entegrasyon gerçekleştirilen diğer eklentilerin ayar sayfaları.
-	 *
-	 * @return void
-	 */
-	private function check_integrated_plugins() {
-		if ( gpos_is_woocommerce_enabled() ) {
-			$this->sub_menu_pages[] = array(
-				'menu_title' => __( 'WooCommerce', 'gurmepos' ),
-				'menu_slug'  => "{$this->prefix}-woocommerce-settings",
-			);
-		}
-	}
-
 
 	/**
 	 * WordPress 'manage_edit-gpos_transaction_columns' kancası
@@ -299,6 +238,47 @@ class GPOS_Admin {
 	public function transaction_custom_column( $column ) {
 		global $post;
 		gpos_get_template_part( 'transaction-columns', str_replace( '_', '-', $column ), array( 'transaction' => gpos_transaction( $post->ID ) ) );
+	}
+
+	/**
+	 * Eklenti menü sayfalarını döndürür.
+	 *
+	 * @return array
+	 */
+	private function get_menu_pages() {
+		$menu_pages = array(
+			array(
+				'menu_title' => __( 'Dashboard', 'gurmepos' ),
+				'menu_slug'  => $this->parent_slug,
+			),
+			array(
+				'menu_title' => __( 'Virtual POS', 'gurmepos' ),
+				'menu_slug'  => "{$this->prefix}-payment-gateways",
+			),
+			array(
+				'menu_title' => false,
+				'menu_slug'  => "{$this->prefix}-payment-gateway",
+				'hidden'     => true,
+			),
+			array(
+				'menu_title' => false,
+				'menu_slug'  => "{$this->prefix}-transaction",
+				'hidden'     => true,
+			),
+			array(
+				'menu_title' => __( 'Form Settings', 'gurmepos' ),
+				'menu_slug'  => "{$this->prefix}-form-settings",
+			),
+		);
+
+		if ( gpos_is_woocommerce_enabled() ) {
+			$menu_pages[] = array(
+				'menu_title' => 'WooCommerce',
+				'menu_slug'  => "{$this->prefix}-woocommerce-settings",
+			);
+		}
+
+		return $menu_pages;
 	}
 
 

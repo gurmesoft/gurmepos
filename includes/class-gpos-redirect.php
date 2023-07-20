@@ -25,22 +25,25 @@ class GPOS_Redirect {
 	private $connection;
 
 	/**
-	 * Redirect için tanımlanmış benzersiz ödeme numarası.
+	 * Redirect için tanımlanmış benzersiz işlem numarası.
 	 *
-	 * @var string $payment_id Benzersiz ödeme numarası.
+	 * @var string $transaction_id Benzersiz işlem numarası.
 	 */
-	private $payment_id;
+	private $transaction_id;
 
 
 	/**
 	 * GPOS_Redirect sınıfı kurucu fonksiyonu
 	 *
+	 * @param string|int $transaction_id İşlem numarası.
+	 *
 	 * @return void
 	 */
-	public function __construct() {
+	public function __construct( $transaction_id ) {
 		global $wpdb;
-		$this->table_name = $wpdb->prefix . 'gpos_redirect';
-		$this->connection = $wpdb;
+		$this->transaction_id = $transaction_id;
+		$this->table_name     = $wpdb->prefix . 'gpos_redirect';
+		$this->connection     = $wpdb;
 	}
 
 
@@ -51,7 +54,7 @@ class GPOS_Redirect {
 	 */
 	public function get_html_content() {
 		$html_content = $this->connection->get_var(
-			$this->connection->prepare( "SELECT `html_content` FROM {$this->table_name} WHERE `payment_id` = %s", $this->payment_id )
+			$this->connection->prepare( "SELECT `html_content` FROM {$this->table_name} WHERE `transaction_id` = %s", $this->transaction_id )
 		);
 
 		$this->delete_html_content();
@@ -67,7 +70,7 @@ class GPOS_Redirect {
 	public function delete_html_content() {
 		$this->connection->delete(
 			$this->table_name,
-			array( 'payment_id' => $this->payment_id )
+			array( 'transaction_id' => $this->transaction_id )
 		);
 	}
 
@@ -81,18 +84,13 @@ class GPOS_Redirect {
 	 */
 	public function set_html_content( $html_content ) {
 
-		$this->payment_id = isset( $_COOKIE[ GPOS_SESSION_ID_KEY ] ) ? gpos_clean( $_COOKIE[ GPOS_SESSION_ID_KEY ] ) : '';
-
-		if ( '' !== $this->payment_id ) {
-
-			$this->connection->insert(
-				$this->table_name,
-				array(
-					'payment_id'   => $this->payment_id,
-					'html_content' => $html_content,
-				)
-			);
-		}
+		$this->connection->insert(
+			$this->table_name,
+			array(
+				'transaction_id' => $this->transaction_id,
+				'html_content'   => $html_content,
+			)
+		);
 
 		return $this;
 	}
@@ -103,8 +101,8 @@ class GPOS_Redirect {
 	public function get_redirect_url() {
 		return add_query_arg(
 			array(
-				'payment_id' => $this->payment_id,
-				'_wpnonce'   => wp_create_nonce(),
+				'transaction_id' => $this->transaction_id,
+				'_wpnonce'       => wp_create_nonce(),
 			),
 			GPOS_REDIRECT_URL
 		);
@@ -113,27 +111,23 @@ class GPOS_Redirect {
 	/**
 	 * 3D verilerini ekrana yazar.
 	 *
-	 * @return void
-	 *
 	 * @SuppressWarnings(PHPMD.ExitExpression)
 	 */
 	public function render() {
-
-		if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( gpos_clean( $_GET['_wpnonce'] ) ) && isset( $_GET['payment_id'] ) && '' !== $_GET['payment_id'] ) {
-			$this->payment_id = gpos_clean( $_GET['payment_id'] );
-			echo $this->get_html_content(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			exit;
+		$content = $this->get_html_content();
+		if ( $content ) {
+			echo $content; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		} else {
+			?>
+			<center style="font-family:Roboto;">
+				<div style="font-size:36px; margin:20px 0;">
+					<?php esc_html_e( 'Incorrect transaction, please refresh the payment page and try again.', 'gurmepos' ); ?>
+				</div>
+				<button style="background-color:#1c64f2; color:#fff; border-color:#1c64f2; border-radius:999px; padding:10px 20px;" onclick="window.history.back()">
+				<?php esc_html_e( 'Back to payment page', 'gurmepos' ); ?>
+			</button>
+			</center>
+			<?php
 		}
-
-		?>
-		<center style="font-family:Roboto;">
-			<div style="font-size:36px; margin:20px 0;">
-				<?php esc_html_e( 'Incorrect transaction, please refresh the payment page and try again.', 'gurmepos' ); ?>
-			</div>
-			<button style="background-color:#1c64f2; color:#fff; border-color:#1c64f2; border-radius:999px; padding:10px 20px;" onclick="window.history.back()">
-			<?php esc_html_e( 'Back to payment page', 'gurmepos' ); ?>
-		</button>
-		</center>
-		<?php
 	}
 }

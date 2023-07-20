@@ -351,6 +351,8 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 * @param mixed  $response Gönderilen isteğe istinaden alınan cevap.
 	 *
 	 * @return void
+	 *
+	 * @SuppressWarnings(PHPMD.CyclomaticComplexity)
 	 */
 	public function log( $process, $request = array(), $response = array() ) {
 		if ( $request instanceof \Iyzipay\Request\CreatePaymentRequest && method_exists( $request, 'getPaymentCard' ) ) {
@@ -365,7 +367,9 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 		$request  = ! is_array( $request ) && is_object( $request ) && method_exists( $request, 'getJsonObject' ) ? $request->getJsonObject() : $request;
 		$response = ! is_array( $response ) && is_object( $response ) && method_exists( $response, 'getRawResult' ) ? $response->getRawResult() : $response;
 
-		$this->transaction->add_log( __CLASS__, $process, $request, $response );
+		if ( $this->transaction instanceof GPOS_Transaction ) {
+			$this->transaction->add_log( __CLASS__, $process, $request, $response );
+		}
 	}
 
 }

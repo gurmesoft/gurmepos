@@ -17,7 +17,6 @@ $gpos_i18n = array(
 		'refund'                           => __( 'Return', 'gurmepos' ),
 		'Completed'                        => __( 'Completed', 'gurmepos' ),
 		'Processing'                       => __( 'Processing', 'gurmepos' ),
-		'paynut'                           => __( 'POS Entegratör', 'gurmepos' ),
 		'free'                             => __( 'Free', 'gurmepos' ),
 		'update_pro'                       => __( 'Pro Upgrade', 'gurmepos' ),
 		'announcements'                    => __( 'Announcements', 'gurmepos' ),

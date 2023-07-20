@@ -174,32 +174,6 @@ function gpos_get_i18n_strings() {
 	return $gpos_i18n; // @phpstan-ignore-line
 }
 
-/**
- * Ödeme işlemleri için çerez ataması yapar.
- *
- * @return void
- */
-function gpos_set_transaction_cookie() {
-
-	if ( false === headers_sent() ) {
-		$name    = GPOS_SESSION_ID_KEY;
-		$value   = (string) time();
-		$options = array(
-			'expires'  => GPOS_SESSION_LIFETIME,
-			'secure'   => false,
-			'path'     => COOKIEPATH ? COOKIEPATH : '/', // @phpstan-ignore-line
-			'domain'   => COOKIE_DOMAIN, // @phpstan-ignore-line
-			'httponly' => false,
-		);
-
-		if ( version_compare( PHP_VERSION, '7.3.0', '>=' ) ) {
-			setcookie( $name, $value, $options );
-		} else {
-			setcookie( $name, $value, $options['expires'], $options['path'], $options['domain'], $options['secure'], $options['httponly'] );
-		}
-	}
-}
-
 
 /**
  * Desteklenen taksit adetleri.
@@ -249,26 +223,6 @@ function gpos_create_utm_link( $utm_camping ) {
 		'https://posentegrator.com'
 	);
 }
-
-/**
- * GurmePOS için ödeme formlarındaki nonce kontrolünü gerçekleştirir.
- *
- * @param string $contex Varsayılan olarak json döner.
- *
- * @return mixed
- */
-function gpos_validate_nonce( $contex = 'json' ) {
-
-	if ( isset( $_POST ['_gpos_wpnonce'] ) && false === wp_verify_nonce( gpos_clean( $_POST ['_gpos_wpnonce'] ), 'gpos_process_payment' ) ) {
-		$result = array(
-			'result'   => 'failure',
-			'messages' => gpos_woocommerce_notice( __( 'Invalid operation, please try again by refreshing the page.', 'gurmepos' ) ),
-		);
-
-		return 'json' === $contex ? wp_send_json( $result ) : $result;
-	}
-}
-
 
 /**
  * GurmePOS dil ve etki alanı tanımlamaları.

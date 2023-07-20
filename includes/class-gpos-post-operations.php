@@ -149,7 +149,6 @@ class GPOS_Post_Operations {
 						GPOS_Transaction_Utils::CANCEL  => __( 'Cancel', 'gurmepos' ),
 						GPOS_Transaction_Utils::REFUND  => __( 'Refund', 'gurmepos' ),
 					),
-
 				),
 			),
 		);

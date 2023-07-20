@@ -131,7 +131,7 @@ class GPOS_Denizbank extends GPOS_Gateway {
 			array(
 				'type'         => 'Visa',
 				'bin'          => '4090 7000 9084 0057',
-				'expiry_year'  => '2022',
+				'expiry_year'  => '2023',
 				'expiry_month' => '01',
 				'cvv'          => '592',
 				'secure'       => '',
@@ -139,7 +139,7 @@ class GPOS_Denizbank extends GPOS_Gateway {
 			array(
 				'type'         => 'Visa',
 				'bin'          => '4090 7001 0117 4272',
-				'expiry_year'  => '2022',
+				'expiry_year'  => '2023',
 				'expiry_month' => '12',
 				'cvv'          => '104',
 				'secure'       => '',

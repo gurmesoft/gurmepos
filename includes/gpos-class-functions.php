@@ -112,10 +112,12 @@ function gpos_frontend( $enqueue_type = 'direct', $platform = 'woocommerce' ) {
 /**
  * GurmePOS yönlendirme sınıfını döndürür.
  *
+ * @param int|string $transaction_id Benzersiz işlem numarası.
+ *
  * @return GPOS_Redirect
  */
-function gpos_redirect() {
-	return new GPOS_Redirect();
+function gpos_redirect( $transaction_id ) {
+	return new GPOS_Redirect( $transaction_id );
 }
 
 /**
@@ -166,4 +168,13 @@ function gpos_transaction( $id = null ) {
  */
 function gpos_transactions() {
 	return new GPOS_Transactions();
+}
+
+/**
+ * WooCommerce ödeme alma sınıfı.
+ *
+ * @return GPOS_WooCommerce_Payment_Gateway
+ */
+function gpos_woocommerce_payment_gateway() {
+	return new GPOS_WooCommerce_Payment_Gateway();
 }

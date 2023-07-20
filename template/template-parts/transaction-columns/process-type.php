@@ -8,9 +8,10 @@
  */
 
 $process_type = $transaction->get_type();
+$taxonomies   = gpos_post_operations()->get_post_taxonomies();
 
 ?>
 
 <div class="process-type <?php echo esc_attr( $process_type ); ?>">
-	<span><?php echo esc_html( $process_type ); ?></span>
+	<span><?php echo esc_html( $taxonomies['gpos_transaction_process_type']['args']['default_terms'][ $process_type ] ); ?></span>
 </div>

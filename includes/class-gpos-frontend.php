@@ -150,15 +150,13 @@ class GPOS_Frontend {
 	 */
 	public function render_form() {
 
-		gpos_set_transaction_cookie();
-
 		$default_account = gpos_gateway_accounts()->get_default_account();
 
 		if ( $default_account ) {
 
 			$gateway = gpos_payment_gateways()->get_gateway_by_gateway_id( $default_account->gateway_id );
 
-			wp_nonce_field( 'gpos_process_payment', '_gpos_wpnonce' );
+			wp_nonce_field( 'gpos_process_payment', '_gpos_nonce' );
 
 			if ( gpos_is_test_mode() ) {
 				$this->test_mode( $gateway );

@@ -180,10 +180,11 @@ class GPOS_Transaction {
 	 * @return void
 	 */
 	public function set_searchable() {
+		$implode_array = array_map( fn( $value ) => ! is_array( $value ), $this->to_array() );
 		wp_update_post(
 			array(
 				'ID'           => $this->id,
-				'post_content' => preg_replace( '/\b(\d{4})(\d{4})(\d{4})(\d{4})\b/', '**************$4', implode( ';', $this->to_array() ) ),
+				'post_content' => preg_replace( '/\b(\d{4})(\d{4})(\d{4})(\d{4})\b/', '**************$4', implode( ';', $implode_array ) ),
 				'post_title'   => $this->get_customer_full_name(),
 			)
 		);

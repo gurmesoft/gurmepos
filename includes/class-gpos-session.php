@@ -36,35 +36,20 @@ class GPOS_Session {
 	}
 
 	/**
-	 * GPOS_SESSION_ID_KEY den alınan benzersiz değer.
-	 *
-	 * @return string $payment_id Veri tabanındaki benzersiz değer.
-	 * @throws Exception Oturum idsi bulunamaması durumunda hata.
-	 */
-	protected function payment_id() {
-		$payment_id = array_key_exists( GPOS_SESSION_ID_KEY, $_COOKIE ) ? gpos_clean( $_COOKIE[ GPOS_SESSION_ID_KEY ] ) : false;
-
-		if ( false === $payment_id ) {
-			throw new Exception( __( 'Payment session not found. Please try again. ', 'gurmepos' ) );
-		}
-
-		return $payment_id;
-	}
-
-	/**
 	 * Kayıt edilmiş oturum verisini döndürür.
 	 *
-	 * @param string $session_key Kayıt edilecek anahtar kelime.
+	 * @param string|int $transaction_id İşlem numarası.
+	 * @param string     $session_key Kayıt edilecek anahtar kelime.
 	 *
 	 * @return mixed
 	 */
-	public function get_session_meta( string $session_key ) {
+	public function get_session_meta( $transaction_id, string $session_key ) {
 
 		$session_value = $this->connection->get_var(
-			$this->connection->prepare( "SELECT `session_value` FROM {$this->table_name} WHERE `payment_id` = %s AND `session_key` = %s", $this->payment_id(), $session_key )
+			$this->connection->prepare( "SELECT `session_value` FROM {$this->table_name} WHERE `transaction_id` = %s AND `session_key` = %s", $transaction_id, $session_key )
 		);
 
-		$this->delete_session_meta( $this->payment_id(), $session_key );
+		$this->delete_session_meta( $transaction_id, $session_key );
 
 		$decoded_value = json_decode( $session_value, true );
 
@@ -79,16 +64,17 @@ class GPOS_Session {
 	/**
 	 * Oturum verisi kayıt etme.
 	 *
-	 * @param string $session_key Kayıt edilecek anahtar kelime.
-	 * @param mixed  $session_value Kayıt edilecek anahtar veri.
+	 * @param string|int $transaction_id İşlem numarası.
+	 * @param string     $session_key Kayıt edilecek anahtar kelime.
+	 * @param mixed      $session_value Kayıt edilecek anahtar veri.
 	 *
 	 * @return int|false — Eklenen|güncellenen metanın idsi, yada hata durumunda false.
 	 */
-	public function add_session_meta( string $session_key, $session_value ) {
+	public function add_session_meta( $transaction_id, string $session_key, $session_value ) {
 
-		wp_schedule_single_event( GPOS_SESSION_LIFETIME, 'gpospro_remove_session_meta', array( $this->payment_id(), $session_key ) );
+		wp_schedule_single_event( GPOS_SESSION_LIFETIME, 'gpospro_remove_session_meta', array( $transaction_id, $session_key ) );
 
-		$session_key_exists = $this->get_session_meta( $session_key );
+		$session_key_exists = $this->get_session_meta( $transaction_id, $session_key );
 
 		if ( $session_key_exists ) {
 			return $this->connection->update(
@@ -97,8 +83,8 @@ class GPOS_Session {
 					'session_value' => is_array( $session_value ) ? wp_json_encode( $session_value ) : $session_value,
 				),
 				array(
-					'payment_id'  => $this->payment_id(),
-					'session_key' => $session_key,
+					'transaction_id' => $transaction_id,
+					'session_key'    => $session_key,
 				),
 			);
 
@@ -107,9 +93,9 @@ class GPOS_Session {
 		return $this->connection->insert(
 			$this->table_name,
 			array(
-				'payment_id'    => $this->payment_id(),
-				'session_key'   => $session_key,
-				'session_value' => is_array( $session_value ) ? wp_json_encode( $session_value ) : $session_value,
+				'transaction_id' => $transaction_id,
+				'session_key'    => $session_key,
+				'session_value'  => is_array( $session_value ) ? wp_json_encode( $session_value ) : $session_value,
 			)
 		);
 
@@ -118,18 +104,18 @@ class GPOS_Session {
 	/**
 	 * Oturum verisi silme.
 	 *
-	 * @param string $payment_id Ödemenin tekil değeri.
+	 * @param string $transaction_id İşlem numarası.
 	 * @param string $session_key Silinecek edilecek anahtar kelime.
 	 *
 	 * @return int|false — Silinmiş metanın idsi, yada hata durumunda false.
 	 */
-	public function delete_session_meta( string $payment_id, string $session_key ) {
+	public function delete_session_meta( string $transaction_id, string $session_key ) {
 
 		return $this->connection->delete(
 			$this->table_name,
 			array(
-				'payment_id'  => $payment_id,
-				'session_key' => $session_key,
+				'transaction_id' => $transaction_id,
+				'session_key'    => $session_key,
 			)
 		);
 	}
