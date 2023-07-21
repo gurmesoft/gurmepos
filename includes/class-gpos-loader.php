@@ -108,7 +108,5 @@ class GPOS_Loader {
 		new GPOS_Ajax();
 		new GPOS_WordPress();
 		new GPOS_Schedule();
-		new GPOS_Sentry( GPOS_PLUGIN_DIR_PATH ); // @phpstan-ignore-line
-
 	}
 }

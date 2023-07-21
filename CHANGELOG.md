@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v3.1.1 - (2023-07-21) =
+
+
+Bug Fixes
+
+* PHP 8.1 Sentry hatası giderildi.
+
 = v3.1.0 - (2023-07-20) =
 
 

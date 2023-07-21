@@ -66,6 +66,9 @@ class GPOS_WordPress {
 	 */
 	public function init() {
 
+		// Sentry
+		gpos_sentry( GPOS_PLUGIN_DIR_PATH ); // @phpstan-ignore-line
+
 		// Languages
 		gpos_load_plugin_text_domain();
 
