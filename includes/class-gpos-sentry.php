@@ -19,12 +19,18 @@ class GPOS_Sentry {
 	 * @return void
 	 *
 	 * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+	 * @SuppressWarnings(PHPMD.CyclomaticComplexity)
 	 */
 	public function __construct( $dir_path, $debug_mode = false ) {
 		try {
-			if ( ( defined( 'GPOS_PRODUCTION' ) && GPOS_PRODUCTION ) || $debug_mode ) {
+
+			$updating = wp_doing_ajax() && isset( $_REQUEST['action'] ) && 'update-plugin' === gpos_clean( $_REQUEST['action'] ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+			$is_production = defined( 'GPOS_PRODUCTION' ) && GPOS_PRODUCTION;
+
+			if ( false === $updating && ( $is_production || $debug_mode ) ) {
 				Sentry\init(
-					[
+					array(
 						'dsn'         => 'https://740a11000d444872b97e1de2b3903152@o4505543717355520.ingest.sentry.io/4505549325991936',
 						'before_send' => function ( \Sentry\Event $event ) use ( $dir_path ) {
 							$filtered = array_filter(
@@ -40,7 +46,7 @@ class GPOS_Sentry {
 							);
 							return empty( $filtered ) ? null : $event;
 						},
-					]
+					)
 				);
 			}
 		} catch ( Exception $e ) {

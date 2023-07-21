@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v3.1.2 - (2023-07-21) =
+
+
+Bug Fixes
+
+* Sentry optimize edildi
+
 = v3.1.1 - (2023-07-21) =
 
 
