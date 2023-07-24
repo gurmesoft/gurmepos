@@ -92,7 +92,6 @@ class GPOS_Loader {
 			'includes/class-gpos-vue.php',
 			'includes/class-gpos-frontend.php',
 			'includes/class-gpos-session.php',
-			'includes/class-gpos-sentry.php',
 
 			// Hooks
 			'hooks/class-gpos-ajax.php',

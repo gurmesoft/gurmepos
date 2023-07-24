@@ -121,17 +121,6 @@ function gpos_redirect( $transaction_id ) {
 }
 
 /**
- * GurmePOS hata yakalama sınıfını döndürür.
- *
- * @param string $dir_path Eklenti __DIR__ .
- *
- * @return GPOS_Sentry
- */
-function gpos_sentry( $dir_path ) {
-	return new GPOS_Sentry( $dir_path );
-}
-
-/**
  * GurmePOS taksit sınıfını döndürür.
  *
  * @param string               $platform Ödeme alınacak platform

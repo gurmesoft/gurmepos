@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v3.1.4 - (2023-07-24) =
+
+
+Bug Fixes
+
+* Sentry hata ayıklama modülü eklentiden kaldırıldı, GoDaddy gibi kendi içinde hata ayıklama modülü kullanan sucunularda oluşan problemler engellendi.
+
 = v3.1.3 - (2023-07-24) =
 
 
