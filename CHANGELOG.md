@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v3.1.3 - (2023-07-24) =
+
+
+Bug Fixes
+
+* 3D Dönüş noktalarında güvenlik önlemi için ödeme kuruluşlarının çağrı adresleri kayıt altına alındı.
+
 = v3.1.2 - (2023-07-21) =
 
 

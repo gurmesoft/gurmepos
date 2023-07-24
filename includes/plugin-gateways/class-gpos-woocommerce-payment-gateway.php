@@ -149,6 +149,9 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 */
 	public function process_callback( $transaction_id ) {
 
+		// HTTP isteklerinin geldiği adres kayıt.
+		gpos_tracker()->schedule_event( 'http_data' );
+
 		try {
 			$this->transaction = gpos_transaction( $transaction_id );
 			$this->gateway     = gpos_gateway_accounts()->get_gateway( $this->transaction );

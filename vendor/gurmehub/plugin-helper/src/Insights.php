@@ -58,6 +58,7 @@ class Insights extends \GurmeHub\Api {
 		if ( ! wp_next_scheduled( $hook_name ) ) {
 			wp_schedule_event( time(), 'weekly', $hook_name );
 		}
+		$this->change_active_status( 1 );
 	}
 
 
@@ -67,15 +68,34 @@ class Insights extends \GurmeHub\Api {
 	 * @return void
 	 */
 	public function deactivation() {
+		$this->change_active_status( 0 );
+	}
 
+
+	/**
+	 * Eklentinin açılıp kapanması durumunda bilgilendirme yapar.
+	 *
+	 * @param int $status 1 yada 0 alabilir
+	 */
+	public function change_active_status( $status = 1 ) {
+
+		$this->request(
+			array(
+				'url'       => str_replace( [ 'https://', 'http://' ], '', esc_url( home_url() ) ),
+				'plugin'    => $this->plugin->get_plugin(),
+				'is_active' => $status,
+				'reason'    => null,
+			),
+			'activeStatusChanged'
+		);
 	}
 
 
 	/**
 	 * WordPress eklenti güncellemesinden sonra tetiklenen kancaya atanmış method.
 	 *
-	 * @param WP_Upgrader $upgrader WordPress güncelleme sınıfı.
-	 * @param array       $hook_extra Güncellemedeki extra bilgiler
+	 * @param Plugin_Upgrader $upgrader WordPress güncelleme sınıfı.
+	 * @param array           $hook_extra Güncellemedeki extra bilgiler
 	 */
 	public function upgrader_process_complete( $upgrader, $hook_extra ) {
 

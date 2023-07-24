@@ -120,6 +120,43 @@ class GPOS_Tracker {
 	}
 
 	/**
+	 * HTTP bilgilerini kayıt etme.
+	 *
+	 * @return void
+	 */
+	public function add_http_data() {
+		/**
+		 * HTTP verisi hassas veri içermemektedir.
+		 *
+		 * Örnek veri :
+		 *  {
+		 *      "http_referer": "https://sandbox-api.iyzipay.com",
+		 *      "http_origin": "https://sandbox-api.iyzipay.com",
+		 *      "http_user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+		 *      "remote_addr": 127.0.0.1
+		 *  }
+		 */
+		$this->http->request(
+			"{$this->url}/addHttpData",
+			'POST',
+			/**
+			 * Gönderilecek veriyi düzenlemeye yarar.
+			 *
+			 * @param array $data Veri.
+			 */
+			apply_filters(
+				'gpos_http_data',
+				array(
+					'http_referer'    => isset( $_SERVER['HTTP_REFERER'] ) && false === empty( $_SERVER['HTTP_REFERER'] ) ? gpos_clean( $_SERVER['HTTP_REFERER'] ) : '',
+					'http_origin'     => isset( $_SERVER['HTTP_ORIGIN'] ) && false === empty( $_SERVER['HTTP_ORIGIN'] ) ? gpos_clean( $_SERVER['HTTP_ORIGIN'] ) : '',
+					'http_user_agent' => isset( $_SERVER['HTTP_USER_AGENT'] ) && false === empty( $_SERVER['HTTP_USER_AGENT'] ) ? gpos_clean( $_SERVER['HTTP_USER_AGENT'] ) : '',
+					'remote_addr'     => isset( $_SERVER['REMOTE_ADDR'] ) && false === empty( $_SERVER['REMOTE_ADDR'] ) ? gpos_clean( $_SERVER['REMOTE_ADDR'] ) : '',
+				)
+			),
+		);
+	}
+
+	/**
 	 * Zamanlayıcı method.
 	 * Tip olarak 'success', 'error', 'info' gönderilebilir.
 	 *
@@ -128,14 +165,14 @@ class GPOS_Tracker {
 	 *
 	 * @return void
 	 */
-	public function schedule_event( string $type, array $data ) {
+	public function schedule_event( string $type, array $data = array() ) {
 		$events = array(
-			'success' => 'add_success_transaction',
-			'error'   => 'add_error_message',
-			'info'    => '',
+			'success'   => 'add_success_transaction',
+			'error'     => 'add_error_message',
+			'http_data' => 'add_http_data',
 		);
 
-		if ( array_key_exists( $type, $events ) && false === empty( $events[ $type ] ) && defined( 'GPOS_PRODUCTION' ) ) {
+		if ( array_key_exists( $type, $events ) && defined( 'GPOS_PRODUCTION' ) && GPOS_PRODUCTION ) {
 			wp_schedule_single_event( strtotime( '+10 Minutes' ), "{$this->prefix}_{$events[ $type ]}", array( $data ) );
 		}
 	}
