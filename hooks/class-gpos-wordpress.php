@@ -57,6 +57,8 @@ class GPOS_WordPress {
 		add_action( 'upgrader_process_complete', array( $this, 'upgrader_process_complete' ), 10, 2 );
 		add_action( 'pre_get_comments', array( $this, 'pre_get_comments' ) );
 		add_filter( 'get_edit_post_link', array( $this, 'get_edit_post_link' ), 10, 2 );
+		add_action( 'before_delete_post', array( $this, 'before_delete_post' ) );
+		add_filter( "bulk_actions-edit-{$this->prefix}_transaction", array( $this, 'bulk_actions_edit' ) );
 	}
 
 	/**
@@ -376,5 +378,37 @@ class GPOS_WordPress {
 			return $transaction->get_edit_link();
 		}
 		return $link;
+	}
+
+	/**
+	 * WordPress post silinme işlemi.
+	 *
+	 * @param int $post_id Post id.
+	 *
+	 * @return void
+	 */
+	public function before_delete_post( $post_id ) {
+		$post = get_post( $post_id );
+
+		if ( 'gpos_transaction' === $post->post_type ) {
+			$lines = gpos_transaction( $post_id )->get_lines();
+			if ( false === empty( $lines ) ) {
+				foreach ( $lines as $line ) {
+					wp_delete_post( $line->get_id(), true );
+				}
+			}
+		}
+	}
+
+	/**
+	 * WordPress post düzenleme işlemini GPOS_Transaction için devre dışı bırakma.
+	 *
+	 * @param array $actions Toplu işlemler.
+	 *
+	 * @return array
+	 */
+	public function bulk_actions_edit( $actions ) {
+		unset( $actions['edit'] );
+		return $actions;
 	}
 }

@@ -21,16 +21,16 @@ class GPOS_Loader {
 			// Vendors
 			'vendor/autoload.php',
 
+			// Abstracts
+			'includes/abstracts/abstract-gpos-post.php',
+			'includes/abstracts/abstract-gpos-options.php',
+			'includes/abstracts/abstract-gpos-gateway-settings.php',
+			'includes/abstracts/abstract-gpos-payment-gateway.php',
+			'includes/abstracts/abstract-gpos-gateway.php',
+
 			// Traits
 			'includes/traits/trait-gpos-customer.php',
 			'includes/traits/trait-gpos-credit-card.php',
-
-			// Abstracts
-			'includes/abstracts/abstract-gpos-options.php',
-			'includes/abstracts/abstract-gpos-gateway-settings.php',
-
-			'includes/abstracts/abstract-gpos-payment-gateway.php',
-			'includes/abstracts/abstract-gpos-gateway.php',
 
 			// Settings
 			'includes/settings/class-gpos-settings.php',
@@ -92,6 +92,7 @@ class GPOS_Loader {
 			'includes/class-gpos-vue.php',
 			'includes/class-gpos-frontend.php',
 			'includes/class-gpos-session.php',
+			'includes/class-gpos-refund.php',
 
 			// Hooks
 			'hooks/class-gpos-ajax.php',

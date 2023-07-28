@@ -124,9 +124,24 @@ abstract class GPOS_Payment_Gateway {
 	abstract public function process_callback( array $post_data );
 
 	/**
-	 * Ödeme iade işlemi fonksiyonu.
+	 * Ödeme iptal işlemi fonksiyonu.
+	 *
+	 * @param GPOS_Transaction $transaction İptal işlemi verileri.
+	 *
+	 * @return GPOS_Gateway_Response
 	 */
-	abstract public function process_refund();
+	abstract public function process_cancel( GPOS_Transaction $transaction);
+
+	/**
+	 * Ödeme iade işlemi fonksiyonu.
+	 *
+	 * @param GPOS_Transaction $transaction İptal işlemi.
+	 * @param int|string       $payment_id İade işlemi yapılacak olan ödeme numarası.
+	 * @param int|float        $total İade tutarı.
+	 *
+	 * @return GPOS_Gateway_Response
+	 */
+	abstract public function process_refund( GPOS_Transaction $transaction, $payment_id, $total);
 
 	/**
 	 * Ödeme geçidi bağlantı kontrolü.

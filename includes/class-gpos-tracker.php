@@ -59,7 +59,7 @@ class GPOS_Tracker {
 	 *
 	 * @return void
 	 */
-	public function add_success_transaction( array $data ) {
+	public function add_transaction( array $data ) {
 
 		/**
 		 * Ödeme verisi hassas veri içermemektedir.
@@ -150,7 +150,7 @@ class GPOS_Tracker {
 					'http_referer'    => isset( $_SERVER['HTTP_REFERER'] ) && false === empty( $_SERVER['HTTP_REFERER'] ) ? gpos_clean( $_SERVER['HTTP_REFERER'] ) : '',
 					'http_origin'     => isset( $_SERVER['HTTP_ORIGIN'] ) && false === empty( $_SERVER['HTTP_ORIGIN'] ) ? gpos_clean( $_SERVER['HTTP_ORIGIN'] ) : '',
 					'http_user_agent' => isset( $_SERVER['HTTP_USER_AGENT'] ) && false === empty( $_SERVER['HTTP_USER_AGENT'] ) ? gpos_clean( $_SERVER['HTTP_USER_AGENT'] ) : '',
-					'remote_addr'     => isset( $_SERVER['REMOTE_ADDR'] ) && false === empty( $_SERVER['REMOTE_ADDR'] ) ? gpos_clean( $_SERVER['REMOTE_ADDR'] ) : '',
+					'remote_addr'     => gpos_get_client_ip(),
 				)
 			),
 		);
@@ -167,9 +167,9 @@ class GPOS_Tracker {
 	 */
 	public function schedule_event( string $type, array $data = array() ) {
 		$events = array(
-			'success'   => 'add_success_transaction',
-			'error'     => 'add_error_message',
-			'http_data' => 'add_http_data',
+			'transaction' => 'add_transaction',
+			'error'       => 'add_error_message',
+			'http_data'   => 'add_http_data',
 		);
 
 		if ( array_key_exists( $type, $events ) && defined( 'GPOS_PRODUCTION' ) && GPOS_PRODUCTION ) {

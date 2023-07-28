@@ -108,8 +108,8 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 		$this->set_order_properties();
 		$this->set_credit_card_properties();
 
-		$this->gateway = gpos_gateway_accounts()
-		->get_gateway( $this->transaction )
+		$this->gateway = gpos_payment_gateways()
+		->get_gateway_by_priority( $this->transaction )
 		->set_callback_url( home_url( "/gpos-wc-callback/{$this->transaction->get_id()}/" ) );
 
 		try {
@@ -154,7 +154,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 
 		try {
 			$this->transaction = gpos_transaction( $transaction_id );
-			$this->gateway     = gpos_gateway_accounts()->get_gateway( $this->transaction );
+			$this->gateway     = gpos_payment_gateways()->get_gateway_by_priority( $this->transaction );
 			$this->order       = wc_get_order( $this->transaction->get_plugin_transaction_id() );
 			$response          = $this->gateway->process_callback( gpos_clean( $_REQUEST ) ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
@@ -228,14 +228,15 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 				$item_total = floatval( $total + $tax );
 
 				if ( $item_total > 0 ) {
-					$this->transaction->add_line(
-						new GPOS_Transaction_Line(
-							$order_line->get_id(),
-							$order_line->get_name(),
-							1,
-							$item_total,
-						)
-					);
+					$transaction_line = gpos_transaction_line();
+
+					$transaction_line
+					->set_plugin_line_id( $order_line->get_id() )
+					->set_name( $order_line->get_name() )
+					->set_quantity( 1 )
+					->set_total( $item_total );
+
+					$this->transaction->add_line( $transaction_line );
 				}
 			}
 		}
@@ -261,16 +262,9 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 		$this->order->payment_complete( $payment_id );
 		$this->order->add_order_note( $message );
 		$this->transaction->set_status( GPOS_Transaction_Utils::COMPLETED );
-		$item_transactions = $response->get_payment_ids_of_lines();
-
-		if ( false === empty( $item_transactions ) ) {
-			foreach ( $item_transactions as $item_id => $transaction ) {
-				wc_update_order_item_meta( $item_id, '_gpos_transaction_id', $transaction );
-			}
-		}
 
 		gpos_tracker()->schedule_event(
-			'success',
+			'transaction',
 			array(
 				'site'            => home_url(),
 				'payment_gateway' => $response->get_gateway(),

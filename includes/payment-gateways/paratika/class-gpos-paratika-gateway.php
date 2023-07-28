@@ -258,10 +258,62 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 		return $this->gateway_response->set_error_message( __( 'No confirmed transactions were found in the transaction list.', 'gurmepos' ) );
 	}
 
+
+	/**
+	 * Ödeme iptal işlemi fonksiyonu.
+	 *
+	 * @param GPOS_Transaction $transaction İptal işlemi verileri.
+	 */
+	public function process_cancel( GPOS_Transaction $transaction ) {
+		$this->transaction = $transaction;
+		$request           = array(
+			'ACTION'   => 'VOID',
+			'PGTRANID' => $transaction->get_payment_id(),
+		);
+		$response          = $this->http_request->request( $this->request_url, 'POST', array_merge( $request, $this->settings ) );
+		$this->log( GPOS_Transaction_Utils::LOG_PROCESS_CANCEL, $request, $response );
+		$this->check_refund_cancel_response( $response );
+		return $this->gateway_response;
+	}
+
 	/**
 	 * Ödeme iade işlemi fonksiyonu.
+	 *
+	 * @param GPOS_Transaction $transaction İptal işlemi.
+	 * @param int|string       $payment_id İade işlemi yapılacak olan ödeme numarası.
+	 * @param int|float        $refund_total İade.
+	 *
+	 * @return GPOS_Gateway_Response
 	 */
-	public function process_refund() {
+	public function process_refund( GPOS_Transaction $transaction, $payment_id, $refund_total ) {
+		$this->transaction = $transaction;
+		$request           = array(
+			'ACTION'   => 'REFUND',
+			'PGTRANID' => $payment_id,
+			'CURRENCY' => $transaction->get_currency(),
+			'AMOUNT'   => $refund_total,
+		);
+		$response          = $this->http_request->request( $this->request_url, 'POST', array_merge( $request, $this->settings ) );
+		$this->log( GPOS_Transaction_Utils::LOG_PROCESS_REFUND, $request, $response );
+		$this->check_refund_cancel_response( $response );
+		return $this->gateway_response;
+	}
+
+	/**
+	 * Ödeme iptal ve iade işlemi cevabını kontroleder.
+	 *
+	 * @param array $response Paratika cevabı.
+	 *
+	 * @return void
+	 */
+	private function check_refund_cancel_response( $response ) {
+		if ( array_key_exists( 'responseCode', $response ) && '00' === $response['responseCode'] ) {
+			$this->gateway_response->set_success( true )->set_payment_id( $response['pgTranId'] );
+		} else {
+			$this->gateway_response
+			->set_error_code( array_key_exists( 'errorCode', $response ) ? $response['errorCode'] : false )
+			->set_error_message( array_key_exists( 'errorMsg', $response ) ? $response['errorMsg'] : false );
+		}
 	}
 
 	/**

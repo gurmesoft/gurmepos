@@ -11,18 +11,70 @@
 class GPOS_Payment_Gateways {
 
 	/**
-	 * Desteklenen ödeme kuruluşları.
+	 * Ödeme kurallarına istiaden önceliği olan hesabı tespit eder ve ödeme geçidini türetip döndürür.
 	 *
-	 * @var array $payment_gateways
+	 * @param GPOS_Transaction $transaction Ödeme işlemi verileri.
+	 *
+	 * @return GPOS_Payment_Gateway
 	 */
-	private $payment_gateways;
+	public function get_gateway_by_priority( GPOS_Transaction $transaction ) {
+		// Kural 1 : Varsayılan Ödeme Hesabını Kullan.
+		$account = gpos_gateway_accounts()->get_default_account();
+
+		/**
+		 * Todo.
+		 *
+		 * Kural 2 : İşlem verisi içerisinden kart numarasını al ve gerekli bankaya yönlendir.
+		 * Kural 3 : ...
+		 */
+
+		return $this->prepare_gateway( $account, $transaction );
+	}
 
 	/**
-	 * GPOS_Payment_Gateways kurucu fonksiyonu
+	 * Ödeme hesabının numrasına göre ödeme geçidini türetip döndürür.
+	 *
+	 * @param int|string       $account_id Hesap no.
+	 * @param GPOS_Transaction $transaction Ödeme işlemi verileri.
+	 *
+	 * @return GPOS_Payment_Gateway
 	 */
-	public function __construct() {
+	public function get_gateway_by_account_id( $account_id, GPOS_Transaction $transaction ) {
+		return $this->prepare_gateway( gpos_gateway_accounts()->get_account( $account_id ), $transaction );
+	}
 
-		$this->payment_gateways = array(
+
+	/**
+	 * Hesabının ödeme geçidini türetip döndürür.
+	 *
+	 * @param GPOS_Gateway_Account|false $account Ödeme geçidi hesabı.
+	 * @param GPOS_Transaction           $transaction Ödeme işlemi verileri.
+	 *
+	 * @return GPOS_Payment_Gateway
+	 *
+	 * @throws Exception Hatalı Hesap yada Ödeme geçidi.
+	 */
+	private function prepare_gateway( $account, $transaction ) {
+		if ( $account && property_exists( $account, 'gateway_class' ) && $account->gateway_class ) {
+
+			$gateway = $account->gateway_class;
+			$transaction->set_payment_gateway_id( $account->gateway_id );
+			$transaction->set_payment_gateway_class( get_class( $gateway ) );
+			$transaction->set_account_id( $account->id );
+			$gateway->set_transaction( $transaction );
+			return $gateway;
+		}
+		// translators: %s = POS Entegratör Pro.
+		throw new Exception( sprintf( __( 'Invalid gateway, gateway removed or %s disabled.', 'gurmepos' ), 'POS Entegratör Pro' ) ); // phpstan-ignore-line
+	}
+
+	/**
+	 * Desteklenen ödeme kuruluşlarını döndürür.
+	 *
+	 * @return array
+	 */
+	public function get_payment_gateways() {
+		$payment_gateways = array(
 			'GPOS_Paratika',
 			'GPOS_Iyzico',
 			'GPOS_Akbank',
@@ -48,14 +100,6 @@ class GPOS_Payment_Gateways {
 			'GPOS_Ziraat',
 		);
 
-	}
-
-	/**
-	 * Desteklenen ödeme kuruluşlarını döndürür.
-	 *
-	 * @return array
-	 */
-	public function get_payment_gateways() {
 		return apply_filters(
 			/**
 			 * Desteklenen ödeme kuruluşlarını düzenleme kancasıdır.
@@ -63,7 +107,7 @@ class GPOS_Payment_Gateways {
 			 * @param array Ödeme geçitleri
 			 */
 			'gpos_payment_gateways',
-			array_map( fn( $class ) => new $class(), $this->payment_gateways )
+			array_map( fn( $class ) => new $class(), $payment_gateways )
 		);
 	}
 

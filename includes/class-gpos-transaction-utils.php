@@ -32,6 +32,21 @@ class GPOS_Transaction_Utils {
 	const COMPLETED  = 'gpos_completed';                        // işlem tamamlandı.
 	const FAILED     = 'gpos_failed';                           // işlem hata ile karşılaştı.
 
+	/**
+	 * İşlem iade durumları.
+	 */
+	const REFUND_STATUS_CANCELLED        = 'gpos_refund_status_cancelled';          // İşlem iptal edildi.
+	const REFUND_STATUS_NOT_REFUNDED     = 'gpos_refund_status_n_refunded';         // işlem iade edilmedi.
+	const REFUND_STATUS_REFUNDED         = 'gpos_refund_status_refunded';           // işlem iade edildi.
+	const REFUND_STATUS_PARTIAL_REFUNDED = 'gpos_refund_status_p_refunded';         // işlem hata parçalı iade edildi.
+
+	/**
+	 * İşlem satırı durumları.
+	 */
+	const LINE_NOT_REFUNDED     = 'gpos_line_n_refunded';      // Satır iade edilmedi.
+	const LINE_REFUNDED         = 'gpos_line_refunded';          // Satır iade edildi.
+	const LINE_PARTIAL_REFUNDED = 'gpos_line_p_refunded';  // Satır parçalı iade edildi.
+
 
 	/**
 	 * İşlemin güvenlik tipi.
@@ -49,12 +64,14 @@ class GPOS_Transaction_Utils {
 	/**
 	 * Log tipleri.
 	 */
-	const LOG_PROCESS_AUTH              = 'process_auth';                   // Session token, login gibi işlemler için işlem tipi.
-	const LOG_PROCESS_START_COMMON_FORM = 'process_start_common_form';      // Ortak ödeme sayfası başlatıldı.
-	const LOG_PROCESS_REGULAR           = 'process_start_regular';          // Regular (3D'siz) işlemler için işlem tipi.
-	const LOG_PROCESS_START_3D          = 'process_start_3d';               // 3D başlangıç işlemi için işlem tipi.
-	const LOG_PROCESS_REDIRECT_3D       = 'process_redirect_3d';            // 3D yönlendirme işlemi için işlem tipi.
-	const LOG_PROCESS_CALLBACK_3D       = 'process_callback_3d';            // Kuruluştan dönen 3D verisini için işlem tipi.
-	const LOG_PROCESS_FINISH_3D         = 'process_finish_3d';              // Varsa 3D dönüşünde işlem kapatma için işlem tipi.
+	const LOG_PROCESS_AUTH              = 'process_auth';                   // Session token, login gibi işlemler için log işlem tipi.
+	const LOG_PROCESS_START_COMMON_FORM = 'process_start_common_form';      // Ortak ödeme sayfası başlatıldı logu.
+	const LOG_PROCESS_REGULAR           = 'process_start_regular';          // Regular (3D'siz) işlemler için log işlem tipi.
+	const LOG_PROCESS_START_3D          = 'process_start_3d';               // 3D başlangıç işlemi için log işlem tipi.
+	const LOG_PROCESS_REDIRECT_3D       = 'process_redirect_3d';            // 3D yönlendirme işlemi için log işlem tipi.
+	const LOG_PROCESS_CALLBACK_3D       = 'process_callback_3d';            // Kuruluştan dönen 3D verisini için log işlem tipi.
+	const LOG_PROCESS_FINISH_3D         = 'process_finish_3d';              // Varsa 3D dönüşünde işlem kapatma için log işlem tipi.
+	const LOG_PROCESS_CANCEL            = 'process_cancel';                 // İptal işlemi için log işlem tipi.
+	const LOG_PROCESS_REFUND            = 'process_refund';                 // İade işlemi için log işlem tipi.
 
 }

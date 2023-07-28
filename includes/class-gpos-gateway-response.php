@@ -15,57 +15,49 @@ class GPOS_Gateway_Response {
 	 *
 	 * @var string $gateway
 	 */
-	private $gateway;
+	public $gateway;
 
 	/**
 	 * İşlemin başarılı olup olmadığını belirtir.
 	 *
 	 * @var bool $success
 	 */
-	private $success = false;
+	public $success = false;
 
 	/**
 	 * Ödeme geçidine gönderilen sipariş numarası.
 	 *
 	 * @var mixed $transaction_id
 	 */
-	private $transaction_id;
+	public $transaction_id;
 
 	/**
 	 * Yönlendirme yapılmaması durumunda gösterilecek olan HTML içeriğini belirtir.
 	 *
 	 * @var string $html_content
 	 */
-	private $html_content;
+	public $html_content;
 
 	/**
 	 * İşlem hata mesajı.
 	 *
 	 * @var string $error_message
 	 */
-	private $error_message;
+	public $error_message;
 
 	/**
 	 * İşlem hata kodu.
 	 *
 	 * @var string|int $error_code
 	 */
-	private $error_code = '';
+	public $error_code = '';
 
 	/**
 	 * Ödeme kuruluşu tarafındaki benzersiz numara.
 	 *
 	 * @var string $error_message
 	 */
-	private $payment_id;
-
-	/**
-	 * Satırların ödeme kuruluşu tarafındaki benzersiz numaraları.
-	 *
-	 * @var array $payment_ids_of_lines
-	 */
-	private $payment_ids_of_lines;
-
+	public $payment_id;
 
 	/**
 	 * GPOS_Gateway_Response kurucu fonksiyonu.
@@ -210,25 +202,5 @@ class GPOS_Gateway_Response {
 	 */
 	public function get_payment_id() {
 		return $this->payment_id;
-	}
-
-	/**
-	 * Ödeme kuruluşu tarafında satırların benzersiz numaraları ayarlar.
-	 *
-	 * @param string $line_id Ürünün site tarafındaki numarası
-	 * @param string $payment_id Ödeme kuruluşu tarafındaki benzersiz numara
-	 */
-	public function set_payment_id_of_line( $line_id, $payment_id ) {
-		$this->payment_ids_of_lines[ $line_id ] = $payment_id;
-		return $this;
-	}
-
-	/**
-	 * Ödeme kuruluşu tarafında satırların benzersiz numaralarını döndürür.
-	 *
-	 * @return array
-	 */
-	public function get_payment_ids_of_lines() {
-		return $this->payment_ids_of_lines;
 	}
 }

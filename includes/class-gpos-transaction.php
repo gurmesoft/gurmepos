@@ -7,17 +7,12 @@
 
 /**
  * GurmePOS işlem sınıfı.
+ *
+ * @SuppressWarnings(ExcessivePublicCount)
  */
-class GPOS_Transaction {
+class GPOS_Transaction extends GPOS_Post {
 
 	use GPOS_Customer,GPOS_Credit_Card;
-
-	/**
-	 * İşlem kimliği
-	 *
-	 * @var int|string $id
-	 */
-	protected $id;
 
 	/**
 	 * İşlem notları
@@ -34,11 +29,32 @@ class GPOS_Transaction {
 	protected $logs;
 
 	/**
+	 * İşlem satırları.
+	 *
+	 * @var array $lines
+	 */
+	protected $lines = array();
+
+	/**
+	 * İşlem satırları array biçiminde.
+	 *
+	 * @var array $lines_array
+	 */
+	protected $lines_array = array();
+
+	/**
 	 * İşlem post tipi.
 	 *
 	 * @var string $post_type
 	 */
-	protected $post_type = 'gpos_transaction';
+	public $post_type = 'gpos_transaction';
+
+	/**
+	 * Başlangıç durumu.
+	 *
+	 * @var string $start_status
+	 */
+	public $start_status = GPOS_Transaction_Utils::STARTED;
 
 	/**
 	 * İşlemin ödeme geçidinde kayıtlı tekil numarası.
@@ -83,95 +99,84 @@ class GPOS_Transaction {
 	protected $currency = 'TRY';
 
 	/**
-	 * Ödeme işlemi satırları
+	 * İşlemin iptal edilebilme durumu.
 	 *
-	 * @var array $lines
+	 * @var bool $cancelable
 	 */
-	protected $lines = [];
+	protected $cancelable;
+
+	/**
+	 * İşlemin geçtiği ödeme geçidi satır bazlı mı?
+	 *
+	 * @var bool $lane_based
+	 */
+	protected $lane_based;
+
+	/**
+	 * İptal ve iade işlemi için hangi ödeme işlemine istinaden türetildiği bilgisi.
+	 *
+	 * @var bool $payment_transaction_id
+	 */
+	protected $payment_transaction_id;
+
+	/**
+	 * Post meta verileri.
+	 *
+	 * @var array $meta_data
+	 */
+	public $meta_data = array(
+		'type',
+		'status',
+		'plugin',
+		'plugin_transaction_id',
+		'total',
+		'security_type',
+		'currency',
+		'customer_id',
+		'customer_first_name',
+		'customer_last_name',
+		'customer_email',
+		'customer_phone',
+		'customer_address',
+		'customer_city',
+		'customer_state',
+		'customer_country',
+		'customer_zipcode',
+		'customer_ip_address',
+		'installment',
+		'masked_card_bin',
+		'card_type',
+		'card_brand',
+		'card_family',
+		'card_holder_name',
+		'card_country',
+		'card_bank_name',
+		'save_current_card',
+		'use_saved_card',
+		'date',
+		'notes',
+		'logs',
+		'payment_id',
+		'payment_gateway_id',
+		'payment_gateway_class',
+		'lines',
+		'lines_array',
+		'account_id',
+		'refund_status',
+		'cancelable',
+		'lane_based',
+		'payment_transaction_id',
+	);
 
 
 	/**
-	 * Kurucu method.
-	 *
-	 * @param null|string|int|WP_Post $id İşlem numarası.
+	 * Yaratıldığında çalışacak method.
 	 *
 	 * @return void
 	 */
-	public function __construct( $id = null ) {
-
-		if ( is_int( $id ) || is_string( $id ) ) {
-			$this->id = (int) $id;
-		} elseif ( $id instanceof WP_Post ) {
-			$this->id = $id->ID;
-		} else {
-			$this->id = wp_insert_post(
-				array(
-					'post_status'    => GPOS_Transaction_Utils::STARTED,
-					'comment_status' => 'closed',
-					'ping_status'    => 'closed',
-					'post_type'      => $this->post_type,
-				)
-			);
-
-			$this->add_note( __( 'Transaction started.', 'gurmepos' ), 'start' );
-		}
-
-		$this->load_data();
-	}
-
-	/**
-	 * Sınıf türediğinde verileri değişkenlere atar.
-	 */
-	private function load_data() {
-
-		$meta_keys = array(
-			'type',
-			'status',
-			'plugin',
-			'plugin_transaction_id',
-			'total',
-			'security_type',
-			'currency',
-			'customer_id',
-			'customer_first_name',
-			'customer_last_name',
-			'customer_email',
-			'customer_phone',
-			'customer_address',
-			'customer_city',
-			'customer_state',
-			'customer_country',
-			'customer_zipcode',
-			'customer_ip_address',
-			'installment',
-			'masked_card_bin',
-			'card_type',
-			'card_brand',
-			'card_family',
-			'card_holder_name',
-			'card_country',
-			'card_bank_name',
-			'save_current_card',
-			'use_saved_card',
-			'date',
-			'notes',
-			'logs',
-			'payment_id',
-			'payment_gateway_id',
-			'payment_gateway_class',
-		);
-
-		array_walk(
-			$meta_keys,
-			function( $key ) {
-				foreach ( [ 'get', 'need', 'is' ] as $func_prefix ) {
-					if ( is_callable( array( $this, "{$func_prefix}_{$key}" ) ) ) {
-						call_user_func( array( $this, "{$func_prefix}_{$key}" ) );
-						break;
-					}
-				}
-			}
-		);
+	public function created() {
+		$this->add_note( __( 'Transaction started.', 'gurmepos' ), 'start' );
+		$this->set_refund_status( GPOS_Transaction_Utils::REFUND_STATUS_NOT_REFUNDED );
 	}
 
 	/**
@@ -202,7 +207,7 @@ class GPOS_Transaction {
 	/**
 	 * İşlem tarihini döndürür
 	 *
-	 * @return int|string
+	 * @return string
 	 */
 	public function get_date() {
 		$this->date = get_post_field( 'post_date_gmt', $this->id );
@@ -310,6 +315,28 @@ class GPOS_Transaction {
 	}
 
 	/**
+	 * İşlemin gerçekleştiği GPOS_Account idsini ayarlar.
+	 *
+	 * @param string|int $value GPOS_Account id.
+	 *
+	 * @return $this
+	 */
+	public function set_account_id( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * İşlemin gerçekleştiği GPOS_Account idsini döndürür.
+	 *
+	 * @return string|int
+	 */
+	public function get_account_id() {
+		return $this->get_prop( __FUNCTION__ );
+
+	}
+
+	/**
 	 * İşlemin eklentideki kayıtlı tekil numarası.
 	 * WooCommerce için sipariş numarası, GiveWP için ödeme numarası vb.
 	 *
@@ -340,7 +367,7 @@ class GPOS_Transaction {
 	 * @return $this
 	 */
 	public function set_total( $value ) {
-		$this->set_prop( __FUNCTION__, $value );
+		$this->set_prop( __FUNCTION__, gpos_number_format( $value ) );
 		return $this;
 	}
 
@@ -443,6 +470,27 @@ class GPOS_Transaction {
 	}
 
 	/**
+	 * Ödemenin iptal/iade durumunu ayarlar.
+	 *
+	 * @param string $value İptal/iade durumunu.
+	 *
+	 * @return $this
+	 */
+	public function set_refund_status( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Ödemenin iptal/iade durumunu döndürür.
+	 *
+	 * @return string
+	 */
+	public function get_refund_status() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
 	 * Ödeme geçidinden dönen başarılı işlemin tekil kimlik bilgisini ayarlar.
 	 *
 	 * @param string $value Ödeme geçidinden dönen tekil numara iade, iptal için kullanılacaktır.
@@ -460,6 +508,27 @@ class GPOS_Transaction {
 	 * @return string
 	 */
 	public function get_payment_id() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * İşlem iade veya iptalse, hangi ödeme işleminin iptali veya iadesi olduğu verisini tutar.
+	 *
+	 * @param string $value Ödeme işleminin tekil numarsı.
+	 *
+	 * @return $this
+	 */
+	public function set_payment_transaction_id( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * İşlem iade veya iptalse, hangi ödeme işleminin iptali veya iadesi olduğu verisini döndürür.
+	 *
+	 * @return string
+	 */
+	public function get_payment_transaction_id() {
 		return $this->get_prop( __FUNCTION__ );
 	}
 
@@ -483,6 +552,7 @@ class GPOS_Transaction {
 	 * @return $this
 	 */
 	public function add_line( GPOS_Transaction_Line $line ) {
+		$line->set_transaction_id( $this->id );
 		$this->lines[] = $line;
 		return $this;
 	}
@@ -490,10 +560,28 @@ class GPOS_Transaction {
 	/**
 	 * İşlem satırlarını döndürür
 	 *
-	 * @return array
+	 * @return GPOS_Transaction_Line[]
 	 */
 	public function get_lines() {
+		global $wpdb;
+		$this->set_lines(
+			array_map(
+				fn( $line ) => gpos_transaction_line( $line->ID ),
+				$wpdb->get_results( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'gpos_t_line' AND post_parent = %s", $this->id ) ) // phpcs:ignore 
+			)
+		);
 		return $this->lines;
+	}
+
+
+	/**
+	 * İşlem satırlarını dizi olarak döndürür.
+	 *
+	 * @return array
+	 */
+	public function get_lines_array() {
+		$this->lines_array = array_map( fn( $line ) => $line->to_array(), $this->get_lines() );
+		return $this->lines_array;
 	}
 
 	/**
@@ -593,46 +681,6 @@ class GPOS_Transaction {
 	}
 
 	/**
-	 * Fonksiyon ismi ile veri tabanına özellik yazmayı sağlar.
-	 *
-	 * @param string $function_name Fonksiyon ismi
-	 * @param mixed  $value Yazılacak veri.
-	 */
-	protected function set_prop( $function_name, $value ) {
-		$prop        = str_replace( [ 'set_' ], '', $function_name );
-		$this->$prop = $value;
-		update_post_meta( $this->id, $prop, $value );
-	}
-
-	/**
-	 * Fonksiyon ismi ile veri tabanına özellik yazmayı sağlar.
-	 *
-	 * @param string $function_name Fonksiyon ismi
-	 *
-	 * @return mixed
-	 */
-	protected function get_prop( $function_name ) {
-		$prop        = str_replace( [ 'get_', 'need_', 'is_' ], '', $function_name );
-		$this->$prop = get_post_meta( $this->id, $prop, true );
-		return $this->$prop;
-	}
-
-
-	/**
-	 * Sınıfı array olarak döndürür.
-	 *
-	 * @return array
-	 */
-	public function to_array() {
-		$array = array();
-		// @phpstan-ignore-next-line argument.type $this phpstan için dönülebilir bir veri değildir. Fakat (protected) korunan verileri olan sınıfları dizi haline en iyi bu şekilde getirebiliyoruz.
-		foreach ( $this as $key => $val ) {
-			$array[ $key ] = $val;
-		}
-		return $array;
-	}
-
-	/**
 	 * İşlem inceleme html.
 	 *
 	 * @return string
@@ -660,4 +708,38 @@ class GPOS_Transaction {
 		);
 	}
 
+	/**
+	 * İşlem iade edilebilir mi ?
+	 *  Edilme durumunda ise true değilse false döndürür
+	 *
+	 * @return bool
+	 */
+	public function is_cancelable() {
+		$diff             = date_create( $this->get_date() )->diff( date_create() );
+		$this->cancelable = 0 === $diff->days;
+		return $this->cancelable;
+	}
+
+	/**
+	 * Tüm ödeme satırlarının durumunu belirtilen duruma getirir.
+	 *
+	 * @param string $status Satır durumu.
+	 *
+	 * @return void
+	 */
+	public function update_lines_status( $status ) {
+		foreach ( $this->get_lines() as $line ) {
+			$line->set_status( $status );
+		}
+	}
+
+	/**
+	 * İşlemin geçtiği ödeme geçidi satır bazlı mı ?
+	 *
+	 * @return bool
+	 */
+	public function is_lane_based() {
+		$this->lane_based = in_array( $this->get_payment_gateway_id(), [ 'iyzico', 'craftgate' ], true );
+		return $this->lane_based;
+	}
 }

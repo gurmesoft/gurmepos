@@ -187,13 +187,15 @@ class GPOS_Admin {
 			'wc_order_statuses'    => gpos_get_wc_order_statuses(),
 			'woocommerce_settings' => gpos_woocommerce_settings()->get_settings(),
 			'form_settings'        => gpos_form_settings()->get_settings(),
-			'strings'              => gpos_get_i18n_strings(),
+			'strings'              => gpos_get_i18n_texts(),
 			'version'              => GPOS_VERSION,
 			'alert_texts'          => array(
 				'ok'                     => __( 'OK', 'gurmepos' ),
 				'setting_saved'          => __( 'The settings have been saved.', 'gurmepos' ),
 				'installments_applied'   => __( 'Installments were applied', 'gurmepos' ),
 				'installments_get_error' => __( 'Error when bringing in installments', 'gurmepos' ),
+				'process_success'        => __( 'Process completed successfully !', 'gurmepos' ),
+				'bulk_refund_error'      => __( 'Error in refund process. Please review unsuccessful refunds for error details and try again.', 'gurmepos' ),
 			),
 		);
 

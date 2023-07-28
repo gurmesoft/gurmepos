@@ -6,130 +6,314 @@
  */
 
 /**
- * GPOS (Genel Satış Noktası) sistemindeki bir ürün satırını temsil eden sınıf.
+ * GPOS (Genel Satış Noktası) sistemindeki bir satır satırını temsil eden sınıf.
  */
-class GPOS_Transaction_Line {
-	/**
-	 * Ürünün ID'si.
-	 *
-	 * @var int $id
-	 */
-	private $id;
+class GPOS_Transaction_Line extends GPOS_Post {
 
 	/**
-	 * Ürünün adı.
+	 * Satır adı.
 	 *
 	 * @var string $name
 	 */
-	private $name;
+	protected $name;
 
 	/**
-	 * Ürünün miktarı.
-	 *
-	 * @var int $quantity
-	 */
-	private $quantity;
-
-	/**
-	 * Ürünün toplam fiyatı.
+	 * Satırın toplam fiyatı.
 	 *
 	 * @var float $total
 	 */
-	private $total;
+	protected $total;
 
 	/**
-	 * Yeni bir GPOS_Transaction_Line örneği oluşturur.
+	 * Satırın miktarı.
 	 *
-	 * @param int    $id Ürünün ID'si.
-	 * @param string $name Ürünün adı.
-	 * @param int    $quantity Ürünün miktarı.
-	 * @param float  $total Ürünün toplam fiyatı.
+	 * @var int $quantity
 	 */
-	public function __construct( $id = 0, $name = '', $quantity = 1, $total = 0 ) {
-		$this->id       = $id;
-		$this->name     = $name;
-		$this->quantity = $quantity;
-		$this->total    = $total;
+	protected $quantity;
+
+	/**
+	 * Satırın iade edilebilir miktarı.
+	 *
+	 * @var int|float $refundable_total
+	 */
+	protected $refundable_total;
+
+	/**
+	 * Satırın iade edilmiş miktarı.
+	 *
+	 * @var int|float $refunded_total
+	 */
+	protected $refunded_total;
+
+	/**
+	 * Satırın benzersiz ödeme numarası.
+	 *
+	 * @var int|string $payment_id
+	 */
+	protected $payment_id;
+
+	/**
+	 * Satırın benzersiz (ebeveyn) işlem numarası.
+	 *
+	 * @var int|string $transaction_id
+	 */
+	protected $transaction_id;
+
+	/**
+	 * Satırın post tipi.
+	 *
+	 * @var string $post_type
+	 */
+	public $post_type = 'gpos_t_line';
+
+	/**
+	 * Başlangıç durumu.
+	 *
+	 * @var string $start_status
+	 */
+	public $start_status = GPOS_Transaction_Utils::LINE_NOT_REFUNDED;
+
+	/**
+	 * Satır durumu.
+	 *
+	 * @var string $status
+	 */
+	public $status;
+
+	/**
+	 * Post meta verileri.
+	 *
+	 * @var array $meta_data
+	 */
+	public $meta_data = array(
+		'plugin_line_id',
+		'name',
+		'total',
+		'quantity',
+		'refundable_total',
+		'refunded_total',
+		'payment_id',
+		'transaction_id',
+		'status',
+	);
+
+	/**
+	 * Yaratıldığında çalışacak method.
+	 *
+	 * @return void
+	 */
+	public function created() {
 	}
 
 	/**
-	 * Ürünün ID'sini döndürür.
+	 * Satırın ID'sini döndürür.
 	 *
-	 * @return int Ürünün ID'si.
+	 * @return int Satırın ID'si.
 	 */
 	public function get_id() {
 		return $this->id;
 	}
 
 	/**
-	 * Ürünün ID'sini ayarlar ve sınıfın kendisini döndürür.
+	 * Satırın işlem (post_parent) ID'sini ayarlar.
 	 *
-	 * @param int $id Yeni ürün ID'si.
+	 * @param int $value Parent post ID'si.
+	 * @return void
+	 */
+	public function set_transaction_id( $value ) {
+		wp_update_post(
+			array(
+				'ID'          => $this->id,
+				'post_parent' => $value,
+			)
+		);
+	}
+
+	/**
+	 * Satırın işlem (post_parent) ID'sini döndürür
+	 *
+	 * @return int|string
+	 */
+	public function get_date() {
+		$this->transaction_id = get_post_field( 'post_parent', $this->id );
+		return $this->transaction_id;
+	}
+
+	/**
+	 * Satırın ödeme eklentisindeki(WC,GiveWP vs.) idsini ayarlar.
+	 *
+	 * @param string|int $value Yeni satır adı.
 	 * @return GPOS_Transaction_Line Sınıfın kendisi.
 	 */
-	public function set_id( $id ) {
-		$this->id = $id;
+	public function set_plugin_line_id( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
 		return $this;
 	}
 
 	/**
-	 * Ürünün adını döndürür.
+	 * Satırın ödeme eklentisindeki(WC,GiveWP vs.) idsini döndürür.
 	 *
-	 * @return string Ürünün adı.
+	 * @return string Satırın adı.
+	 */
+	public function get_plugin_line_id() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Satırın adını ayarlar.
+	 *
+	 * @param string $value Yeni satır adı.
+	 * @return GPOS_Transaction_Line Sınıfın kendisi.
+	 */
+	public function set_name( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Satırın adını döndürür.
+	 *
+	 * @return string Satırın adı.
 	 */
 	public function get_name() {
-		return $this->name;
+		return $this->get_prop( __FUNCTION__ );
 	}
 
 	/**
-	 * Ürünün adını ayarlar ve sınıfın kendisini döndürür.
+	 * Satırın ücretini ayarlar.
 	 *
-	 * @param string $name Yeni ürün adı.
+	 * @param float $value satır ücreti.
 	 * @return GPOS_Transaction_Line Sınıfın kendisi.
 	 */
-	public function set_name( $name ) {
-		$this->name = $name;
+	public function set_total( $value ) {
+		$this->set_prop( __FUNCTION__, gpos_number_format( $value ) );
 		return $this;
 	}
 
 	/**
-	 * Ürünün ücretini döndürür.
+	 * Satırın ücretini döndürür.
 	 *
-	 * @return float Ürünün ücreti.
+	 * @return float Satırın ücreti.
 	 */
 	public function get_total() {
-		return $this->total;
+		return (float) $this->get_prop( __FUNCTION__ );
 	}
 
 	/**
-	 * Ürünün ücretini ayarlar ve sınıfın kendisini döndürür.
+	 * Satırın adedini ayarlar.
 	 *
-	 * @param float $total Ürün ücreti.
+	 * @param int $value Yeni satır ücreti.
 	 * @return GPOS_Transaction_Line Sınıfın kendisi.
 	 */
-	public function set_total( $total ) {
-		$this->total = $total;
+	public function set_quantity( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
 		return $this;
 	}
 
-
 	/**
-	 * Ürünün adedini döndürür.
+	 * Satırın adedini döndürür.
 	 *
-	 * @return int Ürün adedi.
+	 * @return int satır adedi.
 	 */
 	public function get_quantity() {
-		return $this->quantity;
+		return $this->get_prop( __FUNCTION__ );
 	}
 
 	/**
-	 * Ürünün adedini ayarlar ve sınıfın kendisini döndürür.
+	 * Satırın iade edilebilir tutarını döndürür.
 	 *
-	 * @param int $quantity Yeni ürün ücreti.
+	 * @return float|int İade edilebilir tutar.
+	 */
+	public function get_refundable_total() {
+		$this->refundable_total = gpos_number_format( $this->get_total() - $this->get_refunded_total() );
+		return $this->refundable_total;
+	}
+
+	/**
+	 * Satırın iade edilmiş tutarını ayarlar.
+	 *
+	 * @param int|float $value İade edilmiş tutarı.
 	 * @return GPOS_Transaction_Line Sınıfın kendisi.
 	 */
-	public function set_quantity( $quantity ) {
-		$this->quantity = $quantity;
+	public function set_refunded_total( $value ) {
+		$this->set_prop( __FUNCTION__, gpos_number_format( $value ) );
 		return $this;
+	}
+
+	/**
+	 * Satırın iade edilmiş tutarını döndürür.
+	 *
+	 * @return float|int İade edilmiş tutarı.
+	 */
+	public function get_refunded_total() {
+		return (float) $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Satırın benzersiz ödeme numarasını ayarlar.
+	 *
+	 * @param int $value Benzersiz ödeme numarası.
+	 * @return GPOS_Transaction_Line Sınıfın kendisi.
+	 */
+	public function set_payment_id( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Satırın benzersiz ödeme numarasını döndürür.
+	 *
+	 * @return float Benzersiz ödeme numarası.
+	 */
+	public function get_payment_id() {
+		return (float) $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Satırın kategorisini ayarlar.
+	 *
+	 * @param int $value Kategori.
+	 * @return GPOS_Transaction_Line Sınıfın kendisi.
+	 */
+	public function set_category( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Satırın kategorisini döndürür.
+	 *
+	 * @return float Kategori.
+	 */
+	public function get_category() {
+		$category = $this->get_prop( __FUNCTION__ );
+		return $category ? $category : 'Uncategorized';
+	}
+
+	/**
+	 * İşlem durumunu ayarlar.
+	 *
+	 * @param string $new_status Durumu
+	 *
+	 * @return $this
+	 */
+	public function set_status( string $new_status ) {
+		wp_update_post(
+			array(
+				'ID'          => $this->id,
+				'post_status' => $new_status,
+			)
+		);
+		return $this;
+	}
+
+	/**
+	 * İşlem durumunu döndürür
+	 *
+	 * @return string
+	 */
+	public function get_status() {
+		$this->status = get_post_field( 'post_status', $this->id );
+		return $this->status;
 	}
 }

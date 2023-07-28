@@ -99,47 +99,6 @@ class GPOS_Gateway_Accounts {
 	 * @return GPOS_Gateway_Account|false
 	 */
 	public function get_default_account() {
-
-		$default_account_id = get_option( 'gpos_default_account' );
-
-		if ( $default_account_id ) {
-			return $this->get_account( (int) $default_account_id );
-		}
-
-		return false;
+		return $this->get_account( (int) get_option( 'gpos_default_account', 0 ) );
 	}
-
-	/**
-	 * Varsayılan ödeme hesabının ödeme geçidini türetip döndürür.
-	 *
-	 * @param GPOS_Transaction $transaction Ödeme işlemi verileri.
-	 *
-	 * @return GPOS_Payment_Gateway|false
-	 */
-	public function get_gateway( GPOS_Transaction $transaction ) {
-		$account = false;
-		$gateway = false;
-
-		// Kural 1 : Varsayılan Ödeme Hesabını Kullan.
-		$account = $this->get_default_account();
-
-		/**
-		 * Todo.
-		 *
-		 * Kural 2 : İşlem verisi içerisinden kart numarasını al ve gerekli bankaya yönlendir.
-		 * Kural 3 : ...
-		 */
-		if ( $account ) {
-			$gateway = $account->gateway_class;
-		}
-
-		if ( $gateway ) {
-			$transaction->set_payment_gateway_id( $account->gateway_id );
-			$transaction->set_payment_gateway_class( get_class( $gateway ) );
-			$gateway->set_transaction( $transaction );
-		}
-
-		return $gateway;
-	}
-
 }

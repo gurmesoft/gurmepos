@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v3.2.0 - (2023-07-28) =
+
+
+Features
+
+* İptal/İade aksiyonları devreye alındı.
+
 = v3.1.4 - (2023-07-24) =
 
 

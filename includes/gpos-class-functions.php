@@ -162,6 +162,17 @@ function gpos_transaction( $id = null ) {
 }
 
 /**
+ * İşlem bilgisi sınıfı.
+ *
+ * @param null|WP_Post|int|string $id İşlem.
+ *
+ * @return GPOS_Transaction_Line
+ */
+function gpos_transaction_line( $id = null ) {
+	return new GPOS_Transaction_Line( $id );
+}
+
+/**
  * İşlem bilgisi listeleme sınıfı.
  *
  * @return GPOS_Transactions
@@ -177,4 +188,14 @@ function gpos_transactions() {
  */
 function gpos_woocommerce_payment_gateway() {
 	return new GPOS_WooCommerce_Payment_Gateway();
+}
+
+/**
+ * Ödeme iade veya iptal işlem sınıfı.
+ *
+ * @param GPOS_Transaction $transaction İptal veya iade edilecek işlem.
+ * @return GPOS_Refund
+ */
+function gpos_refund( $transaction ) {
+	return new GPOS_Refund( $transaction );
 }

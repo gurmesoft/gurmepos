@@ -61,6 +61,9 @@ class GPOS_Ajax {
 				'check_connection'            => array( $this, 'check_connection' ),
 				'hide_notice'                 => array( $this, 'hide_notice' ),
 				'check_bin'                   => array( $this, 'check_bin' ),
+				'process_cancel'              => array( $this, 'process_cancel' ),
+				'process_refund'              => array( $this, 'process_refund' ),
+				'process_line_based_refund'   => array( $this, 'process_line_based_refund' ),
 			)
 		);
 
@@ -259,6 +262,39 @@ class GPOS_Ajax {
 	 * @return mixed
 	 */
 	public function check_bin( $request ) {
-		wp_send_json( gpos_tracker()->get_card_bin_info( $request->bin ) );
+		return gpos_tracker()->get_card_bin_info( $request->bin );
+	}
+
+	/**
+	 * Geri dönüş fonksiyonu; process_cancel.
+	 *
+	 * @param stdClass $request İstek parametreleri.
+	 *
+	 * @return mixed
+	 */
+	public function process_cancel( $request ) {
+		return gpos_refund( gpos_transaction( $request->transaction_id ) )->cancel();
+	}
+
+	/**
+	 * Geri dönüş fonksiyonu; process_refund.
+	 *
+	 * @param stdClass $request İstek parametreleri.
+	 *
+	 * @return mixed
+	 */
+	public function process_refund( $request ) {
+		return gpos_refund( gpos_transaction( $request->transaction_id ) )->refund( $request->payment_id );
+	}
+
+	/**
+	 * Geri dönüş fonksiyonu; process_line_based_refund.
+	 *
+	 * @param stdClass $request İstek parametreleri.
+	 *
+	 * @return mixed
+	 */
+	public function process_line_based_refund( $request ) {
+		return gpos_refund( gpos_transaction( $request->transaction_id ) )->line_based_refund( $request->line_id, $request->total );
 	}
 }

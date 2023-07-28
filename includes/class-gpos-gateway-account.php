@@ -34,16 +34,16 @@ class GPOS_Gateway_Account {
 	/**
 	 * Ödeme geçidinin ayarlar sınıfını taşır.
 	 *
-	 * @var GPOS_Gateway_Settings $gateway_settings
+	 * @var GPOS_Gateway_Settings|false $gateway_settings
 	 */
-	public $gateway_settings;
+	public $gateway_settings = false;
 
 	/**
 	 * Ödeme geçidini taşır.
 	 *
-	 * @var GPOS_Payment_Gateway $gateway_class
+	 * @var GPOS_Payment_Gateway|false $gateway_class
 	 */
-	public $gateway_class;
+	public $gateway_class = false;
 
 	/**
 	 * Ödeme geçidinin idsi.

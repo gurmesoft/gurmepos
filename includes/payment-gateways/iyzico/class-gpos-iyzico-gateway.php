@@ -169,6 +169,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 		if ( 'success' === $response_status && 'threed' === $security_type ) {
 			$this->gateway_response->set_success( true )->set_html_content( $response->getHtmlContent() );
 		} elseif ( 'success' === $response_status && 'regular' === $security_type ) {
+
 			$this->set_payment_success( $response );
 		} else {
 			$this->set_payment_failed( $response );
@@ -225,12 +226,12 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 */
 	private function set_payment_success( $response ) {
 		$this->gateway_response
-			->set_success( true )
-			->set_transaction_id( $response->getConversationId() )
-			->set_payment_id( $response->getPaymentId() );
+		->set_success( true )
+		->set_transaction_id( $response->getConversationId() )
+		->set_payment_id( $response->getPaymentId() );
 
 		foreach ( $response->getPaymentItems() as $item ) {
-			$this->gateway_response->set_payment_id_of_line( $item->getItemId(), $item->getPaymentTransactionId() );
+			gpos_transaction_line( $item->getItemId() )->set_payment_id( $item->getPaymentTransactionId() );
 		}
 	}
 
@@ -246,10 +247,70 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 		->set_error_message( $response->getErrorMessage() );
 	}
 
+
+	/**
+	 * Ödeme iptal işlemi fonksiyonu.
+	 *
+	 * @param GPOS_Transaction $transaction İptal işlemi.
+	 * @return GPOS_Gateway_Response
+	 *
+	 * @SuppressWarnings(PHPMD.StaticAccess)
+	 */
+	public function process_cancel( GPOS_Transaction $transaction ) {
+		$this->transaction = $transaction;
+		$request           = new \Iyzipay\Request\CreateCancelRequest();
+		$request->setLocale( \Iyzipay\Model\Locale::TR );
+		$request->setConversationId( $this->transaction->get_id() );
+		$request->setPaymentId( $this->transaction->get_payment_id() );
+		$request->setIp( gpos_get_client_ip() );
+		$response = \Iyzipay\Model\Cancel::create( $request, $this->settings );
+		$this->log( GPOS_Transaction_Utils::LOG_PROCESS_CANCEL, $request, $response );
+		$this->check_refund_cancel_response( $response );
+		return $this->gateway_response;
+	}
+
 	/**
 	 * Ödeme iade işlemi fonksiyonu.
+	 *
+	 * @param GPOS_Transaction $transaction İptal işlemi.
+	 * @param int|string       $payment_id İade işlemi yapılacak olan ödeme numarası.
+	 * @param int|float        $refund_total İade.
+	 *
+	 * @return GPOS_Gateway_Response
+	 *
+	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 */
-	public function process_refund() {
+	public function process_refund( GPOS_Transaction $transaction, $payment_id, $refund_total ) {
+		$this->transaction = $transaction;
+		$request           = new \Iyzipay\Request\CreateRefundRequest();
+		$request->setLocale( \Iyzipay\Model\Locale::TR );
+		$request->setConversationId( $this->transaction->get_id() );
+		$request->setPaymentTransactionId( $payment_id );
+		$request->setPrice( $refund_total );
+		$request->setIp( gpos_get_client_ip() );
+		$response = \Iyzipay\Model\Refund::create( $request, $this->settings );
+		$this->log( GPOS_Transaction_Utils::LOG_PROCESS_REFUND, $request, $response );
+		$this->check_refund_cancel_response( $response );
+		return $this->gateway_response;
+	}
+
+	/**
+	 * Ödeme iptal ve iade işlemi cevabını kontroleder.
+	 *
+	 * @param \Iyzipay\Model\Cancel|\Iyzipay\Model\Refund $response iyzico cevap sınıfı.
+	 *
+	 * @return void
+	 */
+	protected function check_refund_cancel_response( $response ) {
+		if ( 'success' === $response->getStatus() ) {
+			$this->gateway_response
+			->set_success( true )
+			->set_payment_id( $response->getPaymentId() );
+		} else {
+			$this->gateway_response
+			->set_error_code( $response->getErrorCode() )
+			->set_error_message( $response->getErrorMessage() );
+		}
 	}
 
 	/**
@@ -326,13 +387,13 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 */
 	private function prepare_basket_items() {
 		$basket_items = array();
-		foreach ( $this->transaction->get_lines() as $line ) {
 
+		foreach ( $this->transaction->get_lines() as $line ) {
 			$basket_item = new \Iyzipay\Model\BasketItem();
 			$basket_item->setId( $line->get_id() );
 			$basket_item->setName( $line->get_name() );
 			$basket_item->setItemType( \Iyzipay\Model\BasketItemType::PHYSICAL );
-			$basket_item->setCategory1( 'Todo...' ); // Todo. Kategoriye ne gelecek ?
+			$basket_item->setCategory1( $line->get_category() );
 			$basket_item->setPrice( number_format( $line->get_total(), 2, '.', '' ) );
 
 			if ( $basket_item->getId() && (int) $basket_item->getPrice() > 0 ) {

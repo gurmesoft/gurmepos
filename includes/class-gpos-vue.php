@@ -139,7 +139,7 @@ class GPOS_Vue {
 			false
 		);
 
-		$css_files = scandir( GPOS_PLUGIN_DIR_PATH . '/assets/vue/css/' );
+		$css_files = scandir( GPOS_PLUGIN_DIR_PATH . 'assets/vue/css/' );
 
 		if ( $css_files ) {
 

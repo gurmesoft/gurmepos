@@ -165,13 +165,14 @@ function gpos_woocommerce_notice( string $message, string $notice_type = 'error'
 /**
  * Frontend için gerekli kelime, cümle çevirilerini döndürür.
  *
- * @return array $gpos_i18n
+ * @return array
  *
  * @SuppressWarnings(PHPMD.UnusedLocalVariable)
  */
-function gpos_get_i18n_strings() {
-	include GPOS_PLUGIN_DIR_PATH . '/languages/gpos-strings.php';
-	return $gpos_i18n; // @phpstan-ignore-line
+function gpos_get_i18n_texts() {
+	include GPOS_PLUGIN_DIR_PATH . '/languages/gpos-texts.php';
+	include GPOS_PLUGIN_DIR_PATH . '/languages/gpos-bank-texts.php';
+	return array_merge( $gpos_texts, $gpos_bank_texts );  // @phpstan-ignore-line
 }
 
 
@@ -234,4 +235,24 @@ function gpos_load_plugin_text_domain() {
 	unload_textdomain( 'gurmepos' );
 	load_textdomain( 'gurmepos', GPOS_PLUGIN_DIR_PATH . 'languages/gurmepos-' . $locale . '.mo' );
 	load_plugin_textdomain( 'gurmepos', false, plugin_basename( dirname( GPOS_PLUGIN_BASEFILE ) ) . '/languages' );
+}
+
+/**
+ * GurmePOS standart fiyat yazım formatı.
+ *
+ * @param string|int|float $value Fiyat.
+ *
+ * @return float Fiyat.
+ */
+function gpos_number_format( $value ) {
+	return (float) number_format( (float) $value, 2, '.', '' );
+}
+
+/**
+ * GurmePOS için işlem yapan ip adresini döndürür.
+ *
+ * @return string
+ */
+function gpos_get_client_ip() {
+	return isset( $_SERVER['REMOTE_ADDR'] ) && false === empty( $_SERVER['REMOTE_ADDR'] ) ? gpos_clean( $_SERVER['REMOTE_ADDR'] ) : '127.0.0.1';
 }

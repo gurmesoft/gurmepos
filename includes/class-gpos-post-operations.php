@@ -46,6 +46,7 @@ class GPOS_Post_Operations {
 	 * @return void
 	 */
 	public function register() {
+
 		foreach ( $this->get_post_types() as $type => $args ) {
 			register_post_type( $type, $args );
 		}
@@ -121,6 +122,12 @@ class GPOS_Post_Operations {
 				'has_archive'         => false,
 				'taxonomies'          => array( 'gpos_transaction_process_type' ),
 			),
+			"{$this->prefix}_t_line"      => array(
+				'labels' => array(
+					'name' => 'GPOS Transaction Line',
+				),
+				'public' => false,
+			),
 		);
 
 		$hooked_post_types = apply_filters( 'gpos_post_types', array() );
@@ -164,33 +171,60 @@ class GPOS_Post_Operations {
 	public function get_post_statuses() {
 
 		$this->post_statuses = array(
-			"{$this->prefix}_started"    => array(
+			/**
+			 * GPOS_Transaction için post durumları.
+			 *
+			 * gpos_started
+			 * gpos_redirected
+			 * gpos_completed
+			 * gpos_failed
+			 */
+			GPOS_Transaction_Utils::STARTED               => array(
 				'label'       => _x( 'Started ', 'post status label', 'gurmepos' ),
 				'public'      => true,
 				// translators: %s => Started durumundaki post adedi.
 				'label_count' => _n_noop( 'Started <span class="count">(%s)</span>', 'Started <span class="count">(%s)</span>', 'gurmepos' ),
 				'post_type'   => array( "{$this->prefix}_transaction" ),
 			),
-			"{$this->prefix}_redirected" => array(
+			GPOS_Transaction_Utils::REDIRECTED            => array(
 				'label'       => _x( 'Redirected To 3D ', 'post status label', 'gurmepos' ),
 				'public'      => true,
 				// translators: %s => Started durumundaki post adedi.
 				'label_count' => _n_noop( 'Redirected To 3D <span class="count">(%s)</span>', 'Redirected To 3D <span class="count">(%s)</span>', 'gurmepos' ),
 				'post_type'   => array( "{$this->prefix}_transaction" ),
 			),
-			"{$this->prefix}_completed"  => array(
+			GPOS_Transaction_Utils::COMPLETED             => array(
 				'label'       => _x( 'Completed ', 'post status label', 'gurmepos' ),
 				'public'      => true,
 				// translators: %s => Completed durumundaki post adedi.
 				'label_count' => _n_noop( 'Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>', 'gurmepos' ),
 				'post_type'   => array( "{$this->prefix}_transaction" ),
 			),
-			"{$this->prefix}_failed"     => array(
+			GPOS_Transaction_Utils::FAILED                => array(
 				'label'       => _x( 'Failed ', 'post status label', 'gurmepos' ),
 				'public'      => true,
 				// translators: %s => Failed durumundaki post adedi.
 				'label_count' => _n_noop( 'Failed <span class="count">(%s)</span>', 'Failed <span class="count">(%s)</span>', 'gurmepos' ),
 				'post_type'   => array( "{$this->prefix}_transaction" ),
+			),
+			/**
+			 * GPOS_Transaction_Line için post durumları.
+			 *
+			 * gpos_line_n_refunded
+			 * gpos_line_refunded
+			 * gpos_line_p_refunded
+			 */
+			GPOS_Transaction_Utils::LINE_NOT_REFUNDED     => array(
+				'label'     => _x( 'Refunded ', 'post status label', 'gurmepos' ),
+				'post_type' => array( "{$this->prefix}_t_line" ),
+			),
+			GPOS_Transaction_Utils::LINE_REFUNDED         => array(
+				'label'     => _x( 'Not Refunded ', 'post status label', 'gurmepos' ),
+				'post_type' => array( "{$this->prefix}_t_line" ),
+			),
+			GPOS_Transaction_Utils::LINE_PARTIAL_REFUNDED => array(
+				'label'     => _x( 'Partial Refunded ', 'post status label', 'gurmepos' ),
+				'post_type' => array( "{$this->prefix}_t_line" ),
 			),
 		);
 
