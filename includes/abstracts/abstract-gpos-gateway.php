@@ -74,6 +74,13 @@ abstract class GPOS_Gateway {
 	public $is_need_pro = false;
 
 	/**
+	 * Kırılım bazlı mı ?
+	 *
+	 * @var boolean $line_based
+	 */
+	public $line_based = false;
+
+	/**
 	 * Ortak ödeme formu mu ?
 	 *
 	 * @var boolean $is_common_form
@@ -100,7 +107,6 @@ abstract class GPOS_Gateway {
 	 * @var array $test_cards
 	 */
 	public $test_cards;
-
 
 	/**
 	 * GPOS_Gateway kurucu fonksiyonu

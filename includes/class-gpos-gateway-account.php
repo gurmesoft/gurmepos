@@ -109,7 +109,7 @@ class GPOS_Gateway_Account {
 
 			$this->gateway_id = get_post_meta( $this->id, 'gpos_gateway_id', true );
 
-			$gateway = gpos_payment_gateways()->get_gateway_by_gateway_id( $this->gateway_id );
+			$gateway = gpos_payment_gateways()->get_base_gateway_by_gateway_id( $this->gateway_id );
 
 			$this->load_settings( $gateway );
 			$this->load_gateway( $gateway );
@@ -169,7 +169,7 @@ class GPOS_Gateway_Account {
 	 * @return float
 	 */
 	public function installment_rate_calculate( float $rate, float $amount ) {
-		$gateway = gpos_payment_gateways()->get_gateway_by_gateway_id( $this->gateway_id );
+		$gateway = gpos_payment_gateways()->get_base_gateway_by_gateway_id( $this->gateway_id );
 		return $gateway->installment_rate_calculate( $rate, $amount );
 
 	}

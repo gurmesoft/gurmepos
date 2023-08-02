@@ -25,7 +25,7 @@ class GPOS_Gateway_Response {
 	public $success = false;
 
 	/**
-	 * Ödeme geçidine gönderilen sipariş numarası.
+	 * Ödeme geçidine gönderilen işlem numarası.
 	 *
 	 * @var mixed $transaction_id
 	 */
@@ -125,7 +125,7 @@ class GPOS_Gateway_Response {
 	 * @return string Ödeme geçidi.
 	 */
 	public function get_gateway() {
-		return str_replace( [ 'GPOS', 'PRO', '_', 'Gateway' ], '', $this->gateway );
+		return $this->gateway;
 	}
 
 	/**
@@ -163,7 +163,7 @@ class GPOS_Gateway_Response {
 	 * @return string Hata mesajı.
 	 */
 	public function get_error_message() {
-		return $this->error_message;
+		return $this->error_message ? $this->error_message : __( 'Unknown error please contact admin', 'gurmepos' );
 	}
 
 	/**

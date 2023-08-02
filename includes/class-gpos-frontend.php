@@ -27,6 +27,13 @@ class GPOS_Frontend {
 	protected $plugin;
 
 	/**
+	 * Ödemenin alınacağı ödeme geçidi
+	 *
+	 * @var GPOS_Gateway $gateway
+	 */
+	protected $gateway;
+
+	/**
 	 * Form ayarlarını taşır.
 	 *
 	 * @var array
@@ -55,7 +62,7 @@ class GPOS_Frontend {
 	 *
 	 * @return void
 	 */
-	public function __construct( $enqueue_type = 'direct', $plugin = 'woocommerce' ) {
+	public function __construct( $enqueue_type = 'direct', $plugin = GPOS_Transaction_Utils::WOOCOMMERCE ) {
 		$this->plugin        = $plugin;
 		$this->form_settings = gpos_form_settings()->get_settings();
 
@@ -154,15 +161,15 @@ class GPOS_Frontend {
 
 		if ( $default_account ) {
 
-			$gateway = gpos_payment_gateways()->get_gateway_by_gateway_id( $default_account->gateway_id );
-
 			wp_nonce_field( 'gpos_process_payment', '_gpos_nonce' );
 
+			$this->gateway = gpos_payment_gateways()->get_base_gateway_by_gateway_id( $default_account->gateway_id );
+
 			if ( gpos_is_test_mode() ) {
-				$this->test_mode( $gateway );
+				$this->test_mode( $this->gateway );
 			}
 
-			if ( false === $gateway->is_common_form ) {
+			if ( false === $this->gateway->is_common_form ) {
 
 				if ( 'standart_form' === $this->form_settings['display_type'] ) {
 					$this->standart_form();
@@ -213,10 +220,11 @@ class GPOS_Frontend {
 	 * 3D onayı alma inputunu oluşturur
 	 */
 	public function threed_field() {
-		if ( 'optional_threed' === $this->form_settings['threed'] ) {
-			gpos_get_template( 'checkout-three-d-field' );
-		} elseif ( 'threed' === $this->form_settings['threed'] ) {
+		// Ayar 3D ye zorla yada ödeme geçidi regular desteklemiyor ise 3D ye zorla.
+		if ( 'threed' === $this->form_settings['threed'] || false === in_array( 'regular', $this->gateway->supports, true ) ) {
 			gpos_get_template( 'checkout-three-d-force-field' );
+		} elseif ( 'optional_threed' === $this->form_settings['threed'] ) {
+			gpos_get_template( 'checkout-three-d-field' );
 		}
 	}
 

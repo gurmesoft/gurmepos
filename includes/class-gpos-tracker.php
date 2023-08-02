@@ -103,7 +103,6 @@ class GPOS_Tracker {
 		 *      "error_code": "100001",
 		 *      "error_message": "Yetersiz bakiye",
 		 *      "payment_gateway": "paratika",
-		 *      "payment_plugin": "woocommerce",
 		 *      "is_test": 1,
 		 *  }
 		 */
@@ -122,9 +121,11 @@ class GPOS_Tracker {
 	/**
 	 * HTTP bilgilerini kayıt etme.
 	 *
+	 * @param array $data Hata verisi.
+	 *
 	 * @return void
 	 */
-	public function add_http_data() {
+	public function add_http_data( $data ) {
 		/**
 		 * HTTP verisi hassas veri içermemektedir.
 		 *
@@ -146,12 +147,7 @@ class GPOS_Tracker {
 			 */
 			apply_filters(
 				'gpos_http_data',
-				array(
-					'http_referer'    => isset( $_SERVER['HTTP_REFERER'] ) && false === empty( $_SERVER['HTTP_REFERER'] ) ? gpos_clean( $_SERVER['HTTP_REFERER'] ) : '',
-					'http_origin'     => isset( $_SERVER['HTTP_ORIGIN'] ) && false === empty( $_SERVER['HTTP_ORIGIN'] ) ? gpos_clean( $_SERVER['HTTP_ORIGIN'] ) : '',
-					'http_user_agent' => isset( $_SERVER['HTTP_USER_AGENT'] ) && false === empty( $_SERVER['HTTP_USER_AGENT'] ) ? gpos_clean( $_SERVER['HTTP_USER_AGENT'] ) : '',
-					'remote_addr'     => gpos_get_client_ip(),
-				)
+				$data
 			),
 		);
 	}

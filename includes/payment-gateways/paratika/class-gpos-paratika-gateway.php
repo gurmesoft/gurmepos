@@ -212,13 +212,12 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 		->set_error_message( array_key_exists( 'errorMsg', $post_data ) ? $post_data['errorMsg'] : __( 'Error in 3D rendering. The password was entered incorrectly or the 3D page was abandoned.', 'gurmepos' ) );
 
 		if ( array_key_exists( 'merchantPaymentId', $post_data ) ) {
-			$this->transaction = gpos_transaction( $post_data['merchantPaymentId'] );
 			$this->gateway_response->set_transaction_id( $post_data['merchantPaymentId'] );
 		}
 
 		if ( array_key_exists( 'responseCode', $post_data ) && '00' === $post_data['responseCode'] ) {
 
-			$this->log( GPOS_Transaction_Utils::LOG_PROCESS_CALLBACK_3D, [], $post_data );
+			$this->log( GPOS_Transaction_Utils::LOG_PROCESS_CALLBACK, [], $post_data );
 
 			$request  = array_merge(
 				array(
@@ -229,7 +228,7 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 			);
 			$response = $this->http_request->request( $this->request_url, 'POST', $request );
 
-			$this->log( GPOS_Transaction_Utils::LOG_PROCESS_FINISH_3D, $request, $response );
+			$this->log( GPOS_Transaction_Utils::LOG_PROCESS_FINISH, $request, $response );
 
 			if ( array_key_exists( 'responseCode', $response ) && '00' === $response['responseCode'] && '0' !== $response['transactionCount'] ) {
 				$this->gateway_response = $this->find_success_transaction( $response );

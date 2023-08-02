@@ -72,7 +72,7 @@ class GPOS_Session {
 	 */
 	public function add_session_meta( $transaction_id, string $session_key, $session_value ) {
 
-		wp_schedule_single_event( GPOS_SESSION_LIFETIME, 'gpospro_remove_session_meta', array( $transaction_id, $session_key ) );
+		wp_schedule_single_event( strtotime( '+ 30 minutes', time() ), 'gpospro_remove_session_meta', array( $transaction_id, $session_key ) );
 
 		$session_key_exists = $this->get_session_meta( $transaction_id, $session_key );
 

@@ -225,6 +225,7 @@ class GPOS_Admin {
 			'transaction'    => __( 'Transaction', 'gurmepos' ),
 			'payment_plugin' => __( 'Plugin', 'gurmepos' ),
 			'status'         => __( 'Status', 'gurmepos' ),
+			'security_type'  => __( 'Security Type', 'gurmepos' ),
 			'process_type'   => __( 'Process Type', 'gurmepos' ),
 			'create_date'    => __( 'Date', 'gurmepos' ),
 		);

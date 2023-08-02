@@ -49,7 +49,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 			);
 
 		} catch ( Exception $e ) {
-			array(
+			return array(
 				'result'  => 'error',
 				'message' => $e->getMessage(),
 			);
@@ -189,13 +189,9 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 */
 	public function process_callback( array $post_data ) {
-		$this->gateway_response->set_error_message( __( 'Error in 3D rendering. The password was entered incorrectly or the 3D page was abandoned.', 'gurmepos' ) );
-
-		if ( array_key_exists( 'conversationId', $post_data ) ) {
-			$this->transaction = gpos_transaction( $post_data['conversationId'] );
-			$this->gateway_response->set_transaction_id( $this->transaction->get_id() );
-			$this->log( GPOS_Transaction_Utils::LOG_PROCESS_CALLBACK_3D, [], $post_data );
-		}
+		$this->gateway_response->set_error_message( gpos_get_default_callback_error_message() );
+		$this->gateway_response->set_transaction_id( $this->transaction->get_id() );
+		$this->log( GPOS_Transaction_Utils::LOG_PROCESS_CALLBACK, [], $post_data );
 
 		if ( array_key_exists( 'status', $post_data ) && 'success' === $post_data['status'] ) {
 			$request = new \Iyzipay\Request\CreateThreedsPaymentRequest();
@@ -205,7 +201,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 			// 3D Sayfasından başarıyla gelen kullanıcı için kartından ödeme çekme bu çağrı ile gerçekleşir.
 			$response = \Iyzipay\Model\ThreedsPayment::create( $request, $this->settings );
 
-			$this->log( GPOS_Transaction_Utils::LOG_PROCESS_FINISH_3D, $request, $response );
+			$this->log( GPOS_Transaction_Utils::LOG_PROCESS_FINISH, $request, $response );
 
 			if ( 'success' === $response->getStatus() ) {
 				$this->set_payment_success( $response );

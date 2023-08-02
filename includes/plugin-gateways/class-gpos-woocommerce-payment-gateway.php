@@ -10,28 +10,9 @@
  *
  * @author Gurmehub
  */
-class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
+class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements GPOS_Plugin_Gateway {
 
-	/**
-	 * Ödeme geçidi tekil kimliği
-	 *
-	 * @var string
-	 */
-	public $id = GPOS_PREFIX;
-
-	/**
-	 * Ödeme geçidi.
-	 *
-	 * @var GPOS_Payment_Gateway
-	 */
-	public $gateway;
-
-	/**
-	 * Ödeme bilgisi.
-	 *
-	 * @var GPOS_Transaction
-	 */
-	public $transaction;
+	use GPOS_Plugin_Payment_Gateway;
 
 	/**
 	 * GurmePOS WooCommerce ayarları
@@ -54,6 +35,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @return void
 	 */
 	public function __construct() {
+		$this->id                   = $this->gpos_prefix;
 		$this->woocommerce_settings = gpos_woocommerce_settings();
 		$this->method_title         = __( 'POS Entegratör', 'gurmepos' );
 		// translators: %s = POS Entegratör
@@ -64,10 +46,6 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 		$this->icon               = $this->woocommerce_settings->get_setting_by_key( 'icon' );
 		$this->order_button_text  = $this->woocommerce_settings->get_setting_by_key( 'button_text' );
 		$this->has_fields         = true;
-		/**
-		 * WooCommerce için ödeme geçidinin desteklediği özellikleri düzenler.
-		 */
-		$this->supports = apply_filters( 'gpos_woocommerce_payment_supports', array() );
 		$this->init_settings();
 	}
 
@@ -77,8 +55,6 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 * @param int $order_id Sipariş numarası.
 	 *
 	 * @return array|void
-	 *
-	 * @SuppressWarnings(PHPMD.CyclomaticComplexity)
 	 */
 	public function process_payment( $order_id ) {
 
@@ -93,33 +69,18 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 				)
 			);
 		};
+		$this->order = wc_get_order( $order_id );
 
-		$this->order       = wc_get_order( $order_id );
-		$this->transaction = gpos_transaction();
-		$threed            = isset( $_POST[ "{$this->id}-threed" ] ) && 'on' === $_POST[ "{$this->id}-threed" ];
-		$common_form       = isset( $_POST[ "{$this->id}-common-form" ] ) && 'on' === $_POST[ "{$this->id}-common-form" ];
-
-		$this->transaction
-		->set_plugin_transaction_id( $order_id )
-		->set_plugin( GPOS_Transaction_Utils::WOOCOMMERCE )
-		->set_type( GPOS_Transaction_Utils::PAYMENT )
-		->set_security_type( $threed ? GPOS_Transaction_Utils::THREED : GPOS_Transaction_Utils::REGULAR );
-
-		$this->set_order_properties();
-		$this->set_credit_card_properties();
-
-		$this->gateway = gpos_payment_gateways()
-		->get_gateway_by_priority( $this->transaction )
-		->set_callback_url( home_url( "/gpos-wc-callback/{$this->transaction->get_id()}/" ) );
+		$this->create_new_payment_process( $order_id, GPOS_Transaction_Utils::WOOCOMMERCE );
 
 		try {
 			$response = $this->gateway->process_payment();
 
 			if ( $response->is_success() ) {
 
-				if ( $threed || $common_form ) {
+				if ( ( $this->threed || $this->common_form ) || $response->get_html_content() ) {
+					$this->set_redirect_status();
 					// 3D Sayfasına yada ortak ödeme formuna yönlendir.
-					$this->transaction->set_status( GPOS_Transaction_Utils::REDIRECTED );
 					wp_send_json(
 						array(
 							'result'   => 'success',
@@ -129,8 +90,10 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 				}
 
 				// Regular işlemi bitir.
+				$this->transaction_success_process( $response );
 				wp_send_json( $this->success_process( $response, true ) );
 			}
+			$this->transaction_error_process( $response );
 			wp_send_json( $this->error_process( $response, true ) );
 		} catch ( Exception $e ) {
 			wp_send_json(
@@ -143,55 +106,18 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	}
 
 	/**
-	 * Geri dönüş fonksiyonu ödeme geçitlerinden gelen veriler bu fonksiyonda karşılanır.
-	 *
-	 * @param int|string $transaction_id İşlem numarası.
-	 */
-	public function process_callback( $transaction_id ) {
-
-		// HTTP isteklerinin geldiği adres kayıt.
-		gpos_tracker()->schedule_event( 'http_data' );
-
-		try {
-			$this->transaction = gpos_transaction( $transaction_id );
-			$this->gateway     = gpos_payment_gateways()->get_gateway_by_priority( $this->transaction );
-			$this->order       = wc_get_order( $this->transaction->get_plugin_transaction_id() );
-			$response          = $this->gateway->process_callback( gpos_clean( $_REQUEST ) ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
-
-			if ( $response->is_success() ) {
-				$this->success_process( $response, false );
-			}
-
-			$this->error_process( $response, false );
-		} catch ( Exception $e ) {
-			$error_response = new GPOS_Gateway_Response( get_class( $this->gateway ) );
-			$error_response->set_transaction_id( $this->transaction->get_id() )->set_error_message( $e->getMessage() );
-			$this->error_process( $error_response, false );
-		}
-	}
-
-	/**
 	 * Kredi kartı bilgilerini $_POST verisi içerisinden alarak ödeme geçidine tanımlar.
 	 *
 	 * @return void
-	 *
-	 * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-	 * @SuppressWarnings(PHPMD.NPathComplexity)
 	 */
-	private function set_credit_card_properties() {
-
+	public function set_credit_card() {
+		$this->credit_card_setter( $_POST );
 		$this->transaction
-		->set_card_bin( isset( $_POST[ "{$this->id}-card-bin" ] ) ? gpos_clean( $_POST[ "{$this->id}-card-bin" ] ) : '' )
-		->set_card_cvv( isset( $_POST[ "{$this->id}-card-cvv" ] ) ? gpos_clean( $_POST[ "{$this->id}-card-cvv" ] ) : '' )
-		->set_card_expiry_month( isset( $_POST[ "{$this->id}-card-expiry-month" ] ) ? gpos_clean( $_POST[ "{$this->id}-card-expiry-month" ] ) : '' )
-		->set_card_expiry_year( isset( $_POST[ "{$this->id}-card-expiry-year" ] ) ? gpos_clean( $_POST[ "{$this->id}-card-expiry-year" ] ) : '' )
-		->set_installment( isset( $_POST[ "{$this->id}-installment" ] ) ? gpos_clean( $_POST[ "{$this->id}-installment" ] ) : 1 )
-		->set_card_holder_name( isset( $_POST[ "{$this->id}-holder-name" ] ) ? gpos_clean( $_POST[ "{$this->id}-holder-name" ] ) : $this->order->get_billing_first_name() . ' ' . $this->order->get_billing_last_name() )
-		->set_card_type( isset( $_POST[ "{$this->id}-card-type" ] ) ? gpos_clean( $_POST[ "{$this->id}-card-type" ] ) : '' )
-		->set_card_brand( isset( $_POST[ "{$this->id}-card-brand" ] ) ? gpos_clean( $_POST[ "{$this->id}-card-brand" ] ) : '' )
-		->set_card_family( isset( $_POST[ "{$this->id}-card-family" ] ) ? gpos_clean( $_POST[ "{$this->id}-card-family" ] ) : '' )
-		->set_card_bank_name( isset( $_POST[ "{$this->id}-card-bank-name" ] ) ? gpos_clean( $_POST[ "{$this->id}-card-bank-name" ] ) : '' )
-		->set_card_country( isset( $_POST[ "{$this->id}-card-country" ] ) ? gpos_clean( $_POST[ "{$this->id}-card-country" ] ) : '' );
+		->set_card_holder_name(
+			isset( $_POST[ "{$this->gpos_prefix}-holder-name" ] ) ?
+			gpos_clean( $_POST[ "{$this->gpos_prefix}-holder-name" ] ) :
+			$this->order->get_billing_first_name() . ' ' . $this->order->get_billing_last_name()
+		);
 	}
 
 	/**
@@ -199,7 +125,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 *
 	 * @return void
 	 */
-	private function set_order_properties() {
+	public function set_properties() {
 		$this->transaction
 		->set_total( $this->order->get_total() )
 		->set_currency( $this->order->get_currency() )
@@ -243,84 +169,58 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	}
 
 	/**
-	 * Başarılı işlem sonucu WooCommerce siparişine ve ürünlerine
-	 * veri yazma, onay ve yönlendirme işlemi
+	 * Ödeme işleminin başarıya ulaşması sonucunda yapılacak işlemlerin hepsini barındırır.
 	 *
 	 * @param GPOS_Gateway_Response $response Ödeme geçidi cevabı
 	 * @param bool                  $on_checkout Ödeme sayfasında mı ?
 	 *
-	 * @return array
+	 * @return array|void
 	 *
 	 * @SuppressWarnings(PHPMD.ExitExpression)
 	 */
-	private function success_process( GPOS_Gateway_Response $response, $on_checkout ) {
-		$payment_id = $response->get_payment_id();
-		// translators: %s => Ödeme geçidi benzersiz numarası.
-		$message = sprintf( __( 'Payment completed successfully. Payment number: %s.', 'gurmepos' ), $payment_id );
-		$this->transaction->add_note( $message, 'complete' );
-		$this->transaction->set_payment_id( $payment_id );
-		$this->order->payment_complete( $payment_id );
-		$this->order->add_order_note( $message );
-		$this->transaction->set_status( GPOS_Transaction_Utils::COMPLETED );
-
-		gpos_tracker()->schedule_event(
-			'transaction',
-			array(
-				'site'            => home_url(),
-				'payment_gateway' => $response->get_gateway(),
-				'payment_plugin'  => 'woocommerce',
-				'total'           => $this->order->get_total(),
-				'currency'        => $this->order->get_currency(),
-				'is_test'         => gpos_is_test_mode(),
+	public function success_process( GPOS_Gateway_Response $response, $on_checkout ) {
+		$this->order = wc_get_order( $this->transaction->get_plugin_transaction_id() );
+		$this->order->payment_complete( $response->get_payment_id() );
+		$this->order->add_order_note(
+			sprintf(
+				// translators: %s => Ödeme geçidi benzersiz numarası.
+				__( 'Payment completed successfully. Payment number: %s.', 'gurmepos' ),
+				$response->get_payment_id()
 			)
 		);
-
 		if ( $on_checkout ) {
 			return array(
 				'result'   => 'success',
 				'redirect' => $this->order->get_checkout_order_received_url(),
 			);
 		}
-
 		wp_safe_redirect( $this->order->get_checkout_order_received_url() );
 		exit;
 
 	}
 
 	/**
-	 * Başarısız işlem sonucunun WooCommerce siparişine ve
-	 * müşteriye yansıtılma işlemleri.
+	 * Ödeme işleminin hatayla karşılaşması sonucunda yapılacak işlemlerin hepsini barındırır.
 	 *
 	 * @param GPOS_Gateway_Response $response Ödeme geçidi cevabı
 	 * @param bool                  $on_checkout Ödeme sayfasında mı ?
 	 *
-	 * @return array
+	 * @return array|void
 	 *
 	 * @SuppressWarnings(PHPMD.ExitExpression)
 	 */
-	private function error_process( GPOS_Gateway_Response $response, $on_checkout ) {
-
-		$error_message = $response->get_error_message() ? $response->get_error_message() : __( 'Unknown error please contact admin.', 'gurmepos' );
-		$this->transaction->set_status( GPOS_Transaction_Utils::FAILED );
-		$this->transaction->add_note( $error_message, 'failed' );
+	public function error_process( GPOS_Gateway_Response $response, $on_checkout ) {
+		$this->order   = wc_get_order( $this->transaction->get_plugin_transaction_id() );
+		$error_message = $response->get_error_message();
 
 		if ( $this->order ) {
 			$this->order->add_order_note(
 				// translators: %s => Ödeme geçidi hatası.
-				sprintf( __( 'Error in payment process: %s.', 'gurmepos' ), $error_message, )
+				sprintf( __( 'Error in payment process: %s.', 'gurmepos' ), $error_message )
 			);
-		}
 
-		gpos_tracker()->schedule_event(
-			'error',
-			array(
-				'error_code'      => $response->get_error_code(),
-				'error_message'   => $error_message,
-				'payment_gateway' => $response->get_gateway(),
-				'payment_plugin'  => 'woocommerce',
-				'is_test'         => gpos_is_test_mode(),
-			)
-		);
+			$this->order->update_status( 'failed' );
+		}
 
 		if ( $on_checkout ) {
 			return array(
@@ -328,36 +228,15 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 				'messages' => gpos_woocommerce_notice( $error_message ),
 			);
 		}
-
 		wp_safe_redirect(
 			add_query_arg(
 				array(
-					"{$this->id}_error" => bin2hex( $error_message ),
+					"{$this->gpos_prefix}_error" => bin2hex( $error_message ),
 				),
 				wc_get_checkout_url()
 			)
 		);
 		exit;
-	}
-
-	/**
-	 * If the gateway declares 'refunds' support, this will allow it to refund. a passed in amount.
-	 *
-	 * @param int        $order_id Sipariş numarası.
-	 * @param float|null $amount İade edilecek değer.
-	 * @param string     $reason iade bedeni.
-	 *
-	 * @return boolean — True or false based on success, or a WP_Error object.
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-	 */
-	public function process_refund( $order_id, $amount = null, $reason = '' ) {
-		/**
-		 * Todo.
-		 *
-		 * İade işlemi.
-		 */
-		return false;
 	}
 
 	/**
@@ -381,7 +260,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 	 */
 	public function validate_fields() {
 		$warning = false;
-		if ( isset( $_POST['payment_method'] ) && $this->id === $_POST['payment_method'] ) {
+		if ( isset( $_POST['payment_method'] ) && $this->gpos_prefix === $_POST['payment_method'] ) {
 			$fields = array(
 				'card-bin'          => __( 'The credit card number field cannot be left blank.', 'gurmepos' ),
 				'card-expiry-month' => __( 'Credit card expiration date cannot be left blank.', 'gurmepos' ),
@@ -391,7 +270,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC {
 			);
 
 			foreach ( $fields as $field => $error ) {
-				if ( isset( $_POST[ "{$this->id}-{$field}" ] ) && empty( $_POST[ "{$this->id}-{$field}" ] ) ) {
+				if ( isset( $_POST[ "{$this->gpos_prefix}-{$field}" ] ) && empty( $_POST[ "{$this->gpos_prefix}-{$field}" ] ) ) {
 					$warning = true;
 					wc_add_notice( $error, 'error' );
 				}

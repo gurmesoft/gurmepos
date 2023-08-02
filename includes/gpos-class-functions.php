@@ -105,7 +105,7 @@ function gpos_form_settings() {
  *
  * @return GPOS_Frontend
  */
-function gpos_frontend( $enqueue_type = 'direct', $platform = 'woocommerce' ) {
+function gpos_frontend( $enqueue_type = 'direct', $platform = GPOS_Transaction_Utils::WOOCOMMERCE ) {
 	return new GPOS_Frontend( $enqueue_type, $platform );
 }
 

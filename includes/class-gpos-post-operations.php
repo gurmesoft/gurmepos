@@ -189,8 +189,15 @@ class GPOS_Post_Operations {
 			GPOS_Transaction_Utils::REDIRECTED            => array(
 				'label'       => _x( 'Redirected To 3D ', 'post status label', 'gurmepos' ),
 				'public'      => true,
-				// translators: %s => Started durumundaki post adedi.
+				// translators: %s => Redirected durumundaki post adedi.
 				'label_count' => _n_noop( 'Redirected To 3D <span class="count">(%s)</span>', 'Redirected To 3D <span class="count">(%s)</span>', 'gurmepos' ),
+				'post_type'   => array( "{$this->prefix}_transaction" ),
+			),
+			GPOS_Transaction_Utils::COMMON_FORM           => array(
+				'label'       => _x( 'Redirected To Common Form ', 'post status label', 'gurmepos' ),
+				'public'      => true,
+				// translators: %s => Common Form durumundaki post adedi.
+				'label_count' => _n_noop( 'Redirected To Common Form <span class="count">(%s)</span>', 'Redirected To Common Form <span class="count">(%s)</span>', 'gurmepos' ),
 				'post_type'   => array( "{$this->prefix}_transaction" ),
 			),
 			GPOS_Transaction_Utils::COMPLETED             => array(

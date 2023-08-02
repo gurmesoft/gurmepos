@@ -56,7 +56,6 @@ class GPOS_Payment_Gateways {
 	 */
 	private function prepare_gateway( $account, $transaction ) {
 		if ( $account && property_exists( $account, 'gateway_class' ) && $account->gateway_class ) {
-
 			$gateway = $account->gateway_class;
 			$transaction->set_payment_gateway_id( $account->gateway_id );
 			$transaction->set_payment_gateway_class( get_class( $gateway ) );
@@ -90,12 +89,12 @@ class GPOS_Payment_Gateways {
 			'GPOS_Kuveyt_Turk',
 			// 'GPOS_Ozan', Devam Ediyor.
 			'GPOS_Param',
-			// 'GPOS_Paytr', Devam Ediyor.
+			'GPOS_Paytr',
 			'GPOS_Sekerbank',
 			// 'GPOS_Sipay', Devam Ediyor.
 			'GPOS_Teb',
 			'GPOS_Vakifbank',
-			// 'GPOS_Wyld',
+			'GPOS_Wyld',
 			'GPOS_Yapi_Kredi',
 			'GPOS_Ziraat',
 		);
@@ -119,7 +118,7 @@ class GPOS_Payment_Gateways {
 	 *
 	 * @return false|GPOS_Gateway
 	 */
-	public function get_gateway_by_gateway_id( string $gateway_id ) {
+	public function get_base_gateway_by_gateway_id( string $gateway_id ) {
 		$gateway = array_filter( $this->get_payment_gateways(), fn ( $gateway ) => $gateway_id === $gateway->id );
 		return $gateway ? $gateway[ array_key_first( $gateway ) ] : false;
 	}

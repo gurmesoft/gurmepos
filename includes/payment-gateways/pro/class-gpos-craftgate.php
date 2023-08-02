@@ -47,6 +47,13 @@ class GPOS_Craftgate extends GPOS_Gateway {
 	public $is_need_pro = true;
 
 	/**
+	 * Kırılım bazlı mı ?
+	 *
+	 * @var boolean $line_based
+	 */
+	public $line_based = true;
+
+	/**
 	 * Ortak ödeme formu mu ?
 	 *
 	 * @var boolean $is_common_form
@@ -79,7 +86,7 @@ class GPOS_Craftgate extends GPOS_Gateway {
 	 *
 	 * @var array $supports
 	 */
-	public $supports = array( 'threed', 'regular', 'refund', 'save_card', 'recurring_with_saved_card', 'recurring_with_plan', 'installment_api' );
+	public $supports = array( 'threed', 'regular', 'save_card', 'recurring_with_saved_card', 'recurring_with_plan', 'installment_api' );
 
 	/**
 	 * Ödeme için gerekli alanların tanımı

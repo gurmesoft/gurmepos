@@ -104,7 +104,7 @@ class GPOS_Redirect {
 				'transaction_id' => $this->transaction_id,
 				'_wpnonce'       => wp_create_nonce(),
 			),
-			GPOS_REDIRECT_URL
+			home_url() . '/gpos-redirect'
 		);
 	}
 

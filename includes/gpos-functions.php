@@ -99,6 +99,21 @@ function gpos_clean( $var ) {
 	return is_scalar( $var ) ? sanitize_text_field( wp_unslash( $var ) ) : $var;
 }
 
+/**
+ * Geri dönüş verilerindeki nonce bilgilerini temizler.
+ *
+ * @param array $var Temizlenecek dizi.
+ *
+ * @return void
+ */
+function gpos_unset_nonces( &$var ) {
+	unset( $var['_wpnonce'] );
+	unset( $var['woocommerce-edit-address-nonce'] );
+	unset( $var['woocommerce-login-nonce'] );
+	unset( $var['woocommerce-reset-password-nonce'] );
+	unset( $var['save-account-details-nonce'] );
+}
+
 
 /**
  * GurmePOS tarafından desteklenen ödeme kuruluşlarını döndürür.
@@ -218,7 +233,7 @@ function gpos_create_utm_link( $utm_camping ) {
 	return add_query_arg(
 		array(
 			'utm_source'   => 'wp_plugin',
-			'utm_medium'   => 'organic',
+			'utm_medium'   => 'referal',
 			'utm_campaign' => $utm_camping,
 		),
 		'https://posentegrator.com'
@@ -255,4 +270,25 @@ function gpos_number_format( $value ) {
  */
 function gpos_get_client_ip() {
 	return isset( $_SERVER['REMOTE_ADDR'] ) && false === empty( $_SERVER['REMOTE_ADDR'] ) ? gpos_clean( $_SERVER['REMOTE_ADDR'] ) : '127.0.0.1';
+}
+
+/**
+ * GurmePOS için default callback error mesajı döndürür.
+ *
+ * @return string
+ */
+function gpos_get_default_callback_error_message() {
+	return __( 'Error in 3D rendering. The password was entered incorrectly or the 3D page was abandoned.', 'gurmepos' );
+}
+
+/**
+ * GPOS_Transaction işlemine göre hangi ödeme eklentisi kullanıldığını tespit edip ödeme geçidini döndürür.
+ *
+ * @param GPOS_Transaction $transaction GPOS_Transaction objesi.
+ */
+function gpos_get_plugin_gateway_by_transaction( GPOS_Transaction $transaction ) {
+	$prefix                              = GPOS_Transaction_Utils::WOOCOMMERCE === $transaction->get_plugin() ? 'gpos' : 'gpospro';
+	$plugin_payment_gateway              = call_user_func( "{$prefix}_{$transaction->get_plugin()}_payment_gateway" );
+	$plugin_payment_gateway->transaction = $transaction;
+	return $plugin_payment_gateway;
 }

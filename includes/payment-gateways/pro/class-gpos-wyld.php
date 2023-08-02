@@ -79,7 +79,7 @@ class GPOS_Wyld extends GPOS_Gateway {
 	 *
 	 * @var array $supports
 	 */
-	public $supports = array( 'threed' );
+	public $supports = array( 'threed', 'refund' );
 
 	/**
 	 * Ödeme için gerekli alanların tanımı
@@ -97,11 +97,6 @@ class GPOS_Wyld extends GPOS_Gateway {
 				'type'  => 'text',
 				'label' => __( 'Password', 'gurmepos' ),
 				'model' => 'password',
-			),
-			array(
-				'type'  => 'text',
-				'label' => __( 'Api Key', 'gurmepos' ),
-				'model' => 'api_key',
 			),
 		);
 	}

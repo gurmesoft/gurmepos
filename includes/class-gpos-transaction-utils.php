@@ -27,10 +27,11 @@ class GPOS_Transaction_Utils {
 	/**
 	 * İşlem durumları.
 	 */
-	const STARTED    = 'gpos_started';                          // İşlem başlatıldı.
-	const REDIRECTED = 'gpos_redirected';                       // işlem 3D sayfasına yönlendirildi.
-	const COMPLETED  = 'gpos_completed';                        // işlem tamamlandı.
-	const FAILED     = 'gpos_failed';                           // işlem hata ile karşılaştı.
+	const STARTED     = 'gpos_started';                          // İşlem başlatıldı.
+	const REDIRECTED  = 'gpos_redirected';                       // işlem 3D sayfasına yönlendirildi.
+	const COMMON_FORM = 'gpos_common_form';                      // işlem 3D sayfasına yönlendirildi.
+	const COMPLETED   = 'gpos_completed';                        // işlem tamamlandı.
+	const FAILED      = 'gpos_failed';                           // işlem hata ile karşılaştı.
 
 	/**
 	 * İşlem iade durumları.
@@ -69,8 +70,9 @@ class GPOS_Transaction_Utils {
 	const LOG_PROCESS_REGULAR           = 'process_start_regular';          // Regular (3D'siz) işlemler için log işlem tipi.
 	const LOG_PROCESS_START_3D          = 'process_start_3d';               // 3D başlangıç işlemi için log işlem tipi.
 	const LOG_PROCESS_REDIRECT_3D       = 'process_redirect_3d';            // 3D yönlendirme işlemi için log işlem tipi.
-	const LOG_PROCESS_CALLBACK_3D       = 'process_callback_3d';            // Kuruluştan dönen 3D verisini için log işlem tipi.
-	const LOG_PROCESS_FINISH_3D         = 'process_finish_3d';              // Varsa 3D dönüşünde işlem kapatma için log işlem tipi.
+	const LOG_PROCESS_CALLBACK          = 'process_callback';               // Kuruluştan dönen 3D verisini için log işlem tipi.
+	const LOG_PROCESS_NOTIFY            = 'process_notify';                 // Kuruluştan işlemler bittikten sonra dönen veri dönmesi.
+	const LOG_PROCESS_FINISH            = 'process_finish';                 // Varsa 3D dönüşünde işlem kapatma için log işlem tipi.
 	const LOG_PROCESS_CANCEL            = 'process_cancel';                 // İptal işlemi için log işlem tipi.
 	const LOG_PROCESS_REFUND            = 'process_refund';                 // İade işlemi için log işlem tipi.
 

@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v3.3.0 - (2023-08-02) =
+
+
+Features
+
+* PayTR için Ödeme - İade - Taksit Api eklendi, Wyld için iade eklendi.
+
 = v3.2.0 - (2023-07-28) =
 
 

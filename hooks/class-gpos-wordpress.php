@@ -26,11 +26,11 @@ class GPOS_WordPress {
 	protected $redirect_query_var_key = 'gpos_redirect';
 
 	/**
-	 * WooCommerce geri dönüş aksiyonu için uç nokta.
+	 * Ödeme aksiyonları için geri dönüş uç noktası.
 	 *
-	 * @var string $wc_callback_query_var_key
+	 * @var string $callback_query_var_key
 	 */
-	protected $wc_callback_query_var_key = 'gpos_wc_callback';
+	protected $callback_query_var_key = 'gpos_callback';
 
 
 	/**
@@ -90,8 +90,8 @@ class GPOS_WordPress {
 				),
 				// WooCommerce eklentisinde geri dönüş verileri için kullanılacak uç nokta.
 				array(
-					'regex' => "^{$this->prefix}-wc-callback/?([^/]*)/?",
-					'query' => 'index.php?' . $this->wc_callback_query_var_key . '=1&transaction_id=$matches[1]',
+					'regex' => "^{$this->prefix}-callback/?([^/]*)/?",
+					'query' => 'index.php?' . $this->callback_query_var_key . '=1&transaction_id=$matches[1]',
 				),
 			)
 		);
@@ -123,7 +123,7 @@ class GPOS_WordPress {
 			array(
 				// 3D yönlendirmesi için kullanılacak sorgu parametresi.
 				$this->redirect_query_var_key,
-				$this->wc_callback_query_var_key,
+				$this->callback_query_var_key,
 				'transaction_id',
 			)
 		);
@@ -167,9 +167,11 @@ class GPOS_WordPress {
 			return gpos_redirect( gpos_clean( $_GET['transaction_id'] ) )->render();
 		}
 
-		// WooCommerce geri dönüş noktası için kullanılacak blok.
-		if ( get_query_var( $this->wc_callback_query_var_key ) && get_query_var( 'transaction_id' ) ) {
-			return gpos_woocommerce_payment_gateway()->process_callback( gpos_clean( get_query_var( 'transaction_id' ) ) );
+		// Geri dönüş noktası için kullanılacak blok.
+		if ( get_query_var( $this->callback_query_var_key ) && get_query_var( 'transaction_id' ) ) {
+			$transaction    = gpos_transaction( gpos_clean( get_query_var( 'transaction_id' ) ) );
+			$plugin_gateway = gpos_get_plugin_gateway_by_transaction( $transaction );
+			$plugin_gateway->process_callback( $transaction->get_id() );
 		}
 
 		/**

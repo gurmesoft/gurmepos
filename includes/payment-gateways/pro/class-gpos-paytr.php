@@ -60,12 +60,50 @@ class GPOS_Paytr extends GPOS_Gateway {
 	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/paytr.png';
 
 	/**
+	 * Desteklenen özellikler
+	 *
+	 * @var array $supports
+	 */
+	public $supports = array( 'threed', 'refund', 'installment_api' );
+
+	/**
+	 * Firma müşteri panel bilgisi
+	 *
+	 * @var string $merchant_panel
+	 */
+	public $merchant_panel = 'https://www.paytr.com/magaza/kullanici-girisi';
+
+	/**
+	 * Desteklenen para birimleri
+	 *
+	 * @var array $currencies
+	 */
+	public $currencies = array( 'TRY', 'EUR', 'USD', 'GBP', 'JPY', 'RUB' );
+
+	/**
 	 * Ödeme için gerekli alanların tanımı
 	 *
 	 * @return array
 	 */
 	public function get_payment_fields() : array {
-		return array();
+		return array(
+			array(
+				'type'  => 'text',
+				'label' => __( 'Merchant ID', 'gurmepos' ),
+				'model' => 'merchant_id',
+			),
+			array(
+				'type'  => 'text',
+				'label' => __( 'Merchant Password', 'gurmepos' ),
+				'model' => 'merchant_key',
+			),
+			array(
+				'type'  => 'text',
+				'label' => __( 'Merchant Salt', 'gurmepos' ),
+				'model' => 'merchant_salt',
+			),
+
+		);
 	}
 
 	/**
@@ -74,6 +112,31 @@ class GPOS_Paytr extends GPOS_Gateway {
 	 * @return array
 	 */
 	public function get_test_credit_cards() : array {
-		return array();
+		return array(
+			array(
+				'type'         => 'Visa',
+				'bin'          => '4355 0843 5508 4358',
+				'expiry_year'  => '2024',
+				'expiry_month' => '12',
+				'cvv'          => '000',
+				'secure'       => '',
+			),
+			array(
+				'type'         => 'Visa',
+				'bin'          => '5406 6754 0667 5403',
+				'expiry_year'  => '2024',
+				'expiry_month' => '12',
+				'cvv'          => '000',
+				'secure'       => '',
+			),
+			array(
+				'type'         => 'Visa',
+				'bin'          => '9792 0303 9444 0796',
+				'expiry_year'  => '2024',
+				'expiry_month' => '12',
+				'cvv'          => '000',
+				'secure'       => '',
+			),
+		);
 	}
 }

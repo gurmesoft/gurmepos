@@ -128,5 +128,4 @@ class GPOS_Yapi_Kredi extends GPOS_Gateway {
 			),
 		);
 	}
-
 }

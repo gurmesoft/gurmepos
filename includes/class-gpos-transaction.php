@@ -108,9 +108,9 @@ class GPOS_Transaction extends GPOS_Post {
 	/**
 	 * İşlemin geçtiği ödeme geçidi satır bazlı mı?
 	 *
-	 * @var bool $lane_based
+	 * @var bool $line_based
 	 */
-	protected $lane_based;
+	protected $line_based;
 
 	/**
 	 * İptal ve iade işlemi için hangi ödeme işlemine istinaden türetildiği bilgisi.
@@ -164,8 +164,9 @@ class GPOS_Transaction extends GPOS_Post {
 		'account_id',
 		'refund_status',
 		'cancelable',
-		'lane_based',
+		'line_based',
 		'payment_transaction_id',
+		'common_form_payment',
 	);
 
 
@@ -738,8 +739,28 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @return bool
 	 */
-	public function is_lane_based() {
-		$this->lane_based = in_array( $this->get_payment_gateway_id(), [ 'iyzico', 'craftgate' ], true );
-		return $this->lane_based;
+	public function is_line_based() {
+		$gateway          = gpos_payment_gateways()->get_base_gateway_by_gateway_id( $this->get_payment_gateway_id() );
+		$this->line_based = $gateway->line_based;
+		return $this->line_based;
+	}
+
+	/**
+	 * İşlemin geçtiği ödeme geçidi ortak ödeme formu mu ?
+	 *
+	 * @return $this
+	 */
+	public function set_is_common_form_payment() {
+		$this->set_prop( __FUNCTION__, true );
+		return $this;
+	}
+
+	/**
+	 * İşlemin geçtiği ödeme geçidi ortak ödeme formu mu ?
+	 *
+	 * @return bool
+	 */
+	public function is_common_form_payment() {
+		return $this->get_prop( __FUNCTION__ );
 	}
 }

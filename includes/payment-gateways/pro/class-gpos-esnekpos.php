@@ -64,7 +64,7 @@ class GPOS_Esnekpos extends GPOS_Gateway {
 	 *
 	 * @var array $supports
 	 */
-	public $supports = array( 'threed', 'refund', 'installment_api' );
+	public $supports = array( 'threed', 'installment_api' );
 
 	/**
 	 * Firma müşteri panel bilgisi

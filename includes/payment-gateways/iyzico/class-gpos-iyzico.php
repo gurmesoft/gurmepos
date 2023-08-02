@@ -74,6 +74,13 @@ class GPOS_Iyzico extends GPOS_Gateway {
 	public $is_need_pro = false;
 
 	/**
+	 * Kırılım bazlı mı ?
+	 *
+	 * @var boolean $line_based
+	 */
+	public $line_based = true;
+
+	/**
 	 * Ödeme için gerekli alanların tanımı
 	 *
 	 * @return array

@@ -213,7 +213,9 @@ trait GPOS_Credit_Card {
 	 * @return int|string
 	 */
 	public function get_installment() {
-		return $this->get_prop( __FUNCTION__ );
+		$installment       = $this->get_prop( __FUNCTION__ );
+		$this->installment = '' === $installment ? 1 : (int) $installment;
+		return $this->installment;
 	}
 
 	/**
