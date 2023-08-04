@@ -226,17 +226,18 @@ function gpos_supported_installment_counts() {
  * Yönlendirme linkleri için utm eklemeleri yapar.
  *
  * @param string $utm_camping Parametre : utm_campaign.
+ * @param string $link Url.
  *
  * @return string
  */
-function gpos_create_utm_link( $utm_camping ) {
+function gpos_create_utm_link( $utm_camping, $link = 'https://posentegrator.com' ) {
 	return add_query_arg(
 		array(
 			'utm_source'   => 'wp_plugin',
 			'utm_medium'   => 'referal',
 			'utm_campaign' => $utm_camping,
 		),
-		'https://posentegrator.com'
+		$link
 	);
 }
 

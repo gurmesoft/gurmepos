@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v3.3.1 - (2023-08-04) =
+
+
+Bug Fixes
+
+* Eklenti kaldırılma nedenleri kayıt altına alındı. Frill devre dışı bırakılarak, Yol Haritası eklendi.
+
 = v3.3.0 - (2023-08-02) =
 
 

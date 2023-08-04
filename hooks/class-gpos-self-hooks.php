@@ -6,7 +6,7 @@
  */
 
 /**
- * Bu sınıf WordPress üzerinde zamanlanmış görevlere istinaden uygun fonksiyonları, methodları çalıştırır.
+ * Bu sınıf GurmePOS un kendi içerisinde attığı kancaları barındırır.
  */
 class GPOS_Self_Hooks {
 

@@ -90,6 +90,7 @@ class GPOS_Loader {
 			'includes/class-gpos-session.php',
 			'includes/class-gpos-refund.php',
 			// Hooks
+			'hooks/class-gpos-gph.php',
 			'hooks/class-gpos-self-hooks.php',
 			'hooks/class-gpos-ajax.php',
 			'hooks/class-gpos-wordpress.php',
@@ -101,9 +102,10 @@ class GPOS_Loader {
 			require_once GPOS_PLUGIN_DIR_PATH . $file;
 		}
 
-		new GPOS_Ajax();
 		new GPOS_Self_Hooks();
 		new GPOS_WordPress();
 		new GPOS_Schedule();
+		new GPOS_Ajax();
+		new GPOS_Gph();
 	}
 }

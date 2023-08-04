@@ -21,32 +21,15 @@ class Insights extends \GurmeHub\Api {
 	 * @return void
 	 */
 	public function __construct( \GurmeHub\Plugin $plugin ) {
-
 		$this->plugin = $plugin;
 		register_activation_hook( $this->plugin->get_basefile(), array( $this, 'activation' ) );
 		register_deactivation_hook( $this->plugin->get_basefile(), array( $this, 'deactivation' ) );
-
-		add_action( $this->plugin->get_plugin() . '_tracker_event', array( $this, 'send_tracking_data' ) );
+		add_action( $this->plugin->get_plugin_slug() . '_tracker_event', array( $this, 'send_tracking_data' ) );
+		add_filter( 'plugin_action_links_' . $this->plugin->get_basename(), array( $this, 'plugin_action_links' ) );
+		add_action( 'admin_footer', array( $this, 'admin_footer' ) );
 		add_action( 'upgrader_process_complete', array( $this, 'upgrader_process_complete' ), 10, 2 );
+		add_action( 'wp_ajax_' . $this->plugin->get_plugin_slug() . '_deactivate_reasons', array( $this, 'deactivate_reasons' ), 10, 2 );
 	}
-
-
-	/**
-	 * Local sunucu kontolü yapar
-	 *
-	 * @return bool
-	 */
-	private function is_local_server() {
-		$is_local = 'no';
-		$host     = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : 'localhost';
-
-		if ( ! strpos( $host, '.' ) || in_array( strrchr( $host, '.' ), [ '.test', '.testing', '.local', '.localhost', '.localdomain' ], true ) ) {
-			$is_local = 'yes';
-		}
-
-		return $is_local;
-	}
-
 
 	/**
 	 * Eklenti aktif edilme kancasına tutunan method.
@@ -54,11 +37,11 @@ class Insights extends \GurmeHub\Api {
 	 * @return void
 	 */
 	public function activation() {
-		$hook_name = $this->plugin->get_plugin() . '_tracker_event';
+		$hook_name = $this->plugin->get_plugin_slug() . '_tracker_event';
 		if ( ! wp_next_scheduled( $hook_name ) ) {
 			wp_schedule_event( time(), 'weekly', $hook_name );
 		}
-		$this->change_active_status( 1 );
+		$this->change_active_status();
 	}
 
 
@@ -71,25 +54,43 @@ class Insights extends \GurmeHub\Api {
 		$this->change_active_status( 0 );
 	}
 
-
 	/**
-	 * Eklentinin açılıp kapanması durumunda bilgilendirme yapar.
+	 * Eklenti bilgi toplama için gönderilecek verileri düzenler.
 	 *
-	 * @param int $status 1 yada 0 alabilir
+	 * @return void
 	 */
-	public function change_active_status( $status = 1 ) {
-
+	public function send_tracking_data() {
 		$this->request(
-			array(
-				'url'       => str_replace( [ 'https://', 'http://' ], '', esc_url( home_url() ) ),
-				'plugin'    => $this->plugin->get_plugin(),
-				'is_active' => $status,
-				'reason'    => null,
-			),
-			'activeStatusChanged'
+			$this->get_tracking_data(),
+			'trackingData'
 		);
 	}
 
+	/**
+	 * Eklenti aksiyon linkleri
+	 *
+	 * @param array $links Aksiyon linkleri.
+	 *
+	 * @return array $links Aksiyon linkleri.
+	 */
+	public function plugin_action_links( $links ) {
+		if ( array_key_exists( 'deactivate', $links ) ) {
+			$links['deactivate'] = str_replace( '<a', '<a class="' . $this->plugin->get_plugin_slug() . '-deactivate-reason"', $links['deactivate'] );
+		}
+
+		return $links;
+	}
+
+	/**
+	 * Admin footer aksiyonları.
+	 */
+	public function admin_footer() {
+		global $pagenow;
+
+		if ( 'plugins.php' === $pagenow ) {
+			( new \GurmeHub\Frontend( $this->plugin ) )->reason_of_deactivate();
+		}
+	}
 
 	/**
 	 * WordPress eklenti güncellemesinden sonra tetiklenen kancaya atanmış method.
@@ -108,16 +109,55 @@ class Insights extends \GurmeHub\Api {
 		}
 	}
 
+	/**
+	 * Local sunucu kontolü yapar
+	 *
+	 * @return bool
+	 */
+	private function is_local_server() {
+		$is_local = 'no';
+		$host     = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : 'localhost';
+
+		if ( ! strpos( $host, '.' ) || in_array( strrchr( $host, '.' ), [ '.test', '.testing', '.local', '.localhost', '.localdomain', 'instawp.xyz' ], true ) ) {
+			$is_local = 'yes';
+		}
+
+		return $is_local;
+	}
 
 	/**
-	 * Eklenti bilgi toplama için gönderilecek verileri düzenler.
-	 *
-	 * @return void
+	 * Deaktiflik nedeni gönderme.
 	 */
-	public function send_tracking_data() {
-		$this->request(
-			$this->get_tracking_data(),
-			'trackingData'
+	public function deactivate_reasons() {
+		if ( check_ajax_referer() && isset( $_POST['reasons'] ) ) {
+			$this->request(
+				array(
+					'url'     => str_replace( [ 'https://', 'http://' ], '', esc_url( home_url() ) ),
+					'plugin'  => $this->plugin->get_plugin_slug(),
+					'reasons' => $_POST['reasons'], //phpcs:ignore
+				),
+				'saveDeactivateReasons'
+			);
+		}
+		wp_send_json( true );
+	}
+
+	/**
+	 * Eklentinin açılıp kapanması durumunda bilgilendirme yapar.
+	 *
+	 * @param int $status 1 yada 0 alabilir
+	 *
+	 * @return array
+	 */
+	public function change_active_status( $status = 1 ) {
+
+		return $this->request(
+			array(
+				'url'       => str_replace( [ 'https://', 'http://' ], '', esc_url( home_url() ) ),
+				'plugin'    => $this->plugin->get_plugin_slug(),
+				'is_active' => $status,
+			),
+			'activeStatusChanged'
 		);
 	}
 
@@ -139,7 +179,7 @@ class Insights extends \GurmeHub\Api {
 			'active_plugins'   => $all_plugins['active_plugins'],
 			'inactive_plugins' => $all_plugins['inactive_plugins'],
 			'ip_address'       => $this->get_user_ip_address(),
-			'plugin'           => $this->plugin->get_plugin(),
+			'plugin'           => $this->plugin->get_plugin_slug(),
 			'plugin_version'   => $this->plugin->get_current_version(),
 			'is_local'         => $this->is_local_server(),
 		);

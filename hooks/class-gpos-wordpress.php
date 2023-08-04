@@ -229,7 +229,8 @@ class GPOS_WordPress {
 				gpos_create_utm_link( 'eklentiler' ),
 				__( 'Upgrade', 'gurmepos' )
 			);
-
+		} else {
+			unset( $links['deactivate'] );
 		}
 		return array_merge( $links, $new_links );
 	}
@@ -262,27 +263,16 @@ class GPOS_WordPress {
 	public function plugin_row_meta( $links, $file ) {
 
 		if ( GPOS_PLUGIN_BASENAME === $file ) { // @phpstan-ignore-line
-			$args = array(
-				'utm_source'   => 'wp_plugin',
-				'utm_medium'   => 'organic',
-				'utm_campaign' => 'eklentiler',
-			);
 
 			$row_meta = array(
 				'docs'             => sprintf(
 					'<a href="%s" target="_blank">%s</a>',
-					add_query_arg(
-						$args,
-						'https://yardim.gurmehub.com/docs/pos-entegrator/'
-					),
+					gpos_create_utm_link( 'eklentiler', 'https://yardim.gurmehub.com/docs/pos-entegrator/' ),
 					__( 'Docs', 'gurmepos' )
 				),
 				'communitysupport' => sprintf(
 					'<a href="%s" target="_blank">%s</a>',
-					add_query_arg(
-						$args,
-						'https://forum.gurmehub.com/c/gurmehub/pos-entegrator/31/'
-					),
+					gpos_create_utm_link( 'eklentiler', 'https://forum.gurmehub.com/c/gurmehub/pos-entegrator/31/' ),
 					__( 'Community Form', 'gurmepos' )
 				),
 			);

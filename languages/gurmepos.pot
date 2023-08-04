@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-08-02T10:01:10+00:00\n"
+"POT-Creation-Date: 2023-08-04T06:12:52+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: gurmepos\n"
@@ -119,7 +119,7 @@ msgstr ""
 msgid "Error while payment processing: %s"
 msgstr ""
 
-#: includes/plugin-gateways/class-gpospro-givewp-payment-gateway.php:218
+#: includes/plugin-gateways/class-gpospro-givewp-payment-gateway.php:219
 msgid "Donation"
 msgstr ""
 
@@ -136,6 +136,62 @@ msgstr ""
 msgid "https://gurmehub.com"
 msgstr ""
 
+#: hooks/class-gpos-gph.php:40
+msgid "I couldn't find the payment gateway or integration I was looking for (Please share below)"
+msgstr ""
+
+#: hooks/class-gpos-gph.php:44
+msgid "I'm already satisfied with my payment settings"
+msgstr ""
+
+#. translators: %s is the name of the plugin.
+#: hooks/class-gpos-gph.php:49
+msgid "I need more information about %s"
+msgstr ""
+
+#: hooks/class-gpos-gph.php:53
+msgid "Temporarily deactivating"
+msgstr ""
+
+#: hooks/class-gpos-gph.php:57
+msgid "Didn't work as expected"
+msgstr ""
+
+#: hooks/class-gpos-gph.php:61
+msgid "Other (Please share below)"
+msgstr ""
+
+#: hooks/class-gpos-gph.php:76
+msgid "Skip & Deactive"
+msgstr ""
+
+#: hooks/class-gpos-gph.php:77
+msgid "Deactive"
+msgstr ""
+
+#: hooks/class-gpos-gph.php:78
+#: includes/class-gpos-post-operations.php:156
+#: languages/gpos-texts.php:192
+msgid "Cancel"
+msgstr ""
+
+#: hooks/class-gpos-gph.php:79
+msgid "Why you are leaving us ?"
+msgstr ""
+
+#: hooks/class-gpos-gph.php:80
+msgid "Comments (Optional)"
+msgstr ""
+
+#. translators: %s is the name of the plugin.
+#: hooks/class-gpos-gph.php:82
+msgid "No thanks, i don't want the %s"
+msgstr ""
+
+#: hooks/class-gpos-gph.php:83
+msgid "After a step, the plugin will be deactivated. Could you please take a moment and support us to make your app better?"
+msgstr ""
+
 #: hooks/class-gpos-wordpress.php:223
 msgid "Settings"
 msgstr ""
@@ -144,16 +200,16 @@ msgstr ""
 msgid "Upgrade"
 msgstr ""
 
-#: hooks/class-gpos-wordpress.php:278
+#: hooks/class-gpos-wordpress.php:271
 #: languages/gpos-texts.php:110
 msgid "Docs"
 msgstr ""
 
-#: hooks/class-gpos-wordpress.php:286
+#: hooks/class-gpos-wordpress.php:276
 msgid "Community Form"
 msgstr ""
 
-#: hooks/class-gpos-wordpress.php:307
+#: hooks/class-gpos-wordpress.php:297
 msgid "Select Process Type"
 msgstr ""
 
@@ -325,11 +381,6 @@ msgstr ""
 msgid "No Transactions found in Trash."
 msgstr ""
 
-#: includes/class-gpos-post-operations.php:156
-#: languages/gpos-texts.php:192
-msgid "Cancel"
-msgstr ""
-
 #: includes/class-gpos-post-operations.php:157
 msgid "Refund"
 msgstr ""
@@ -442,7 +493,7 @@ msgstr ""
 msgid "Click to view the details of transaction <a href=\"%1$s\" target=\"_blank\">#%2$s</a>."
 msgstr ""
 
-#: includes/gpos-functions.php:281
+#: includes/gpos-functions.php:282
 #: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:212
 msgid "Error in 3D rendering. The password was entered incorrectly or the 3D page was abandoned."
 msgstr ""

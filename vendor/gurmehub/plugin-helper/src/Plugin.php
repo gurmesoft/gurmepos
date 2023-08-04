@@ -23,14 +23,23 @@ class Plugin extends \GurmeHub\Api {
 	protected $basefile;
 
 	/**
+	 * Eklenti alan adı.
+	 *
+	 * @var string $textdomain
+	 */
+	protected $textdomain;
+
+	/**
 	 * Kurucu method.
 	 *
 	 * @param string $basefile Eklenti klasör/dosyaismi (gurmepos/gurmepos.php)
+	 * @param string $textdomain Eklenti alan adı
 	 *
 	 * @return void
 	 */
-	public function __construct( $basefile ) {
-		$this->basefile = $basefile;
+	public function __construct( $basefile, $textdomain ) {
+		$this->basefile   = $basefile;
+		$this->textdomain = $textdomain;
 	}
 
 	/**
@@ -55,16 +64,24 @@ class Plugin extends \GurmeHub\Api {
 	 * Eklenti slug.
 	 *
 	 * @return string
-	 *
-	 * @SuppressWarnings(PHPMD.UnusedLocalVariable)
 	 */
-	public function get_plugin() {
+	public function get_plugin_slug() {
 		$name_arr = explode( '/', $this->get_basename() );
 		if ( 2 >= count( $name_arr ) && isset( $name_arr[1] ) ) {
 			return str_replace( [ '.php' ], [ '' ], $name_arr[1] );
 		}
 		return $this->get_basename();
 	}
+
+	/**
+	 * Eklenti adı.
+	 *
+	 * @return string
+	 */
+	public function get_name() {
+		return get_plugin_data( $this->basefile )['Name'];
+	}
+
 
 	/**
 	 * Eklenti kurulu versiyonu.
@@ -82,7 +99,7 @@ class Plugin extends \GurmeHub\Api {
 	 * @return false|object $latest_info Eklenti güncel bilgileri.
 	 */
 	public function get_latest_info() {
-		$latest_info_data = $this->request( array( 'plugin' => $this->get_plugin() ), 'checkUpdate' );
+		$latest_info_data = $this->request( array( 'plugin' => $this->get_plugin_slug() ), 'checkUpdate' );
 
 		if ( ! property_exists( $latest_info_data, 'success' ) || false === $latest_info_data->success || true === is_wp_error( $latest_info_data ) ) {
 			return false;
@@ -97,6 +114,4 @@ class Plugin extends \GurmeHub\Api {
 
 		return $latest_info;
 	}
-
-
 }

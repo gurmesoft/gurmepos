@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - POS Entegratör &#8211; WordPress Ödeme Eklentisi - Development (trunk) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-08-02 10:09+0000\n"
+"PO-Revision-Date: 2023-08-04 06:13+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -119,6 +119,14 @@ msgstr "Adres"
 msgctxt "Admin Menu text"
 msgid "Transactions"
 msgstr "İşlemler"
+
+#: hooks/class-gpos-gph.php:83
+msgid ""
+"After a step, the plugin will be deactivated. Could you please take a moment "
+"and support us to make your app better?"
+msgstr ""
+"Bir adımdan sonra eklenti deaktif edilecektir. Lütfen bir dakikanızı ayırıp "
+"uygulamanızı daha iyi hale getirmemiz için bize destek olur musunuz?"
 
 #: languages/gpos-bank-texts.php:52
 msgid ""
@@ -298,7 +306,8 @@ msgstr "3D Geri Dönüş"
 msgid "Can`t find the payment provider you`re looking for?"
 msgstr "Aradığınız ödeme kuruluşunu bulamıyor musunuz?"
 
-#: includes/class-gpos-post-operations.php:156 languages/gpos-texts.php:192
+#: hooks/class-gpos-gph.php:78 includes/class-gpos-post-operations.php:156
+#: languages/gpos-texts.php:192
 msgid "Cancel"
 msgstr "İptal"
 
@@ -389,11 +398,15 @@ msgstr "Müşteri Şifresi"
 msgid "Client Username"
 msgstr "Müşteri Kullanıcı Adı"
 
+#: hooks/class-gpos-gph.php:80
+msgid "Comments (Optional)"
+msgstr "Yorumlar (İsteğe Bağlı)"
+
 #: languages/gpos-texts.php:176
 msgid "Common Form Start"
 msgstr "Ortak Ödeme Form Başlangıcı"
 
-#: hooks/class-gpos-wordpress.php:286
+#: hooks/class-gpos-wordpress.php:276
 msgid "Community Form"
 msgstr "Topluluk Forumu"
 
@@ -476,6 +489,10 @@ msgstr "Başlangıç"
 msgid "Date"
 msgstr "Tarih"
 
+#: hooks/class-gpos-gph.php:77
+msgid "Deactive"
+msgstr "Deaktif Et"
+
 #: languages/gpos-texts.php:171
 msgid "Debit Card"
 msgstr "Banka Kartı"
@@ -500,11 +517,15 @@ msgstr "Ödeme Formunun Açıklama Alanı"
 msgid "Details"
 msgstr "Detaylar"
 
-#: hooks/class-gpos-wordpress.php:278 languages/gpos-texts.php:110
+#: hooks/class-gpos-gph.php:57
+msgid "Didn't work as expected"
+msgstr "Beklediğim gibi çalışmadı"
+
+#: hooks/class-gpos-wordpress.php:271 languages/gpos-texts.php:110
 msgid "Docs"
 msgstr "Dökümanlar"
 
-#: includes/plugin-gateways/class-gpospro-givewp-payment-gateway.php:218
+#: includes/plugin-gateways/class-gpospro-givewp-payment-gateway.php:219
 msgid "Donation"
 msgstr "Bağış"
 
@@ -526,7 +547,7 @@ msgstr ""
 "Craftgate cevabı yorumlanırken hata oluştu, lütfen yönetim ile iletişime "
 "geçiniz."
 
-#: includes/gpos-functions.php:281
+#: includes/gpos-functions.php:282
 #: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:212
 msgid ""
 "Error in 3D rendering. The password was entered incorrectly or the 3D page "
@@ -669,7 +690,7 @@ msgstr "https://gurmehub.com"
 
 #. Author URI of the plugin
 msgid "https://gurmehub.com/"
-msgstr ""
+msgstr "https://gurmehub.com/"
 
 #. Plugin URI of the plugin
 msgid "https://posentegrator.com"
@@ -677,11 +698,23 @@ msgstr "https://posentegrator.com"
 
 #. Plugin URI of the plugin
 msgid "https://posentegrator.com/"
-msgstr ""
+msgstr "https://posentegrator.com/"
 
 #: template/store-rating-notice.php:17
 msgid "I already commented"
 msgstr "Zaten yorum yaptım"
+
+#: hooks/class-gpos-gph.php:40
+msgid ""
+"I couldn't find the payment gateway or integration I was looking for (Please "
+"share below)"
+msgstr ""
+"Aradığım ödeme geçidini veya entegrasyonu bulamadım (Lütfen aşağıda paylaşın)"
+
+#. translators: %s is the name of the plugin.
+#: hooks/class-gpos-gph.php:49
+msgid "I need more information about %s"
+msgstr "%s hakkında daha fazla bilgiye ihtiyacım var"
 
 #: template/store-rating-notice.php:12
 msgid ""
@@ -693,6 +726,10 @@ msgstr ""
 "POS Entegrator'ü kurup deneyimlediğinizi fark ettim, bu harika! Lütfen bize "
 "bir iyilik yapıp, eklentimizi yaymamıza ve motivasyonumuzu artırmamıza "
 "yardımcı olun. Bize 5 yıldız verip WordPress'e yorum yazabilir misiniz?"
+
+#: hooks/class-gpos-gph.php:44
+msgid "I'm already satisfied with my payment settings"
+msgstr "Ödeme ayarlarımdan zaten memnunum"
 
 #: languages/gpos-texts.php:125
 msgid "Icon"
@@ -901,6 +938,11 @@ msgstr "İşlem listesinde onaylanmış işlem bulunamadı."
 msgid "No installment desc..."
 msgstr "Taksit açıklaması yok..."
 
+#. translators: %s is the name of the plugin.
+#: hooks/class-gpos-gph.php:82
+msgid "No thanks, i don't want the %s"
+msgstr "Hayır teşekkürler, %s istemiyorum"
+
 #: includes/class-gpos-post-operations.php:109
 msgid "No Transactions found in Trash."
 msgstr "Çöp kutusunda işlem bulunamadı."
@@ -964,6 +1006,10 @@ msgstr "Tek satır kredi kartı formu"
 #: languages/gpos-texts.php:54
 msgid "One-line payment form"
 msgstr "Tek satır ödeme formu"
+
+#: hooks/class-gpos-gph.php:61
+msgid "Other (Please share below)"
+msgstr "Diğer (Lütfen aşağıda paylaşın)"
 
 #: languages/gpos-texts.php:44
 msgid "Other Settings"
@@ -1089,7 +1135,7 @@ msgstr "POS Entegratör etkin değil"
 
 #. Plugin Name of the plugin
 msgid "POS Entegratör Pro"
-msgstr ""
+msgstr "POS Entegratör Pro"
 
 #: includes/payment-gateways/pro/class-gpos-albaraka.php:107
 #: includes/payment-gateways/pro/class-gpos-yapi-kredi.php:108
@@ -1334,7 +1380,7 @@ msgstr "Güvenlik Anahtarı"
 msgid "Security Type"
 msgstr "Güvenlik Tipi"
 
-#: hooks/class-gpos-wordpress.php:307
+#: hooks/class-gpos-wordpress.php:297
 msgid "Select Process Type"
 msgstr "İşlem Tipi Seçiniz"
 
@@ -1357,6 +1403,10 @@ msgstr ""
 #: languages/gpos-texts.php:100
 msgid "Show Warning for Categories Not for Sale in Installments."
 msgstr "Taksitle Satılmayan Kategoriler için Uyarı Göster."
+
+#: hooks/class-gpos-gph.php:76
+msgid "Skip & Deactive"
+msgstr "Atla ve Deaktif Et"
 
 #: languages/gpos-texts.php:70
 msgid "Soon"
@@ -1417,6 +1467,10 @@ msgstr "Desteklenen Özellikler"
 #: languages/gpos-texts.php:96
 msgid "Table View"
 msgstr "Tablo Görünümü "
+
+#: hooks/class-gpos-gph.php:53
+msgid "Temporarily deactivating"
+msgstr "Geçici olarak deaktif ediyorum."
 
 #: includes/payment-gateways/pro/class-gpos-albaraka.php:97
 #: includes/payment-gateways/pro/class-gpos-garanti.php:97
@@ -1663,6 +1717,10 @@ msgstr ""
 "İŞLEMLERİ\" bölümüne tıklıyoruz. Açılan sayfada firmamız için gerekli "
 "bilgiler bulunmakta. Bu bilgileri POS Entegratör’de ilgili yerlere "
 "dolduruyoruz."
+
+#: hooks/class-gpos-gph.php:79
+msgid "Why you are leaving us ?"
+msgstr "Deaktif etme nedenini öğrenebilir miyiz?"
 
 #: languages/gpos-texts.php:48
 msgid ""

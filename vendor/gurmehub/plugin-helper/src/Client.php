@@ -31,11 +31,12 @@ class Client {
 	 * Kurucu method.
 	 *
 	 * @param string $basefile Eklenti klasör/dosyaismi (gurmepos/gurmepos.php)
+	 * @param string $textdomain Eklenti alan adı
 	 *
 	 * @return void
 	 */
-	public function __construct( $basefile ) {
-		$this->plugin = new \GurmeHub\Plugin( $basefile );
+	public function __construct( $basefile, $textdomain = '' ) {
+		$this->plugin = new \GurmeHub\Plugin( $basefile, $textdomain );
 	}
 
 	/**
