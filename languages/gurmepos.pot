@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-08-04T06:12:52+00:00\n"
+"POT-Creation-Date: 2023-08-04T08:24:58+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: gurmepos\n"
@@ -493,7 +493,7 @@ msgstr ""
 msgid "Click to view the details of transaction <a href=\"%1$s\" target=\"_blank\">#%2$s</a>."
 msgstr ""
 
-#: includes/gpos-functions.php:282
+#: includes/gpos-functions.php:283
 #: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:212
 msgid "Error in 3D rendering. The password was entered incorrectly or the 3D page was abandoned."
 msgstr ""
@@ -602,21 +602,19 @@ msgid "Member 3DSecure Callback Key\" in the Administration -> Merchant Settings
 msgstr ""
 
 #: includes/payment-gateways/pro/class-gpos-denizbank.php:93
-#: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:97
-msgid "Client ID"
+msgid "Merchant Code"
 msgstr ""
 
 #: includes/payment-gateways/pro/class-gpos-denizbank.php:98
-#: includes/payment-gateways/pro/class-gpos-param.php:97
-msgid "Client Password"
+msgid "User Code"
 msgstr ""
 
 #: includes/payment-gateways/pro/class-gpos-denizbank.php:103
-msgid "Store Number (Not required for 3D Host.)"
+msgid "User Password"
 msgstr ""
 
 #: includes/payment-gateways/pro/class-gpos-denizbank.php:108
-msgid "Store Password (Not required for 3D Host.)"
+msgid "3D Store Password (Not required for 3D Host.)"
 msgstr ""
 
 #: includes/payment-gateways/pro/class-gpos-esnekpos.php:92
@@ -643,8 +641,16 @@ msgstr ""
 msgid "Refund User Password"
 msgstr ""
 
+#: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:97
+msgid "Client ID"
+msgstr ""
+
 #: includes/payment-gateways/pro/class-gpos-param.php:92
 msgid "Client Username"
+msgstr ""
+
+#: includes/payment-gateways/pro/class-gpos-param.php:97
+msgid "Client Password"
 msgstr ""
 
 #: includes/payment-gateways/pro/class-gpos-param.php:102

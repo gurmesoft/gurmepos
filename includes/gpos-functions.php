@@ -187,7 +187,8 @@ function gpos_woocommerce_notice( string $message, string $notice_type = 'error'
 function gpos_get_i18n_texts() {
 	include GPOS_PLUGIN_DIR_PATH . '/languages/gpos-texts.php';
 	include GPOS_PLUGIN_DIR_PATH . '/languages/gpos-bank-texts.php';
-	return array_merge( $gpos_texts, $gpos_bank_texts );  // @phpstan-ignore-line
+	$gpos_texts['default'] = array_merge( $gpos_texts['default'], $gpos_bank_texts );  // @phpstan-ignore-line
+	return $gpos_texts;
 }
 
 

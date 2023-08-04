@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v3.3.2 - (2023-08-04) =
+
+
+Bug Fixes
+
+* Banka açıklamaları ve devre dışı bırakma CSS kodları düzenlendi
+
 = v3.3.1 - (2023-08-04) =
 
 

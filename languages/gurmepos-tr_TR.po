@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - POS Entegratör &#8211; WordPress Ödeme Eklentisi - Development (trunk) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-08-04 06:13+0000\n"
+"PO-Revision-Date: 2023-08-04 08:25+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -65,6 +65,12 @@ msgstr "3D Ayarları"
 #: languages/gpos-texts.php:174
 msgid "3D Start"
 msgstr "3D Başladı"
+
+#: includes/payment-gateways/pro/class-gpos-denizbank.php:108
+#, fuzzy
+#| msgid "Store Password (Not required for 3D Host.)"
+msgid "3D Store Password (Not required for 3D Host.)"
+msgstr "Mağaza Şifresi (3D Host için gerekli değildir.)"
 
 #: includes/payment-gateways/pro/class-gpos-akbank.php:117
 #: includes/payment-gateways/pro/class-gpos-denizbank.php:118
@@ -384,12 +390,10 @@ msgstr ""
 msgid "Client Code"
 msgstr "Müşteri Kodu"
 
-#: includes/payment-gateways/pro/class-gpos-denizbank.php:93
 #: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:97
 msgid "Client ID"
 msgstr "Müşteri ID"
 
-#: includes/payment-gateways/pro/class-gpos-denizbank.php:98
 #: includes/payment-gateways/pro/class-gpos-param.php:97
 msgid "Client Password"
 msgstr "Müşteri Şifresi"
@@ -547,7 +551,7 @@ msgstr ""
 "Craftgate cevabı yorumlanırken hata oluştu, lütfen yönetim ile iletişime "
 "geçiniz."
 
-#: includes/gpos-functions.php:282
+#: includes/gpos-functions.php:283
 #: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:212
 msgid ""
 "Error in 3D rendering. The password was entered incorrectly or the 3D page "
@@ -869,6 +873,10 @@ msgstr ""
 #: includes/payment-gateways/pro/class-gpos-esnekpos.php:92
 msgid "Merchant"
 msgstr "Mağaza"
+
+#: includes/payment-gateways/pro/class-gpos-denizbank.php:93
+msgid "Merchant Code"
+msgstr "Mağaza Kodu"
 
 #: includes/payment-gateways/pro/class-gpos-akbank.php:91
 #: includes/payment-gateways/pro/class-gpos-albaraka.php:92
@@ -1448,14 +1456,6 @@ msgstr "Başarılı Ödemelerin Geçeceği Durum"
 msgid "Status updated %1$s to %2$s"
 msgstr "İşlem %1$s durumundan %2$s durumuna geçirildi."
 
-#: includes/payment-gateways/pro/class-gpos-denizbank.php:103
-msgid "Store Number (Not required for 3D Host.)"
-msgstr "Mağaza Numarası (3D Host için gerekli değildir.)"
-
-#: includes/payment-gateways/pro/class-gpos-denizbank.php:108
-msgid "Store Password (Not required for 3D Host.)"
-msgstr "Mağaza Şifresi (3D Host için gerekli değildir.)"
-
 #: languages/gpos-texts.php:63
 msgid "Supported Currencies"
 msgstr "Desteklenen Para Birimleri"
@@ -1642,6 +1642,14 @@ msgid ""
 msgstr ""
 "Kart üzerindeki isim bilgisi için sipariş alanlarını kullan. Ayarın kapalı "
 "olması durumunda kart numarası bölümünü üstünde isim alanı oluşacaktır."
+
+#: includes/payment-gateways/pro/class-gpos-denizbank.php:98
+msgid "User Code"
+msgstr "Kullanıcı Kodu"
+
+#: includes/payment-gateways/pro/class-gpos-denizbank.php:103
+msgid "User Password"
+msgstr "Kullanıcı Şifre"
 
 #: languages/gpos-texts.php:41
 msgid "User selects 3D option at checkout"

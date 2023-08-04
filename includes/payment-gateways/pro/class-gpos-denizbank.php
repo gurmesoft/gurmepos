@@ -90,22 +90,22 @@ class GPOS_Denizbank extends GPOS_Gateway {
 		return array(
 			array(
 				'type'  => 'text',
-				'label' => __( 'Client ID', 'gurmepos' ),
-				'model' => 'client_id',
-			),
-			array(
-				'type'  => 'text',
-				'label' => __( 'Client Password', 'gurmepos' ),
-				'model' => 'client_password',
-			),
-			array(
-				'type'  => 'text',
-				'label' => __( 'Store Number (Not required for 3D Host.)', 'gurmepos' ),
+				'label' => __( 'Merchant Code', 'gurmepos' ),
 				'model' => 'merchant_id',
 			),
 			array(
 				'type'  => 'text',
-				'label' => __( 'Store Password (Not required for 3D Host.)', 'gurmepos' ),
+				'label' => __( 'User Code', 'gurmepos' ),
+				'model' => 'client_id',
+			),
+			array(
+				'type'  => 'text',
+				'label' => __( 'User Password', 'gurmepos' ),
+				'model' => 'client_password',
+			),
+			array(
+				'type'  => 'text',
+				'label' => __( '3D Store Password (Not required for 3D Host.)', 'gurmepos' ),
 				'model' => 'merchant_password',
 			),
 			array(

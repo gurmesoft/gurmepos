@@ -48,7 +48,8 @@ class Frontend {
 								type="checkbox"
 								id="<?php echo esc_attr( "{$plugin_name}-{$reason['value']}" ); ?>"
 								name="<?php echo esc_attr( "{$plugin_name}-deactivate-reason" ); ?>"
-								value="<?php echo esc_attr( $reason['value'] ); ?>" 
+								value="<?php echo esc_attr( $reason['value'] ); ?>"
+								class="<?php echo esc_attr( "{$plugin_name}-deactivate-reason-checkbox" ); ?>"
 							>
 							<?php echo esc_html( $reason['label'] ); ?>
 						</label>
@@ -126,10 +127,9 @@ class Frontend {
 					e.preventDefault();
 					openModal()
 				});
-
 				$(`a#${pluginName}-skip-reason`).click((e) => {
 					e.preventDefault();
-						const reasons = [
+					const reasons = [
 						{
 							value: "skipped",
 							label : 'skipped'
@@ -139,11 +139,9 @@ class Frontend {
 						reasons
 					})
 				});
-
 				$(`button#${pluginName}-cancel-modal`).click(() => {
 					closeModal()
 				});
-
 				$(`button#${pluginName}-submit-reason`).click(() => {
 					const reasons = [];
 					const comment =  $('#<?php echo esc_attr( "{$plugin_name}-reason-comment" ); ?>').val();
@@ -157,9 +155,15 @@ class Frontend {
 						const baseReasons = JSON.parse(`<?php echo wp_json_encode( $this->get_reasons() ); ?>`);
 						reasons.push( baseReasons.find((base) => $(this).val() === base.value));
 					});
+
+					if(0 === reasons.length){
+						$(".<?php echo esc_attr( "{$plugin_name}-deactivate-reason-checkbox" ); ?>").css('border', '1px solid red');
+					}else{
 					submitReasons({
 						reasons,
 					})
+					}
+
 				});
 
 				const deactivate = () => {
@@ -223,6 +227,7 @@ class Frontend {
 				padding: 20px;
 				min-width: 20%;
 				max-width: 20%;
+				position: fixed;
 				background-color: #FFFFFF;
 				box-shadow: 3px 8px 15px #888888;
 				border-radius: 5px;
