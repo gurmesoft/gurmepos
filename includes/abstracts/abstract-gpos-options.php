@@ -66,7 +66,6 @@ abstract class GPOS_Options {
 	 * @return array
 	 */
 	private function get_default_settings() {
-
 		$default_settings = apply_filters(
 			'gpos_default_settings',
 			array(
@@ -87,6 +86,10 @@ abstract class GPOS_Options {
 					'no_installment_desc_status' => false,
 					'no_installment_desc'        => __( 'No installment desc...', 'gurmepos' ),
 
+				),
+				'gpos_card_save_settings'   => array(
+					'active'    => false,
+					'save_step' => 'at_payment',
 				),
 			)
 		);

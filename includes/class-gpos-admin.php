@@ -175,27 +175,26 @@ class GPOS_Admin {
 	 * @return array
 	 */
 	private function get_localize_data( $page ) {
+
 		$localize = array(
 			'prefix'               => GPOS_PREFIX,
 			'assets_url'           => GPOS_ASSETS_DIR_URL,
+			'version'              => GPOS_VERSION,
+			'admin_url'            => admin_url(),
 			'nonce'                => wp_create_nonce(),
 			'is_pro_active'        => gpos_is_pro_active(),
 			'is_test_mode'         => gpos_is_test_mode(),
 			'payment_gateways'     => gpos_get_payment_gateways(),
 			'gateway_accounts'     => gpos_gateway_accounts()->get_accounts(),
-			'transactions'         => array_map( fn( $transaction ) =>  $transaction->to_array(), gpos_transactions()->get_transactions() ),
 			'wc_order_statuses'    => gpos_get_wc_order_statuses(),
 			'woocommerce_settings' => gpos_woocommerce_settings()->get_settings(),
 			'form_settings'        => gpos_form_settings()->get_settings(),
+			'card_save_settings'   => gpos_card_save_settings()->get_settings(),
 			'strings'              => gpos_get_i18n_texts(),
-			'version'              => GPOS_VERSION,
-			'alert_texts'          => array(
-				'ok'                     => __( 'OK', 'gurmepos' ),
-				'setting_saved'          => __( 'The settings have been saved.', 'gurmepos' ),
-				'installments_applied'   => __( 'Installments were applied', 'gurmepos' ),
-				'installments_get_error' => __( 'Error when bringing in installments', 'gurmepos' ),
-				'process_success'        => __( 'Process completed successfully !', 'gurmepos' ),
-				'bulk_refund_error'      => __( 'Error in refund process. Please review unsuccessful refunds for error details and try again.', 'gurmepos' ),
+			'alert_texts'          => gpos_get_alert_texts(),
+			'status'               => gpos_get_env_info(),
+			'integrations'         => array(
+				GPOS_Transaction_Utils::WOOCOMMERCE => gpos_is_woocommerce_enabled(),
 			),
 		);
 
@@ -208,7 +207,7 @@ class GPOS_Admin {
 			$localize['transaction'] = gpos_transaction( (int) gpos_clean( $_GET['transaction'] ) )->to_array();
 		}
 
-		return $localize;
+		return apply_filters( 'gpos_vue_localize_data', $localize );
 	}
 
 	/**
@@ -269,17 +268,10 @@ class GPOS_Admin {
 				'hidden'     => true,
 			),
 			array(
-				'menu_title' => __( 'Form Settings', 'gurmepos' ),
-				'menu_slug'  => "{$this->prefix}-form-settings",
+				'menu_title' => __( 'Settings', 'gurmepos' ),
+				'menu_slug'  => "{$this->prefix}-settings",
 			),
 		);
-
-		if ( gpos_is_woocommerce_enabled() ) {
-			$menu_pages[] = array(
-				'menu_title' => 'WooCommerce',
-				'menu_slug'  => "{$this->prefix}-woocommerce-settings",
-			);
-		}
 
 		return $menu_pages;
 	}

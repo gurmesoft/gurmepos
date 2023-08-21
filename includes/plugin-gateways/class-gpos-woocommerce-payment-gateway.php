@@ -10,7 +10,7 @@
  *
  * @author Gurmehub
  */
-class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements GPOS_Plugin_Gateway {
+final class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements GPOS_Plugin_Gateway {
 
 	use GPOS_Plugin_Payment_Gateway;
 

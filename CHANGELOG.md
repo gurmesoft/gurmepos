@@ -1,5 +1,19 @@
 == Changelog ==
 
+= v3.3.4 - (2023-08-21) =
+
+
+Bug Fixes
+
+* Çeviriler güncellendi
+
+= v3.3.3 - (2023-08-21) =
+
+
+Bug Fixes
+
+* Ayarlar sayfası düzenlendi. Menüler sekme haline getirilidi.
+
 = v3.3.2 - (2023-08-04) =
 
 

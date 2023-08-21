@@ -89,12 +89,21 @@ function gpos_woocommerce_settings() {
 }
 
 /**
- * GurmePOS ödeme formu ayrlar sınıfını döndürür.
+ * GurmePOS ödeme formu ayarlar sınıfını döndürür.
  *
  * @return GPOS_Form_Settings
  */
 function gpos_form_settings() {
 	return new GPOS_Form_Settings();
+}
+
+/**
+ * GurmePOS kart kayıt ayarları sınıfını döndürür.
+ *
+ * @return GPOS_Card_Save_Settings
+ */
+function gpos_card_save_settings() {
+	return new GPOS_Card_Save_Settings();
 }
 
 /**

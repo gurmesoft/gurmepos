@@ -159,7 +159,7 @@ class GPOS_Refund {
 			array(
 				'type'            => $type,
 				'site'            => home_url(),
-				'payment_gateway' => $gateway,
+				'payment_gateway' => str_replace( [ 'GPOS', 'PRO', '_', 'Gateway' ], '', $gateway ),
 				'payment_plugin'  => $this->refund_transaction->get_plugin(),
 				'total'           => $this->refund_transaction->get_total(),
 				'currency'        => $this->refund_transaction->get_currency(),

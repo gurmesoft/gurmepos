@@ -36,6 +36,7 @@ class GPOS_Loader {
 			'includes/settings/class-gpos-settings.php',
 			'includes/settings/class-gpos-woocommerce-settings.php',
 			'includes/settings/class-gpos-form-settings.php',
+			'includes/settings/class-gpos-card-save-settings.php',
 			// Paratika
 			'includes/payment-gateways/paratika/class-gpos-paratika-settings.php',
 			'includes/payment-gateways/paratika/class-gpos-paratika-gateway.php',

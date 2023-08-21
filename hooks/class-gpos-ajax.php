@@ -56,6 +56,8 @@ class GPOS_Ajax {
 				'get_gateway_accounts'        => array( gpos_gateway_accounts(), 'get_accounts' ),
 				'update_form_settings'        => array( $this, 'update_form_settings' ),
 				'update_woocommerce_settings' => array( $this, 'update_woocommerce_settings' ),
+				'update_givewp_settings'      => array( $this, 'update_givewp_settings' ),
+				'update_card_save_settings'   => array( $this, 'update_card_save_settings' ),
 				'update_account_settings'     => array( $this, 'update_account_settings' ),
 				'remove_gateway_account'      => array( $this, 'remove_gateway_account' ),
 				'check_connection'            => array( $this, 'check_connection' ),
@@ -188,6 +190,29 @@ class GPOS_Ajax {
 	 */
 	public function update_woocommerce_settings( $request ) {
 		return gpos_woocommerce_settings()->set_settings( (array) $request->settings );
+	}
+
+	/**
+	 * Geri dönüş fonksiyonu; update_givewp_settings.
+	 *
+	 * @param stdClass $request İstek parametreleri.
+	 *
+	 * @return mixed
+	 */
+	public function update_givewp_settings( $request ) {
+		// @phpstan-ignore-next-line
+		return gpospro_givewp_settings()->set_settings( (array) $request->settings );
+	}
+
+	/**
+	 * Geri dönüş fonksiyonu; update_card_save_settings.
+	 *
+	 * @param stdClass $request İstek parametreleri.
+	 *
+	 * @return mixed
+	 */
+	public function update_card_save_settings( $request ) {
+		return gpos_card_save_settings()->set_settings( (array) $request->settings );
 	}
 
 	/**

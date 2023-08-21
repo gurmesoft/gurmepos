@@ -49,15 +49,6 @@ function gpos_is_woocommerce_enabled() : bool {
 }
 
 /**
- * GiveWP'in kurulu ve aktif olup olmadığını kontrol eder.
- *
- * @return bool
- */
-function gpos_is_givewp_enabled() : bool {
-	return class_exists( 'Give' );
-}
-
-/**
  * GurmePOS Pro eklentisinin kurulu ve aktif olup olmadığını kontrol eder.
  *
  * @return bool
@@ -293,4 +284,88 @@ function gpos_get_plugin_gateway_by_transaction( GPOS_Transaction $transaction )
 	$plugin_payment_gateway              = call_user_func( "{$prefix}_{$transaction->get_plugin()}_payment_gateway" );
 	$plugin_payment_gateway->transaction = $transaction;
 	return $plugin_payment_gateway;
+}
+
+/**
+ * GPOS_Frontend için alarm mesajları.
+ *
+ * @return array
+ */
+function gpos_get_alert_texts() {
+	return array(
+		'ok'                     => __( 'OK', 'gurmepos' ),
+		'setting_saved'          => __( 'The settings have been saved.', 'gurmepos' ),
+		'installments_applied'   => __( 'Installments were applied', 'gurmepos' ),
+		'installments_get_error' => __( 'Error when bringing in installments', 'gurmepos' ),
+		'process_success'        => __( 'Process completed successfully !', 'gurmepos' ),
+		'bulk_refund_error'      => __( 'Error in refund process. Please review unsuccessful refunds for error details and try again.', 'gurmepos' ),
+	);
+}
+
+/**
+ * GurmePOS için ortam bilgisi.
+ *
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ * @return array
+ */
+function gpos_get_env_info() {
+	$theme = wp_get_theme( get_stylesheet() );
+
+	$response   = wp_remote_get( 'https://icanhazip.com/' );
+	$ip_address = __( 'Not available', 'gurmepos' );
+	if ( ! is_wp_error( $response ) ) {
+		$ip_address = trim( wp_remote_retrieve_body( $response ) );
+		$ip_address = filter_var( $ip_address, FILTER_VALIDATE_IP ) ? $ip_address : __( 'Not available', 'gurmepos' );
+	}
+
+	return array(
+		'wordpress' => array(
+			array(
+				'label' => __( 'Theme Name', 'gurmepos' ),
+				'value' => $theme->get( 'Name' ),
+			),
+			array(
+				'label' => __( 'Theme Version', 'gurmepos' ),
+				'value' => $theme->get( 'Version' ),
+			),
+			array(
+				'label' => __( 'WordPress Version', 'gurmepos' ),
+				'value' => get_bloginfo( 'version' ),
+			),
+			array(
+				'label' => __( 'Multisite', 'gurmepos' ),
+				'value' => is_multisite() ? __( 'Yes', 'gurmepos' ) : __( 'No', 'gurmepos' ),
+			),
+			array(
+				'label' => __( 'Debug Mode', 'gurmepos' ),
+				'value' => ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? __( 'Activated', 'gurmepos' ) : __( 'Disabled', 'gurmepos' ),
+			),
+		),
+		'server'    => array(
+			array(
+				'label' => 'PHP Version',
+				'value' => function_exists( 'phpversion' ) && phpversion() ? phpversion() : __( 'Not available', 'gurmepos' ),
+			),
+			array(
+				'label' => 'PHP cURL',
+				'value' => function_exists( 'curl_init' ) ? __( 'Yes', 'gurmepos' ) : __( 'No', 'gurmepos' ),
+			),
+			array(
+				'label' => 'PHP SoapClient',
+				'value' => class_exists( 'SoapClient' ) ? __( 'Yes', 'gurmepos' ) : __( 'No', 'gurmepos' ),
+			),
+			array(
+				'label' => 'PHP Memory Limit',
+				'value' => ini_get( 'memory_limit' ),
+			),
+			array(
+				'label' => 'PHP Max Execution Time',
+				'value' => ini_get( 'max_execution_time' ),
+			),
+			array(
+				'label' => __( 'IP Address', 'gurmepos' ),
+				'value' => $ip_address,
+			),
+		),
+	);
 }

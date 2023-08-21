@@ -85,5 +85,4 @@ class GPOS_WooCommerce {
 		);
 		return $hidden_metas;
 	}
-
 }

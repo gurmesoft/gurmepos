@@ -5,18 +5,6 @@
       "_main.js"
     ]
   },
-  "src/pages/form-settings/main.js": {
-    "file": "js/form-settings/main.js",
-    "imports": [
-      "_main.js",
-      "_main.js",
-      "_main.js",
-      "_main.js",
-      "_main.js"
-    ],
-    "isEntry": true,
-    "src": "src/pages/form-settings/main.js"
-  },
   "src/pages/gurmepos/main.js": {
     "file": "js/gurmepos/main.js",
     "imports": [
@@ -50,6 +38,18 @@
     "isEntry": true,
     "src": "src/pages/payment-gateways/main.js"
   },
+  "src/pages/settings/main.js": {
+    "file": "js/settings/main.js",
+    "imports": [
+      "_main.js",
+      "_main.js",
+      "_main.js",
+      "_main.js",
+      "_main.js"
+    ],
+    "isEntry": true,
+    "src": "src/pages/settings/main.js"
+  },
   "src/pages/transaction/main.css": {
     "file": "css/main.css",
     "src": "src/pages/transaction/main.css"
@@ -65,16 +65,6 @@
     ],
     "isEntry": true,
     "src": "src/pages/transaction/main.js"
-  },
-  "src/pages/woocommerce-settings/main.js": {
-    "file": "js/woocommerce-settings/main.js",
-    "imports": [
-      "_main.js",
-      "_main.js",
-      "_main.js"
-    ],
-    "isEntry": true,
-    "src": "src/pages/woocommerce-settings/main.js"
   },
   "tailwind.css": {
     "file": "css/tailwind.css",
