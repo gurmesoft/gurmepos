@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - POS Entegratör &#8211; WordPress Ödeme Eklentisi - Development (trunk) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-08-21 07:44+0000\n"
+"PO-Revision-Date: 2023-08-29 10:03+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -244,6 +244,16 @@ msgstr ""
 "bilgiler : Craftgate kontrol panelinin :  Yönetim Menüsü ->Üye İşyeri "
 "Ayarları Sekmesi ->  API Erişim Bilgileri başlığı altında yer almaktadır."
 
+#: languages/gpos-bank-texts.php:70
+msgid ""
+"API Integration Information is required for Paidora integration. This "
+"information: Paidora user panel: Information menu -> API Integration "
+"Information is located under the heading."
+msgstr ""
+"Paidora entegrasyonu için API Entegrasyon Bilgileri gereklidir. Bu bilgiler :"
+" Paidora kullanıcı panelinin :  Bilgi menüsü ->  API Entegrasyon Bilgileri "
+"başlığı altında yer almaktadır."
+
 #: languages/gpos-bank-texts.php:28
 msgid ""
 "API Integration Information is required for PayTR integration. This "
@@ -251,17 +261,22 @@ msgid ""
 "Information is located under the heading."
 msgstr ""
 "PayTR entegrasyonu için API Entegrasyon Bilgileri gereklidir. Bu bilgiler : "
-"PayTR kullanıcı panelinin :  Bilgi menüsü ->  API Entergrasyon Bilgileri "
+"PayTR kullanıcı panelinin :  Bilgi menüsü ->  API Entegrasyon Bilgileri "
 "başlığı altında yer almaktadır."
 
 #: includes/payment-gateways/iyzico/class-gpos-iyzico.php:92
 #: includes/payment-gateways/pro/class-gpos-craftgate.php:100
+#: includes/payment-gateways/pro/class-gpos-paidora.php:100
 msgid "Api Key"
 msgstr "Api Anahtarı"
 
 #: includes/payment-gateways/pro/class-gpos-craftgate.php:105
 msgid "Api Password"
 msgstr "Api Şifresi"
+
+#: includes/payment-gateways/pro/class-gpos-paidora.php:105
+msgid "Api Secret"
+msgstr "Api Gizli Anahtarı"
 
 #: languages/gpos-texts.php:51
 msgid "Appearance Settings"
@@ -310,10 +325,6 @@ msgstr "Ödeme sayfasına geri dön"
 msgid "Bank Name"
 msgstr "Banka Adı"
 
-#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:335
-msgid "Basket description : "
-msgstr "Sepet :"
-
 #: languages/gpos-texts.php:109
 msgid ""
 "Before using our POS Entegratör application, you can use the application "
@@ -323,10 +334,9 @@ msgstr ""
 "uygulamayı çok daha verimli kullanabilirsiniz."
 
 #: languages/gpos-texts.php:177
-#, fuzzy
 #| msgid "3D Callback"
 msgid "Callback"
-msgstr "3D Geri Dönüş"
+msgstr "Geri Dönüş"
 
 #: languages/gpos-texts.php:25
 msgid "Can`t find the payment provider you`re looking for?"
@@ -397,7 +407,7 @@ msgid "Click to download or to activate if installed."
 msgstr "İndirmek veya yüklüyse etkinleştirmek için tıklayın."
 
 #: hooks/class-gpospro-givewp.php:80
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:296
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:299
 msgid "Click to go to settings."
 msgstr "Ayarlara gitmek için tıklayın."
 
@@ -485,11 +495,11 @@ msgstr "Oluşturulma Tarihi"
 msgid "Credit Card"
 msgstr "Kredi Kartı"
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:266
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:269
 msgid "Credit card expiration date cannot be left blank."
 msgstr "Kredi kartı son kullanma tarihi boş bırakılamaz."
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:268
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:271
 msgid "Credit card security field cannot be left blank."
 msgstr "Kredi kartı güvenlik alanı boş bırakılamaz."
 
@@ -743,6 +753,10 @@ msgstr "Merhaba Sevgili WordPress sever."
 #: languages/gpos-texts.php:71
 msgid "Help"
 msgstr "Yardım"
+
+#: includes/payment-gateways/pro/class-gpos-paidora.php:110
+msgid "Host ( https://<host>/ )"
+msgstr "Sunucu ( https://<host>/ )"
 
 #. Author URI of the plugin
 msgid "https://gurmehub.com"
@@ -1032,7 +1046,7 @@ msgstr "Yeni İşlem"
 msgid "No"
 msgstr "Hayır"
 
-#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:191
+#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:183
 #: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:257
 msgid "No confirmed transactions were found in the transaction list."
 msgstr "İşlem listesinde onaylanmış işlem bulunamadı."
@@ -1171,7 +1185,7 @@ msgstr "Kredi kartı ile ödeme"
 
 #. translators: %s => Ödeme geçidindeki tekil kimlik.
 #: includes/plugin-gateways/class-gpospro-givewp-payment-gateway.php:135
-#: includes/traits/trait-gpos-plugin-payment-gateway.php:144
+#: includes/traits/trait-gpos-plugin-payment-gateway.php:163
 msgid "Payment completed successfully. Payment number: %s"
 msgstr "Ödeme başarıyla tamamlandı. Ödeme numarası: %s"
 
@@ -1602,11 +1616,11 @@ msgstr "Test Modu Aktif"
 msgid "Test the connection"
 msgstr "Bağlantıyı test et"
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:267
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:270
 msgid "The credit card expiration date cannot be left blank."
 msgstr "Kredi kartı son kullanma tarihi boş bırakılamaz."
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:265
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:268
 msgid "The credit card number field cannot be left blank."
 msgstr "Kredi kartı numarası alanı boş bırakılamaz."
 
@@ -1642,7 +1656,7 @@ msgstr ""
 "Yapı Kredi Sanal POS entegrasyonu için gerekli bilgiler Yapı Kredi Sanal POS "
 "Ekranından alınacaktır."
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:269
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:272
 msgid "The name field on the card cannot be left blank."
 msgstr "Kart üzerindeki isim alanı boş bırakılamaz."
 
@@ -1663,7 +1677,7 @@ msgid "There are no logs."
 msgstr "Kayıt yok."
 
 #: hooks/class-gpospro-givewp.php:79
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:295
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:298
 msgid "These payment method settings are made through the admin menu."
 msgstr "Bu ödeme yöntemi ayarları yönetici menüsü üzerinden yapılır."
 
@@ -1683,7 +1697,7 @@ msgstr ""
 "Hemen ödeme almaya başlamak için anlaşmalı olduğunuz ödeme kuruluşunun "
 "bağlantısını gerçekleştirin"
 
-#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:310
+#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:302
 msgid "Token error."
 msgstr "Jeton hatası."
 
@@ -1729,7 +1743,7 @@ msgstr "Tip"
 msgid "Unauthorized operation attempted via ip address %s."
 msgstr "%s ip adresi üzerinden yetkisiz işlem denendi."
 
-#: includes/class-gpos-gateway-response.php:166
+#: includes/class-gpos-gateway-response.php:173
 msgid "Unknown error please contact admin"
 msgstr "Bilinmeyen hata lütfen yönetim ile iletişime geçiniz."
 
@@ -1741,7 +1755,7 @@ msgstr ""
 "Bilinmeyen hata. Lütfen manuel yükleme deneyiniz, problemin devam etmesi "
 "durumunda GurmeHub ekibi ile iletişime geçiniz"
 
-#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:369
+#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:361
 msgid "Unsupported currency"
 msgstr "Desteklenmeyen para birimi"
 

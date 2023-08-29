@@ -74,6 +74,25 @@ trait GPOS_Plugin_Payment_Gateway {
 		->set_callback_url( home_url( "/gpos-callback/{$this->transaction->get_id()}/" ) );
 	}
 
+	/**
+	 * Ödeme geçidinin yönlendirmeye ihtiyacı varsa gerekli yönlendirmeyi ayarlar ve linki döndürür.
+	 *
+	 * @param GPOS_Gateway_Response $response Ödeme geçidi yanıtı
+	 *
+	 * @return false|string Yönlendirme gerekiyorsa link, gerekmiyorsa false döner.
+	 */
+	public function get_redirect_url( $response ) {
+		$link = false;
+		if ( $this->common_form ) {
+			$this->transaction->set_status( GPOS_Transaction_Utils::COMMON_FORM );
+			$link = $response->get_common_form_url();
+		} elseif ( $this->threed || $response->get_html_content() ) {
+			$this->transaction->set_status( GPOS_Transaction_Utils::REDIRECTED );
+			$link = gpos_redirect( $this->transaction->get_id() )->set_html_content( $response->get_html_content() )->get_redirect_url();
+		}
+
+		return $link;
+	}
 
 	/**
 	 * GPOS_Frontend tarafından yaratılan ödeme formundaki kart bilgi alanlarını işleme yansıtır.
@@ -157,19 +176,6 @@ trait GPOS_Plugin_Payment_Gateway {
 		$this->transaction->set_status( GPOS_Transaction_Utils::FAILED );
 		$this->transaction->add_note( $response->get_error_message(), 'failed' );
 		do_action( 'gpos_failed_transaction', $response );
-	}
-
-	/**
-	 * Yönlendirme kaydını tutar.
-	 *
-	 * @return void
-	 */
-	public function set_redirect_status() {
-		if ( $this->common_form ) {
-			$this->transaction->set_status( GPOS_Transaction_Utils::COMMON_FORM );
-		} elseif ( $this->threed ) {
-			$this->transaction->set_status( GPOS_Transaction_Utils::REDIRECTED );
-		}
 	}
 
 	/**

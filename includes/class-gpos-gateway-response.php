@@ -55,9 +55,16 @@ class GPOS_Gateway_Response {
 	/**
 	 * Ödeme kuruluşu tarafındaki benzersiz numara.
 	 *
-	 * @var string $error_message
+	 * @var mixed $payment_id
 	 */
 	public $payment_id;
+
+	/**
+	 * Ortak ödeme formu linki
+	 *
+	 * @var string $common_form_url
+	 */
+	public $common_form_url;
 
 	/**
 	 * GPOS_Gateway_Response kurucu fonksiyonu.
@@ -202,5 +209,24 @@ class GPOS_Gateway_Response {
 	 */
 	public function get_payment_id() {
 		return $this->payment_id;
+	}
+
+	/**
+	 * Ortak ödeme formu linki ayarlar.
+	 *
+	 * @param string $common_form_url Link
+	 */
+	public function set_common_form_url( $common_form_url ) {
+		$this->common_form_url = $common_form_url;
+		return $this;
+	}
+
+	/**
+	 * İşlemin ödeme kuruluşu tarafındaki benzersiz numarasını döndürür.
+	 *
+	 * @return string $common_form_url Link
+	 */
+	public function get_common_form_url() {
+		return $this->common_form_url;
 	}
 }

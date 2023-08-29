@@ -93,6 +93,7 @@ class GPOS_Payment_Gateways {
 			'GPOS_Sekerbank',
 			// 'GPOS_Sipay', Devam Ediyor.
 			'GPOS_Teb',
+			'GPOS_Paidora', // Devam Ediyor.
 			'GPOS_Vakifbank',
 			'GPOS_Wyld',
 			'GPOS_Yapi_Kredi',

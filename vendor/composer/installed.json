@@ -39,17 +39,17 @@
         },
         {
             "name": "iyzico/iyzipay-php",
-            "version": "v2.0.53",
-            "version_normalized": "2.0.53.0",
+            "version": "v2.0.54",
+            "version_normalized": "2.0.54.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/iyzico/iyzipay-php.git",
-                "reference": "fbec3750b70f627f10eaeb1afd7512e843406a1c"
+                "reference": "4a5874a63582e92338662782887da757de62c646"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/iyzico/iyzipay-php/zipball/fbec3750b70f627f10eaeb1afd7512e843406a1c",
-                "reference": "fbec3750b70f627f10eaeb1afd7512e843406a1c",
+                "url": "https://api.github.com/repos/iyzico/iyzipay-php/zipball/4a5874a63582e92338662782887da757de62c646",
+                "reference": "4a5874a63582e92338662782887da757de62c646",
                 "shasum": ""
             },
             "require": {
@@ -60,7 +60,7 @@
                 "phpunit/phpunit": "~4.0",
                 "satooshi/php-coveralls": "~0.6.1"
             },
-            "time": "2023-07-21T10:01:02+00:00",
+            "time": "2023-08-25T08:49:48+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -92,7 +92,7 @@
             ],
             "support": {
                 "issues": "https://github.com/iyzico/iyzipay-php/issues",
-                "source": "https://github.com/iyzico/iyzipay-php/tree/v2.0.53"
+                "source": "https://github.com/iyzico/iyzipay-php/tree/v2.0.54"
             },
             "install-path": "../iyzico/iyzipay-php"
         }

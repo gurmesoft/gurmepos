@@ -740,8 +740,10 @@ class GPOS_Transaction extends GPOS_Post {
 	 * @return bool
 	 */
 	public function is_line_based() {
-		$gateway          = gpos_payment_gateways()->get_base_gateway_by_gateway_id( $this->get_payment_gateway_id() );
-		$this->line_based = $gateway->line_based;
+		$gateway = gpos_payment_gateways()->get_base_gateway_by_gateway_id( $this->get_payment_gateway_id() );
+		if ( $gateway instanceof GPOS_Gateway ) {
+			$this->line_based = $gateway->line_based;
+		}
 		return $this->line_based;
 	}
 

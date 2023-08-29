@@ -64,7 +64,7 @@ class GPOS_Iyzico extends GPOS_Gateway {
 	 *
 	 * @var array $supports
 	 */
-	public $supports = array( 'threed', 'regular', 'refund', 'save_card', 'recurring_with_saved_card', 'recurring_with_plan', 'installment_api' );
+	public $supports = array( 'threed', 'regular', 'refund', 'save_card', 'installment_api' );
 
 	/**
 	 * Pro gereksinimi

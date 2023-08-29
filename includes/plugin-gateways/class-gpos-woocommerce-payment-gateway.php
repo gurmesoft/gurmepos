@@ -78,13 +78,13 @@ final class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC imple
 
 			if ( $response->is_success() ) {
 
-				if ( ( $this->threed || $this->common_form ) || $response->get_html_content() ) {
-					$this->set_redirect_status();
-					// 3D Sayfasına yada ortak ödeme formuna yönlendir.
+				$redirect_url = $this->get_redirect_url( $response );
+				// 3D yada ortak ödeme sayfasına yönlendirme.
+				if ( $redirect_url ) {
 					wp_send_json(
 						array(
 							'result'   => 'success',
-							'redirect' => gpos_redirect( $this->transaction->get_id() )->set_html_content( $response->get_html_content() )->get_redirect_url(),
+							'redirect' => $redirect_url,
 						)
 					);
 				}
@@ -228,6 +228,9 @@ final class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC imple
 				'messages' => gpos_woocommerce_notice( $error_message ),
 			);
 		}
+
+		wc_add_notice( $error_message, 'error' );
+
 		wp_safe_redirect(
 			add_query_arg(
 				array(

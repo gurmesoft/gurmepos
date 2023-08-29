@@ -66,4 +66,7 @@ $gpos_bank_texts = array(
 	'ziraat'                           => array(
 		'description' => __( 'After logging into Ziraat Bank Virtual Pos panel, if you have not created an API user before, first we click on the "Management" tab, we define a new user by selecting "Role" API User from the "Add New User" field. Then, we fill in the "User Name" and "Password" information you have defined in this field in the relevant fields in POS Entegratör.', 'gurmepos' ),
 	),
+	'paidora'                            => array(
+		'description' => __( 'API Integration Information is required for Paidora integration. This information: Paidora user panel: Information menu -> API Integration Information is located under the heading.', 'gurmepos' ),
+	),
 );

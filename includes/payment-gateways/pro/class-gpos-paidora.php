@@ -1,28 +1,28 @@
 <?php
 /**
- * Craftgate ödeme geçidinin tüm özelliklerini uygulamaya tanıtır.
+ * Paidora ödeme geçidinin tüm özelliklerini uygulamaya tanıtır.
  *
  * @package Gurmehub
  */
 
 /**
- * GPOS_Craftgate sınıfı.
+ * GPOS_Paidora sınıfı.
  */
-class GPOS_Craftgate extends GPOS_Gateway {
+class GPOS_Paidora extends GPOS_Gateway {
 
 	/**
 	 * Ödeme geçidi benzersiz kimliği
 	 *
 	 * @var string $id
 	 */
-	public $id = 'craftgate';
+	public $id = 'paidora';
 
 	/**
 	 * Ödeme geçidi başlığı
 	 *
 	 * @var string $title
 	 */
-	public $title = 'Craftgate';
+	public $title = 'Paidora';
 
 
 	/**
@@ -58,35 +58,35 @@ class GPOS_Craftgate extends GPOS_Gateway {
 	 *
 	 * @var boolean $is_common_form
 	 */
-	public $is_common_form = false;
+	public $is_common_form = true;
 
 	/**
 	 * Logo urli
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/craftgate.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/paidora.png';
 
 	/**
 	 * Firma müşteri panel bilgisi
 	 *
 	 * @var string $merchant_panel
 	 */
-	public $merchant_panel = 'https://panel.craftgate.io/login';
+	public $merchant_panel = 'https://paidora-soft.com/';
 
 	/**
 	 * Desteklenilen para birimleri
 	 *
 	 * @var array $currencies
 	 */
-	public $currencies = array( 'TRY', 'EUR', 'USD', 'GBP', 'CNY', 'ARS', 'BRL', 'AED', 'IQD' );
+	public $currencies = array( 'USD', 'RUB' );
 
 	/**
 	 * Desteklenen özellikler
 	 *
 	 * @var array $supports
 	 */
-	public $supports = array( 'threed', 'regular', 'installment_api' );
+	public $supports = array( 'threed' );
 
 	/**
 	 * Ödeme için gerekli alanların tanımı
@@ -102,14 +102,15 @@ class GPOS_Craftgate extends GPOS_Gateway {
 			),
 			array(
 				'type'  => 'text',
-				'label' => __( 'Api Password', 'gurmepos' ),
+				'label' => __( 'Api Secret', 'gurmepos' ),
 				'model' => 'api_secret',
 			),
 			array(
 				'type'  => 'text',
-				'label' => __( 'Member 3DSecure Callback Key" in the Administration -> Merchant Settings interface on the panel."', 'gurmepos' ),
-				'model' => 'threed_callback_key',
+				'label' => __( 'Host ( https://<host>/ )', 'gurmepos' ),
+				'model' => 'host',
 			),
+
 		);
 	}
 
@@ -122,19 +123,11 @@ class GPOS_Craftgate extends GPOS_Gateway {
 		return array(
 			array(
 				'type'         => 'Master',
-				'bin'          => '5209 2200 0000 0002',
+				'bin'          => '4444 3333 2222 1111',
 				'expiry_year'  => '2030',
 				'expiry_month' => '12',
-				'cvv'          => '000',
-				'secure'       => '',
-			),
-			array(
-				'type'         => 'Visa',
-				'bin'          => '4256 6900 000 00001',
-				'expiry_year'  => '2030',
-				'expiry_month' => '12',
-				'cvv'          => '000',
-				'secure'       => '',
+				'cvv'          => '111',
+				'secure'       => '111111',
 			),
 		);
 	}

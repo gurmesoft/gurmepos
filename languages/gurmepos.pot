@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-08-21T07:42:43+00:00\n"
+"POT-Creation-Date: 2023-08-29T09:59:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: gurmepos\n"
@@ -39,12 +39,12 @@ msgid "Credit/Debit Card"
 msgstr ""
 
 #: hooks/class-gpospro-givewp.php:79
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:295
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:298
 msgid "These payment method settings are made through the admin menu."
 msgstr ""
 
 #: hooks/class-gpospro-givewp.php:80
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:296
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:299
 msgid "Click to go to settings."
 msgstr ""
 
@@ -90,20 +90,16 @@ msgstr ""
 msgid "Connection Success"
 msgstr ""
 
-#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:191
+#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:183
 #: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:257
 msgid "No confirmed transactions were found in the transaction list."
 msgstr ""
 
-#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:310
+#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:302
 msgid "Token error."
 msgstr ""
 
-#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:335
-msgid "Basket description : "
-msgstr ""
-
-#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:369
+#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:361
 msgid "Unsupported currency"
 msgstr ""
 
@@ -114,7 +110,7 @@ msgstr ""
 
 #. translators: %s => Ödeme geçidindeki tekil kimlik.
 #: includes/plugin-gateways/class-gpospro-givewp-payment-gateway.php:135
-#: includes/traits/trait-gpos-plugin-payment-gateway.php:144
+#: includes/traits/trait-gpos-plugin-payment-gateway.php:163
 msgid "Payment completed successfully. Payment number: %s"
 msgstr ""
 
@@ -293,7 +289,7 @@ msgstr ""
 msgid "You have not activated any pos integration, please complete your settings."
 msgstr ""
 
-#: includes/class-gpos-gateway-response.php:166
+#: includes/class-gpos-gateway-response.php:173
 msgid "Unknown error please contact admin"
 msgstr ""
 
@@ -556,6 +552,7 @@ msgstr ""
 
 #: includes/payment-gateways/iyzico/class-gpos-iyzico.php:92
 #: includes/payment-gateways/pro/class-gpos-craftgate.php:100
+#: includes/payment-gateways/pro/class-gpos-paidora.php:100
 msgid "Api Key"
 msgstr ""
 
@@ -701,6 +698,14 @@ msgstr ""
 msgid "Client ID"
 msgstr ""
 
+#: includes/payment-gateways/pro/class-gpos-paidora.php:105
+msgid "Api Secret"
+msgstr ""
+
+#: includes/payment-gateways/pro/class-gpos-paidora.php:110
+msgid "Host ( https://<host>/ )"
+msgstr ""
+
 #: includes/payment-gateways/pro/class-gpos-param.php:92
 msgid "Client Username"
 msgstr ""
@@ -741,23 +746,23 @@ msgstr ""
 msgid "Error in payment process: %s."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:265
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:268
 msgid "The credit card number field cannot be left blank."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:266
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:269
 msgid "Credit card expiration date cannot be left blank."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:267
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:270
 msgid "The credit card expiration date cannot be left blank."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:268
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:271
 msgid "Credit card security field cannot be left blank."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:269
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:272
 msgid "The name field on the card cannot be left blank."
 msgstr ""
 
@@ -839,6 +844,10 @@ msgstr ""
 
 #: languages/gpos-bank-texts.php:67
 msgid "After logging into Ziraat Bank Virtual Pos panel, if you have not created an API user before, first we click on the \"Management\" tab, we define a new user by selecting \"Role\" API User from the \"Add New User\" field. Then, we fill in the \"User Name\" and \"Password\" information you have defined in this field in the relevant fields in POS Entegratör."
+msgstr ""
+
+#: languages/gpos-bank-texts.php:70
+msgid "API Integration Information is required for Paidora integration. This information: Paidora user panel: Information menu -> API Integration Information is located under the heading."
 msgstr ""
 
 #: languages/gpos-texts.php:10
