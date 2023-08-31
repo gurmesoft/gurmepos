@@ -1,5 +1,23 @@
 == Changelog ==
 
+= v3.4.0 - (2023-08-31) =
+
+
+Features
+
+* Paidora Eklendi
+
+
+
+Bug Fixes
+
+* release note duzeltildi
+* semantic release versiyonu degisti
+* semantic release versiyonu degisti
+* semantic release versiyonu degisti
+* semantic release versiyonu degisti
+* semantic release versiyonu degisti
+
 = v3.3.4 - (2023-08-21) =
 
 
