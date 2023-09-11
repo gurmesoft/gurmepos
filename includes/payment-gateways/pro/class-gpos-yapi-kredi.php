@@ -119,7 +119,8 @@ class GPOS_Yapi_Kredi extends GPOS_Gateway {
 	public function get_test_credit_cards() : array {
 		return array(
 			array(
-				'type'         => 'Visa',
+				'brand'        => 'visa',
+				'type'         => 'credit',
 				'bin'          => '4543 6002 9910 0712',
 				'expiry_year'  => '2023',
 				'expiry_month' => '11',

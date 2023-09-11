@@ -129,7 +129,8 @@ class GPOS_Denizbank extends GPOS_Gateway {
 	public function get_test_credit_cards() : array {
 		return array(
 			array(
-				'type'         => 'Visa',
+				'brand'        => 'visa',
+				'type'         => 'credit',
 				'bin'          => '4090 7000 9084 0057',
 				'expiry_year'  => '2023',
 				'expiry_month' => '01',
@@ -137,7 +138,8 @@ class GPOS_Denizbank extends GPOS_Gateway {
 				'secure'       => '',
 			),
 			array(
-				'type'         => 'Visa',
+				'brand'        => 'visa',
+				'type'         => 'credit',
 				'bin'          => '4090 7001 0117 4272',
 				'expiry_year'  => '2023',
 				'expiry_month' => '12',

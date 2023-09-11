@@ -34,13 +34,16 @@ class GPOS_Payment_Gateways {
 	/**
 	 * Ödeme hesabının numrasına göre ödeme geçidini türetip döndürür.
 	 *
-	 * @param int|string       $account_id Hesap no.
-	 * @param GPOS_Transaction $transaction Ödeme işlemi verileri.
+	 * @param int|string            $account_id Hesap no.
+	 * @param GPOS_Transaction|bool $transaction Ödeme işlemi verileri.
 	 *
 	 * @return GPOS_Payment_Gateway
 	 */
-	public function get_gateway_by_account_id( $account_id, GPOS_Transaction $transaction ) {
-		return $this->prepare_gateway( gpos_gateway_accounts()->get_account( $account_id ), $transaction );
+	public function get_gateway_by_account_id( $account_id, $transaction ) {
+		if ( $transaction instanceof GPOS_Transaction ) {
+			return $this->prepare_gateway( gpos_gateway_accounts()->get_account( $account_id ), $transaction );
+		}
+		return $this->get_gateway_without_transaction( gpos_gateway_accounts()->get_account( $account_id ) );
 	}
 
 
@@ -61,6 +64,24 @@ class GPOS_Payment_Gateways {
 			$transaction->set_payment_gateway_class( get_class( $gateway ) );
 			$transaction->set_account_id( $account->id );
 			$gateway->set_transaction( $transaction );
+			return $gateway;
+		}
+		// translators: %s = POS Entegratör Pro.
+		throw new Exception( sprintf( __( 'Invalid gateway, gateway removed or %s disabled.', 'gurmepos' ), 'POS Entegratör Pro' ) ); // phpstan-ignore-line
+	}
+
+	/**
+	 * Hesabının ödeme geçidini türetip döndürür.
+	 *
+	 * @param GPOS_Gateway_Account|false $account Ödeme geçidi hesabı.
+	 *
+	 * @return GPOS_Payment_Gateway
+	 *
+	 * @throws Exception Hatalı Hesap yada Ödeme geçidi.
+	 */
+	private function get_gateway_without_transaction( $account ) {
+		if ( $account && property_exists( $account, 'gateway_class' ) && $account->gateway_class ) {
+			$gateway = $account->gateway_class;
 			return $gateway;
 		}
 		// translators: %s = POS Entegratör Pro.

@@ -27,220 +27,86 @@ class GPOS_Frontend {
 	protected $plugin;
 
 	/**
-	 * Ödemenin alınacağı ödeme geçidi
+	 * Vue uygulamasında ödeme sayfası
 	 *
-	 * @var GPOS_Gateway $gateway
+	 * @var string $checkout_page
 	 */
-	protected $gateway;
-
-	/**
-	 * Form ayarlarını taşır.
-	 *
-	 * @var array
-	 */
-	public $form_settings;
-
-	/**
-	 * Eklenti asset dosyalarının bulunduğu dizinin klasör linki.
-	 *
-	 * @var string $asset_dir_url
-	 */
-	protected $asset_dir_url = GPOS_ASSETS_DIR_URL;
-
-	/**
-	 * Eklenti versiyonu
-	 *
-	 * @var string $version
-	 */
-	protected $version = GPOS_VERSION;
+	protected $checkout_page = 'checkout';
 
 	/**
 	 * Kurucu fonksiyon.
 	 *
-	 * @param string $enqueue_type Script ve stillerin dahil edilme tipi. 'direct' yada 'action' parametrelerini alabilir.
-	 * @param string $plugin Eklenti çalıştırıldığı ödeme pluginu.
+	 * @param string $plugin Eklenti çalıştırıldığı ödeme eklentisi.
 	 *
 	 * @return void
 	 */
-	public function __construct( $enqueue_type = 'direct', $plugin = GPOS_Transaction_Utils::WOOCOMMERCE ) {
-		$this->plugin        = $plugin;
-		$this->form_settings = gpos_form_settings()->get_settings();
-
-		/**
-		 * Eklentilir için dahil edilme yöntemini tetikler.
-		 *
-		 * Örn: GiveWP için GPOS_Frontend::enqueue_action çalıştırılması gerekirken,
-		 * WooCommerce için GPOS_Frontend::enqueue_direct çalıştırılmalıdır.
-		 */
-		call_user_func( array( $this, "enqueue_{$enqueue_type}" ) );
+	public function __construct( $plugin = GPOS_Transaction_Utils::WOOCOMMERCE ) {
+		$this->plugin = $plugin;
 
 		/**
 		 * Formu ekrana yansıtmak için tetiklenir.
 		 */
-		call_user_func( array( $this, 'render_form' ) );
-
+		call_user_func( array( $this, "{$this->plugin}_render" ) );
 	}
 
 	/**
-	 * Stil ve script dosyalarını doğrudan dahil etme.
+	 * WooCommerce formunu render eder.
 	 *
 	 * @return void
 	 */
-	public function enqueue_direct() {
-		$this->enqueue_style();
-		$this->enqueue_script();
+	public function woocommerce_render() {
+		gpos_vue()
+		->set_vue_page( $this->checkout_page )
+		->set_localize( $this->get_localize_data() )
+		->require_style()
+		->require_script();
 	}
 
 	/**
-	 * Stil ve script dosyalarını wp_print_{dosya-tipi} ile dahil etme.
+	 * Ödeme sayfasında Vue aplikasyonunu tetikler ve çalıştırır.
 	 *
 	 * @return void
 	 */
-	public function enqueue_action() {
-		add_action( 'wp_print_styles', array( $this, 'enqueue_style' ) );
-		add_action( 'wp_print_scripts', array( $this, 'enqueue_script' ) );
-	}
-
-	/**
-	 * Stil dosyasını dahil eder.
-	 *
-	 * @return void
-	 */
-	public function enqueue_style() {
-		wp_enqueue_style( "{$this->prefix}-form-style", "{$this->asset_dir_url}/css/form.css", array(), GPOS_VERSION );
-	}
-
-	/**
-	 * Stil dosyasını dahil eder.
-	 *
-	 * @return void
-	 */
-	public function enqueue_script() {
-		wp_enqueue_script( "{$this->prefix}-form-js", "{$this->asset_dir_url}/js/form.js", array( 'jquery' ), GPOS_VERSION, false );
-		wp_localize_script(
-			"{$this->prefix}-form-js",
-			'gpos',
-			array(
-				'ajaxurl'   => admin_url( 'admin-ajax.php' ),
-				'assetsurl' => GPOS_ASSETS_DIR_URL,
-			)
+	public function checkout_js() {
+		wp_enqueue_script(
+			"{$this->prefix}-checkout",
+			GPOS_ASSETS_DIR_URL . '/js/checkout.js',
+			array( 'jquery' ),
+			GPOS_VERSION,
+			false
 		);
 	}
 
-
 	/**
-	 * Frontend taksit seçeneklerini render eder.
+	 * Vue render edildiğinde kullanacağı verileri düzenler.
 	 *
-	 * @param GPOS_Installments $installment Taksit sayısı,aylık ödeme, toplam fiyat vb özellikleri döndüren sınıf.
+	 * @return array
 	 */
-	public function installment_options( GPOS_Installments $installment ) {
-		?>
-		<div class="gpos-installment-container">
-		<?php
-		if ( 'row_view' === $this->form_settings['installment_wiev'] ) {
-			gpos_get_template( 'row-style-installment', array( 'installment' => $installment ) );
-		}
-
-		if ( 'table_view' === $this->form_settings['installment_wiev'] ) {
-			gpos_get_template( 'table-style-installment', array( 'installment' => $installment ) );
-		}
-		?>
-		</div>
-		<?php
-
-	}
-
-	/**
-	 * Frontend formunu render eder.
-	 *
-	 * @return void
-	 */
-	public function render_form() {
+	protected function get_localize_data() {
 
 		$default_account = gpos_gateway_accounts()->get_default_account();
 
+		$localize_data = array(
+			'plugin'        => $this->plugin,
+			'prefix'        => GPOS_PREFIX,
+			'version'       => GPOS_VERSION,
+			'asset_dir_url' => GPOS_ASSETS_DIR_URL,
+			'nonce'         => wp_create_nonce(),
+			'ajaxurl'       => admin_url( 'admin-ajax.php' ),
+			'user_id'       => get_current_user_id(),
+			'strings'       => gpos_get_i18n_texts(),
+			'is_pro_active' => gpos_is_pro_active(),
+			'is_test_mode'  => gpos_is_test_mode(),
+			'form_settings' => gpos_form_settings()->get_settings(),
+		);
+
 		if ( $default_account ) {
-
-			wp_nonce_field( 'gpos_process_payment', '_gpos_nonce' );
-
-			$this->gateway = gpos_payment_gateways()->get_base_gateway_by_gateway_id( $default_account->gateway_id );
-
-			if ( gpos_is_test_mode() ) {
-				$this->test_mode( $this->gateway );
-			}
-
-			if ( false === $this->gateway->is_common_form ) {
-
-				if ( 'standart_form' === $this->form_settings['display_type'] ) {
-					$this->standart_form();
-				}
-
-				$this->threed_field();
-
-				$this->save_card_field();
-
-				$this->hidden_card_infos();
-
-				if ( $default_account->is_installments_active ) {
-					$this->installment_options( gpos_installments( $this->plugin, $default_account ) );
-				}
-			} else {
-				?>
-					<input type="hidden" name="gpos-common-form" id="gpos-common-form" value="on">
-				<?php
-			}
-		} else {
-			?>
-				<div class="empty-gateway-container">
-					<p class="empty-gateway-content">
-					<?php esc_html_e( 'You have not activated any pos integration, please complete your settings.', 'gurmepos' ); ?>
-					</p>
-				</div>
-			<?php
+			$localize_data['gateway']                = gpos_payment_gateways()->get_base_gateway_by_gateway_id( $default_account->gateway_id );
+			$localize_data['installments']           = gpos_installments( $this->plugin, $default_account );
+			$localize_data['is_installments_active'] = $default_account->is_installments_active;
 		}
+
+		return apply_filters( 'gpos_vue_frontend_localize_data', $localize_data );
 	}
 
-	/**
-	 * Test modu uyarısını döndürür.
-	 *
-	 * @param GPOS_Gateway $gateway Ödeme geçidi
-	 */
-	public function test_mode( $gateway ) {
-		gpos_get_template( 'checkout-test-mode', array( 'gateway' => $gateway ) );
-	}
-
-	/**
-	 * Standart Ödeme Formu.
-	 */
-	public function standart_form() {
-		gpos_get_template( 'checkout-standart-form', array( 'form_settings' => $this->form_settings ) );
-	}
-
-	/**
-	 * 3D onayı alma inputunu oluşturur
-	 */
-	public function threed_field() {
-		// Ayar 3D ye zorla yada ödeme geçidi regular desteklemiyor ise 3D ye zorla.
-		if ( 'threed' === $this->form_settings['threed'] || false === in_array( 'regular', $this->gateway->supports, true ) ) {
-			gpos_get_template( 'checkout-three-d-force-field' );
-		} elseif ( 'optional_threed' === $this->form_settings['threed'] ) {
-			gpos_get_template( 'checkout-three-d-field' );
-		}
-	}
-
-	/**
-	 * Kart saklama onayı alma inputunu oluşturur
-	 */
-	public function save_card_field() {
-		if ( true === $this->form_settings['save_card'] ) {
-			gpos_get_template( 'checkout-save-card-field' );
-		}
-	}
-
-	/**
-	 * Kartın aile, ülke gibi bilgilerini taşıyan gizli alanlar.
-	 */
-	private function hidden_card_infos() {
-		gpos_get_template( 'hidden-card-info-fields' );
-	}
 }

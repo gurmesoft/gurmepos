@@ -51,6 +51,15 @@ function gpos_post_operations() {
 }
 
 /**
+ * Post tiplerinin listelenme işlemlerinin gerçekleştiği sınıfı döndürür.
+ *
+ * @return GPOS_Post_Tables
+ */
+function gpos_post_tables() {
+	return new GPOS_Post_Tables();
+}
+
+/**
  * Desteklenen ödeme geçitlerinin organize edildiği sınıfı döndürür.
  *
  * @return GPOS_Payment_Gateways
@@ -98,24 +107,14 @@ function gpos_form_settings() {
 }
 
 /**
- * GurmePOS kart kayıt ayarları sınıfını döndürür.
- *
- * @return GPOS_Card_Save_Settings
- */
-function gpos_card_save_settings() {
-	return new GPOS_Card_Save_Settings();
-}
-
-/**
  * GurmePOS frontend sınıfını döndürür.
  *
- * @param string $enqueue_type Script ve stillerin dahil edilme tipi. 'direct' yada 'action' parametrelerini alabilir.
  * @param string $platform Eklenti çalıştırıldığı ödeme platformu.
  *
  * @return GPOS_Frontend
  */
-function gpos_frontend( $enqueue_type = 'direct', $platform = GPOS_Transaction_Utils::WOOCOMMERCE ) {
-	return new GPOS_Frontend( $enqueue_type, $platform );
+function gpos_frontend( $platform = GPOS_Transaction_Utils::WOOCOMMERCE ) {
+	return new GPOS_Frontend( $platform );
 }
 
 /**
@@ -207,4 +206,13 @@ function gpos_woocommerce_payment_gateway() {
  */
 function gpos_refund( $transaction ) {
 	return new GPOS_Refund( $transaction );
+}
+
+/**
+ * Kısa kod sınıfı.
+ *
+ * @return GPOS_Shortcode
+ */
+function gpos_shortcode() {
+	return new GPOS_Shortcode();
 }

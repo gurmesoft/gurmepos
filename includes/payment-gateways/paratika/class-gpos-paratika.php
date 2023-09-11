@@ -107,7 +107,8 @@ class GPOS_Paratika extends GPOS_Gateway {
 	public function get_test_credit_cards() : array {
 		return array(
 			array(
-				'type'         => 'Visa',
+				'brand'        => 'visa',
+				'type'         => 'credit',
 				'bin'          => '4508 0345 0803 4509',
 				'expiry_year'  => '2030',
 				'expiry_month' => '12',
@@ -115,7 +116,8 @@ class GPOS_Paratika extends GPOS_Gateway {
 				'secure'       => '',
 			),
 			array(
-				'type'         => 'Master',
+				'brand'        => 'mastercard',
+				'type'         => 'credit',
 				'bin'          => '5400 2454 0024 5409',
 				'expiry_year'  => '2030',
 				'expiry_month' => '12',

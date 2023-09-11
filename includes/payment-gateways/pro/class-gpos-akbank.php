@@ -128,7 +128,8 @@ class GPOS_Akbank extends GPOS_Gateway {
 	public function get_test_credit_cards() : array {
 		return array(
 			array(
-				'type'         => 'Visa',
+				'brand'        => 'visa',
+				'type'         => 'credit',
 				'bin'          => '4546 7112 3456 7894',
 				'expiry_year'  => '2026',
 				'expiry_month' => '12',

@@ -13,17 +13,13 @@ interface GPOS_Plugin_Gateway {
 	/**
 	 * Ödeme başlangıcıdır, GPOS_Plugin_Payment_Gateway tratinde bulunur.
 	 *
+	 * @param array      $post_data Ödeme verileri
 	 * @param int|string $plugin_transaction_id Ödeme eklentisindeki benzersiz kimlik numarası.
 	 * @param string     $plugin Ödeme eklentisi.
 	 *
 	 * @return void
 	 */
-	public function create_new_payment_process( $plugin_transaction_id, $plugin);
-
-	/**
-	 * Kredi kartı bilgisini ayarlamak için kullanılır. GPOS_Plugin_Payment_Gateway::credit_card_setter ile desteklenebilir.
-	 */
-	public function set_credit_card();
+	public function create_new_payment_process( $post_data, $plugin_transaction_id, $plugin);
 
 	/**
 	 * Ödeme işlemi için kart bilgileri hariç tüm verilerin tanımlandığı methodtur.
@@ -49,4 +45,32 @@ interface GPOS_Plugin_Gateway {
 	 * @return array|void
 	 */
 	public function error_process( GPOS_Gateway_Response $response, $on_checkout);
+
+	/**
+	 * Geri dönüş fonksiyonu ödeme geçitlerinden gelen veriler bu fonksiyonda karşılanır.
+	 *
+	 * @param int|string $transaction_id İşlem numarası.
+	 */
+	public function process_callback( $transaction_id);
+
+	/**
+	 * İşlem için başarılı olma durumunda yapılacaklar.
+	 *
+	 * @param GPOS_Gateway_Response $response GPOS_Gateway_Response objesi.
+	 */
+	public function transaction_success_process( $response );
+
+	/**
+	 * İşlem için başarısız olma durumunda yapılacaklar.
+	 *
+	 * @param GPOS_Gateway_Response $response GPOS_Gateway_Response objesi.
+	 */
+	public function transaction_error_process( $response );
+
+	/**
+	 * Çağrının geldiği adreslerin kaydını tutar.
+	 *
+	 * @return void
+	 */
+	public function save_http_data();
 }

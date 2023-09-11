@@ -114,30 +114,22 @@ class GPOS_Vue {
 		return $this;
 	}
 
+	/**
+	 * Vue aplikasyonu için idsi app olan divi oluşturur.
+	 *
+	 * @return GPOS_Vue $this
+	 */
+	public function create_app_div() {
+		echo wp_kses_post( '<div id="app"></div>' );
+		return $this;
+	}
 
 	/**
-	 * Ayarlarnmış değişkenler ile Vue projesinin gösterimini sağlar
+	 * Vue projesinin gösterimi için gereki css dosyalarını dahil eder.
 	 *
-	 * @return void
+	 * @return GPOS_Vue $this
 	 */
-	public function require() {
-
-		wp_enqueue_style(
-			"{$this->prefix}-admin-inline",
-			"{$this->asset_dir_url}/css/admin-inline.css",
-			array(),
-			$this->version,
-		);
-		
-		echo wp_kses_post( '<div id="app"></div>' );
-
-		wp_enqueue_script(
-			"{$this->prefix}-js",
-			"{$this->asset_dir_url}/vue/js/{$this->vue_page}/main.js",
-			array( 'jquery' ),
-			$this->version,
-			false
-		);
+	public function require_style() {
 
 		$css_files = scandir( GPOS_PLUGIN_DIR_PATH . 'assets/vue/css/' );
 
@@ -161,13 +153,29 @@ class GPOS_Vue {
 			}
 		}
 
+		return $this;
+	}
+
+	/**
+	 * Vue projesinin gösterimi için gereki js dosyalarını dahil eder.
+	 *
+	 * @return GPOS_Vue $this
+	 */
+	public function require_script() {
+		
+		wp_enqueue_script(
+			$this->prefix,
+			"{$this->asset_dir_url}/vue/js/{$this->vue_page}/main.js",
+			array( 'jquery' ),
+			$this->version,
+			false
+		);
+
+		
 		if ( ! empty( $this->localize_variables ) ) {
-			?>
-			<script>
-				window.<?php echo esc_html( $this->prefix ); ?> = <?php echo wp_json_encode( $this->localize_variables ); ?>
-			</script>
-			<?php
+			wp_localize_script($this->prefix, 'gpos' , $this->localize_variables);
 		}
 
+		return $this;
 	}
 }

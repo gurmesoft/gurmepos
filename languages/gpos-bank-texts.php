@@ -51,7 +51,7 @@ $gpos_bank_texts = array(
 	'isbank'                           => array(
 		'description' => __( 'After logging into the İşbank virtual pos system, if no API user has been created before, an API user must be created by entering the "Add New User" section under the "Management" heading. Then, API user information should be filled in the relevant places.', 'gurmepos' ),
 	),
-	'kuveyt-turk'                      => array(
+	'kuveytturk'                      => array(
 		'description' => __( 'Information required for Kuveyt Türk Pos integration will be obtained from the Kuveyt Türk Virtual Pos Screen.', 'gurmepos' ),
 	),
 	'teb'                              => array(

@@ -108,20 +108,22 @@ class GPOS_Iyzico extends GPOS_Gateway {
 	public function get_test_credit_cards() : array {
 		return array(
 			array(
-				'type'         => 'Master',
+				'brand'        => 'mastercard',
+				'type'         => 'credit',
 				'bin'          => '5526 0800 0000 0006',
 				'expiry_year'  => '2030',
 				'expiry_month' => '12',
 				'cvv'          => '000',
-				'secure'       => '',
+				'secure'       => '283126',
 			),
 			array(
-				'type'         => 'Visa',
+				'brand'        => 'visa',
+				'type'         => 'credit',
 				'bin'          => '4603 4500 0000 0000',
 				'expiry_year'  => '2026',
 				'expiry_month' => '12',
 				'cvv'          => '000',
-				'secure'       => '',
+				'secure'       => '283126',
 			),
 		);
 	}

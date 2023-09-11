@@ -9,6 +9,7 @@
  * GurmePOS işlem sınıfı.
  *
  * @SuppressWarnings(ExcessivePublicCount)
+ * @SuppressWarnings(ExcessiveClassComplexity)
  */
 class GPOS_Transaction extends GPOS_Post {
 
@@ -64,6 +65,13 @@ class GPOS_Transaction extends GPOS_Post {
 	protected $payment_id;
 
 	/**
+	 * Ödeme işleminin geçtiği ödeme geçidinin kimliği.
+	 *
+	 * @var string $payment_gateway_id
+	 */
+	protected $payment_gateway_id;
+
+	/**
 	 * İşlem tipi.
 	 *
 	 * @var string $type
@@ -83,13 +91,6 @@ class GPOS_Transaction extends GPOS_Post {
 	 * @var float $total
 	 */
 	protected $total;
-
-	/**
-	 * İşlem tarihi
-	 *
-	 * @var string $date
-	 */
-	protected $date;
 
 	/**
 	 * Ödeme işlemi yapılacak para birimi
@@ -118,6 +119,34 @@ class GPOS_Transaction extends GPOS_Post {
 	 * @var bool $payment_transaction_id
 	 */
 	protected $payment_transaction_id;
+
+	/**
+	 * Taksit sayısı
+	 *
+	 * @var int|string $installment
+	 */
+	protected $installment = 1;
+
+	/**
+	 * Ödemede kayıtlı kart kullanılacak mı?
+	 *
+	 * @var bool $use_saved_card
+	 */
+	protected $use_saved_card = false;
+
+	/**
+	 * Ödemede kullanılan kayıtlı kartın kimliği.
+	 *
+	 * @var bool $saved_card_id
+	 */
+	protected $saved_card_id = false;
+
+	/**
+	 * Ödemede kullanılan kart kayıt edilsin mi?
+	 *
+	 * @var bool $save_card
+	 */
+	protected $save_card = false;
 
 	/**
 	 * Post meta verileri.
@@ -151,7 +180,7 @@ class GPOS_Transaction extends GPOS_Post {
 		'card_holder_name',
 		'card_country',
 		'card_bank_name',
-		'save_current_card',
+		'save_card',
 		'use_saved_card',
 		'date',
 		'notes',
@@ -178,6 +207,28 @@ class GPOS_Transaction extends GPOS_Post {
 	public function created() {
 		$this->add_note( __( 'Transaction started.', 'gurmepos' ), 'start' );
 		$this->set_refund_status( GPOS_Transaction_Utils::REFUND_STATUS_NOT_REFUNDED );
+		$this->set_user_id( get_current_user_id() );
+	}
+
+	/**
+	 * İşlemi gerçekleştiren kullanıcı kimliğini ayarlar.
+	 *
+	 * @param string|int $value Kimlik.
+	 *
+	 * @return $this
+	 */
+	public function set_user_id( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * İşlemi gerçekleştiren kullanıcı kimliğini döndürür.
+	 *
+	 * @return string|int
+	 */
+	public function get_user_id() {
+		return $this->get_prop( __FUNCTION__ );
 	}
 
 	/**
@@ -186,7 +237,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 * @return void
 	 */
 	public function set_searchable() {
-		$implode_array = array_map( fn( $value ) => ! is_array( $value ), $this->to_array() );
+		$implode_array = array_filter( $this->to_array(), fn( $value ) => ! is_array( $value ) );
 		wp_update_post(
 			array(
 				'ID'           => $this->id,
@@ -194,25 +245,6 @@ class GPOS_Transaction extends GPOS_Post {
 				'post_title'   => $this->get_customer_full_name(),
 			)
 		);
-	}
-
-	/**
-	 * İşlem kimliğini döndürür
-	 *
-	 * @return int|string
-	 */
-	public function get_id() {
-		return $this->id;
-	}
-
-	/**
-	 * İşlem tarihini döndürür
-	 *
-	 * @return string
-	 */
-	public function get_date() {
-		$this->date = get_post_field( 'post_date_gmt', $this->id );
-		return $this->date;
 	}
 
 	/**
@@ -410,11 +442,6 @@ class GPOS_Transaction extends GPOS_Post {
 	 * @return $this
 	 */
 	public function set_security_type( $value ) {
-		/**
-		 * Todo.
-		 *
-		 * Belirli durumlar için if koyulabilir. Örn. threed, regular
-		 */
 		$this->set_prop( __FUNCTION__, $value );
 		return $this;
 	}
@@ -492,6 +519,28 @@ class GPOS_Transaction extends GPOS_Post {
 	}
 
 	/**
+	 * Taksit seçeneğini ayarlar
+	 *
+	 * @param int|string $value Taksit seçeneği.
+	 * @return $this
+	 */
+	public function set_installment( $value ) {
+		$this->set_prop( __FUNCTION__, preg_replace( '/[^0-9]/', '', $value ) );
+		return $this;
+	}
+
+	/**
+	 * Taksit seçeneğini döndürür
+	 *
+	 * @return int|string
+	 */
+	public function get_installment() {
+		$installment       = $this->get_prop( __FUNCTION__ );
+		$this->installment = '' === $installment ? 1 : (int) $installment;
+		return $this->installment;
+	}
+
+	/**
 	 * Ödeme geçidinden dönen başarılı işlemin tekil kimlik bilgisini ayarlar.
 	 *
 	 * @param string $value Ödeme geçidinden dönen tekil numara iade, iptal için kullanılacaktır.
@@ -509,6 +558,27 @@ class GPOS_Transaction extends GPOS_Post {
 	 * @return string
 	 */
 	public function get_payment_id() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Ödemede kullanılacak kayıtlı kart kimliğini ayarlar.
+	 *
+	 * @param string|int $value Kayıtlı kartın kimliği.
+	 *
+	 * @return $this
+	 */
+	public function set_saved_card_id( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Ödemede kullanılacak kayıtlı kart kimliğini döndürür.
+	 *
+	 * @return string|int
+	 */
+	public function get_saved_card_id() {
 		return $this->get_prop( __FUNCTION__ );
 	}
 
@@ -710,6 +780,50 @@ class GPOS_Transaction extends GPOS_Post {
 	}
 
 	/**
+	 * Ödemede kayıtlı kart kullanılacak mı?
+	 *
+	 * @param bool $value Kayıtlı kart kullanılsın mı?
+	 *
+	 * @return $this
+	 */
+	public function set_use_saved_card( bool $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Ödemede kayıtlı kart kullanılacak mı ?
+	 *
+	 * @return bool
+	 */
+	public function need_use_saved_card() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Ödemede kullanılan kart kayıt edilecek mi?
+	 *
+	 * @param bool $value Kart kayıt edilsin mi ?
+	 *
+	 * @return $this
+	 */
+	public function set_save_card( bool $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Ödemede kullanılan kart kayıt edilecek mi ?
+	 *
+	 * @return true|false
+	 *
+	 * @SuppressWarnings(PHPMD.BooleanGetMethodName)
+	 */
+	public function get_save_card() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
 	 * İşlem iade edilebilir mi ?
 	 *  Edilme durumunda ise true değilse false döndürür
 	 *
@@ -764,5 +878,30 @@ class GPOS_Transaction extends GPOS_Post {
 	 */
 	public function is_common_form_payment() {
 		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Kart kayıt etme
+	 *
+	 * @return mixed
+	 */
+	public function save_used_card_for_next_payment() {
+		if ( function_exists( 'gpospro_saved_card' ) ) {
+			return gpospro_saved_card()
+			->set_card_name( $this->get_card_name() )
+			->set_card_expiry_month( $this->get_card_expiry_month() )
+			->set_card_expiry_year( $this->get_card_expiry_year() )
+			->set_card_family( $this->get_card_family() )
+			->set_card_brand( $this->get_card_brand() )
+			->set_card_bank_name( $this->get_card_bank_name() )
+			->set_card_type( $this->get_card_type() )
+			->set_card_country( $this->get_card_country() )
+			->set_masked_card_bin( $this->get_masked_card_bin(), true )
+			->set_user_id( $this->get_user_id() )
+			->set_payment_gateway_id( $this->get_payment_gateway_id() )
+			->set_account_id( $this->get_account_id() )
+			->set_default()
+			->set_searchable();
+		}
 	}
 }

@@ -142,7 +142,8 @@ class GPOS_Garanti extends GPOS_Gateway {
 	public function get_test_credit_cards() : array {
 		return array(
 			array(
-				'type'         => 'Visa',
+				'brand'        => 'visa',
+				'type'         => 'credit',
 				'bin'          => '4282 2090 0434 8015',
 				'expiry_year'  => '2030',
 				'expiry_month' => '08',

@@ -36,7 +36,7 @@ class GPOS_WooCommerce {
 
 	/**
 	 * Bu fonksiyon dizi halinde gelen aktif woocommerce ödeme geçitleri
-	 * arasına paratikabazaar'ı ekler ve geçitleri geri döndürür.
+	 * arasına POS Entegratör'ü ekler ve geçitleri geri döndürür.
 	 *
 	 * @param array $gateways Ödeme geçitleri.
 	 *

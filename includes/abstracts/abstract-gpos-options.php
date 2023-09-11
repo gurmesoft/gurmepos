@@ -77,19 +77,15 @@ abstract class GPOS_Options {
 					'success_status' => 'processing',
 				),
 				'gpos_form_settings'        => array(
-					'threed'                     => 'threed',
-					'form_user_name'             => false,
+					'threed'                     => 'force_threed',
+					'holder_name_field'          => false,
 					'save_card'                  => false,
 					'subscription'               => false,
 					'display_type'               => 'standart_form',
-					'installment_wiev'           => 'table_view',
+					'installment_view'           => 'table_view',
 					'no_installment_desc_status' => false,
 					'no_installment_desc'        => __( 'No installment desc...', 'gurmepos' ),
 
-				),
-				'gpos_card_save_settings'   => array(
-					'active'    => false,
-					'save_step' => 'at_payment',
 				),
 			)
 		);

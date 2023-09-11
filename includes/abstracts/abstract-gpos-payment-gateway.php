@@ -7,6 +7,8 @@
 
 /**
  * GPOS_Payment_Gateway sınıfı.
+ *
+ * @method GPOS_Gateway_Response delete_saved_card() delete_saved_card($saved_card_id)
  */
 abstract class GPOS_Payment_Gateway {
 

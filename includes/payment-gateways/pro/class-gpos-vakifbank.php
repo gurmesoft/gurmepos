@@ -114,7 +114,8 @@ class GPOS_Vakifbank extends GPOS_Gateway {
 	public function get_test_credit_cards() : array {
 		return array(
 			array(
-				'type'         => 'Visa',
+				'brand'        => 'visa',
+				'type'         => 'credit',
 				'bin'          => '4938 4601 5875 4205',
 				'expiry_year'  => '2024',
 				'expiry_month' => '11',

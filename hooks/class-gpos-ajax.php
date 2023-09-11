@@ -205,17 +205,6 @@ class GPOS_Ajax {
 	}
 
 	/**
-	 * Geri dönüş fonksiyonu; update_card_save_settings.
-	 *
-	 * @param stdClass $request İstek parametreleri.
-	 *
-	 * @return mixed
-	 */
-	public function update_card_save_settings( $request ) {
-		return gpos_card_save_settings()->set_settings( (array) $request->settings );
-	}
-
-	/**
 	 * Geri dönüş fonksiyonu; update_form_settings.
 	 *
 	 * @param stdClass $request İstek parametreleri.

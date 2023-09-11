@@ -121,7 +121,8 @@ class GPOS_Craftgate extends GPOS_Gateway {
 	public function get_test_credit_cards() : array {
 		return array(
 			array(
-				'type'         => 'Master',
+				'brand'        => 'mastercard',
+				'type'         => 'credit',
 				'bin'          => '5209 2200 0000 0002',
 				'expiry_year'  => '2030',
 				'expiry_month' => '12',
@@ -129,7 +130,8 @@ class GPOS_Craftgate extends GPOS_Gateway {
 				'secure'       => '',
 			),
 			array(
-				'type'         => 'Visa',
+				'brand'        => 'visa',
+				'type'         => 'credit',
 				'bin'          => '4256 6900 000 00001',
 				'expiry_year'  => '2030',
 				'expiry_month' => '12',

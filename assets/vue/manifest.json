@@ -1,13 +1,37 @@
 {
+  "Page.css": {
+    "file": "css/Page.css",
+    "src": "Page.css"
+  },
   "_main.js": {
-    "file": "js/Info/main.js",
+    "file": "js/CheckoutStore/main.js",
     "imports": [
+      "_main.js",
       "_main.js"
     ]
+  },
+  "src/pages/checkout/main.css": {
+    "file": "css/main2.css",
+    "src": "src/pages/checkout/main.css"
+  },
+  "src/pages/checkout/main.js": {
+    "css": [
+      "css/main2.css"
+    ],
+    "file": "js/checkout/main.js",
+    "imports": [
+      "_main.js",
+      "_main.js",
+      "_main.js",
+      "_main.js"
+    ],
+    "isEntry": true,
+    "src": "src/pages/checkout/main.js"
   },
   "src/pages/gurmepos/main.js": {
     "file": "js/gurmepos/main.js",
     "imports": [
+      "_main.js",
       "_main.js",
       "_main.js"
     ],
@@ -17,6 +41,7 @@
   "src/pages/payment-gateway/main.js": {
     "file": "js/payment-gateway/main.js",
     "imports": [
+      "_main.js",
       "_main.js",
       "_main.js",
       "_main.js",
@@ -33,6 +58,8 @@
       "_main.js",
       "_main.js",
       "_main.js",
+      "_main.js",
+      "_main.js",
       "_main.js"
     ],
     "isEntry": true,
@@ -41,6 +68,7 @@
   "src/pages/settings/main.js": {
     "file": "js/settings/main.js",
     "imports": [
+      "_main.js",
       "_main.js",
       "_main.js",
       "_main.js",
@@ -61,10 +89,24 @@
     "file": "js/transaction/main.js",
     "imports": [
       "_main.js",
+      "_main.js",
       "_main.js"
     ],
     "isEntry": true,
     "src": "src/pages/transaction/main.js"
+  },
+  "src/pages/user-saved-cards/main.js": {
+    "file": "js/user-saved-cards/main.js",
+    "imports": [
+      "_main.js",
+      "_main.js",
+      "_main.js",
+      "_main.js",
+      "_main.js",
+      "_main.js"
+    ],
+    "isEntry": true,
+    "src": "src/pages/user-saved-cards/main.js"
   },
   "tailwind.css": {
     "file": "css/tailwind.css",

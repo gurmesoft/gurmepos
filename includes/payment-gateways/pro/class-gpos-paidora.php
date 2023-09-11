@@ -122,7 +122,8 @@ class GPOS_Paidora extends GPOS_Gateway {
 	public function get_test_credit_cards() : array {
 		return array(
 			array(
-				'type'         => 'Master',
+				'brand'        => 'mastercard',
+				'type'         => 'credit',
 				'bin'          => '4444 3333 2222 1111',
 				'expiry_year'  => '2030',
 				'expiry_month' => '12',

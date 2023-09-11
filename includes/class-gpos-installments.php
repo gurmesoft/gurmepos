@@ -15,7 +15,7 @@ class GPOS_Installments {
 	 *
 	 * @var array $rates
 	 */
-	private $rates = array();
+	public $rates = array();
 
 	/**
 	 * GPOS_Installments kurucu sınıfı
@@ -28,7 +28,6 @@ class GPOS_Installments {
 	public function __construct( string $platform, GPOS_Gateway_Account $account ) {
 		$platform_data = $this->get_platform_data_to_be_paid( $platform );
 		$this->rates   = $this->get_rates_by_account( $account, $platform_data );
-
 	}
 
 	/**

@@ -7,8 +7,10 @@
 
 /**
  * GPOS_Iyzico_Gateway sınıfı.
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
-final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
+class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 
 
 	/**
@@ -16,8 +18,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 *
 	 * @var \Iyzipay\Options $settings;
 	 */
-	private $settings;
-
+	public $settings;
 
 	/**
 	 * Ödeme kuruluşunun bağlantı testi
@@ -220,7 +221,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 *
 	 * @param \Iyzipay\Model\ThreedsInitialize|\Iyzipay\Model\Payment $response iyzico cevap sınıfı.
 	 */
-	private function set_payment_success( $response ) {
+	public function set_payment_success( $response ) {
 		$this->gateway_response
 		->set_success( true )
 		->set_transaction_id( $response->getConversationId() )
@@ -236,7 +237,7 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 *
 	 * @param \Iyzipay\Model\ThreedsInitialize|\Iyzipay\Model\Payment $response iyzico cevap sınıfı.
 	 */
-	private function set_payment_failed( $response ) {
+	public function set_payment_failed( $response ) {
 		$this->gateway_response
 		->set_transaction_id( $response->getConversationId() )
 		->set_error_code( $response->getErrorCode() )
@@ -330,7 +331,6 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 		return $buyer;
 	}
 
-
 	/**
 	 * Iyzico için adres bilgisi
 	 *
@@ -347,30 +347,20 @@ final class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	}
 
 	/**
-	 * Iyzico için kredi kartı bilgisi
+	 * Iyzico için kart bilgisi
 	 *
 	 * @return \Iyzipay\Model\PaymentCard
 	 */
-	private function prepare_payment_card() {
+	public function prepare_payment_card() {
 		$payment_card = new \Iyzipay\Model\PaymentCard();
-		if ( $this->transaction->need_use_saved_card() ) {
-			/**
-			 * Todo.
-			 *
-			 * Kayıtlı kart geliştirmesi.
-			 */
-			$payment_card->setCardUserKey( '' );
-			$payment_card->setCardToken( '' );
-		} else {
-			$payment_card->setCardHolderName( $this->transaction->get_card_holder_name() );
-			$payment_card->setCardNumber( $this->transaction->get_card_bin() );
-			$payment_card->setExpireMonth( $this->transaction->get_card_expiry_month() );
-			$payment_card->setExpireYear( $this->transaction->get_card_expiry_year() );
-			$payment_card->setCvc( $this->transaction->get_card_cvv() );
+		$payment_card->setCardHolderName( $this->transaction->get_card_holder_name() );
+		$payment_card->setCardNumber( $this->transaction->get_card_bin() );
+		$payment_card->setExpireMonth( $this->transaction->get_card_expiry_month() );
+		$payment_card->setExpireYear( $this->transaction->get_card_expiry_year() );
+		$payment_card->setCvc( $this->transaction->get_card_cvv() );
 
-			if ( $this->transaction->need_save_current_card() ) {
-				$payment_card->setRegisterCard( 1 );
-			}
+		if ( $this->transaction->get_save_card() ) {
+			$payment_card->setRegisterCard( 1 );
 		}
 
 		return $payment_card;

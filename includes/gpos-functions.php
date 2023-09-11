@@ -6,37 +6,20 @@
  */
 
 /**
- * GurmePOS için görünüm parçalarını getirir.
+ * GurmePOS için görünüm dosyasını getirir.
  *
- * @param string $folder Dahil edilecek görünüm parçasının klasörü.
- * @param string $part Dahil edilecek görünüm parçası.
+ * @param string $view_name Dahil edilecek görünüm.
  * @param array  $args Görünüm içerisinde kullanılacak veriler.
+ * @param string $view_path Görünüm klasör yolu.
  *
  * @return void
  */
-function gpos_get_template_part( $folder, $part, $args = array() ) {
+function gpos_get_view( $view_name, $args = array(), $view_path = GPOS_PLUGIN_DIR_PATH ) {
 	if ( ! empty( $args ) && is_array( $args ) ) {
 		extract( $args ); //phpcs:ignore  WordPress.PHP.DontExtract.extract_extract
 	}
-
-	$path = GPOS_PLUGIN_DIR_PATH;
-	include "{$path}template/template-parts/{$folder}/{$part}.php";
-}
-
-/**
- * GurmePOS için görünümü getir.
- *
- * @param string $template Dahil edilecek görünüm.
- * @param array  $args Görünüm içerisinde kullanılacak veriler.
- *
- * @return void
- */
-function gpos_get_template( $template, $args = array() ) {
-	if ( ! empty( $args ) && is_array( $args ) ) {
-		extract( $args ); //phpcs:ignore  WordPress.PHP.DontExtract.extract_extract
-	}
-	$path = GPOS_PLUGIN_DIR_PATH;
-	include "{$path}template/{$template}.php";
+	$view = $view_path . '/views/' . $view_name;
+	include $view;
 }
 
 /**
@@ -278,12 +261,29 @@ function gpos_get_default_callback_error_message() {
  * GPOS_Transaction işlemine göre hangi ödeme eklentisi kullanıldığını tespit edip ödeme geçidini döndürür.
  *
  * @param GPOS_Transaction $transaction GPOS_Transaction objesi.
+ *
+ * @return GPOS_Plugin_Gateway $plugin_payment_gateway
+ *
+ * @throws Exception Ödeme geçidi methodu tanımlanmamış.
  */
 function gpos_get_plugin_gateway_by_transaction( GPOS_Transaction $transaction ) {
-	$prefix                              = GPOS_Transaction_Utils::WOOCOMMERCE === $transaction->get_plugin() ? 'gpos' : 'gpospro';
-	$plugin_payment_gateway              = call_user_func( "{$prefix}_{$transaction->get_plugin()}_payment_gateway" );
-	$plugin_payment_gateway->transaction = $transaction;
-	return $plugin_payment_gateway;
+	$functions = apply_filters(
+		'gpos_plugin_gateway_functions',
+		array(
+			GPOS_Transaction_Utils::WOOCOMMERCE => 'gpos_woocommerce_payment_gateway',
+			GPOS_Transaction_Utils::GIVEWP      => 'gpospro_givewp_payment_gateway',
+		)
+	);
+
+	if ( array_key_exists( $transaction->get_plugin(), $functions ) ) {
+		$function                            = $functions[ $transaction->get_plugin() ];
+		$plugin_payment_gateway              = call_user_func( $function );
+		$plugin_payment_gateway->transaction = $transaction;
+		return $plugin_payment_gateway;
+	}
+
+	throw new Exception( 'Undefined plugin gateway function, please add your {myplugin}_payment_gateway function to \'gpos_plugin_gateway_functions\' filter.' );
+
 }
 
 /**

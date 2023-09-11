@@ -45,14 +45,31 @@ trait GPOS_Plugin_Payment_Gateway {
 	public $common_form;
 
 	/**
+	 * Taksit sayısı.
+	 *
+	 * @var bool $common_form
+	 */
+	public $installment;
+
+	/**
+	 * Kayıtlı kart kullanılacak mı?
+	 *
+	 * @var bool $common_form
+	 */
+	public $use_saved_card;
+
+	/**
 	 * GPOS_Transaction $this->transaction ve $this->gateway objelerini hazırlayan fonksiyon.
 	 *
+	 * @param array      $post_data Ön yüzden alınmış form verileri.
 	 * @param int|string $plugin_transaction_id Ödeme eklentisindeki benzersiz kimlik numarası.
 	 * @param string     $plugin Ödeme eklentisi.
 	 */
-	public function create_new_payment_process( $plugin_transaction_id, $plugin ) {
-		$this->threed      = isset( $_POST[ "{$this->gpos_prefix}-threed" ] ) && 'on' === $_POST[ "{$this->gpos_prefix}-threed" ];
-		$this->common_form = isset( $_POST[ "{$this->gpos_prefix}-common-form" ] ) && 'on' === $_POST[ "{$this->gpos_prefix}-common-form" ];
+	public function create_new_payment_process( $post_data, $plugin_transaction_id, $plugin ) {
+		$this->threed         = isset( $post_data[ "{$this->gpos_prefix}-threed" ] ) && 'on' === $post_data[ "{$this->gpos_prefix}-threed" ];
+		$this->common_form    = isset( $post_data[ "{$this->gpos_prefix}-common-form" ] ) && 'on' === $post_data[ "{$this->gpos_prefix}-common-form" ];
+		$this->use_saved_card = isset( $post_data[ "{$this->gpos_prefix}-use-saved-card" ] ) && 'on' === $post_data[ "{$this->gpos_prefix}-use-saved-card" ];
+		$this->installment    = isset( $post_data[ "{$this->gpos_prefix}-installment" ] );
 
 		$this->transaction = gpos_transaction();
 		$this->transaction
@@ -60,11 +77,23 @@ trait GPOS_Plugin_Payment_Gateway {
 		->set_plugin( $plugin )
 		->set_type( GPOS_Transaction_Utils::PAYMENT );
 
+		if ( $this->installment ) {
+			$this->transaction->set_installment( $post_data[ "{$this->gpos_prefix}-installment" ] );
+		}
+
 		if ( $this->common_form ) {
 			$this->transaction->set_is_common_form_payment();
 		} else {
 			$this->transaction->set_security_type( $this->threed ? GPOS_Transaction_Utils::THREED : GPOS_Transaction_Utils::REGULAR );
-			$this->set_credit_card();
+
+			if ( $this->use_saved_card ) {
+				$this->transaction->set_use_saved_card( true );
+				$this->transaction->set_saved_card_id( $post_data[ "{$this->gpos_prefix}-saved-card" ] );
+				do_action( 'gpos_transaction_use_saved_card', $this->transaction, $post_data[ "{$this->gpos_prefix}-saved-card" ] );
+			} else {
+				$this->transaction->set_save_card( isset( $post_data[ "{$this->gpos_prefix}-save-card" ] ) && 'on' === $post_data[ "{$this->gpos_prefix}-save-card" ] );
+				$this->card_setter( $post_data );
+			}
 		}
 
 		$this->set_properties();
@@ -101,26 +130,29 @@ trait GPOS_Plugin_Payment_Gateway {
 	 *
 	 * @return void
 	 */
-	protected function credit_card_setter( array $post_data ) {
+	protected function card_setter( array $post_data ) {
 		foreach ( array(
 			'card_bin',
 			'card_cvv',
 			'card_expiry_month',
 			'card_expiry_year',
-			'installment',
 			'card_type',
 			'card_brand',
 			'card_family',
 			'card_bank_name',
 			'card_country',
+			'card_name',
 		) as $property ) {
 			$fnc      = "set_{$property}";
 			$property = str_replace( '_', '-', $property );
 			$key      = "{$this->gpos_prefix}-{$property}";
 			$param    = isset( $post_data[ $key ] ) && false === empty( $post_data[ $key ] ) ? $post_data[ $key ] : '';
 			call_user_func_array( array( $this->transaction, $fnc ), array( $param ) );
-		};
 
+			if ( gpos_form_settings()->get_setting_by_key( 'holder_name_field' ) ) {
+				$this->transaction->set_card_holder_name( $post_data[ "{$this->gpos_prefix}-holder-name" ] );
+			}
+		};
 	}
 
 	/**
@@ -158,7 +190,7 @@ trait GPOS_Plugin_Payment_Gateway {
 	 *
 	 * @param GPOS_Gateway_Response $response GPOS_Gateway_Response objesi.
 	 */
-	private function transaction_success_process( $response ) {
+	public function transaction_success_process( $response ) {
 		// translators: %s => Ödeme geçidindeki tekil kimlik.
 		$message = sprintf( __( 'Payment completed successfully. Payment number: %s', 'gurmepos' ), $response->get_payment_id() );
 		$this->transaction->set_payment_id( $response->get_payment_id() );
@@ -172,7 +204,7 @@ trait GPOS_Plugin_Payment_Gateway {
 	 *
 	 * @param GPOS_Gateway_Response $response GPOS_Gateway_Response objesi.
 	 */
-	private function transaction_error_process( $response ) {
+	public function transaction_error_process( $response ) {
 		$this->transaction->set_status( GPOS_Transaction_Utils::FAILED );
 		$this->transaction->add_note( $response->get_error_message(), 'failed' );
 		do_action( 'gpos_failed_transaction', $response );

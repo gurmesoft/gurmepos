@@ -71,7 +71,7 @@ final class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC imple
 		};
 		$this->order = wc_get_order( $order_id );
 
-		$this->create_new_payment_process( $order_id, GPOS_Transaction_Utils::WOOCOMMERCE );
+		$this->create_new_payment_process( gpos_clean( $_POST ), $order_id, GPOS_Transaction_Utils::WOOCOMMERCE );
 
 		try {
 			$response = $this->gateway->process_payment();
@@ -106,21 +106,6 @@ final class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC imple
 	}
 
 	/**
-	 * Kredi kartı bilgilerini $_POST verisi içerisinden alarak ödeme geçidine tanımlar.
-	 *
-	 * @return void
-	 */
-	public function set_credit_card() {
-		$this->credit_card_setter( $_POST );
-		$this->transaction
-		->set_card_holder_name(
-			isset( $_POST[ "{$this->gpos_prefix}-holder-name" ] ) ?
-			gpos_clean( $_POST[ "{$this->gpos_prefix}-holder-name" ] ) :
-			$this->order->get_billing_first_name() . ' ' . $this->order->get_billing_last_name()
-		);
-	}
-
-	/**
 	 * WooCommerce siparişini ödeme geçidine tanımlar.
 	 *
 	 * @return void
@@ -139,6 +124,10 @@ final class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC imple
 		->set_customer_phone( $this->order->get_billing_phone() )
 		->set_customer_email( $this->order->get_billing_email() )
 		->set_customer_ip_address( $this->order->get_customer_ip_address() );
+
+		if ( false === gpos_form_settings()->get_setting_by_key( 'holder_name_field' ) ) {
+			$this->transaction->set_card_holder_name( $this->order->get_billing_first_name() . ' ' . $this->order->get_billing_last_name() );
+		}
 
 		$order_lines = $this->order->get_items( array( 'line_item', 'shipping', 'fee' ) );
 
@@ -253,7 +242,10 @@ final class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC imple
 		if ( $this->description ) {
 			echo wp_kses_post( "<p class='gpos-description'>{$this->description}</p>" );
 		}
-		gpos_frontend();
+
+		wp_nonce_field( 'gpos_process_payment', '_gpos_nonce' );
+
+		gpos_vue()->create_app_div();
 	}
 
 	/**
@@ -263,13 +255,18 @@ final class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC imple
 	 */
 	public function validate_fields() {
 		$warning = false;
+
+		if ( isset( $_POST[ "{$this->gpos_prefix}-use-saved-card" ] ) && 'on' === $_POST[ "{$this->gpos_prefix}-use-saved-card" ] ) {
+			return $warning;
+		}
+
 		if ( isset( $_POST['payment_method'] ) && $this->gpos_prefix === $_POST['payment_method'] ) {
 			$fields = array(
-				'card-bin'          => __( 'The credit card number field cannot be left blank.', 'gurmepos' ),
-				'card-expiry-month' => __( 'Credit card expiration date cannot be left blank.', 'gurmepos' ),
-				'card-expiry-year'  => __( 'The credit card expiration date cannot be left blank.', 'gurmepos' ),
-				'card-cvv'          => __( 'Credit card security field cannot be left blank.', 'gurmepos' ),
-				'holder-name'       => __( 'The name field on the card cannot be left blank.', 'gurmepos' ),
+				'card-bin'          => __( 'Card number field cannot be left blank.', 'gurmepos' ),
+				'card-expiry-month' => __( 'Card expiration month cannot be left blank.', 'gurmepos' ),
+				'card-expiry-year'  => __( 'Card expiration year cannot be left blank.', 'gurmepos' ),
+				'card-cvv'          => __( 'Card cvc field cannot be left blank.', 'gurmepos' ),
+				'holder-name'       => __( 'Name on the card field cannot be left blank.', 'gurmepos' ),
 			);
 
 			foreach ( $fields as $field => $error ) {

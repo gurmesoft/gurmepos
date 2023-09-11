@@ -118,7 +118,8 @@ class GPOS_Kuveyt_Turk extends GPOS_Gateway {
 	public function get_test_credit_cards() : array {
 		return array(
 			array(
-				'type'         => 'Visa',
+				'brand'        => 'visa',
+				'type'         => 'credit',
 				'bin'          => '4033 6025 6202 0327',
 				'expiry_year'  => '2030',
 				'expiry_month' => '01',

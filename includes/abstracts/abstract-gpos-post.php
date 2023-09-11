@@ -31,6 +31,13 @@ abstract class GPOS_Post {
 	public $start_status;
 
 	/**
+	 * Oluşturulma tarihi
+	 *
+	 * @var string $date
+	 */
+	protected $date;
+
+	/**
 	 * Post meta verileri.
 	 *
 	 * @var array $meta_data
@@ -63,7 +70,15 @@ abstract class GPOS_Post {
 			);
 			$this->created();
 		}
+	}
 
+	/**
+	 * Post kimliğini döndürür
+	 *
+	 * @return int|string
+	 */
+	public function get_id() {
+		return $this->id;
 	}
 
 	/**
@@ -93,6 +108,9 @@ abstract class GPOS_Post {
 		$array = array();
 		// @phpstan-ignore-next-line argument.type $this phpstan için dönülebilir bir veri değildir. Fakat (protected) korunan verileri olan sınıfları dizi haline en iyi bu şekilde getirebiliyoruz.
 		foreach ( $this as $key => $val ) {
+			if ( 'meta_data' === $key ) {
+				continue;
+			}
 			$array[ $key ] = $val;
 		}
 		return $array;
@@ -121,6 +139,37 @@ abstract class GPOS_Post {
 		$prop        = str_replace( [ 'get_', 'need_', 'is_' ], '', $function_name );
 		$this->$prop = get_post_meta( $this->id, $prop, true );
 		return $this->$prop;
+	}
+
+	/**
+	 * Meta verisini kayıt eder.
+	 *
+	 * @param string $meta_key Meta veri anahtarı.
+	 * @param mixed  $meta_value Meta verisi.
+	 */
+	public function add_meta( $meta_key, $meta_value ) {
+		$this->set_prop( $meta_key, $meta_value );
+	}
+
+	/**
+	 * Meta verisini döndürür.
+	 *
+	 * @param string $meta_key Meta veri anahtarı.
+	 *
+	 * @return mixed
+	 */
+	public function get_meta( $meta_key ) {
+		return $this->get_prop( $meta_key );
+	}
+
+	/**
+	 * Oluşturulma tarihini döndürür
+	 *
+	 * @return string
+	 */
+	public function get_date() {
+		$this->date = get_post_field( 'post_date_gmt', $this->id );
+		return $this->date;
 	}
 
 	/**

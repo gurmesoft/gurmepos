@@ -36,7 +36,6 @@ class GPOS_Loader {
 			'includes/settings/class-gpos-settings.php',
 			'includes/settings/class-gpos-woocommerce-settings.php',
 			'includes/settings/class-gpos-form-settings.php',
-			'includes/settings/class-gpos-card-save-settings.php',
 			// Paratika
 			'includes/payment-gateways/paratika/class-gpos-paratika-settings.php',
 			'includes/payment-gateways/paratika/class-gpos-paratika-gateway.php',
@@ -91,6 +90,8 @@ class GPOS_Loader {
 			'includes/class-gpos-frontend.php',
 			'includes/class-gpos-session.php',
 			'includes/class-gpos-refund.php',
+			'includes/class-gpos-post-tables.php',
+			'includes/class-gpos-shortcode.php',
 			// Hooks
 			'hooks/class-gpos-gph.php',
 			'hooks/class-gpos-self-hooks.php',
@@ -104,10 +105,13 @@ class GPOS_Loader {
 			require_once GPOS_PLUGIN_DIR_PATH . $file;
 		}
 
+		do_action( 'gpos_loaded' );
+
 		new GPOS_Self_Hooks();
 		new GPOS_WordPress();
 		new GPOS_Schedule();
 		new GPOS_Ajax();
 		new GPOS_Gph();
+
 	}
 }

@@ -64,7 +64,7 @@ class GPOS_Paytr extends GPOS_Gateway {
 	 *
 	 * @var array $supports
 	 */
-	public $supports = array( 'threed', 'refund', 'installment_api' );
+	public $supports = array( 'threed', 'regular', 'refund', 'save_card', 'installment_api' );
 
 	/**
 	 * Firma müşteri panel bilgisi
@@ -114,7 +114,8 @@ class GPOS_Paytr extends GPOS_Gateway {
 	public function get_test_credit_cards() : array {
 		return array(
 			array(
-				'type'         => 'Visa',
+				'brand'        => 'visa',
+				'type'         => 'credit',
 				'bin'          => '4355 0843 5508 4358',
 				'expiry_year'  => '2024',
 				'expiry_month' => '12',
@@ -122,7 +123,8 @@ class GPOS_Paytr extends GPOS_Gateway {
 				'secure'       => '',
 			),
 			array(
-				'type'         => 'Visa',
+				'brand'        => 'visa',
+				'type'         => 'credit',
 				'bin'          => '5406 6754 0667 5403',
 				'expiry_year'  => '2024',
 				'expiry_month' => '12',
@@ -130,7 +132,8 @@ class GPOS_Paytr extends GPOS_Gateway {
 				'secure'       => '',
 			),
 			array(
-				'type'         => 'Visa',
+				'brand'        => 'visa',
+				'type'         => 'credit',
 				'bin'          => '9792 0303 9444 0796',
 				'expiry_year'  => '2024',
 				'expiry_month' => '12',

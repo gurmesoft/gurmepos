@@ -10,7 +10,7 @@
  *
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
-final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
+class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 
 	/**
 	 * Ödeme geçidi ayarlarını taşır.
@@ -215,9 +215,9 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 			$this->gateway_response->set_transaction_id( $post_data['merchantPaymentId'] );
 		}
 
-		if ( array_key_exists( 'responseCode', $post_data ) && '00' === $post_data['responseCode'] ) {
+		$this->log( GPOS_Transaction_Utils::LOG_PROCESS_CALLBACK, [], $post_data );
 
-			$this->log( GPOS_Transaction_Utils::LOG_PROCESS_CALLBACK, [], $post_data );
+		if ( array_key_exists( 'responseCode', $post_data ) && '00' === $post_data['responseCode'] ) {
 
 			$request  = array_merge(
 				array(
@@ -375,7 +375,7 @@ final class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 			$card['CARDPAN']    = $this->transaction->get_card_bin();
 		}
 
-		if ( $this->transaction->need_save_current_card() ) {
+		if ( $this->transaction->get_save_card() ) {
 			$card[ $threed ? 'saveCard' : 'SAVECARD' ] = 'yes';
 		}
 

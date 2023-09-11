@@ -109,7 +109,8 @@ class GPOS_Wyld extends GPOS_Gateway {
 	public function get_test_credit_cards() : array {
 		return array(
 			array(
-				'type'         => 'Master',
+				'brand'        => 'mastercard',
+				'type'         => 'credit',
 				'bin'          => '4155 6501 0041 6111 ',
 				'expiry_year'  => '2026',
 				'expiry_month' => '12',

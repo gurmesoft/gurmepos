@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - POS Entegratör &#8211; WordPress Ödeme Eklentisi - Development (trunk) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-08-29 10:03+0000\n"
+"PO-Revision-Date: 2023-09-06 13:18+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,14 +23,11 @@ msgid "%s - Multiple payment solutions"
 msgstr "%s - Çoklu ödeme çözümleri"
 
 #. translators: %s: Saat farkı için kullanılan saat örn. 10 Dakika Önce
-#: template/template-parts/transaction-columns/create-date.php:20
+#: templates/saved-card-columns/create-date.php:20
+#: templates/transaction-columns/create-date.php:20
 msgctxt "%s = human-readable time difference"
 msgid "%s ago"
 msgstr "%s önce"
-
-#: template/checkout-test-mode.php:24
-msgid "3D"
-msgstr "3D"
 
 #: includes/payment-gateways/pro/class-gpos-akbank.php:106
 #: includes/payment-gateways/pro/class-gpos-albaraka.php:102
@@ -92,7 +89,7 @@ msgstr "İşlem"
 msgid "Actions"
 msgstr "Aksiyonlar"
 
-#: languages/gpos-texts.php:209 template/wc-gateway-disabled.php:17
+#: languages/gpos-texts.php:209 templates/wc-gateway-disabled.php:17
 msgid "Activate"
 msgstr "Etkinleştir"
 
@@ -100,7 +97,7 @@ msgstr "Etkinleştir"
 msgid "Activate Installment Sale"
 msgstr "Taksitli Satışı Etkinleştir"
 
-#: includes/gpos-functions.php:341
+#: includes/gpos-functions.php:354
 msgid "Activated"
 msgstr "Etkinleştirildi"
 
@@ -124,6 +121,11 @@ msgstr "Ödeme Kuruluşu Ekle"
 #: languages/gpos-texts.php:133 languages/gpos-texts.php:227
 msgid "Address"
 msgstr "Adres"
+
+#: hooks/class-gpospro-gurmepos.php:195
+msgctxt "Admin Menu text"
+msgid "Saved Cards"
+msgstr "Kayıtlı Kartlar"
 
 #: includes/class-gpos-post-operations.php:98
 msgctxt "Admin Menu text"
@@ -321,7 +323,7 @@ msgstr "Geri Dön"
 msgid "Back to payment page"
 msgstr "Ödeme sayfasına geri dön"
 
-#: languages/gpos-texts.php:166
+#: includes/class-gpos-post-tables.php:103 languages/gpos-texts.php:166
 msgid "Bank Name"
 msgstr "Banka Adı"
 
@@ -360,7 +362,7 @@ msgstr "%s numaralı iptal işlemi başarıyla tamamlandı."
 msgid "Cancelled"
 msgstr "İptal Edildi"
 
-#: languages/gpos-texts.php:162
+#: includes/class-gpos-post-tables.php:101 languages/gpos-texts.php:162
 msgid "Card Brand"
 msgstr "Kart Markası"
 
@@ -368,7 +370,19 @@ msgstr "Kart Markası"
 msgid "Card Country"
 msgstr "Kartın Ülkesi"
 
-#: languages/gpos-texts.php:163
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:268
+msgid "Card cvc field cannot be left blank."
+msgstr "Kart cvc alanı boş bırakılamaz."
+
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:266
+msgid "Card expiration month cannot be left blank."
+msgstr "Kart ay alanı boş bırakılamaz."
+
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:267
+msgid "Card expiration year cannot be left blank."
+msgstr "Kart yıl alanı boş bırakılamaz."
+
+#: includes/class-gpos-post-tables.php:100 languages/gpos-texts.php:163
 msgid "Card Family"
 msgstr "Kart Ailesi"
 
@@ -380,16 +394,32 @@ msgstr "Kart Üzerindeki İsim"
 msgid "Card Info"
 msgstr "Kart Bilgisi"
 
-#: languages/gpos-texts.php:160 template/checkout-standart-form.php:30
-#: template/checkout-test-mode.php:21
+#: includes/class-gpos-post-tables.php:97
+#, fuzzy
+#| msgid "Card Save"
+msgid "Card Name"
+msgstr "Kart Kaydet"
+
+#: languages/gpos-texts.php:239
+msgid "Card name"
+msgstr "Kart ismi"
+
+#: includes/class-gpos-post-tables.php:98 languages/gpos-texts.php:160
+#: languages/gpos-texts.php:232
 msgid "Card Number"
 msgstr "Kart Numarası"
 
-#: languages/gpos-texts.php:206
-msgid "Card Save"
-msgstr "Kart Kaydet"
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:265
+#, fuzzy
+#| msgid "The credit card number field cannot be left blank."
+msgid "Card number field cannot be left blank."
+msgstr "Kredi kartı numarası alanı boş bırakılamaz."
 
-#: languages/gpos-texts.php:161
+#: languages/gpos-texts.php:206
+msgid "Card Saving"
+msgstr "Kart Saklama"
+
+#: includes/class-gpos-post-tables.php:102 languages/gpos-texts.php:161
 msgid "Card Type"
 msgstr "Kart Tipi"
 
@@ -407,12 +437,12 @@ msgid "Click to download or to activate if installed."
 msgstr "İndirmek veya yüklüyse etkinleştirmek için tıklayın."
 
 #: hooks/class-gpospro-givewp.php:80
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:299
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:296
 msgid "Click to go to settings."
 msgstr "Ayarlara gitmek için tıklayın."
 
 #. translators: %1$s => Link, %2$s => Text
-#: includes/class-gpos-transaction.php:691
+#: includes/class-gpos-transaction.php:754
 msgid ""
 "Click to view the details of transaction <a href=\"%1$s\" target=\"_blank\">"
 "#%2$s</a>."
@@ -444,7 +474,7 @@ msgstr "Yorumlar (İsteğe Bağlı)"
 msgid "Common Form Start"
 msgstr "Ortak Ödeme Form Başlangıcı"
 
-#: hooks/class-gpos-wordpress.php:276
+#: hooks/class-gpos-wordpress.php:325
 msgid "Community Form"
 msgstr "Topluluk Forumu"
 
@@ -491,17 +521,9 @@ msgstr "Ülke"
 msgid "Created Date"
 msgstr "Oluşturulma Tarihi"
 
-#: languages/gpos-texts.php:170
+#: languages/gpos-texts.php:170 templates/saved-card-columns/type.php:14
 msgid "Credit Card"
 msgstr "Kredi Kartı"
-
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:269
-msgid "Credit card expiration date cannot be left blank."
-msgstr "Kredi kartı son kullanma tarihi boş bırakılamaz."
-
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:271
-msgid "Credit card security field cannot be left blank."
-msgstr "Kredi kartı güvenlik alanı boş bırakılamaz."
 
 #: hooks/class-gpospro-givewp.php:46
 msgid "Credit/Debit Card"
@@ -515,15 +537,12 @@ msgstr "Para Birimleri"
 msgid "Customer"
 msgstr "Müşteri"
 
-#: template/checkout-test-mode.php:23
-msgid "CVV"
-msgstr "CVV"
-
-#: includes/class-gpos-admin.php:253
+#: includes/class-gpos-admin.php:229
 msgid "Dashboard"
 msgstr "Başlangıç"
 
-#: includes/class-gpos-admin.php:229 languages/gpos-texts.php:77
+#: includes/class-gpos-post-tables.php:70
+#: includes/class-gpos-post-tables.php:105 languages/gpos-texts.php:77
 msgid "Date"
 msgstr "Tarih"
 
@@ -531,7 +550,7 @@ msgstr "Tarih"
 msgid "Deactive"
 msgstr "Deaktif Et"
 
-#: languages/gpos-texts.php:171
+#: languages/gpos-texts.php:171 templates/saved-card-columns/type.php:14
 msgid "Debit Card"
 msgstr "Banka Kartı"
 
@@ -539,7 +558,7 @@ msgstr "Banka Kartı"
 msgid "Debit/Credit Card"
 msgstr "Banka/Kredi Kartı"
 
-#: includes/gpos-functions.php:340
+#: includes/gpos-functions.php:353
 msgid "Debug Mode"
 msgstr "Hata Ayıklama Modu"
 
@@ -567,11 +586,11 @@ msgstr "Detaylar"
 msgid "Didn't work as expected"
 msgstr "Beklediğim gibi çalışmadı"
 
-#: includes/gpos-functions.php:341
+#: includes/gpos-functions.php:354
 msgid "Disabled"
 msgstr "Devre Dışı"
 
-#: hooks/class-gpos-wordpress.php:271 languages/gpos-texts.php:110
+#: hooks/class-gpos-wordpress.php:320 languages/gpos-texts.php:110
 msgid "Docs"
 msgstr "Dökümanlar"
 
@@ -579,11 +598,12 @@ msgstr "Dökümanlar"
 msgid "Documents"
 msgstr "Dökümanlar"
 
-#: includes/plugin-gateways/class-gpospro-givewp-payment-gateway.php:219
+#: includes/plugin-gateways/class-gpospro-givewp-payment-gateway.php:205
 msgid "Donation"
 msgstr "Bağış"
 
-#: languages/gpos-texts.php:132 languages/gpos-texts.php:226
+#: includes/class-gpos-post-tables.php:104 languages/gpos-texts.php:132
+#: languages/gpos-texts.php:226
 msgid "E-Mail"
 msgstr "E-Posta"
 
@@ -601,7 +621,7 @@ msgstr ""
 "Craftgate cevabı yorumlanırken hata oluştu, lütfen yönetim ile iletişime "
 "geçiniz."
 
-#: includes/gpos-functions.php:274
+#: includes/gpos-functions.php:270
 #: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:212
 msgid ""
 "Error in 3D rendering. The password was entered incorrectly or the 3D page "
@@ -610,11 +630,11 @@ msgstr ""
 "3D görüntülemede hata. Şifre yanlış girildi veya 3D sayfası terk edildi."
 
 #. translators: %s => Ödeme geçidi hatası.
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:219
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:208
 msgid "Error in payment process: %s."
 msgstr "Ödeme işleminde hata: %s"
 
-#: includes/gpos-functions.php:301
+#: includes/gpos-functions.php:314
 msgid ""
 "Error in refund process. Please review unsuccessful refunds for error "
 "details and try again."
@@ -622,7 +642,7 @@ msgstr ""
 "İade işleminde hata. Lütfen hata ayrıntıları için başarısız geri ödemeleri "
 "inceleyin ve tekrar deneyin."
 
-#: includes/gpos-functions.php:299
+#: includes/gpos-functions.php:312
 msgid "Error when bringing in installments"
 msgstr "Taksitleri getirirken hata oluştu"
 
@@ -631,9 +651,9 @@ msgstr "Taksitleri getirirken hata oluştu"
 msgid "Error while payment processing: %s"
 msgstr "Ödeme işlemi sırasında hata: %s"
 
-#: template/checkout-standart-form.php:47
-msgid "Expiration Date"
-msgstr "Son Kullanma Tarihi"
+#: includes/class-gpos-post-tables.php:99
+msgid "Expiry"
+msgstr "Son Kullanım"
 
 #: languages/gpos-texts.php:218
 msgid "Export"
@@ -734,7 +754,7 @@ msgstr "GurmeHub Geri Bildirim"
 msgid "GurmeHub Forum"
 msgstr "GurmeHub Forum"
 
-#: template/store-rating-notice.php:14
+#: templates/store-rating-notice.php:14
 msgid "GurmeHub Founder"
 msgstr "GurmeHub Kurucusu"
 
@@ -746,7 +766,7 @@ msgstr ""
 "GurmeHub tüm banka ve ödeme kuruluşları destekli özelleştirilebilir POS "
 "eklentisi"
 
-#: template/store-rating-notice.php:10
+#: templates/store-rating-notice.php:10
 msgid "Hello Dear WordPress lovers."
 msgstr "Merhaba Sevgili WordPress sever."
 
@@ -774,7 +794,7 @@ msgstr "https://posentegrator.com"
 msgid "https://posentegrator.com/"
 msgstr "https://posentegrator.com/"
 
-#: template/store-rating-notice.php:17
+#: templates/store-rating-notice.php:17
 msgid "I already commented"
 msgstr "Zaten yorum yaptım"
 
@@ -790,7 +810,7 @@ msgstr ""
 msgid "I need more information about %s"
 msgstr "%s hakkında daha fazla bilgiye ihtiyacım var"
 
-#: template/store-rating-notice.php:12
+#: templates/store-rating-notice.php:12
 msgid ""
 "I noticed that you have installed and experimented with POS Entegratör, "
 "that`s great! Please do us a favor and help us spread our plugin and "
@@ -801,8 +821,10 @@ msgstr ""
 "bir iyilik yapıp, eklentimizi yaymamıza ve motivasyonumuzu artırmamıza "
 "yardımcı olun. Bize 5 yıldız verip WordPress'e yorum yazabilir misiniz?"
 
-#: template/checkout-three-d-field.php:16
-msgid "I want to pay with 3D Secure"
+#: languages/gpos-texts.php:237
+#, fuzzy
+#| msgid "I want to pay with 3D Secure"
+msgid "I want to pay with 3d secure."
 msgstr "3D Güvenli ödeme yapmak istiyorum"
 
 #: hooks/class-gpos-gph.php:44
@@ -830,7 +852,7 @@ msgstr ""
 msgid "In order to use the %1$s plugin, you must activate the %2$s plugin."
 msgstr "%1$s eklentisini kullanmak için %2$s eklentisini etkinleştirmelisiniz."
 
-#: template/wc-gateway-disabled.php:16
+#: templates/wc-gateway-disabled.php:16
 msgid ""
 "In order to use the POS Entegratör, you must first activate it from "
 "WooCommerce > Settings > Payments."
@@ -864,12 +886,11 @@ msgstr ""
 "Kuveyt Türk Pos entegrasyonu için gerekli olan bilgiler Kuveyt Türk  Sanal "
 "Pos Ekranından temin edilecektir."
 
-#: languages/gpos-texts.php:85 template/table-style-installment.php:37
+#: languages/gpos-texts.php:85
 msgid "Installment"
 msgstr "Taksit"
 
-#: template/row-style-installment.php:12
-#: template/table-style-installment.php:17
+#: languages/gpos-texts.php:242
 msgid "Installment Number"
 msgstr "Taksit Sayısı"
 
@@ -885,7 +906,7 @@ msgstr "Taksit Kuralları"
 msgid "Installment Table View Settings"
 msgstr "Taksit Tablosu Görünümü Ayarları"
 
-#: includes/gpos-functions.php:298
+#: includes/gpos-functions.php:311
 msgid "Installments were applied"
 msgstr "Taksitler uygulandı"
 
@@ -922,7 +943,7 @@ msgstr ""
 msgid "Invalid operation, please try again by refreshing the page."
 msgstr "Geçersiz işlem, lütfen sayfayı yenileyerek tekrar deneyin."
 
-#: includes/gpos-functions.php:366 languages/gpos-texts.php:138
+#: includes/gpos-functions.php:379 languages/gpos-texts.php:138
 msgid "IP Address"
 msgstr "IP Adresi"
 
@@ -946,7 +967,8 @@ msgid ""
 "It shows your installment options in the form of a table in the payment form."
 msgstr "Ödeme formundaki taksit seçeneklerinizi tablo şeklinde gösterir."
 
-#: template/template-parts/transaction-columns/create-date.php:24
+#: templates/saved-card-columns/create-date.php:24
+#: templates/transaction-columns/create-date.php:24
 msgid "j F Y"
 msgstr "j F Y"
 
@@ -1015,34 +1037,36 @@ msgstr "Mağaza Gizli Anahtar"
 msgid "Method Name"
 msgstr "Yöntem Adı"
 
-#: template/checkout-standart-form.php:51
-#: template/template-parts/row-style/row.php:32
+#: languages/gpos-texts.php:234
 msgid "Month"
 msgstr "Ay"
 
-#: template/checkout-test-mode.php:22
+#: languages/gpos-texts.php:233
 msgid "Month/Year"
 msgstr "Ay/Yıl"
 
-#: template/row-style-installment.php:13
-#: template/table-style-installment.php:20
+#: languages/gpos-texts.php:243
 msgid "Monthly Payment"
 msgstr "Aylık Ödeme"
 
-#: includes/gpos-functions.php:336
+#: includes/gpos-functions.php:349
 msgid "Multisite"
 msgstr "Multisite"
 
-#: template/checkout-standart-form.php:19
-msgid "Name Surname"
-msgstr "Ad Soyad"
+#: languages/gpos-texts.php:236
+msgid "Name on the card"
+msgstr "Kart üzerindeki isim"
+
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:269
+msgid "Name on the card field cannot be left blank."
+msgstr "Kart üzerindeki isim alanı boş bırakılamaz."
 
 #: includes/class-gpos-post-operations.php:102
 msgid "New Transaction"
 msgstr "Yeni İşlem"
 
-#: includes/gpos-functions.php:337 includes/gpos-functions.php:351
-#: includes/gpos-functions.php:355 languages/gpos-texts.php:169
+#: includes/gpos-functions.php:350 includes/gpos-functions.php:364
+#: includes/gpos-functions.php:368 languages/gpos-texts.php:169
 msgid "No"
 msgstr "Hayır"
 
@@ -1054,6 +1078,14 @@ msgstr "İşlem listesinde onaylanmış işlem bulunamadı."
 #: includes/abstracts/abstract-gpos-options.php:87
 msgid "No installment desc..."
 msgstr "Taksit açıklaması yok..."
+
+#: hooks/class-gpospro-gurmepos.php:199
+msgid "No Saved Card found in Trash."
+msgstr "Çöpte Kayıtlı Kart Bulunamadı."
+
+#: hooks/class-gpospro-gurmepos.php:198
+msgid "No Saved Card found."
+msgstr "Kayıtlı Kart Bulunamadı."
 
 #. translators: %s is the name of the plugin.
 #: hooks/class-gpos-gph.php:82
@@ -1068,7 +1100,7 @@ msgstr "Çöp kutusunda işlem bulunamadı."
 msgid "No Transactions found."
 msgstr "İşlem bulunamadı."
 
-#: template/store-rating-notice.php:16
+#: templates/store-rating-notice.php:16
 msgid "No, maybe later"
 msgstr "Hayır, belki daha sonra"
 
@@ -1076,8 +1108,8 @@ msgstr "Hayır, belki daha sonra"
 msgid "Not 3D"
 msgstr "3Dsiz Ödeme"
 
-#: includes/gpos-functions.php:315 includes/gpos-functions.php:318
-#: includes/gpos-functions.php:347
+#: includes/gpos-functions.php:328 includes/gpos-functions.php:331
+#: includes/gpos-functions.php:360
 msgid "Not available"
 msgstr "Kullanılamaz"
 
@@ -1105,7 +1137,7 @@ msgstr ""
 "Garanti Pos entegrasyonu için gerekli olan bilgileri Garanti Sanal Pos "
 "Ekranından temin ediniz."
 
-#: includes/gpos-functions.php:296 languages/gpos-texts.php:115
+#: includes/gpos-functions.php:309 languages/gpos-texts.php:115
 msgid "OK"
 msgstr "Tamam"
 
@@ -1170,6 +1202,14 @@ msgstr "Parçalı İade"
 msgid "Password"
 msgstr "Parola"
 
+#: languages/gpos-texts.php:240
+msgid "Pay with different card"
+msgstr "Başka bir kart ile ödeme yap"
+
+#: languages/gpos-texts.php:241
+msgid "Pay with my saved card"
+msgstr "Kayıtlı kartımla ödeme yap"
+
 #: includes/abstracts/abstract-gpos-options.php:74
 #: includes/class-gpos-post-operations.php:155 languages/gpos-texts.php:154
 msgid "Payment"
@@ -1185,12 +1225,12 @@ msgstr "Kredi kartı ile ödeme"
 
 #. translators: %s => Ödeme geçidindeki tekil kimlik.
 #: includes/plugin-gateways/class-gpospro-givewp-payment-gateway.php:135
-#: includes/traits/trait-gpos-plugin-payment-gateway.php:163
+#: includes/traits/trait-gpos-plugin-payment-gateway.php:206
 msgid "Payment completed successfully. Payment number: %s"
 msgstr "Ödeme başarıyla tamamlandı. Ödeme numarası: %s"
 
 #. translators: %s => Ödeme geçidi benzersiz numarası.
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:187
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:176
 msgid "Payment completed successfully. Payment number: %s."
 msgstr "Ödeme başarıyla tamamlandı. Ödeme numarası: %s"
 
@@ -1242,7 +1282,7 @@ msgstr "Telefon"
 msgid "Platform"
 msgstr "Platform"
 
-#: includes/class-gpos-admin.php:225 languages/gpos-texts.php:156
+#: includes/class-gpos-post-tables.php:66 languages/gpos-texts.php:156
 msgid "Plugin"
 msgstr "Eklenti"
 
@@ -1252,11 +1292,10 @@ msgstr "Eklenti İşlem No"
 
 #. Plugin Name of the plugin
 #: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:40
-#: assets/js/test.js:83
 msgid "POS Entegratör"
 msgstr "POS Entegratör"
 
-#: template/wc-gateway-disabled.php:15
+#: templates/wc-gateway-disabled.php:15
 msgid "POS Entegratör is not active"
 msgstr "POS Entegratör etkin değil"
 
@@ -1309,10 +1348,20 @@ msgctxt "post status label"
 msgid "Started "
 msgstr "Başladı "
 
+#: hooks/class-gpospro-gurmepos.php:193
+msgctxt "Post type general name"
+msgid "Saved Cards"
+msgstr "Kayıtlı Kartlar"
+
 #: includes/class-gpos-post-operations.php:96
 msgctxt "Post type general name"
 msgid "Transactions"
 msgstr "İşlemler"
+
+#: hooks/class-gpospro-gurmepos.php:194
+msgctxt "Post type singular name"
+msgid "Saved Card"
+msgstr "Kayıtlı Kart"
 
 #: includes/class-gpos-post-operations.php:97
 msgctxt "Post type singular name"
@@ -1331,7 +1380,7 @@ msgstr "İşlem"
 msgid "Process Cancel"
 msgstr "İptal İşlemi"
 
-#: includes/gpos-functions.php:300
+#: includes/gpos-functions.php:313
 msgid "Process completed successfully !"
 msgstr "İşlem başarıyla tamamlandı !"
 
@@ -1339,8 +1388,8 @@ msgstr "İşlem başarıyla tamamlandı !"
 msgid "Process Refund"
 msgstr "İade İşlemi"
 
-#: includes/class-gpos-admin.php:228
-#: includes/class-gpos-post-operations.php:148 languages/gpos-texts.php:82
+#: includes/class-gpos-post-operations.php:148
+#: includes/class-gpos-post-tables.php:69 languages/gpos-texts.php:82
 msgid "Process Type"
 msgstr "İşlem Türü"
 
@@ -1369,7 +1418,9 @@ msgid "Recurring Payment (Payment Plan)"
 msgstr "Tekrarlı Ödeme (Ödeme Planı)"
 
 #: languages/gpos-texts.php:14
-msgid "Recurring Payment (Registered Card)"
+#, fuzzy
+#| msgid "Recurring Payment (Registered Card)"
+msgid "Recurring Payment (Saved Card)"
 msgstr "Tekrarlı Ödeme (Kayıtlı Kart)"
 
 #: languages/gpos-texts.php:150
@@ -1427,11 +1478,7 @@ msgstr "İade Edilebilir"
 msgid "Refunded"
 msgstr "İade Edildi"
 
-#: languages/gpos-texts.php:13
-msgid "Registered Card"
-msgstr "Kayıtlı Kart"
-
-#: template/template-parts/transaction-columns/security-type.php:20
+#: templates/transaction-columns/security-type.php:20
 msgid "Regular"
 msgstr "Normal"
 
@@ -1471,13 +1518,13 @@ msgstr "Şimdi gözden geçirin"
 msgid "Row View"
 msgstr "Satır Görünümü"
 
-#: languages/gpos-texts.php:47
+#: languages/gpos-texts.php:13 languages/gpos-texts.php:47
 msgid "Save Card"
 msgstr "Kart Saklama"
 
-#: template/checkout-save-card-field.php:15
-msgid "Save my card"
-msgstr "Kartımı kaydet"
+#: languages/gpos-texts.php:238
+msgid "Save my card for next payments."
+msgstr "Sonraki alışverişlerim için kartımı sakla."
 
 #: languages/gpos-texts.php:57
 msgid "Save Settings"
@@ -1491,9 +1538,17 @@ msgstr "Kayıt Adımı"
 msgid "Saved Card"
 msgstr "Kayıtlı Kart"
 
+#: hooks/class-gpospro-gurmepos.php:196
+msgid "Saved Cards"
+msgstr "Kayıtlı Kartlar"
+
 #: languages/gpos-texts.php:87
 msgid "Search Payment Institution"
 msgstr "Ödeme Kuruluşu Ara"
+
+#: hooks/class-gpospro-gurmepos.php:197
+msgid "Search Saved Card"
+msgstr "Kayıtlı Kart Ara"
 
 #: includes/class-gpos-post-operations.php:106
 msgid "Search Transactions"
@@ -1503,11 +1558,11 @@ msgstr "İşlemlerde Ara"
 msgid "Security Key"
 msgstr "Güvenlik Anahtarı"
 
-#: includes/class-gpos-admin.php:227
+#: includes/class-gpos-post-tables.php:68
 msgid "Security Type"
 msgstr "Güvenlik Tipi"
 
-#: hooks/class-gpos-wordpress.php:297
+#: hooks/class-gpos-wordpress.php:346
 msgid "Select Process Type"
 msgstr "İşlem Tipi Seçiniz"
 
@@ -1515,7 +1570,7 @@ msgstr "İşlem Tipi Seçiniz"
 msgid "Sell subscription products with the WooCommerce Subscriber Plugin"
 msgstr "WooCommerce Subscriber Eklentisi ile abonelikli ürün satışı yapın"
 
-#: hooks/class-gpos-wordpress.php:223 includes/class-gpos-admin.php:271
+#: hooks/class-gpos-wordpress.php:272 includes/class-gpos-admin.php:247
 #: languages/gpos-texts.php:217
 msgid "Settings"
 msgstr "Ayarlar"
@@ -1567,7 +1622,7 @@ msgstr[1] "Başladı <span class=\"count\">(%s)</span>"
 msgid "State"
 msgstr "Şehir"
 
-#: includes/class-gpos-admin.php:226 languages/gpos-texts.php:29
+#: includes/class-gpos-post-tables.php:67 languages/gpos-texts.php:29
 msgid "Status"
 msgstr "Durum"
 
@@ -1576,7 +1631,7 @@ msgid "Status of Successful Payments"
 msgstr "Başarılı Ödemelerin Geçeceği Durum"
 
 #. translators: %1$s => Eski durum %2$s => Yeni durum.
-#: includes/class-gpos-transaction.php:273
+#: includes/class-gpos-transaction.php:298
 msgid "Status updated %1$s to %2$s"
 msgstr "İşlem %1$s durumundan %2$s durumuna geçirildi."
 
@@ -1607,22 +1662,13 @@ msgstr "Terminal ID"
 msgid "Test Mode"
 msgstr "Test Modu"
 
-#: includes/class-gpos-admin.php:128 languages/gpos-texts.php:60
-#: template/checkout-test-mode.php:15
+#: includes/class-gpos-admin.php:137 languages/gpos-texts.php:60
 msgid "Test Mode Active"
 msgstr "Test Modu Aktif"
 
 #: languages/gpos-texts.php:58
 msgid "Test the connection"
 msgstr "Bağlantıyı test et"
-
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:270
-msgid "The credit card expiration date cannot be left blank."
-msgstr "Kredi kartı son kullanma tarihi boş bırakılamaz."
-
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:268
-msgid "The credit card number field cannot be left blank."
-msgstr "Kredi kartı numarası alanı boş bırakılamaz."
 
 #: languages/gpos-bank-texts.php:31
 msgid ""
@@ -1656,19 +1702,15 @@ msgstr ""
 "Yapı Kredi Sanal POS entegrasyonu için gerekli bilgiler Yapı Kredi Sanal POS "
 "Ekranından alınacaktır."
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:272
-msgid "The name field on the card cannot be left blank."
-msgstr "Kart üzerindeki isim alanı boş bırakılamaz."
-
-#: includes/gpos-functions.php:297
+#: includes/gpos-functions.php:310
 msgid "The settings have been saved."
 msgstr "Ayarlar kaydedildi."
 
-#: includes/gpos-functions.php:324
+#: includes/gpos-functions.php:337
 msgid "Theme Name"
 msgstr "Tema"
 
-#: includes/gpos-functions.php:328
+#: includes/gpos-functions.php:341
 msgid "Theme Version"
 msgstr "Tema Versiyon"
 
@@ -1677,11 +1719,11 @@ msgid "There are no logs."
 msgstr "Kayıt yok."
 
 #: hooks/class-gpospro-givewp.php:79
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:298
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:295
 msgid "These payment method settings are made through the admin menu."
 msgstr "Bu ödeme yöntemi ayarları yönetici menüsü üzerinden yapılır."
 
-#: template/template-parts/transaction-columns/security-type.php:20
+#: templates/transaction-columns/security-type.php:20
 msgid "Three-D Secure"
 msgstr "3D Güvenli"
 
@@ -1705,11 +1747,7 @@ msgstr "Jeton hatası."
 msgid "Total"
 msgstr "Toplam"
 
-#: template/template-parts/row-style/row.php:28
-msgid "Total:"
-msgstr "Toplam:"
-
-#: includes/class-gpos-admin.php:224 languages/gpos-texts.php:145
+#: includes/class-gpos-post-tables.php:65 languages/gpos-texts.php:145
 msgid "Transaction"
 msgstr "İşlem"
 
@@ -1725,11 +1763,11 @@ msgstr "İşlem Detayları"
 msgid "Transaction Logs"
 msgstr "İşlem Kayıtları"
 
-#: includes/class-gpos-transaction.php:179
+#: includes/class-gpos-transaction.php:201
 msgid "Transaction started."
 msgstr "İşlem başladı."
 
-#: includes/class-gpos-admin.php:145
+#: includes/class-gpos-admin.php:154
 #: includes/class-gpos-post-operations.php:105
 msgid "Transactions"
 msgstr "İşlemler"
@@ -1759,7 +1797,7 @@ msgstr ""
 msgid "Unsupported currency"
 msgstr "Desteklenmeyen para birimi"
 
-#: hooks/class-gpos-wordpress.php:230
+#: hooks/class-gpos-wordpress.php:279
 msgid "Upgrade"
 msgstr "Yükselt"
 
@@ -1823,7 +1861,7 @@ msgstr "{0} yardım dökümanlarını inceleyin"
 msgid "View Transaction"
 msgstr "İşlem Görüntüle"
 
-#: includes/class-gpos-admin.php:257 languages/gpos-texts.php:155
+#: includes/class-gpos-admin.php:233 languages/gpos-texts.php:155
 msgid "Virtual POS"
 msgstr "Sanal POS"
 
@@ -1853,6 +1891,11 @@ msgstr ""
 "bilgiler bulunmakta. Bu bilgileri POS Entegratör’de ilgili yerlere "
 "dolduruyoruz."
 
+#: languages/gpos-texts.php:231
+msgid ""
+"While the test mode is active, your payments will be made with the Test APIs."
+msgstr "Test modu aktifken ödemeleriniz Test API'leri ile yapılacaktır."
+
 #: hooks/class-gpos-gph.php:79
 msgid "Why you are leaving us ?"
 msgstr "Deaktif etme nedenini öğrenebilir miyiz?"
@@ -1877,28 +1920,24 @@ msgstr ""
 "Kısa kod yardımıyla müşterilerinizin kayıtlı kartlarını "
 "görüntüleyebilecekleri ve kaldırabilecekleri bir sayfa oluşturabilirsiniz."
 
-#: template/table-style-installment.php:37
-msgid "Without installments"
-msgstr "Peşin"
-
 #: languages/gpos-texts.php:123
 msgid "WooCommerce"
 msgstr "WooCommerce"
 
-#: includes/gpos-functions.php:332
+#: includes/gpos-functions.php:345
 msgid "WordPress Version"
 msgstr "WordPress Versiyon"
 
-#: template/checkout-standart-form.php:59
+#: languages/gpos-texts.php:235
 msgid "Year"
 msgstr "Yıl"
 
-#: includes/gpos-functions.php:337 includes/gpos-functions.php:351
-#: includes/gpos-functions.php:355 languages/gpos-texts.php:168
+#: includes/gpos-functions.php:350 includes/gpos-functions.php:364
+#: includes/gpos-functions.php:368 languages/gpos-texts.php:168
 msgid "Yes"
 msgstr "Evet"
 
-#: template/store-rating-notice.php:15
+#: templates/store-rating-notice.php:15
 msgid "Yes, you deserve it"
 msgstr "Evet, bunu hak ediyorsun"
 
@@ -1928,10 +1967,6 @@ msgstr ""
 "Sanal Pos Paneline giriş sağlayıp Ayarlar -> Entegrasyon & API sayfasından "
 "elde edebilirsiniz."
 
-#: template/checkout-save-card-field.php:16
-msgid "You can keep your card for your next payments."
-msgstr "Sonraki ödemeler için kart bilgilerinizi saklayabilirsiniz."
-
 #: languages/gpos-texts.php:199
 msgid ""
 "You can refund part of the <strong>{0} {1}</strong> payment by entering the "
@@ -1956,13 +1991,6 @@ msgstr "Aktif bir ödeme kuruluşunuz bulunmamakta."
 #: languages/gpos-texts.php:64
 msgid "You have not activated a pos yet"
 msgstr "Henüz bir pos aktif etmediniz"
-
-#: includes/class-gpos-frontend.php:196
-msgid ""
-"You have not activated any pos integration, please complete your settings."
-msgstr ""
-"Herhangi bir pos entegrasyonunu etkinleştirmediniz, lütfen ayarlarınızı "
-"tamamlayın."
 
 #: languages/gpos-texts.php:124
 msgid "Your Method Name"

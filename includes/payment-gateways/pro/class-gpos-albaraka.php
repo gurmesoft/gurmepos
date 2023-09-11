@@ -118,7 +118,8 @@ class GPOS_Albaraka extends GPOS_Gateway {
 	public function get_test_credit_cards() : array {
 		return array(
 			array(
-				'type'         => 'Visa',
+				'brand'        => 'visa',
+				'type'         => 'credit',
 				'bin'          => '4506 3470 1029 9085',
 				'expiry_year'  => '2026',
 				'expiry_month' => '09',

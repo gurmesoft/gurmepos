@@ -8,6 +8,11 @@
     $("#gpos-card-expiry-year").val($testButton.data("expiry_year"));
   };
 
+  window.gpos_save_card_change = function (element) {
+    const $nameInput = $("#gpos-card-name-container");
+    $(element).is(":checked") ? $nameInput.slideDown(300) : $nameInput.slideUp(300);
+  };
+
   // Kredi kartı alanına girilen kart bilgisini bulur
   let currentEight = "";
   window.gpos_bin_input = async (field) => {

@@ -11,21 +11,6 @@
 trait GPOS_Credit_Card {
 
 	/**
-	 * Ödemede kayıtlı kart kullanılacak mı?
-	 *
-	 * @var bool $use_saved_card
-	 */
-	protected $use_saved_card = false;
-
-
-	/**
-	 * Ödemede kayıtlı kart kullanılacak mı?
-	 *
-	 * @var bool $use_saved_card
-	 */
-	protected $save_current_card = false;
-
-	/**
 	 * Gizli kredi kartı numarası
 	 *
 	 * @var string $masked_card_bin
@@ -61,13 +46,6 @@ trait GPOS_Credit_Card {
 	protected $card_expiry_month;
 
 	/**
-	 * Taksit sayısı
-	 *
-	 * @var int|string $installment
-	 */
-	protected $installment = 1;
-
-	/**
 	 * Kart ailesi
 	 *
 	 * @var string $card_family
@@ -96,14 +74,36 @@ trait GPOS_Credit_Card {
 	protected $card_type;
 
 	/**
+	 * Kart üzerindeki isim
+	 *
+	 * @var string $card_holder_name
+	 * */
+	protected $card_holder_name;
+
+	/**
+	 * Kartın takma ismi
+	 *
+	 * @var string $card_name
+	 * */
+	protected $card_name;
+
+	/**
+	 * Kartın banka ismi
+	 *
+	 * @var string $card_bank_name
+	 * */
+	protected $card_bank_name;
+
+
+	/**
 	 * Kredi kartı numara bilgisini ayarlar
 	 *
 	 * @param int|string $value Kredi kartı numara bilgisi.
 	 * @return $this
 	 */
 	public function set_card_bin( $value ) {
-		$this->card_bin = str_replace( ' ', '', (string) $value );
-		$this->set_masked_card_bin( $value );
+		$this->card_bin = preg_replace( '/[^0-9]/', '', $value );
+		$this->set_masked_card_bin( $this->card_bin );
 		return $this;
 	}
 
@@ -123,7 +123,7 @@ trait GPOS_Credit_Card {
 	 * @return $this
 	 */
 	public function set_card_cvv( $value ) {
-		$this->card_cvv = str_replace( ' ', '', (string) $value );
+		$this->card_cvv = preg_replace( '/[^0-9]/', '', $value );
 		return $this;
 	}
 
@@ -143,7 +143,7 @@ trait GPOS_Credit_Card {
 	 * @return $this
 	 */
 	public function set_card_expiry_year( $value ) {
-		$this->card_expiry_year = str_replace( ' ', '', (string) $value );
+		$this->set_prop( __FUNCTION__, preg_replace( '/[^0-9]/', '', $value ) );
 		return $this;
 	}
 
@@ -153,7 +153,7 @@ trait GPOS_Credit_Card {
 	 * @return int|string
 	 */
 	public function get_card_expiry_year() {
-		return $this->card_expiry_year;
+		return $this->get_prop( __FUNCTION__ );
 	}
 
 	/**
@@ -163,7 +163,7 @@ trait GPOS_Credit_Card {
 	 * @return $this
 	 */
 	public function set_card_expiry_month( $value ) {
-		$this->card_expiry_month = str_replace( ' ', '', (string) $value );
+		$this->set_prop( __FUNCTION__, preg_replace( '/[^0-9]/', '', $value ) );
 		return $this;
 	}
 
@@ -173,7 +173,7 @@ trait GPOS_Credit_Card {
 	 * @return int|string
 	 */
 	public function get_card_expiry_month() {
-		return $this->card_expiry_month;
+		return $this->get_prop( __FUNCTION__ );
 	}
 
 	/**
@@ -197,35 +197,19 @@ trait GPOS_Credit_Card {
 	}
 
 	/**
-	 * Taksit seçeneğini ayarlar
-	 *
-	 * @param int|string $value Taksit seçeneği.
-	 * @return $this
-	 */
-	public function set_installment( $value ) {
-		$this->set_prop( __FUNCTION__, str_replace( ' ', '', (string) $value ) );
-		return $this;
-	}
-
-	/**
-	 * Taksit seçeneğini döndürür
-	 *
-	 * @return int|string
-	 */
-	public function get_installment() {
-		$installment       = $this->get_prop( __FUNCTION__ );
-		$this->installment = '' === $installment ? 1 : (int) $installment;
-		return $this->installment;
-	}
-
-	/**
 	 * Gizli kredi kartı numara bilgisini ayarlar
 	 *
 	 * @param int|string $value Kredi kartı numara bilgisi.
+	 * @param bool       $already_masked Numaranın zaten gizli olduğu belirtir.
 	 * @return $this
+	 *
+	 * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
 	 */
-	public function set_masked_card_bin( $value ) {
-		$this->set_prop( __FUNCTION__, '**** **** **** ' . substr( trim( $value ), -4 ) );
+	public function set_masked_card_bin( $value, $already_masked = false ) {
+		if ( false === $already_masked ) {
+			$value = substr( $value, 0, 4 ) . ' ' . substr( $value, 4, 4 ) . ' **** ' . substr( $value, -4 );
+		}
+		$this->set_prop( __FUNCTION__, $value );
 		return $this;
 	}
 
@@ -235,6 +219,26 @@ trait GPOS_Credit_Card {
 	 * @return int|string
 	 */
 	public function get_masked_card_bin() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Kredi yada banka kartı kayıt edilirken girilen isimi ayarlar.
+	 *
+	 * @param string $value Kart ismi bilgisi.
+	 * @return $this
+	 */
+	public function set_card_name( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Kredi yada banka kartı kayıt edilirken girilen isimi döndürür.
+	 *
+	 * @return string
+	 */
+	public function get_card_name() {
 		return $this->get_prop( __FUNCTION__ );
 	}
 
@@ -336,49 +340,6 @@ trait GPOS_Credit_Card {
 	 * @return string
 	 */
 	public function get_card_country() {
-		return $this->get_prop( __FUNCTION__ );
-	}
-
-	/**
-	 * Ödemede kayıtlı kart kullanılacak mı?
-	 *
-	 * @param bool $value Sipariş kimliği.
-	 *
-	 * @return $this
-	 */
-	public function set_use_saved_card( bool $value ) {
-		$this->set_prop( __FUNCTION__, $value );
-		return $this;
-	}
-
-	/**
-	 * Ödemede kayıtlı kart kullanılacak mı ?
-	 *
-	 * @return bool
-	 */
-	public function need_use_saved_card() {
-		return $this->get_prop( __FUNCTION__ );
-	}
-
-	/**
-	 * Ödemede kullanılan kart kayıt edilecek mi?
-	 *
-	 * @param bool $value Sipariş kimliği.
-	 *
-	 * @return $this
-	 */
-	public function set_save_current_card( bool $value ) {
-		$this->set_prop( __FUNCTION__, $value );
-		return $this;
-
-	}
-
-	/**
-	 * Ödemede kullanılan kart kayıt edilecek mi ?
-	 *
-	 * @return bool
-	 */
-	public function need_save_current_card() {
 		return $this->get_prop( __FUNCTION__ );
 	}
 

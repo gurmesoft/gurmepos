@@ -40,7 +40,10 @@ class GPOS_WordPress {
 	 */
 	public function __construct() {
 
+		// GPOS_WordPress callbacks
 		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'wp_head', array( $this, 'wp_head' ) );
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_filter( 'query_vars', array( $this, 'query_vars' ) );
 		add_action( 'admin_notices', array( $this, 'admin_notice' ) );
 		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
@@ -50,15 +53,17 @@ class GPOS_WordPress {
 		add_filter( 'plugin_action_links_' . GPOS_PLUGIN_BASENAME, array( $this, 'actions_links' ) );
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 		add_action( 'restrict_manage_posts', array( $this, 'restrict_manage_posts' ) );
-		add_action( 'admin_menu', array( gpos_admin(), 'admin_menu' ) );
-		add_action( 'admin_bar_menu', array( gpos_admin(), 'admin_bar_menu' ), 10001 );
-		add_filter( "manage_edit-{$this->prefix}_transaction_columns", array( gpos_admin(), 'transaction_columns' ) );
-		add_action( "manage_{$this->prefix}_transaction_posts_custom_column", array( gpos_admin(), 'transaction_custom_column' ) );
 		add_action( 'upgrader_process_complete', array( $this, 'upgrader_process_complete' ), 10, 2 );
 		add_action( 'pre_get_comments', array( $this, 'pre_get_comments' ) );
 		add_filter( 'get_edit_post_link', array( $this, 'get_edit_post_link' ), 10, 2 );
 		add_action( 'before_delete_post', array( $this, 'before_delete_post' ) );
-		add_filter( "bulk_actions-edit-{$this->prefix}_transaction", array( $this, 'bulk_actions_edit' ) );
+
+		// Other callbacks
+		add_action( 'admin_menu', array( gpos_admin(), 'admin_menu' ) );
+		add_action( 'admin_bar_menu', array( gpos_admin(), 'admin_bar_menu' ), 10001 );
+		add_filter( "bulk_actions-edit-{$this->prefix}_transaction", array( gpos_post_tables(), 'bulk_actions_edit' ) );
+		add_filter( "manage_edit-{$this->prefix}_transaction_columns", array( gpos_post_tables(), 'transaction_columns' ) );
+		add_action( "manage_{$this->prefix}_transaction_posts_custom_column", array( gpos_post_tables(), 'transaction_custom_column' ) );
 	}
 
 	/**
@@ -104,6 +109,42 @@ class GPOS_WordPress {
 	}
 
 	/**
+	 * WordPress <head></head> elemeti kancası
+	 *
+	 * @return void
+	 */
+	public function wp_head() {
+		if ( gpos_is_woocommerce_enabled() && function_exists( 'is_checkout' ) && is_checkout() ) {
+			gpos_frontend( GPOS_Transaction_Utils::WOOCOMMERCE );
+			wp_enqueue_script(
+				"{$this->prefix}-checkout",
+				GPOS_ASSETS_DIR_URL . '/js/checkout.js',
+				array( 'jquery' ),
+				GPOS_VERSION,
+				false
+			);
+		}
+	}
+
+	/**
+	 * WordPress admin init kancası
+	 *
+	 * @return void
+	 */
+	public function admin_init() {
+		if ( isset( $_GET['post_type'] ) && ( 'gpos_transaction' === $_GET['post_type'] || 'gpos_saved_card' === $_GET['post_type'] ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			?>
+			<style>
+				.page-title-action{
+					display: none !important;
+				}
+			</style>
+			<?php
+		}
+
+	}
+
+	/**
 	 * WordPress sorgu parametreleri
 	 *
 	 * @param array $vars Parametreler.
@@ -142,7 +183,6 @@ class GPOS_WordPress {
 	 * @return void
 	 */
 	public function plugins_loaded() {
-
 		if ( gpos_is_woocommerce_enabled() ) {
 			require_once GPOS_PLUGIN_DIR_PATH . 'includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php';
 			require_once GPOS_PLUGIN_DIR_PATH . 'hooks/class-gpos-woocommerce.php';
@@ -196,7 +236,7 @@ class GPOS_WordPress {
 	 */
 	public function script_loader( $tag, $handle ) {
 
-		if ( "{$this->prefix}-js" === $handle ) {
+		if ( $this->prefix === $handle ) {
 			$tag = str_replace( 'id=', 'type="module" id=', $tag );
 		}
 		return $tag;
@@ -242,14 +282,14 @@ class GPOS_WordPress {
 	 */
 	public function admin_notice() {
 		if ( ! get_user_meta( get_current_user_id(), 'gpos_hide_rating_message', true ) ) {
-			gpos_get_template( 'store-rating-notice' );
+			gpos_get_view( 'store-rating-notice.php' );
 		}
 
 		$wc_gpos_settings = get_option( 'woocommerce_gpos_settings', array() );
 
 		if ( ( gpos_is_woocommerce_enabled() && array_key_exists( 'enabled', $wc_gpos_settings ) && 'yes' !== $wc_gpos_settings['enabled'] ) ||
 		( gpos_is_woocommerce_enabled() && false === array_key_exists( 'enabled', $wc_gpos_settings ) ) ) {
-			gpos_get_template( 'wc-gateway-disabled' );
+			gpos_get_view( 'wc-gateway-disabled.php' );
 		}
 	}
 
@@ -369,6 +409,9 @@ class GPOS_WordPress {
 			$transaction = gpos_transaction( $post_id );
 			return $transaction->get_edit_link();
 		}
+		if ( 'gpos_saved_card' === $post->post_type ) {
+			return '';
+		}
 		return $link;
 	}
 
@@ -390,17 +433,5 @@ class GPOS_WordPress {
 				}
 			}
 		}
-	}
-
-	/**
-	 * WordPress post düzenleme işlemini GPOS_Transaction için devre dışı bırakma.
-	 *
-	 * @param array $actions Toplu işlemler.
-	 *
-	 * @return array
-	 */
-	public function bulk_actions_edit( $actions ) {
-		unset( $actions['edit'] );
-		return $actions;
 	}
 }
