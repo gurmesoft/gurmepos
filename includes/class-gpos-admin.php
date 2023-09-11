@@ -115,6 +115,7 @@ class GPOS_Admin {
 			->set_vue_page( $page )
 			->set_localize( $this->get_localize_data( $page ) )
 			->require_script()
+			->require_style()
 			->create_app_div();
 		}
 	}
