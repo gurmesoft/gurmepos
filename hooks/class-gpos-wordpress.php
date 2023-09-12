@@ -371,11 +371,11 @@ class GPOS_WordPress {
 	public function upgrader_process_complete( $upgrader, $hook_extra ) {
 
 		if ( false === $upgrader->bulk && array_key_exists( 'plugin', $hook_extra ) && GPOS_PLUGIN_BASENAME === $hook_extra['plugin'] ) {
-			gpos_activation();
+			call_user_func( array( new GPOS_Installer(), 'install' ) );
 		}
 
 		if ( true === $upgrader->bulk && array_key_exists( 'plugins', $hook_extra ) && in_array( GPOS_PLUGIN_BASENAME, $hook_extra['plugins'], true ) ) {
-			gpos_activation();
+			call_user_func( array( new GPOS_Installer(), 'install' ) );
 		}
 	}
 

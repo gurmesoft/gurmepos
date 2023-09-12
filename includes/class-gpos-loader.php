@@ -15,8 +15,7 @@ class GPOS_Loader {
 	 *
 	 * @return void
 	 */
-	public static function instance() {
-
+	public static function load() {
 		$files = array(
 			// Vendors
 			'vendor/autoload.php',
@@ -74,6 +73,7 @@ class GPOS_Loader {
 			'includes/class-gpos-admin.php',
 			'includes/class-gpos-tracker.php',
 			'includes/class-gpos-redirect.php',
+			'includes/class-gpos-installer.php',
 			'includes/class-gpos-installments.php',
 			'includes/class-gpos-http-request.php',
 			'includes/class-gpos-gateway-response.php',
@@ -104,14 +104,5 @@ class GPOS_Loader {
 		foreach ( $files as $file ) {
 			require_once GPOS_PLUGIN_DIR_PATH . $file;
 		}
-
-		do_action( 'gpos_loaded' );
-
-		new GPOS_Self_Hooks();
-		new GPOS_WordPress();
-		new GPOS_Schedule();
-		new GPOS_Ajax();
-		new GPOS_Gph();
-
 	}
 }
