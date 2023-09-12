@@ -162,7 +162,6 @@ class GPOS_Vue {
 	 * @return GPOS_Vue $this
 	 */
 	public function require_script() {
-		
 		wp_enqueue_script(
 			$this->prefix,
 			"{$this->asset_dir_url}/vue/js/{$this->vue_page}/main.js",
@@ -171,9 +170,8 @@ class GPOS_Vue {
 			false
 		);
 
-		
 		if ( ! empty( $this->localize_variables ) ) {
-			wp_localize_script($this->prefix, 'gpos' , $this->localize_variables);
+			wp_localize_script($this->prefix, 'gpos' , (object) $this->localize_variables); //@phpstan-ignore-line
 		}
 
 		return $this;
