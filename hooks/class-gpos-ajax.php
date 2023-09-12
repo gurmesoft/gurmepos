@@ -57,7 +57,6 @@ class GPOS_Ajax {
 				'update_form_settings'        => array( $this, 'update_form_settings' ),
 				'update_woocommerce_settings' => array( $this, 'update_woocommerce_settings' ),
 				'update_givewp_settings'      => array( $this, 'update_givewp_settings' ),
-				'update_card_save_settings'   => array( $this, 'update_card_save_settings' ),
 				'update_account_settings'     => array( $this, 'update_account_settings' ),
 				'remove_gateway_account'      => array( $this, 'remove_gateway_account' ),
 				'check_connection'            => array( $this, 'check_connection' ),
