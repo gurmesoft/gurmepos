@@ -69,8 +69,8 @@ class GPOS_Frontend {
 	 */
 	public function checkout_js() {
 		wp_enqueue_script(
-			"{$this->prefix}-checkout",
-			GPOS_ASSETS_DIR_URL . '/js/checkout.js',
+			"{$this->prefix}-{$this->plugin}-checkout",
+			GPOS_ASSETS_DIR_URL . "/js/{$this->plugin}-checkout.js",
 			array( 'jquery' ),
 			GPOS_VERSION,
 			false

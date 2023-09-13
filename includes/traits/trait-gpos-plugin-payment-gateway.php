@@ -93,6 +93,7 @@ trait GPOS_Plugin_Payment_Gateway {
 			} else {
 				$this->transaction->set_save_card( isset( $post_data[ "{$this->gpos_prefix}-save-card" ] ) && 'on' === $post_data[ "{$this->gpos_prefix}-save-card" ] );
 				$this->card_setter( $post_data );
+
 			}
 		}
 
@@ -146,7 +147,7 @@ trait GPOS_Plugin_Payment_Gateway {
 			$fnc      = "set_{$property}";
 			$property = str_replace( '_', '-', $property );
 			$key      = "{$this->gpos_prefix}-{$property}";
-			$param    = isset( $post_data[ $key ] ) && false === empty( $post_data[ $key ] ) ? $post_data[ $key ] : '';
+			$param = isset( $post_data[ $key ] ) && false === empty( $post_data[ $key ] ) ? $post_data[ $key ] : '';
 			call_user_func_array( array( $this->transaction, $fnc ), array( $param ) );
 
 			if ( gpos_form_settings()->get_setting_by_key( 'holder_name_field' ) ) {

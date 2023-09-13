@@ -132,7 +132,6 @@ final class GurmePOS {
 
 		$gurmehub_client = new \GurmeHub\Client( GPOS_PLUGIN_BASEFILE );
 		$gurmehub_client->insights();
-
 	}
 }
 

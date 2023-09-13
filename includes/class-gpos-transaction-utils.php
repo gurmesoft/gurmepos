@@ -15,6 +15,9 @@ class GPOS_Transaction_Utils {
 	 */
 	const WOOCOMMERCE = 'woocommerce';
 	const GIVEWP      = 'givewp';
+	const NINJA_FORMS = 'ninja_forms';
+	const STANDALONE  = 'standalone';
+	const EDD         = 'edd';
 
 	/**
 	 * İşlem tipleri.

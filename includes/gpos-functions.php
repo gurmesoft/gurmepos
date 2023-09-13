@@ -369,3 +369,11 @@ function gpos_get_env_info() {
 		),
 	);
 }
+/**
+ * GurmePOS için işlem yapan kullanıcının ip adresini döndürür
+ *
+ * @return string
+ */
+function gpos_get_user_ip() {
+	return filter_var( isset( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP ) ? wp_unslash( $_SERVER['REMOTE_ADDR'] ) : '127.0.0.1'; //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+}

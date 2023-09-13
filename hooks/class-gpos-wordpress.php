@@ -115,14 +115,8 @@ class GPOS_WordPress {
 	 */
 	public function wp_head() {
 		if ( gpos_is_woocommerce_enabled() && function_exists( 'is_checkout' ) && is_checkout() ) {
-			gpos_frontend( GPOS_Transaction_Utils::WOOCOMMERCE );
-			wp_enqueue_script(
-				"{$this->prefix}-checkout",
-				GPOS_ASSETS_DIR_URL . '/js/checkout.js',
-				array( 'jquery' ),
-				GPOS_VERSION,
-				false
-			);
+			gpos_frontend( GPOS_Transaction_Utils::WOOCOMMERCE )->checkout_js();
+
 		}
 	}
 

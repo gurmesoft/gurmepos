@@ -85,7 +85,7 @@ class GPOS_Installments {
 					'currency_symbol'    => $platform_data->currency_symbol,
 				);
 			},
-			array_filter( $account->installments, fn( $installment ) => $installment->enabled || '1' === $installment->number )
+			array_filter( $account->installments, fn( $installment ) => $ $installment->enabled || '1' === $installment->number )
 		);
 
 		return $rates;
