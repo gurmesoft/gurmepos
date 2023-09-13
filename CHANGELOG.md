@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v3.4.5 - (2023-09-13) =
+
+
+Bug Fixes
+
+* Taksit problemi giderildi
+
 = v3.4.4 - (2023-09-13) =
 
 
