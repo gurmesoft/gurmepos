@@ -887,7 +887,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 */
 	public function save_used_card_for_next_payment() {
 		if ( function_exists( 'gpospro_saved_card' ) ) {
-			return gpospro_saved_card()
+			$saved_card = gpospro_saved_card()
 			->set_card_name( $this->get_card_name() )
 			->set_card_expiry_month( $this->get_card_expiry_month() )
 			->set_card_expiry_year( $this->get_card_expiry_year() )
@@ -902,6 +902,10 @@ class GPOS_Transaction extends GPOS_Post {
 			->set_account_id( $this->get_account_id() )
 			->set_default()
 			->set_searchable();
+
+			do_action( 'gpos_saved_card_created', $saved_card );
+
+			return $saved_card;
 		}
 	}
 }

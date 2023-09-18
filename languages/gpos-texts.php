@@ -243,6 +243,7 @@ $gpos_texts = array(
 		'monthly_payment'					=> __( 'Monthly Payment' , 'gurmepos'),
 		'delete' 							=> __( 'Delete', 'gurmepos' ),
 		'gateway_error' 					=> __( 'You have not activated any pos integration, please complete your settings.', 'gurmepos' ),
-		'saved_card_not_found'			    => __('No Saved Card found.','gurmepos')
+		'saved_card_not_found'			    => __('No Saved Card found.','gurmepos'),
+		'reset_settings'			    	=> __('Reset Settings','gurmepos'),
 	),
 );

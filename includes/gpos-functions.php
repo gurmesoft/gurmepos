@@ -180,7 +180,6 @@ function gpos_supported_installment_counts() {
 		 */
 		'gpos_supported_installment_counts',
 		array(
-			'1'  => '1',
 			'2'  => '2',
 			'3'  => '3',
 			'4'  => '4',
@@ -194,6 +193,39 @@ function gpos_supported_installment_counts() {
 			'12' => '12',
 		)
 	);
+}
+
+/**
+ * Desteklenen taksit firmaları.
+ *
+ * @return array
+ */
+function gpos_supported_installment_companies() {
+	$companies = array();
+	$filter    = apply_filters(
+		/**
+		 * Desteklenen taksit firmalarını düzenleme kancası.
+		 *
+		 * @param array
+		 */
+		'gpos_supported_installment_companies',
+		array(
+			'bonus',
+			'world',
+			'axess',
+			'maximum',
+			'cardfinans',
+			'bankkartcombo',
+			'paraf',
+			'saglamkart',
+			'advantage',
+		)
+	);
+
+	foreach ( $filter as $company ) {
+		$companies[ $company ] = [];
+	}
+	return $companies;
 }
 
 
@@ -271,7 +303,6 @@ function gpos_get_plugin_gateway_by_transaction( GPOS_Transaction $transaction )
 		'gpos_plugin_gateway_functions',
 		array(
 			GPOS_Transaction_Utils::WOOCOMMERCE => 'gpos_woocommerce_payment_gateway',
-			GPOS_Transaction_Utils::GIVEWP      => 'gpospro_givewp_payment_gateway',
 		)
 	);
 
@@ -376,4 +407,31 @@ function gpos_get_env_info() {
  */
 function gpos_get_user_ip() {
 	return filter_var( isset( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP ) ? wp_unslash( $_SERVER['REMOTE_ADDR'] ) : '127.0.0.1'; //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+}
+
+/**
+ * Türkçe karakterleri düzenler, boşlukları ve non-alfa karakterleri siler.
+ * Sağlam Kart gibi kelimeleri saglamkart olarak düzenler.
+ *
+ * @param string $string Temizlenecek kelime
+ *
+ * @return string
+ */
+function gpos_clear_non_alfa( $string ) {
+	return preg_replace(
+		'/[^a-zA-Z]/',
+		'',
+		strtr(
+			strtolower( $string ),
+			array(
+				'ğ' => 'g',
+				'ç' => 'c',
+				'ş' => 's',
+				'ı' => 'i',
+				'İ' => 'i',
+				'ö' => 'o',
+				'ü' => 'u',
+			)
+		)
+	);
 }

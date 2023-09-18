@@ -84,8 +84,6 @@ final class GurmePOS {
 
 		$this->includes();
 
-		do_action( 'gpos_loaded' );
-
 		$this->instantiate();
 	}
 

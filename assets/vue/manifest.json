@@ -11,12 +11,12 @@
     ]
   },
   "src/pages/checkout/main.css": {
-    "file": "css/main2.css",
+    "file": "css/main3.css",
     "src": "src/pages/checkout/main.css"
   },
   "src/pages/checkout/main.js": {
     "css": [
-      "css/main2.css"
+      "css/main3.css"
     ],
     "file": "js/checkout/main.js",
     "imports": [
@@ -29,6 +29,9 @@
     "src": "src/pages/checkout/main.js"
   },
   "src/pages/gurmepos/main.js": {
+    "css": [
+      "css/tailwind.css"
+    ],
     "file": "js/gurmepos/main.js",
     "imports": [
       "_main.js",
@@ -38,7 +41,15 @@
     "isEntry": true,
     "src": "src/pages/gurmepos/main.js"
   },
+  "src/pages/payment-gateway/main.css": {
+    "file": "css/main.css",
+    "src": "src/pages/payment-gateway/main.css"
+  },
   "src/pages/payment-gateway/main.js": {
+    "css": [
+      "css/main.css",
+      "css/tailwind.css"
+    ],
     "file": "js/payment-gateway/main.js",
     "imports": [
       "_main.js",
@@ -52,6 +63,9 @@
     "src": "src/pages/payment-gateway/main.js"
   },
   "src/pages/payment-gateways/main.js": {
+    "css": [
+      "css/tailwind.css"
+    ],
     "file": "js/payment-gateways/main.js",
     "imports": [
       "_main.js",
@@ -66,6 +80,9 @@
     "src": "src/pages/payment-gateways/main.js"
   },
   "src/pages/settings/main.js": {
+    "css": [
+      "css/tailwind.css"
+    ],
     "file": "js/settings/main.js",
     "imports": [
       "_main.js",
@@ -79,12 +96,13 @@
     "src": "src/pages/settings/main.js"
   },
   "src/pages/transaction/main.css": {
-    "file": "css/main.css",
+    "file": "css/main2.css",
     "src": "src/pages/transaction/main.css"
   },
   "src/pages/transaction/main.js": {
     "css": [
-      "css/main.css"
+      "css/main2.css",
+      "css/tailwind.css"
     ],
     "file": "js/transaction/main.js",
     "imports": [
@@ -96,6 +114,9 @@
     "src": "src/pages/transaction/main.js"
   },
   "src/pages/user-saved-cards/main.js": {
+    "css": [
+      "css/tailwind.css"
+    ],
     "file": "js/user-saved-cards/main.js",
     "imports": [
       "_main.js",

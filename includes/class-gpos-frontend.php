@@ -102,7 +102,7 @@ class GPOS_Frontend {
 
 		if ( $default_account ) {
 			$localize_data['gateway']                = gpos_payment_gateways()->get_base_gateway_by_gateway_id( $default_account->gateway_id );
-			$localize_data['installments']           = gpos_installments( $this->plugin, $default_account );
+			$localize_data['installments']           = gpos_installments( $this->plugin, $default_account )->get_rates();
 			$localize_data['is_installments_active'] = $default_account->is_installments_active;
 		}
 

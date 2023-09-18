@@ -64,38 +64,39 @@ class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 * @return array|bool Destek var ise taksitler yok ise false.
 	 *
 	 * @SuppressWarnings(PHPMD.StaticAccess)
+	 * @SuppressWarnings(PHPMD.CyclomaticComplexity)
 	 */
 	public function get_installments() {
 		$installments = array();
 		$request      = new \Iyzipay\Request\RetrieveInstallmentInfoRequest();
 		$request->setConversationId( microtime( false ) );
 		$request->setLocale( \Iyzipay\Model\Locale::TR );
-		$request->setBinNumber( '54003600' );
 		$request->setPrice( '100' );
 
 		try {
-
 			$response = \Iyzipay\Model\InstallmentInfo::retrieve( $request, $this->settings );
 			if ( $response->getStatus() === 'success' ) {
-				$api_installment_list = $response->getInstallmentDetails()[0]->getInstallmentPrices();
-
-				$installments = array_map(
-					function( $installment ) use ( $api_installment_list ) {
-						$find_installment = array_filter( $api_installment_list, fn( $api_installment ) => (string) $api_installment->getInstallmentNumber() === (string) $installment );
-						$finded           = empty( $find_installment ) ? false : $find_installment[ array_key_first( $find_installment ) ];
-						$rate             = $finded ? $finded->getTotalPrice() - 100 : false;
-						return array(
-							'enabled' => $rate ? true : false,
-							'rate'    => $rate ? (float) number_format( $rate, 2 ) : 0,
-							'number'  => $installment,
+				$api_installment_list = $response->getInstallmentDetails();
+				if ( is_array( $api_installment_list ) ) {
+					foreach ( $api_installment_list as $api_installment ) {
+						$installments[ gpos_clear_non_alfa( $api_installment->getCardFamilyName() ) ] = array_map(
+							function( $installment ) use ( $api_installment ) {
+								$find_installment = array_filter( $api_installment->getInstallmentPrices(), fn( $rate_info ) => (string) $rate_info->getInstallmentNumber() === (string) $installment );
+								$finded           = empty( $find_installment ) ? false : $find_installment[ array_key_first( $find_installment ) ];
+								$rate             = $finded ? $finded->getTotalPrice() - 100 : false;
+								return array(
+									'enabled' => $rate ? true : false,
+									'rate'    => $rate ? (float) number_format( $rate, 2 ) : 0,
+									'number'  => $installment,
+								);
+							},
+							gpos_supported_installment_counts()
 						);
-					},
-					gpos_supported_installment_counts()
-				);
-
+					}
+				}
 			}
-
-			$result = array(
+			$installments['advantage'] = $installments['cardfinans'];
+			$result                    = array(
 				'result'       => 'success' === $response->getStatus() ? 'success' : 'error',
 				'installments' => 'success' === $response->getStatus() ? $installments : $response->getErrorMessage(),
 			);

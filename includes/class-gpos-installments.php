@@ -11,11 +11,25 @@
 class GPOS_Installments {
 
 	/**
-	 * Taksitli tutar, taksit adedi, ve aylık ödeme verisini döndürür.
+	 * Taksitin hesaplanacağı ödeme eklentisi.
 	 *
-	 * @var array $rates
+	 * @var string $platform
 	 */
-	public $rates = array();
+	public $platform;
+
+	/**
+	 * Taksitin hesaplanacağı tutar parabirimi vb. bilgileri tutar.
+	 *
+	 * @var array $platform_data
+	 */
+	public $platform_data;
+
+	/**
+	 * Taksitin hesaplanacağı ödeme geçidi hesabı.
+	 *
+	 * @var GPOS_Gateway_Account $account
+	 */
+	public $account;
 
 	/**
 	 * GPOS_Installments kurucu sınıfı
@@ -26,8 +40,9 @@ class GPOS_Installments {
 	 * @return void
 	 */
 	public function __construct( string $platform, GPOS_Gateway_Account $account ) {
-		$platform_data = $this->get_platform_data_to_be_paid( $platform );
-		$this->rates   = $this->get_rates_by_account( $account, $platform_data );
+		$this->account       = $account;
+		$this->platform      = $platform;
+		$this->platform_data = $this->set_platform_data_to_be_paid();
 	}
 
 	/**
@@ -36,58 +51,53 @@ class GPOS_Installments {
 	 * @return array
 	 */
 	public function get_rates() {
-		return $this->rates;
+		return array_map( // Axess, Bonus vs. için dönen map.
+			function( $installments ) {
+				$installments    = array_filter( (array) $installments, fn( $intallment ) => $intallment->enabled ); // Enabled olmayan taksitleri temizler.
+				$installments[1] = (object) array(
+					'enabled' => true,
+					'rate'    => 1,
+					'number'  => 1,
+				);
+				// @phpstan-ignore-next-line
+				return array_map( // Taksit adedi için dönen map. 1-2-3-4 vb.
+					function( $installment ) {
+						$calculated_amount = $this->account->installment_rate_calculate( (float) $installment->rate, (float) $this->platform_data['amount'] );
+						return array(
+							'amount_total'       => number_format( $calculated_amount ),
+							'amount_per_month'   => number_format( $calculated_amount / $installment->number, 2 ),
+							'installment_number' => $installment->number,
+							'currency'           => $this->platform_data['currency'],
+							'currency_symbol'    => $this->platform_data['currency_symbol'],
+						);
+					},
+					$installments
+				);
+			},
+			$this->account->installments
+		);
 	}
 
 	/**
 	 * Platforma özel taksitlendirilecek toplam ücreti ve para birimini bulma.
 	 *
-	 * @param string $platform Ödemenin geçeceği platform.
-	 *
-	 * @return object
+	 * @return array
 	 */
-	public function get_platform_data_to_be_paid( $platform ) {
-		$data = (object) array(
+	public function set_platform_data_to_be_paid() {
+		$data = array(
 			'amount'          => 0,
 			'currency'        => 'TRY',
 			'currency_symbol' => 'TRY',
 		);
 
-		if ( 'woocommerce' === $platform ) {
-			$data = (object) array(
+		if ( 'woocommerce' === $this->platform ) {
+			$data = array(
 				'amount'          => WC()->cart->get_total( 'float' ),
 				'currency'        => get_woocommerce_currency(),
 				'currency_symbol' => get_woocommerce_currency_symbol( get_woocommerce_currency() ),
 			);
 		}
 
-		return apply_filters( 'gpos_platform_data_to_be_paid', $data, $platform );
-	}
-
-	/**
-	 * Ödeme geçidinin taksit hesaplama yöntemi ile rateleri hesaplama.
-	 *
-	 * @param GPOS_Gateway_Account $account Ödeme geçidinin tekil kimliği.
-	 * @param stdClass             $platform_data Alışveriş tutar ve para birimi bilgisi.
-	 *
-	 * @return array Taksit oranları.
-	 */
-	public function get_rates_by_account( $account, $platform_data ) {
-
-		$rates = array_map(
-			function( $installment ) use ( $account, $platform_data ) {
-				$calculated_amount = $account->installment_rate_calculate( (float) $installment->rate, (float) $platform_data->amount );
-				return array(
-					'amount_total'       => number_format( $calculated_amount ),
-					'amount_per_month'   => number_format( $calculated_amount / $installment->number, 2 ),
-					'installment_number' => $installment->number,
-					'currency'           => $platform_data->currency,
-					'currency_symbol'    => $platform_data->currency_symbol,
-				);
-			},
-			array_filter( $account->installments, fn( $installment ) => $installment->enabled || '1' === $installment->number )
-		);
-
-		return $rates;
+		return apply_filters( 'gpos_platform_data_to_be_paid', $data, $this->platform );
 	}
 }

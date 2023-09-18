@@ -10,7 +10,7 @@
  *
  * @author Gurmehub
  */
-final class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements GPOS_Plugin_Gateway {
+class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements GPOS_Plugin_Gateway {
 
 	use GPOS_Plugin_Payment_Gateway;
 
@@ -89,9 +89,11 @@ final class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC imple
 					);
 				}
 
-				// Regular işlemi bitir.
-				$this->transaction_success_process( $response );
-				wp_send_json( $this->success_process( $response, true ) );
+				if ( $this->transaction->get_security_type() === GPOS_Transaction_Utils::REGULAR ) {
+					// Regular işlemi bitir.
+					$this->transaction_success_process( $response );
+					wp_send_json( $this->success_process( $response, true ) );
+				}
 			}
 			$this->transaction_error_process( $response );
 			wp_send_json( $this->error_process( $response, true ) );
@@ -246,6 +248,7 @@ final class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC imple
 		wp_nonce_field( 'gpos_process_payment', '_gpos_nonce' );
 
 		gpos_vue()->create_app_div();
+
 	}
 
 	/**

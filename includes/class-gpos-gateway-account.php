@@ -152,7 +152,7 @@ class GPOS_Gateway_Account {
 	 * @return void
 	 */
 	protected function load_installment_data() {
-		$this->is_installments_active = ! ! get_post_meta( $this->id, 'gpos_is_installments_active', true );
+		$this->is_installments_active = (bool) get_post_meta( $this->id, 'gpos_is_installments_active', true );
 		$this->installments           = get_post_meta( $this->id, 'gpos_installments', true );
 
 		if ( ! $this->installments ) {
@@ -234,12 +234,17 @@ class GPOS_Gateway_Account {
 	 */
 	private function get_default_installments() {
 		return array_map(
-			fn( $installment ) => array(
-				'enabled' => false,
-				'rate'    => 0,
-				'number'  => $installment,
-			),
-			gpos_supported_installment_counts()
+			function() {
+				return array_map(
+					fn( $installment ) => array(
+						'enabled' => false,
+						'rate'    => 0,
+						'number'  => $installment,
+					),
+					gpos_supported_installment_counts()
+				);
+			},
+			gpos_supported_installment_companies()
 		);
 	}
 }

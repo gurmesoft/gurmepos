@@ -32,11 +32,18 @@ class GPOS_Ajax {
 	private $endpoints;
 
 	/**
-	 * GPOS_Ajax kurucu sınıfı
+	 * GPOS_Ajax kurucu method.
+	 */
+	public function __construct() {
+		add_action( 'init', array( $this, 'ajax_actions' ) );
+	}
+
+	/**
+	 * GPOS_Ajax ajax_actions
 	 *
 	 * @return void
 	 */
-	public function __construct() {
+	public function ajax_actions() {
 
 		$this->endpoints = apply_filters(
 			/**
@@ -233,7 +240,7 @@ class GPOS_Ajax {
 	 * @return mixed
 	 */
 	public function update_installments( $request ) {
-		return gpos_gateway_account( $request->id )->update_installments( (array) $request->installments );
+		return gpos_gateway_account( $request->id )->update_installments( is_bool( $request->installments ) ? $request->installments : (array) $request->installments );
 	}
 
 	/**

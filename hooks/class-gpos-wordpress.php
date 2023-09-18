@@ -116,7 +116,6 @@ class GPOS_WordPress {
 	public function wp_head() {
 		if ( gpos_is_woocommerce_enabled() && function_exists( 'is_checkout' ) && is_checkout() ) {
 			gpos_frontend( GPOS_Transaction_Utils::WOOCOMMERCE )->checkout_js();
-
 		}
 	}
 
@@ -182,6 +181,8 @@ class GPOS_WordPress {
 			require_once GPOS_PLUGIN_DIR_PATH . 'hooks/class-gpos-woocommerce.php';
 			new GPOS_WooCommerce();
 		}
+
+		do_action( 'gpos_loaded' );
 	}
 
 	/**

@@ -72,7 +72,7 @@ class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 * @return array|bool Destek var ise taksitler yok ise false.
 	 */
 	public function get_installments() {
-		$installments = array();
+		$installments = gpos_supported_installment_companies();
 		$request      = array(
 			'ACTION' => 'QUERYPAYMENTSYSTEMS',
 			'BIN'    => '557113',
@@ -85,17 +85,22 @@ class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 			if ( '00' === $response['responseCode'] ) {
 				$api_installment_list = $response['installmentPaymentSystem']['installmentList'];
 				$installments         = array_map(
-					function( $installment ) use ( $api_installment_list ) {
-						$find_installment = array_filter( $api_installment_list, fn( $api_installment ) => (string) $api_installment['count'] === (string) $installment );
-						$finded           = empty( $find_installment ) ? $find_installment : $find_installment[ array_key_first( $find_installment ) ];
-						$rate             = array_key_exists( 'customerCostCommissionRate', $finded ) ? $finded['customerCostCommissionRate'] : false;
-						return array(
-							'enabled' => $rate ? true : false,
-							'rate'    => $rate ? (float) $rate : 0,
-							'number'  => $installment,
+					function() use ( $api_installment_list ) {
+						return array_map(
+							function( $installment ) use ( $api_installment_list ) {
+								$find_installment = array_filter( $api_installment_list, fn( $api_installment ) => (string) $api_installment['count'] === (string) $installment );
+								$finded           = empty( $find_installment ) ? $find_installment : $find_installment[ array_key_first( $find_installment ) ];
+								$rate             = array_key_exists( 'customerCostCommissionRate', $finded ) ? $finded['customerCostCommissionRate'] : false;
+								return array(
+									'enabled' => $rate ? true : false,
+									'rate'    => $rate ? (float) $rate : 0,
+									'number'  => $installment,
+								);
+							},
+							gpos_supported_installment_counts()
 						);
 					},
-					gpos_supported_installment_counts()
+					$installments
 				);
 			}
 

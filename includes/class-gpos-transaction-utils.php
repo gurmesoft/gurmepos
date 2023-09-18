@@ -13,11 +13,12 @@ class GPOS_Transaction_Utils {
 	/**
 	 * Entegre edilen platformlar.
 	 */
-	const WOOCOMMERCE = 'woocommerce';
-	const GIVEWP      = 'givewp';
-	const NINJA_FORMS = 'ninja_forms';
-	const STANDALONE  = 'standalone';
-	const EDD         = 'edd';
+	const WOOCOMMERCE      = 'woocommerce';
+	const WOOCOMMERCE_SUBS = 'woocommerce_subs';
+	const GIVEWP           = 'givewp';
+	const NINJA_FORMS      = 'ninja_forms';
+	const STANDALONE       = 'standalone';
+	const EDD              = 'edd';
 
 	/**
 	 * İşlem tipleri.
@@ -25,7 +26,6 @@ class GPOS_Transaction_Utils {
 	const PAYMENT = 'payment';                                  // Ödeme işlemi.
 	const REFUND  = 'refund';                                   // İade işlemi.
 	const CANCEL  = 'cancel';                                   // İptal işlemi.
-
 
 	/**
 	 * İşlem durumları.
@@ -51,19 +51,11 @@ class GPOS_Transaction_Utils {
 	const LINE_REFUNDED         = 'gpos_line_refunded';          // Satır iade edildi.
 	const LINE_PARTIAL_REFUNDED = 'gpos_line_p_refunded';  // Satır parçalı iade edildi.
 
-
 	/**
 	 * İşlemin güvenlik tipi.
 	 */
 	const THREED  = 'threed';                                   // 3D güvenlikli işlem.
 	const REGULAR = 'regular';                                  // Güvenliksiz işlem.
-
-	/**
-	 * İşlem kart tipleri.
-	 */
-	const CREDIT = 'credit_card';                               // Kredi kartı.
-	const DEBIT  = 'debit_card';                                // Banka kartı.
-
 
 	/**
 	 * Log tipleri.

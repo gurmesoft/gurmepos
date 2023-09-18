@@ -1,5 +1,26 @@
 == Changelog ==
 
+= v3.4.8 - (2023-09-15) =
+
+
+Bug Fixes
+
+* WooCommerce pay aksiyonu düzeltildi.
+
+= v3.4.7 - (2023-09-14) =
+
+
+Bug Fixes
+
+* Ortak ödeme formu ile çalışan geçitler için düzenleme yapıldı.
+
+= v3.4.6 - (2023-09-13) =
+
+
+Bug Fixes
+
+* Javascript type hatasi giderildi
+
 = v3.4.5 - (2023-09-13) =
 
 
