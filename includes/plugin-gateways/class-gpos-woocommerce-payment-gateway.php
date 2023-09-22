@@ -81,12 +81,14 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 				$redirect_url = $this->get_redirect_url( $response );
 				// 3D yada ortak ödeme sayfasına yönlendirme.
 				if ( $redirect_url ) {
-					wp_send_json(
+					gpos_is_ajax() ? wp_send_json(
 						array(
 							'result'   => 'success',
 							'redirect' => $redirect_url,
 						)
-					);
+					) :
+					wp_redirect( $redirect_url ); // phpcs:ignore
+					wp_die();
 				}
 
 				if ( $this->transaction->get_security_type() === GPOS_Transaction_Utils::REGULAR ) {
@@ -179,7 +181,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 				$response->get_payment_id()
 			)
 		);
-		if ( $on_checkout ) {
+		if ( $on_checkout && gpos_is_ajax() ) {
 			return array(
 				'result'   => 'success',
 				'redirect' => $this->order->get_checkout_order_received_url(),
@@ -213,7 +215,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 			$this->order->update_status( 'failed' );
 		}
 
-		if ( $on_checkout ) {
+		if ( $on_checkout && gpos_is_ajax() ) {
 			return array(
 				'result'   => 'failure',
 				'messages' => gpos_woocommerce_notice( $error_message ),
@@ -269,7 +271,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 				'card-expiry-month' => __( 'Card expiration month cannot be left blank.', 'gurmepos' ),
 				'card-expiry-year'  => __( 'Card expiration year cannot be left blank.', 'gurmepos' ),
 				'card-cvv'          => __( 'Card cvc field cannot be left blank.', 'gurmepos' ),
-				'holder-name'       => __( 'Name on the card field cannot be left blank.', 'gurmepos' ),
+				'card-holder-name'  => __( 'Name on the card field cannot be left blank.', 'gurmepos' ),
 			);
 
 			foreach ( $fields as $field => $error ) {

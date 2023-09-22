@@ -93,12 +93,12 @@ class GPOS_Loader {
 			'includes/class-gpos-post-tables.php',
 			'includes/class-gpos-shortcode.php',
 			// Hooks
+			'hooks/class-gpos-woocommerce.php',
 			'hooks/class-gpos-gph.php',
 			'hooks/class-gpos-self-hooks.php',
 			'hooks/class-gpos-ajax.php',
 			'hooks/class-gpos-wordpress.php',
 			'hooks/class-gpos-schedule.php',
-
 		);
 
 		foreach ( $files as $file ) {

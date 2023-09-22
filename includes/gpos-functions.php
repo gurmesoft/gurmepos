@@ -161,8 +161,8 @@ function gpos_woocommerce_notice( string $message, string $notice_type = 'error'
 function gpos_get_i18n_texts() {
 	include GPOS_PLUGIN_DIR_PATH . '/languages/gpos-texts.php';
 	include GPOS_PLUGIN_DIR_PATH . '/languages/gpos-bank-texts.php';
-	$gpos_texts['default'] = array_merge( $gpos_texts['default'], $gpos_bank_texts );  // @phpstan-ignore-line
-	return $gpos_texts;
+	$gpos_texts = array_merge( $gpos_texts, $gpos_bank_texts );  // @phpstan-ignore-line
+	return array( 'default' => $gpos_texts );
 }
 
 
@@ -172,7 +172,8 @@ function gpos_get_i18n_texts() {
  * @return array
  */
 function gpos_supported_installment_counts() {
-	return apply_filters(
+	$counts = array();
+	$filter = apply_filters(
 		/**
 		 * Desteklenen taksit adetlerini düzenleme kancası.
 		 *
@@ -180,19 +181,25 @@ function gpos_supported_installment_counts() {
 		 */
 		'gpos_supported_installment_counts',
 		array(
-			'2'  => '2',
-			'3'  => '3',
-			'4'  => '4',
-			'5'  => '5',
-			'6'  => '6',
-			'7'  => '7',
-			'8'  => '8',
-			'9'  => '9',
-			'10' => '10',
-			'11' => '11',
-			'12' => '12',
+			'2',
+			'3',
+			'4',
+			'5',
+			'6',
+			'7',
+			'8',
+			'9',
+			'10',
+			'11',
+			'12',
 		)
 	);
+
+	foreach ( $filter as $count ) {
+		$counts[ $count ] = $count;
+	}
+
+	return $counts;
 }
 
 /**
@@ -219,6 +226,7 @@ function gpos_supported_installment_companies() {
 			'paraf',
 			'saglamkart',
 			'advantage',
+			'denizbankcc',
 		)
 	);
 
@@ -286,7 +294,7 @@ function gpos_get_client_ip() {
  * @return string
  */
 function gpos_get_default_callback_error_message() {
-	return __( 'Error in 3D rendering. The password was entered incorrectly or the 3D page was abandoned.', 'gurmepos' );
+	return __( 'Error in 3D progress. The password was entered incorrectly or the 3D page was abandoned.', 'gurmepos' );
 }
 
 /**
@@ -326,8 +334,8 @@ function gpos_get_alert_texts() {
 	return array(
 		'ok'                     => __( 'OK', 'gurmepos' ),
 		'setting_saved'          => __( 'The settings have been saved.', 'gurmepos' ),
-		'installments_applied'   => __( 'Installments were applied', 'gurmepos' ),
-		'installments_get_error' => __( 'Error when bringing in installments', 'gurmepos' ),
+		'installments_applied'   => __( 'Installments were applied.', 'gurmepos' ),
+		'installments_get_error' => __( 'Error when bringing in installments.', 'gurmepos' ),
 		'process_success'        => __( 'Process completed successfully !', 'gurmepos' ),
 		'bulk_refund_error'      => __( 'Error in refund process. Please review unsuccessful refunds for error details and try again.', 'gurmepos' ),
 	);
@@ -406,7 +414,7 @@ function gpos_get_env_info() {
  * @return string
  */
 function gpos_get_user_ip() {
-	return filter_var( isset( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP ) ? wp_unslash( $_SERVER['REMOTE_ADDR'] ) : '127.0.0.1'; //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	return isset( $_SERVER['REMOTE_ADDR'] ) && filter_var( wp_unslash( $_SERVER['REMOTE_ADDR'] ), FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '127.0.0.1';
 }
 
 /**

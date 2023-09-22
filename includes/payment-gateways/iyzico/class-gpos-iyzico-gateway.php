@@ -95,8 +95,9 @@ class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 					}
 				}
 			}
-			$installments['advantage'] = $installments['cardfinans'];
-			$result                    = array(
+			$installments['advantage']   = $installments['cardfinans'];
+			$installments['denizbankcc'] = $installments['bonus'];
+			$result                      = array(
 				'result'       => 'success' === $response->getStatus() ? 'success' : 'error',
 				'installments' => 'success' === $response->getStatus() ? $installments : $response->getErrorMessage(),
 			);

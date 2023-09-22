@@ -60,12 +60,47 @@ class GPOS_Sipay extends GPOS_Gateway {
 	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/sipay.png';
 
 	/**
+	 * Desteklenilen para birimleri
+	 *
+	 * @var array $currencies
+	 */
+	public $currencies = array( 'TRY', 'EUR', 'USD' );
+
+	/**
+	 * Desteklenen özellikler
+	 *
+	 * @var array $supports
+	 */
+	public $supports = array( 'threed', 'regular' );
+
+	/**
 	 * Ödeme için gerekli alanların tanımı
 	 *
 	 * @return array
 	 */
 	public function get_payment_fields() : array {
-		return array();
+		return array(
+			array(
+				'type'  => 'text',
+				'label' => __( 'Mağaza ID', 'gurmepos' ),
+				'model' => 'merchant_id',
+			),
+			array(
+				'type'  => 'text',
+				'label' => __( 'Mağaza Anahtarı', 'gurmepos' ),
+				'model' => 'merchant_key',
+			),
+			array(
+				'type'  => 'text',
+				'label' => __( 'Uygulama Anahtarı', 'gurmepos' ),
+				'model' => 'app_key',
+			),
+			array(
+				'type'  => 'text',
+				'label' => __( 'Uygulama Gizli Anahtarı', 'gurmepos' ),
+				'model' => 'app_secret',
+			),
+		);
 	}
 
 	/**
@@ -74,6 +109,34 @@ class GPOS_Sipay extends GPOS_Gateway {
 	 * @return array
 	 */
 	public function get_test_credit_cards() : array {
-		return array();
+		return array(
+			array(
+				'brand'        => 'mastercard',
+				'type'         => 'credit',
+				'bin'          => '5406 6754 0667 5403',
+				'expiry_year'  => '2026',
+				'expiry_month' => '12',
+				'cvv'          => '000',
+				'secure'       => 'a',
+			),
+			array(
+				'brand'        => 'visa',
+				'type'         => 'credit',
+				'bin'          => '4508 0345 0803 4509',
+				'expiry_year'  => '2026',
+				'expiry_month' => '12',
+				'cvv'          => '000',
+				'secure'       => 'a',
+			),
+			array(
+				'brand'        => 'mastercard',
+				'type'         => 'credit',
+				'bin'          => '5440 9314 4309 4530',
+				'expiry_year'  => '2023',
+				'expiry_month' => '12',
+				'cvv'          => '000',
+				'secure'       => 'a',
+			),
+		);
 	}
 }

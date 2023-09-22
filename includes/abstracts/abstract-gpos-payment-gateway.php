@@ -8,7 +8,8 @@
 /**
  * GPOS_Payment_Gateway sınıfı.
  *
- * @method GPOS_Gateway_Response delete_saved_card() delete_saved_card($saved_card_id)
+ * @method GPOS_Gateway_Response delete_saved_card() delete_saved_card( $saved_card_id )
+ * @method GPOS_Gateway_Response save_card()         save_card( $bin_number, $expiry_month, $expiry_year, $cvv )
  */
 abstract class GPOS_Payment_Gateway {
 

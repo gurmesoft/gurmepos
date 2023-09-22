@@ -7,7 +7,7 @@ const gposCreateApp = () => {
   }
 };
 
-if (window.wc_checkout_params.is_checkout === "1") {
+if (window?.wc_checkout_params?.is_checkout === "1") {
   jQuery(document.body).on("updated_checkout", gposCreateApp);
 } else {
   jQuery(document).ready(gposCreateApp);

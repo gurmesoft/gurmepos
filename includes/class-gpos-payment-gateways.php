@@ -112,12 +112,13 @@ class GPOS_Payment_Gateways {
 			'GPOS_Param',
 			'GPOS_Paytr',
 			'GPOS_Sekerbank',
-			// 'GPOS_Sipay', Devam Ediyor.
+			'GPOS_Sipay',
 			'GPOS_Teb',
-			'GPOS_Paidora', // Devam Ediyor.
+			'GPOS_Paidora',
 			'GPOS_Vakifbank',
 			'GPOS_Wyld',
 			'GPOS_Yapi_Kredi',
+			'GPOS_Ziraat',
 			'GPOS_Ziraat',
 		);
 

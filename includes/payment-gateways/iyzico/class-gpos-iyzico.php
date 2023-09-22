@@ -125,6 +125,15 @@ class GPOS_Iyzico extends GPOS_Gateway {
 				'cvv'          => '000',
 				'secure'       => '283126',
 			),
+			array(
+				'brand'        => 'amex',
+				'type'         => 'credit',
+				'bin'          => '5400 0100 0000 0004',
+				'expiry_year'  => '2026',
+				'expiry_month' => '12',
+				'cvv'          => '000',
+				'secure'       => '283126',
+			),
 		);
 	}
 }

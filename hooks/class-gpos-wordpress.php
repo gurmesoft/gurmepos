@@ -146,13 +146,13 @@ class GPOS_WordPress {
 	 */
 	public function query_vars( $vars ) {
 
-		$query_vars = apply_filters(
 		/**
 		 * Harici eklentiler için yeni sorgu parametreleri eklemekte kullanılır.
 		 * Örn : Pro plugins_loaded üzerinde çalıştığı için bu kanca ile sorgu parametreleri ekleyebilir.
 		 *
-		 * @param array Sorgu parametreleri dizisi
+		 * @var array $query_vars Sorgu parametreleri dizisi
 		 */
+		$query_vars = apply_filters(
 			'gpos_query_vars',
 			array(
 				// 3D yönlendirmesi için kullanılacak sorgu parametresi.
@@ -176,6 +176,7 @@ class GPOS_WordPress {
 	 * @return void
 	 */
 	public function plugins_loaded() {
+
 		if ( gpos_is_woocommerce_enabled() ) {
 			require_once GPOS_PLUGIN_DIR_PATH . 'includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php';
 			require_once GPOS_PLUGIN_DIR_PATH . 'hooks/class-gpos-woocommerce.php';
@@ -231,7 +232,7 @@ class GPOS_WordPress {
 	 */
 	public function script_loader( $tag, $handle ) {
 		if ( $this->prefix === $handle ) {
-			$tag = str_replace( 'id=', 'type="module" id=', $tag );
+			$tag = str_replace( 'id=\'gpos-js\'', 'type="module" id=\'gpos-js\'', $tag );
 			$tag = str_replace( 'text/javascript', 'module', $tag );
 		}
 		return $tag;

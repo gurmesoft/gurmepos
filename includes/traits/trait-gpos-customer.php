@@ -324,7 +324,7 @@ trait GPOS_Customer {
 	 */
 	public function get_customer_ip_address() {
 		$ip_address = $this->get_prop( __FUNCTION__ );
-		return '::1' === $ip_address ? '127.0.0.1' : $ip_address;
+		return filter_var( $ip_address, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ? $ip_address : '127.0.0.1';
 	}
 
 }

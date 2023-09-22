@@ -114,9 +114,9 @@ class GPOS_Paytr extends GPOS_Gateway {
 	public function get_test_credit_cards() : array {
 		return array(
 			array(
-				'brand'        => 'visa',
+				'brand'        => 'mastercard',
 				'type'         => 'credit',
-				'bin'          => '4355 0843 5508 4358',
+				'bin'          => '5406 6754 0667 5403',
 				'expiry_year'  => '2024',
 				'expiry_month' => '12',
 				'cvv'          => '000',
@@ -125,7 +125,7 @@ class GPOS_Paytr extends GPOS_Gateway {
 			array(
 				'brand'        => 'visa',
 				'type'         => 'credit',
-				'bin'          => '5406 6754 0667 5403',
+				'bin'          => '4355 0843 5508 4358',
 				'expiry_year'  => '2024',
 				'expiry_month' => '12',
 				'cvv'          => '000',

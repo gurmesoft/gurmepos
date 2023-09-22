@@ -17,7 +17,7 @@ class GPOS_Self_Hooks {
 	 */
 	public function __construct() {
 		add_action( 'gpos_success_transaction', array( $this, 'success_transaction' ) );
-		add_action( 'gpos_failed_transaction', array( $this, 'failed_transaction' ) );
+		add_action( 'gpos_failed_transaction', array( $this, 'failed_transaction' ), 10, 2 );
 	}
 
 	/**
@@ -39,7 +39,10 @@ class GPOS_Self_Hooks {
 				'payment_plugin'  => $transaction->get_plugin(),
 				'total'           => $transaction->get_total(),
 				'currency'        => $transaction->get_currency(),
-				'security_type'   => $transaction->get_security_type(),
+				'installment'     => (int) $transaction->get_installment(),
+				'use_saved_card'  => (int) $transaction->need_use_saved_card(),
+				'save_card'       => (int) $transaction->get_save_card(),
+				'security_type'   => $transaction->get_security_type() ? $transaction->get_security_type() : 'common_form',
 				'is_test'         => gpos_is_test_mode(),
 			)
 		);
@@ -49,17 +52,21 @@ class GPOS_Self_Hooks {
 	 * Başarısız işlemlerin sonuna tanımlanmış aksiyon.
 	 *
 	 * @param GPOS_Gateway_Response $response İşlem.
+	 * @param GPOS_Transaction      $transaction İşlem.
 	 *
 	 * @return void
 	 */
-	public function failed_transaction( GPOS_Gateway_Response $response ) {
+	public function failed_transaction( GPOS_Gateway_Response $response, GPOS_Transaction $transaction ) {
 		gpos_tracker()->schedule_event(
 			'error',
 			array(
+				'site'            => home_url(),
 				'error_code'      => $response->get_error_code(),
 				'error_message'   => $response->get_error_message(),
 				'payment_gateway' => str_replace( [ 'GPOS', 'PRO', '_', 'Gateway' ], '', $response->get_gateway() ),
+				'payment_plugin'  => $transaction->get_plugin(),
 				'is_test'         => gpos_is_test_mode(),
+
 			)
 		);
 	}

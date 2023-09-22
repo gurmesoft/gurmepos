@@ -171,7 +171,7 @@ class GPOS_Vue {
 		);
 
 		if ( ! empty( $this->localize_variables ) ) {
-			wp_localize_script($this->prefix, 'gpos' , (object) $this->localize_variables); //@phpstan-ignore-line
+			wp_add_inline_script( $this->prefix, 'var gpos = ' . wp_json_encode( $this->localize_variables ) );
 		}
 
 		return $this;

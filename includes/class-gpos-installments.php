@@ -51,6 +51,10 @@ class GPOS_Installments {
 	 * @return array
 	 */
 	public function get_rates() {
+		if ( 0 >= (float) $this->platform_data['amount'] ) {
+			return array();
+		}
+
 		return array_map( // Axess, Bonus vs. için dönen map.
 			function( $installments ) {
 				$installments    = array_filter( (array) $installments, fn( $intallment ) => $intallment->enabled ); // Enabled olmayan taksitleri temizler.

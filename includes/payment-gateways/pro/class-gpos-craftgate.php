@@ -132,7 +132,16 @@ class GPOS_Craftgate extends GPOS_Gateway {
 			array(
 				'brand'        => 'visa',
 				'type'         => 'credit',
-				'bin'          => '4256 6900 000 00001',
+				'bin'          => '4256 6900 0000 0001',
+				'expiry_year'  => '2030',
+				'expiry_month' => '12',
+				'cvv'          => '000',
+				'secure'       => '',
+			),
+			array(
+				'brand'        => 'amex',
+				'type'         => 'credit',
+				'bin'          => '378282246310005',
 				'expiry_year'  => '2030',
 				'expiry_month' => '12',
 				'cvv'          => '000',

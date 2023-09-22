@@ -32,6 +32,7 @@ class GPOS_WooCommerce {
 		add_action( 'woocommerce_before_checkout_form', array( $this, 'before_checkout_form' ) );
 		// Sipariş ürünlerinin gizlenmiş bilgileri
 		add_filter( 'woocommerce_hidden_order_itemmeta', array( $this, 'hidden_order_itemmeta' ) );
+
 	}
 
 	/**
@@ -43,7 +44,7 @@ class GPOS_WooCommerce {
 	 * @return array $gateways
 	 */
 	public function payment_gateways( $gateways ) {
-		$gateways[] = 'GPOS_WooCommerce_Payment_Gateway'; // WC_Payment_Gateway_CC devralınarak yaratılan ödeme sınıfı.
+		$gateways[ $this->prefix ] = 'GPOS_WooCommerce_Payment_Gateway'; // WC_Payment_Gateway_CC devralınarak yaratılan ödeme sınıfı.
 		return $gateways;
 	}
 

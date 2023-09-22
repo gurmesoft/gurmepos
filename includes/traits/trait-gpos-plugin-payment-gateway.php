@@ -71,8 +71,7 @@ trait GPOS_Plugin_Payment_Gateway {
 		$this->use_saved_card = isset( $post_data[ "{$this->gpos_prefix}-use-saved-card" ] ) && 'on' === $post_data[ "{$this->gpos_prefix}-use-saved-card" ];
 		$this->installment    = isset( $post_data[ "{$this->gpos_prefix}-installment" ] );
 
-		$this->transaction = gpos_transaction();
-		$this->transaction
+		$this->transaction = gpos_transaction()
 		->set_plugin_transaction_id( $plugin_transaction_id )
 		->set_plugin( $plugin )
 		->set_type( GPOS_Transaction_Utils::PAYMENT );
@@ -91,9 +90,8 @@ trait GPOS_Plugin_Payment_Gateway {
 				$this->transaction->set_saved_card_id( $post_data[ "{$this->gpos_prefix}-saved-card" ] );
 				do_action( 'gpos_transaction_use_saved_card', $this->transaction, $post_data[ "{$this->gpos_prefix}-saved-card" ] );
 			} else {
-				$this->transaction->set_save_card( isset( $post_data[ "{$this->gpos_prefix}-save-card" ] ) && 'on' === $post_data[ "{$this->gpos_prefix}-save-card" ] );
-				$this->card_setter( $post_data );
-
+				$this->transaction->set_save_card( $this->need_save( $post_data ) );
+				$this->card_setter( $post_data, $this->transaction );
 			}
 		}
 
@@ -128,10 +126,11 @@ trait GPOS_Plugin_Payment_Gateway {
 	 * GPOS_Frontend tarafından yaratılan ödeme formundaki kart bilgi alanlarını işleme yansıtır.
 	 *
 	 * @param array $post_data Kart bilgilerinin bulunduğu dizi.
+	 * @param mixed $object Kart verilerinin setleneceği obje.
 	 *
 	 * @return void
 	 */
-	protected function card_setter( array $post_data ) {
+	protected function card_setter( array $post_data, &$object ) {
 		foreach ( array(
 			'card_bin',
 			'card_cvv',
@@ -143,16 +142,13 @@ trait GPOS_Plugin_Payment_Gateway {
 			'card_bank_name',
 			'card_country',
 			'card_name',
+			'card_holder_name',
 		) as $property ) {
 			$fnc      = "set_{$property}";
 			$property = str_replace( '_', '-', $property );
 			$key      = "{$this->gpos_prefix}-{$property}";
-			$param = isset( $post_data[ $key ] ) && false === empty( $post_data[ $key ] ) ? $post_data[ $key ] : '';
-			call_user_func_array( array( $this->transaction, $fnc ), array( $param ) );
-
-			if ( gpos_form_settings()->get_setting_by_key( 'holder_name_field' ) ) {
-				$this->transaction->set_card_holder_name( $post_data[ "{$this->gpos_prefix}-holder-name" ] );
-			}
+			$param    = isset( $post_data[ $key ] ) && false === empty( $post_data[ $key ] ) ? $post_data[ $key ] : '';
+			call_user_func_array( array( $object, $fnc ), array( $param ) );
 		};
 	}
 
@@ -208,7 +204,20 @@ trait GPOS_Plugin_Payment_Gateway {
 	public function transaction_error_process( $response ) {
 		$this->transaction->set_status( GPOS_Transaction_Utils::FAILED );
 		$this->transaction->add_note( $response->get_error_message(), 'failed' );
-		do_action( 'gpos_failed_transaction', $response );
+		do_action( 'gpos_failed_transaction', $response, $this->transaction );
+	}
+
+	/**
+	 * Kartın kayıt edilip edilmeyeceğine karar verme.
+	 *
+	 * @param array $post_data Ödeme bilgilerinin bulunduğu dizi.
+	 *
+	 * @return bool
+	 *
+	 * @SuppressWarnings(PHPMD.StaticAccess)
+	 */
+	private function need_save( $post_data ) {
+		return ( class_exists( 'WC_Subscriptions_Cart' ) && WC_Subscriptions_Cart::cart_contains_subscription() ) || ( isset( $post_data[ "{$this->gpos_prefix}-save-card" ] ) && 'on' === $post_data[ "{$this->gpos_prefix}-save-card" ] );
 	}
 
 	/**

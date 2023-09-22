@@ -68,6 +68,26 @@ class GPOS_Admin {
 			);
 		}
 
+		$submenu_order = apply_filters(
+			'gpos_admin_submenu_order',
+			array(
+				'gurmepos'                            => 10,
+				'edit.php?post_type=gpos_transaction' => 20,
+				'gpos-payment-gateways'               => 90,
+				'gpos-settings'                       => 100,
+			)
+		);
+
+		$submenu[ $this->parent_slug ] = array_map(
+			function ( $menu ) use ( $submenu_order ) {
+				$menu['priority'] = isset( $submenu_order[ $menu[2] ] ) ? $submenu_order[ $menu[2] ] : 80;
+				return $menu;
+			},
+			$submenu[ $this->parent_slug ]
+		);
+
+		usort( $submenu[ $this->parent_slug ], fn ( $a_elem, $b_elem ) => $a_elem['priority'] - $b_elem['priority'] );
+
 		if ( ! gpos_is_pro_active() ) {
 
 			$submenu[ $this->parent_slug ][] = array(
@@ -83,22 +103,6 @@ class GPOS_Admin {
 			);
 		}
 
-		/**
-		 * Yönetim menüsünde panel(dasboard) menüsünü 1. sıraya almak için index takası yapıldı.
-		 */
-		if ( gpos_is_pro_active() && function_exists( 'gpospro_card_save_settings' ) && gpospro_card_save_settings()->get_setting_by_key( 'active' ) ) {
-			$transaction                      = $submenu[ $this->parent_slug ][0];
-			$card_save                        = $submenu[ $this->parent_slug ][1];
-			$dashboard                        = $submenu[ $this->parent_slug ][2];
-			$submenu[ $this->parent_slug ][0] = $dashboard;
-			$submenu[ $this->parent_slug ][1] = $transaction;
-			$submenu[ $this->parent_slug ][2] = $card_save;
-		} else {
-			$transaction                      = $submenu[ $this->parent_slug ][0];
-			$dashboard                        = $submenu[ $this->parent_slug ][1];
-			$submenu[ $this->parent_slug ][0] = $dashboard;
-			$submenu[ $this->parent_slug ][1] = $transaction;
-		}
 	}
 
 	/**
@@ -156,7 +160,7 @@ class GPOS_Admin {
 				'href'       => admin_url( 'edit.php?post_type=gpos_transaction' ),
 			);
 
-			foreach ( $menu_pages as $sub_menu_page ) {
+			foreach ( apply_filters( 'gpos_admin_bar_menu_pages', $menu_pages ) as $sub_menu_page ) {
 
 				if ( isset( $sub_menu_page['hidden'] ) && $sub_menu_page['hidden'] ||
 					$sub_menu_page['menu_slug'] === $this->parent_slug

@@ -1,5 +1,25 @@
 == Changelog ==
 
+= v3.5.0 - (2023-09-22) =
+
+
+Features
+
+* Edd tamamlandı,
+
+
+
+Bug Fixes
+
+* WooCommerce ödeme methodu ekleme sayfası düzenlendi.
+
+= v3.4.9 - (2023-09-15) =
+
+
+Bug Fixes
+
+* Regular aksiyon fix
+
 = v3.4.8 - (2023-09-15) =
 
 

@@ -127,6 +127,24 @@ class GPOS_Param extends GPOS_Gateway {
 				'cvv'          => '000',
 				'secure'       => 'a',
 			),
+			array(
+				'brand'        => 'mastercard',
+				'type'         => 'credit',
+				'bin'          => '5818 7758 1877 2285',
+				'expiry_year'  => '2026',
+				'expiry_month' => '12',
+				'cvv'          => '000',
+				'secure'       => 'a',
+			),
+			array(
+				'brand'        => 'mastercard',
+				'type'         => 'credit',
+				'bin'          => '5163 1030 0298 2563',
+				'expiry_year'  => '2026',
+				'expiry_month' => '12',
+				'cvv'          => '000',
+				'secure'       => 'a',
+			),
 		);
 	}
 

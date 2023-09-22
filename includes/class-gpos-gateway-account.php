@@ -119,6 +119,15 @@ class GPOS_Gateway_Account {
 	}
 
 	/**
+	 * Hesabın kimliğini döndürür.
+	 *
+	 * @return string|int Hesap kimliği.
+	 */
+	public function get_id() {
+		return $this->id;
+	}
+
+	/**
 	 * Ayar sınıfını türeterek atama yapar.
 	 *
 	 * @param GPOS_Gateway $gateway Ödeme sınıfının tanım sınıfı.

@@ -10,16 +10,10 @@
       "_main.js"
     ]
   },
-  "src/pages/checkout/main.css": {
-    "file": "css/main3.css",
-    "src": "src/pages/checkout/main.css"
-  },
   "src/pages/checkout/main.js": {
-    "css": [
-      "css/main3.css"
-    ],
     "file": "js/checkout/main.js",
     "imports": [
+      "_main.js",
       "_main.js",
       "_main.js",
       "_main.js",
@@ -128,6 +122,22 @@
     ],
     "isEntry": true,
     "src": "src/pages/user-saved-cards/main.js"
+  },
+  "src/pages/wc-add-payment-method-page/main.js": {
+    "file": "js/wc-add-payment-method-page/main.js",
+    "imports": [
+      "_main.js",
+      "_main.js",
+      "_main.js",
+      "_main.js",
+      "_main.js"
+    ],
+    "isEntry": true,
+    "src": "src/pages/wc-add-payment-method-page/main.js"
+  },
+  "tailwind-checkout.css": {
+    "file": "css/tailwind-checkout.css",
+    "src": "tailwind-checkout.css"
   },
   "tailwind.css": {
     "file": "css/tailwind.css",
