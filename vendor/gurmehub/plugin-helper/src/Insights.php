@@ -118,7 +118,7 @@ class Insights extends \GurmeHub\Api {
 		$is_local = 'no';
 		$host     = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : 'localhost';
 
-		if ( ! strpos( $host, '.' ) || in_array( strrchr( $host, '.' ), [ '.test', '.testing', '.local', '.localhost', '.localdomain', 'instawp.xyz' ], true ) ) {
+		if ( ! strpos( $host, '.' ) || in_array( strrchr( $host, '.' ), [ '.test', '.testing', '.local', '.localhost', '.localdomain' ], true ) || false !== strpos( $host, 'instawp.xyz' ) ) {
 			$is_local = 'yes';
 		}
 

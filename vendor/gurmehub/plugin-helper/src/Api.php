@@ -48,8 +48,7 @@ class Api {
 		$response = json_decode( $response['body'] );
 
 		if ( json_last_error() !== JSON_ERROR_NONE ) {
-
-			return $response['body'];
+			return $response;
 		}
 
 		return $response;

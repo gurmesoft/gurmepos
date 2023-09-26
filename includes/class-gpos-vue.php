@@ -1,5 +1,4 @@
-<?php
-// phpcs:ignoreFile
+<?php //phpcs:ignoreFile
 /**
  * GurmePOS için Vue kullanımını sağlayan sınıf olan GPOS_Vue sınıfını barındıran dosya.
  *
@@ -136,20 +135,22 @@ class GPOS_Vue {
 		if ( $css_files ) {
 
 			foreach ( $css_files as $file ) {
-				if ( 'css' !== pathinfo( $file, PATHINFO_EXTENSION ) ) {
+				if ( false !== strpos( $file, 'tailwind' ) && false === $this->tailwind ) {
 					continue;
 				}
 
-				if ( 'tailwind.css' === $file && ! $this->tailwind ) {
+				if ( 'checkout' === $this->vue_page && 'tailwind.css' === $file ) {
 					continue;
 				}
 
-				wp_enqueue_style(
-					$file,
-					"{$this->asset_dir_url}/vue/css/{$file}",
-					array(),
-					$this->version,
-				);
+				if ( 'css' === pathinfo( $file, PATHINFO_EXTENSION ) ) {
+					wp_enqueue_style(
+						$file,
+						"{$this->asset_dir_url}/vue/css/{$file}",
+						array(),
+						$this->version,
+					);
+				}
 			}
 		}
 
@@ -171,7 +172,7 @@ class GPOS_Vue {
 		);
 
 		if ( ! empty( $this->localize_variables ) ) {
-			wp_localize_script( $this->prefix, 'gpos' , (object) $this->localize_variables  );  // @phpstan-ignore-line
+			wp_localize_script( $this->prefix, 'gpos', (object) $this->localize_variables );  // @phpstan-ignore-line
 		}
 
 		return $this;

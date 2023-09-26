@@ -144,11 +144,13 @@ trait GPOS_Plugin_Payment_Gateway {
 			'card_name',
 			'card_holder_name',
 		) as $property ) {
-			$fnc      = "set_{$property}";
-			$property = str_replace( '_', '-', $property );
-			$key      = "{$this->gpos_prefix}-{$property}";
-			$param    = isset( $post_data[ $key ] ) && false === empty( $post_data[ $key ] ) ? $post_data[ $key ] : '';
-			call_user_func_array( array( $object, $fnc ), array( $param ) );
+			$fnc = "set_{$property}";
+			if ( method_exists( $object, $fnc ) ) {
+				$property = str_replace( '_', '-', $property );
+				$key      = "{$this->gpos_prefix}-{$property}";
+				$param    = isset( $post_data[ $key ] ) && false === empty( $post_data[ $key ] ) ? $post_data[ $key ] : '';
+				call_user_func_array( array( $object, $fnc ), array( $param ) );
+			}
 		};
 	}
 

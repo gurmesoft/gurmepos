@@ -6,6 +6,7 @@
  */
 
 $gpos_texts = array(
+	'woocommerce_subs' 					=> 'WC Subscriptions',
 	'payment_method' 					=> __( 'Payment Method', 'gurmepos' ),
 	'threed'                            => __( '3D Payment', 'gurmepos' ),
 	'regular'                           => __( 'Regular Payment', 'gurmepos' ),
@@ -244,7 +245,6 @@ $gpos_texts = array(
 	'gateway_error' 					=> __( 'You have not activated any pos integration, please complete your settings.', 'gurmepos' ),
 	'saved_card_not_found'			    => __( 'No Saved Card found.','gurmepos' ),
 	'reset_settings'			    	=> __( 'Reset Settings','gurmepos' ),
-	'woocommerce_subs' 					=> __( 'WC Subscriptions','gurmepos' ),
 	'support_settings'					=> __( 'Support Settings' , 'gurmepos' ),
 	'user_can_cpm_desc'					=> __( 'When this setting is activated, users can cahange their payment method from My Account -> My Subscriptions.' , 'gurmepos' ),
 	'user_can_cancel_desc'				=> __( 'When this setting is activated, users can cancel their subscriptions from My Account -> My Subscriptions.' , 'gurmepos' ),
@@ -252,4 +252,9 @@ $gpos_texts = array(
 	'note'								=> __( 'Note' , 'gurmepos' ),
 	'use_iframe_settings'				=> __( 'Using iframe for 3D forms and Common payment forms' , 'gurmepos' ),
 	'use_iframe_settings_subtitle'		=> __( 'Important! This feature is still in beta phase. Please do not open it to your customers without testing it. Your feedback is important for our development process.' , 'gurmepos' ),
+	'card_name_field'					=> __( 'Card Name Field', 'gurmepos' ),
+	'card_name_default'					=> __( 'Use default name', 'gurmepos' ),
+	'card_name_default_desc'			=> __( 'Sample: Saved card with ending 0000', 'gurmepos' ),
+	'card_name_show_field'				=> __( 'Use field', 'gurmepos' ),
+	'card_name_show_field_desc'			=> __( 'Users can write name for card', 'gurmepos' ),
 );

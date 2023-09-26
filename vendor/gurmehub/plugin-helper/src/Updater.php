@@ -17,7 +17,6 @@ class Updater {
 	 */
 	public $plugin;
 
-
 	/**
 	 * Kurucu method.
 	 *
