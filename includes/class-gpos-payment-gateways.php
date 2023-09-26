@@ -119,7 +119,6 @@ class GPOS_Payment_Gateways {
 			'GPOS_Wyld',
 			'GPOS_Yapi_Kredi',
 			'GPOS_Ziraat',
-			'GPOS_Ziraat',
 		);
 
 		return apply_filters(

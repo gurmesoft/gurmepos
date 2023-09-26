@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v3.5.1 - (2023-09-23) =
+
+
+Bug Fixes
+
+* Localize sorunu
+
 = v3.5.0 - (2023-09-22) =
 
 

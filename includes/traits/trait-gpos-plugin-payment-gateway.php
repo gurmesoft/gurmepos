@@ -208,6 +208,18 @@ trait GPOS_Plugin_Payment_Gateway {
 	}
 
 	/**
+	 * Ödeme esnasında alınan hataları işleme yansıtır.
+	 *
+	 * @param Exception $exception Hata.
+	 */
+	public function exception_handler( Exception $exception ) {
+		$error_exception = new GPOS_Gateway_Response( get_class( $this->gateway ) );
+		$error_exception->set_transaction_id( $this->transaction->get_id() )->set_error_message( $exception->getMessage() );
+		$this->transaction_error_process( $error_exception );
+		$this->error_process( $error_exception, true );
+	}
+
+	/**
 	 * Kartın kayıt edilip edilmeyeceğine karar verme.
 	 *
 	 * @param array $post_data Ödeme bilgilerinin bulunduğu dizi.
@@ -218,6 +230,22 @@ trait GPOS_Plugin_Payment_Gateway {
 	 */
 	private function need_save( $post_data ) {
 		return ( class_exists( 'WC_Subscriptions_Cart' ) && WC_Subscriptions_Cart::cart_contains_subscription() ) || ( isset( $post_data[ "{$this->gpos_prefix}-save-card" ] ) && 'on' === $post_data[ "{$this->gpos_prefix}-save-card" ] );
+	}
+
+	/**
+	 * İşlem iframe içerisinde yapılmış ise yönlendirme yapar.
+	 *
+	 * @param string $redirect_url Yönlendirme linki.
+	 *
+	 * @SuppressWarnings(PHPMD.ExitExpression)
+	 */
+	public function iframe_redirect( $redirect_url ) {
+		?>
+		<script>
+			window.parent.location.href = '<?php echo esc_url_raw( $redirect_url ); ?>';
+		</script>
+		<?php
+		exit;
 	}
 
 	/**

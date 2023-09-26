@@ -443,3 +443,27 @@ function gpos_clear_non_alfa( $string ) {
 		)
 	);
 }
+
+
+/**
+ * Yönlendirme olmadan 3D yi iframe içerisinde kullanmayı sağlar.
+ *
+ * @param string  $iframe_url Sayfa linki.
+ * @param boolean $echo Yadır.
+ *
+ * @return string
+ *
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+ * @SuppressWarnings(PHPMD.ExitExpression)
+ */
+function gpos_threeds_iframe_content( $iframe_url, $echo = false ) {
+	ob_start();
+	gpos_get_view( 'threeds-iframe.php', array( 'iframe_url' => $iframe_url ) );
+	$content = ob_get_clean();
+	if ( $echo ) {
+		echo $content; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		exit;
+	}
+
+	return $content;
+}

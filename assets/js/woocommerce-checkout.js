@@ -12,5 +12,3 @@ if (window?.wc_checkout_params?.is_checkout === "1") {
 } else {
   jQuery(document).ready(gposCreateApp);
 }
-
-

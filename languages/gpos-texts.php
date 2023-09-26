@@ -250,4 +250,6 @@ $gpos_texts = array(
 	'user_can_cancel_desc'				=> __( 'When this setting is activated, users can cancel their subscriptions from My Account -> My Subscriptions.' , 'gurmepos' ),
 	'save_info'							=> __( 'If there is a basket subscription product, you can write a note if you want to inform the customer that their card will be registered automatically.' , 'gurmepos' ),
 	'note'								=> __( 'Note' , 'gurmepos' ),
+	'use_iframe_settings'				=> __( 'Using iframe for 3D forms and Common payment forms' , 'gurmepos' ),
+	'use_iframe_settings_subtitle'		=> __( 'Important! This feature is still in beta phase. Please do not open it to your customers without testing it. Your feedback is important for our development process.' , 'gurmepos' ),
 );
