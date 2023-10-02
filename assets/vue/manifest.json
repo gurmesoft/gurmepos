@@ -68,6 +68,7 @@
       "_main.js",
       "_main.js",
       "_main.js",
+      "_main.js",
       "_main.js"
     ],
     "isEntry": true,
@@ -79,6 +80,7 @@
     ],
     "file": "js/settings/main.js",
     "imports": [
+      "_main.js",
       "_main.js",
       "_main.js",
       "_main.js",

@@ -57,7 +57,13 @@ class GPOS_Installments {
 
 		return array_map( // Axess, Bonus vs. için dönen map.
 			function( $installments ) {
-				$installments    = array_filter( (array) $installments, fn( $intallment ) => $intallment->enabled ); // Enabled olmayan taksitleri temizler.
+
+				// Aktif olmayan taksitleri temizler ve kategori taksit engeli vb. filtrelerden geçer.
+				$installments = array_filter(
+					(array) apply_filters( 'gpos_installment_rules', $installments, $this->platform ),
+					fn( $installment ) => $installment->enabled
+				);
+
 				$installments[1] = (object) array(
 					'enabled' => true,
 					'rate'    => 1,

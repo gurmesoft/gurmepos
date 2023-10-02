@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - POS Entegratör &#8211; WordPress Ödeme Eklentisi - Development (trunk) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-09-26 19:12+0000\n"
+"PO-Revision-Date: 2023-09-28 10:12+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -122,7 +122,7 @@ msgstr "Ödeme Kuruluşu Ekle"
 msgid "Address"
 msgstr "Adres"
 
-#: hooks/class-gpospro-gurmepos.php:228
+#: hooks/class-gpospro-gurmepos.php:230
 msgctxt "Admin Menu text"
 msgid "Saved Cards"
 msgstr "Kayıtlı Kartlar"
@@ -296,6 +296,10 @@ msgstr "Görünüm Ayarları"
 msgid "Application related"
 msgstr "Uygulama ile ilgili"
 
+#: languages/gpos-texts.php:265
+msgid "Apply"
+msgstr "Uygula"
+
 #: languages/gpos-texts.php:190
 msgid ""
 "Are you sure you want to refund the full <strong>{0} {1}</strong> payment?"
@@ -438,6 +442,10 @@ msgstr "Kart Saklama"
 #: includes/class-gpospro-post-tables.php:71 languages/gpos-texts.php:161
 msgid "Card Type"
 msgstr "Kart Tipi"
+
+#: languages/gpos-texts.php:266
+msgid "Category"
+msgstr "Kategori"
 
 #: languages/gpos-texts.php:93
 msgid "Check out the pro version for many pos and more available in Pro"
@@ -617,6 +625,10 @@ msgstr "Detaylar"
 msgid "Didn't work as expected"
 msgstr "Beklediğim gibi çalışmadı"
 
+#: languages/gpos-texts.php:264
+msgid "Disable inst."
+msgstr "Taksit Yok"
+
 #: includes/gpos-functions.php:380
 msgid "Disabled"
 msgstr "Devre Dışı"
@@ -741,13 +753,13 @@ msgstr ""
 msgid "Forced 3D"
 msgstr "3D Zorunlu"
 
+#: languages/gpos-texts.php:220
+msgid "Form"
+msgstr "Form"
+
 #: languages/gpos-texts.php:127
 msgid "Form Settings"
 msgstr "Form Ayarları"
-
-#: languages/gpos-texts.php:220
-msgid "Form Texts"
-msgstr "Form Yazıları"
 
 #: languages/gpos-texts.php:73
 msgid "Forum"
@@ -1141,11 +1153,15 @@ msgstr "Hayır"
 msgid "No confirmed transactions were found in the transaction list."
 msgstr "İşlem listesinde onaylanmış işlem bulunamadı."
 
-#: hooks/class-gpospro-gurmepos.php:232
+#: languages/gpos-texts.php:267
+msgid "No rules found..."
+msgstr "Kural bulunamadı..."
+
+#: hooks/class-gpospro-gurmepos.php:234
 msgid "No Saved Card found in Trash."
 msgstr "Çöpte Kayıtlı Kart Bulunamadı."
 
-#: hooks/class-gpospro-gurmepos.php:231 languages/gpos-texts.php:246
+#: hooks/class-gpospro-gurmepos.php:233 languages/gpos-texts.php:246
 msgid "No Saved Card found."
 msgstr "Kayıtlı Kart Bulunamadı."
 
@@ -1222,6 +1238,10 @@ msgstr "Tek satır kredi kartı formu"
 #: languages/gpos-texts.php:54
 msgid "One-line payment form"
 msgstr "Tek satır ödeme formu"
+
+#: languages/gpos-texts.php:260
+msgid "Order"
+msgstr "Sipariş"
 
 #: languages/gpos-texts.php:208
 msgid "Other"
@@ -1420,7 +1440,7 @@ msgctxt "post status label"
 msgid "Started "
 msgstr "Başladı "
 
-#: hooks/class-gpospro-gurmepos.php:226
+#: hooks/class-gpospro-gurmepos.php:228
 msgctxt "Post type general name"
 msgid "Saved Cards"
 msgstr "Kayıtlı Kartlar"
@@ -1430,7 +1450,7 @@ msgctxt "Post type general name"
 msgid "Transactions"
 msgstr "İşlemler"
 
-#: hooks/class-gpospro-gurmepos.php:227
+#: hooks/class-gpospro-gurmepos.php:229
 msgctxt "Post type singular name"
 msgid "Saved Card"
 msgstr "Kayıtlı Kart"
@@ -1562,6 +1582,10 @@ msgstr "Regular Ödeme"
 msgid "Regular Process"
 msgstr "Normal İşlem"
 
+#: languages/gpos-texts.php:268
+msgid "Remove"
+msgstr "Sil"
+
 #: languages/gpos-texts.php:59
 msgid "Remove payment provider"
 msgstr "Ödeme kuruluşunu kaldır"
@@ -1623,15 +1647,19 @@ msgstr "Kayıtlı Kart"
 msgid "Saved card with ending %s"
 msgstr "%s ile biten kayıtlı kart"
 
-#: hooks/class-gpospro-gurmepos.php:229
+#: hooks/class-gpospro-gurmepos.php:231
 msgid "Saved Cards"
 msgstr "Kayıtlı Kartlar"
+
+#: languages/gpos-texts.php:261
+msgid "Search"
+msgstr "Ara"
 
 #: languages/gpos-texts.php:87
 msgid "Search Payment Institution"
 msgstr "Ödeme Kuruluşu Ara"
 
-#: hooks/class-gpospro-gurmepos.php:230
+#: hooks/class-gpospro-gurmepos.php:232
 msgid "Search Saved Card"
 msgstr "Kayıtlı Kart Ara"
 
@@ -1647,9 +1675,17 @@ msgstr "Güvenlik Anahtarı"
 msgid "Security Type"
 msgstr "Güvenlik Tipi"
 
+#: languages/gpos-texts.php:262
+msgid "Select"
+msgstr "Seç"
+
 #: hooks/class-gpos-wordpress.php:333
 msgid "Select Process Type"
 msgstr "İşlem Tipi Seçiniz"
+
+#: languages/gpos-texts.php:263
+msgid "Select the category you want to set rules for"
+msgstr "Kural uygulamak istediğiniz kategorileri seçiniz"
 
 #: languages/gpos-texts.php:50
 msgid "Sell subscription products with the WooCommerce Subscriber Plugin"

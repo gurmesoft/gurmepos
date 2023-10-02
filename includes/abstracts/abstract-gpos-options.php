@@ -70,11 +70,12 @@ abstract class GPOS_Options {
 			'gpos_default_settings',
 			array(
 				'gpos_woocommerce_settings' => array(
-					'title'          => __( 'Debit/Credit Card', 'gurmepos' ),
-					'button_text'    => __( 'Payment', 'gurmepos' ),
-					'description'    => '',
-					'icon'           => GPOS_ASSETS_DIR_URL . '/images/visa-mastercard.png',
-					'success_status' => 'processing',
+					'title'             => __( 'Debit/Credit Card', 'gurmepos' ),
+					'button_text'       => __( 'Payment', 'gurmepos' ),
+					'description'       => '',
+					'icon'              => GPOS_ASSETS_DIR_URL . '/images/visa-mastercard.png',
+					'success_status'    => 'processing',
+					'installment_rules' => new stdClass(),
 				),
 				'gpos_form_settings'        => array(
 					'threed'            => 'force_threed',

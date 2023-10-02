@@ -84,7 +84,7 @@ class Frontend {
 	 * @return array
 	 */
 	private function get_reasons() {
-		return apply_filters( "gph_{$this->plugin->get_plugin_slug()}_deactive_reasons", array() );
+		return apply_filters( "gph_{$this->plugin->get_basename()}_deactive_reasons", array() );
 	}
 
 	/**
@@ -96,7 +96,7 @@ class Frontend {
 	 */
 	private function texts( $button ) {
 		$texts = apply_filters(
-			"gph_{$this->plugin->get_plugin_slug()}_texts",
+			"gph_{$this->plugin->get_basename()}_texts",
 			array(
 				'skip_button'      => 'Skip & Deactive',
 				'submit_button'    => 'Deactive',

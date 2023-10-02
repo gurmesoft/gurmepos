@@ -66,7 +66,7 @@ class Plugin extends \GurmeHub\Api {
 	 * @return string
 	 */
 	public function get_plugin_slug() {
-		$name_arr = explode( '/', $this->get_basename() );
+		$name_arr = explode( '/', (string) $this->get_basename() );
 		if ( 2 >= count( $name_arr ) && isset( $name_arr[1] ) ) {
 			return str_replace( [ '.php' ], [ '' ], $name_arr[1] );
 		}

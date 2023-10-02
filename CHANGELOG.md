@@ -1,5 +1,28 @@
 == Changelog ==
 
+= v3.5.4 - (2023-09-28) =
+
+
+Bug Fixes
+
+* * Taksit engelleme entegre edildi.
+
+= v3.5.3 - (2023-09-27) =
+
+
+Performance Improvements
+
+* Release Tool Fix
+
+= v3.5.2 - (2023-09-27) =
+
+
+Bug Fixes
+
+* Dil dosyaları düzenlendi.
+* iFrame özelliği eklendi.
+* Ödeme ekranındaki CSS sorunları giderildi.
+
 = v3.5.1 - (2023-09-23) =
 
 
@@ -12,7 +35,7 @@ Bug Fixes
 
 Features
 
-* Edd tamamlandı,
+* Edd tamamlandı.
 
 
 
@@ -60,8 +83,7 @@ Bug Fixes
 
 Bug Fixes
 
-* woocommerce kart formu render edilememe problemi giderildi
-* woocommerce kart formu render edilememe problemi giderildi
+* WooCommerce kart formu render edilememe problemi giderildi
 
 = v3.4.3 - (2023-09-13) =
 
@@ -76,7 +98,7 @@ Bug Fixes
 Bug Fixes
 
 * PayTR ve iyzico için kart kayıt etme tamamlandı.
-* pro ve litedaki jsler ayrildi. EDD icin gerekli olan kod bloklari eklendi
+* Pro ve litedaki jsler ayrildi. EDD icin gerekli olan kod bloklari eklendi
 
 = v3.4.0 - (2023-08-31) =
 
@@ -85,15 +107,9 @@ Features
 
 * Paidora Eklendi
 
-
-
 Bug Fixes
 
 * release note duzeltildi
-* semantic release versiyonu degisti
-* semantic release versiyonu degisti
-* semantic release versiyonu degisti
-* semantic release versiyonu degisti
 * semantic release versiyonu degisti
 
 = v3.3.4 - (2023-08-21) =
