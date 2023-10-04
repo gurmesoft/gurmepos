@@ -422,6 +422,7 @@ class GPOS_WordPress {
 		$post = get_post( $post_id );
 
 		if ( 'gpos_transaction' === $post->post_type ) {
+			gpos_transaction_log()->delete( $post_id );
 			$lines = gpos_transaction( $post_id )->get_lines();
 			if ( false === empty( $lines ) ) {
 				foreach ( $lines as $line ) {

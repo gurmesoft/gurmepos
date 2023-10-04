@@ -74,11 +74,12 @@ class GPOS_Installments {
 					function( $installment ) {
 						$calculated_amount = $this->account->installment_rate_calculate( (float) $installment->rate, (float) $this->platform_data['amount'] );
 						return array(
-							'amount_total'       => number_format( $calculated_amount ),
-							'amount_per_month'   => number_format( $calculated_amount / $installment->number, 2 ),
+							'amount_total'       => gpos_number_format( $calculated_amount ),
+							'amount_per_month'   => gpos_number_format( $calculated_amount / $installment->number ),
 							'installment_number' => $installment->number,
 							'currency'           => $this->platform_data['currency'],
 							'currency_symbol'    => $this->platform_data['currency_symbol'],
+							'rate'               => $installment->rate,
 						);
 					},
 					$installments

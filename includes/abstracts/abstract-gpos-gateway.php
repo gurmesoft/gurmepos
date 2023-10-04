@@ -81,6 +81,13 @@ abstract class GPOS_Gateway {
 	public $line_based = false;
 
 	/**
+	 * Taksitin vade farkı manuel eklenmeli mi ?
+	 *
+	 * @var boolean $add_fee_for_installment
+	 */
+	public $add_fee_for_installment = true;
+
+	/**
 	 * Ortak ödeme formu mu ?
 	 *
 	 * @var boolean $is_common_form

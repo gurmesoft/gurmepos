@@ -179,8 +179,7 @@ class GPOS_Gateway_Account {
 	 */
 	public function installment_rate_calculate( float $rate, float $amount ) {
 		$gateway = gpos_payment_gateways()->get_base_gateway_by_gateway_id( $this->gateway_id );
-		return $gateway->installment_rate_calculate( $rate, $amount );
-
+		return gpos_number_format( $gateway->installment_rate_calculate( $rate, $amount ) );
 	}
 
 	/**

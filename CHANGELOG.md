@@ -1,5 +1,19 @@
 == Changelog ==
 
+= v3.5.6 - (2023-10-03) =
+
+
+Bug Fixes
+
+* Seçilen taksite istinaden vade farkı işlemin toplamına eklendi
+
+= v3.5.5 - (2023-10-02) =
+
+
+Bug Fixes
+
+* 02.10 Güncellemeleri
+
 = v3.5.4 - (2023-09-28) =
 
 

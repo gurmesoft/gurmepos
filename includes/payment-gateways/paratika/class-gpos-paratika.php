@@ -75,6 +75,13 @@ class GPOS_Paratika extends GPOS_Gateway {
 	public $is_need_pro = false;
 
 	/**
+	 * Taksitin vade farkı manuel eklenmeli mi ?
+	 *
+	 * @var boolean $add_fee_for_installment
+	 */
+	public $add_fee_for_installment = false;
+
+	/**
 	 * Ödeme için gerekli alanların tanımı
 	 *
 	 * @return array

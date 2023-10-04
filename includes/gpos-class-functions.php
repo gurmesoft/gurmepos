@@ -216,3 +216,12 @@ function gpos_refund( $transaction ) {
 function gpos_shortcode() {
 	return new GPOS_Shortcode();
 }
+
+/**
+ * İşlem log sınıfı.
+ *
+ * @return GPOS_Transaction_Log
+ */
+function gpos_transaction_log() {
+	return new GPOS_Transaction_Log();
+}

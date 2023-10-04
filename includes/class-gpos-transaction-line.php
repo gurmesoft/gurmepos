@@ -60,6 +60,13 @@ class GPOS_Transaction_Line extends GPOS_Post {
 	protected $transaction_id;
 
 	/**
+	 * Entegre eklentideki işlem satır nosu
+	 *
+	 * @var int $plugin_line_id
+	 */
+	protected $plugin_line_id;
+
+	/**
 	 * Satırın post tipi.
 	 *
 	 * @var string $post_type

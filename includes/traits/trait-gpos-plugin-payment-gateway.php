@@ -24,6 +24,13 @@ trait GPOS_Plugin_Payment_Gateway {
 	public $gateway;
 
 	/**
+	 * Ödeme geçidi hesabı.
+	 *
+	 * @var GPOS_Gateway_Account $account
+	 */
+	public $account;
+
+	/**
 	 * Ödeme bilgisi.
 	 *
 	 * @var GPOS_Transaction $transaction
@@ -59,13 +66,14 @@ trait GPOS_Plugin_Payment_Gateway {
 	public $use_saved_card;
 
 	/**
-	 * GPOS_Transaction $this->transaction ve $this->gateway objelerini hazırlayan fonksiyon.
+	 * GPOS_Transaction $this->account, $this->transaction ve $this->gateway objelerini hazırlayan fonksiyon.
 	 *
 	 * @param array      $post_data Ön yüzden alınmış form verileri.
 	 * @param int|string $plugin_transaction_id Ödeme eklentisindeki benzersiz kimlik numarası.
 	 * @param string     $plugin Ödeme eklentisi.
+	 * @param int|string $gateway_acccount_id Ödeme eklentisi.
 	 */
-	public function create_new_payment_process( $post_data, $plugin_transaction_id, $plugin ) {
+	public function create_new_payment_process( $post_data, $plugin_transaction_id, $plugin, $gateway_acccount_id = 0 ) {
 		$this->threed         = isset( $post_data[ "{$this->gpos_prefix}-threed" ] ) && 'on' === $post_data[ "{$this->gpos_prefix}-threed" ];
 		$this->common_form    = isset( $post_data[ "{$this->gpos_prefix}-common-form" ] ) && 'on' === $post_data[ "{$this->gpos_prefix}-common-form" ];
 		$this->use_saved_card = isset( $post_data[ "{$this->gpos_prefix}-use-saved-card" ] ) && 'on' === $post_data[ "{$this->gpos_prefix}-use-saved-card" ];
@@ -75,10 +83,6 @@ trait GPOS_Plugin_Payment_Gateway {
 		->set_plugin_transaction_id( $plugin_transaction_id )
 		->set_plugin( $plugin )
 		->set_type( GPOS_Transaction_Utils::PAYMENT );
-
-		if ( $this->installment ) {
-			$this->transaction->set_installment( $post_data[ "{$this->gpos_prefix}-installment" ] );
-		}
 
 		if ( $this->common_form ) {
 			$this->transaction->set_is_common_form_payment();
@@ -97,9 +101,21 @@ trait GPOS_Plugin_Payment_Gateway {
 
 		$this->set_properties();
 
-		$this->gateway = gpos_payment_gateways()
-		->get_gateway_by_priority( $this->transaction )
-		->set_callback_url( home_url( "/gpos-callback/{$this->transaction->get_id()}/" ) );
+		if ( 0 === $gateway_acccount_id ) {
+			$this->account = gpos_gateway_accounts()->get_default_account();
+			$this->gateway = gpos_payment_gateways()->get_gateway_by_priority( $this->transaction );
+		} else {
+			$this->account = gpos_gateway_account( (int) $gateway_acccount_id );
+			$this->gateway = gpos_payment_gateways()->get_gateway_by_account_id( $gateway_acccount_id, $this->transaction );
+		}
+
+		if ( $this->installment ) {
+			$this->transaction->set_installment( $post_data[ "{$this->gpos_prefix}-installment" ] );
+			$this->transaction->set_installment_rate( $post_data[ "{$this->gpos_prefix}-installment-rate" ] );
+			$this->add_fee_for_installment();
+		}
+
+		$this->gateway->set_callback_url( home_url( "/gpos-callback/{$this->transaction->get_id()}/" ) );
 	}
 
 	/**
@@ -219,6 +235,26 @@ trait GPOS_Plugin_Payment_Gateway {
 		$error_exception->set_transaction_id( $this->transaction->get_id() )->set_error_message( $exception->getMessage() );
 		$this->transaction_error_process( $error_exception );
 		$this->error_process( $error_exception, true );
+	}
+
+	/**
+	 * Taksit vade farkını ödemeye ekler.
+	 *
+	 * @return void
+	 */
+	protected function add_fee_for_installment() {
+		$base_gateway = gpos_payment_gateways()->get_base_gateway_by_gateway_id( $this->account->gateway_id );
+		if ( true === $base_gateway->add_fee_for_installment ) {
+			$transaction_total = $this->transaction->get_total();
+			$total_with_fee    = $this->account->installment_rate_calculate( (float) $this->transaction->get_installment_rate(), $transaction_total );
+			$this->transaction->add_line(
+				gpos_transaction_line()
+				->set_name( __( 'Installment Fee', 'gurmepos' ) )
+				->set_quantity( 1 )
+				->set_total( $total_with_fee - $transaction_total )
+			);
+			$this->transaction->set_total( $total_with_fee );
+		}
 	}
 
 	/**

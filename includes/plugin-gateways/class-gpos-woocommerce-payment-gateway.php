@@ -258,15 +258,13 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 				$item_total = floatval( $total + $tax );
 
 				if ( $item_total > 0 ) {
-					$transaction_line = gpos_transaction_line();
-
-					$transaction_line
-					->set_plugin_line_id( $order_line->get_id() )
-					->set_name( $order_line->get_name() )
-					->set_quantity( 1 )
-					->set_total( $item_total );
-
-					$this->transaction->add_line( $transaction_line );
+					$this->transaction->add_line(
+						gpos_transaction_line()
+						->set_plugin_line_id( $order_line->get_id() )
+						->set_name( $order_line->get_name() )
+						->set_quantity( 1 )
+						->set_total( $item_total )
+					);
 				}
 			}
 		}

@@ -55,6 +55,24 @@ class GPOS_Transaction_Log {
 	}
 
 	/**
+	 * Log silme.
+	 *
+	 * @param int|string $transaction_id İşlem kimliği.
+	 *
+	 * @return void
+	 */
+	public function delete( $transaction_id ) {
+
+		global $wpdb;
+		$wpdb->delete( //phpcs:ignore
+			$this->get_table_name(),
+			array(
+				'transaction_id' => $transaction_id,
+			)
+		);
+	}
+
+	/**
 	 * Log kayıtlarını getirme.
 	 *
 	 * @param string|int $transaction_id İşlem numarası.

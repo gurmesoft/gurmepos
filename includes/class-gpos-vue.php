@@ -119,7 +119,7 @@ class GPOS_Vue {
 	 * @return GPOS_Vue $this
 	 */
 	public function create_app_div() {
-		echo wp_kses_post( '<div id="app"></div>' );
+		gpos_get_view( 'vue-app-div.php' );
 		return $this;
 	}
 
@@ -163,13 +163,20 @@ class GPOS_Vue {
 	 * @return GPOS_Vue $this
 	 */
 	public function require_script() {
-		wp_enqueue_script(
-			$this->prefix,
-			"{$this->asset_dir_url}/vue/js/{$this->vue_page}/main.js",
-			array( 'jquery' ),
-			$this->version,
-			false
-		);
+
+		$js_files = scandir( GPOS_PLUGIN_DIR_PATH . "assets/vue/js/{$this->vue_page}/" );
+
+		foreach ( $js_files as $file ) {
+			if ( 'js' === pathinfo( $file, PATHINFO_EXTENSION ) ) {
+				wp_enqueue_script(
+					$this->prefix,
+					"{$this->asset_dir_url}/vue/js/{$this->vue_page}/{$file}",
+					array( 'jquery' ),
+					$this->version,
+					false
+				);
+			}
+		}
 
 		if ( ! empty( $this->localize_variables ) ) {
 			// @phpstan-ignore-next-line

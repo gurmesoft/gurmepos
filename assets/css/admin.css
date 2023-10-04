@@ -104,10 +104,10 @@ a.upgrade-pro:hover {
 	width: fit-content;
 }
 
-.payment-plugin img.woocommerce{
+.payment-plugin img{
 	width: 50px;
 } 
 
-.payment-plugin img.givewp{
-	width: 50px;
+.payment-plugin img.ninja_forms{
+	border-radius: 10px;
 } 

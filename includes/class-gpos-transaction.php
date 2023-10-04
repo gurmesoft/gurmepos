@@ -10,6 +10,7 @@
  *
  * @SuppressWarnings(ExcessivePublicCount)
  * @SuppressWarnings(ExcessiveClassComplexity)
+ * @SuppressWarnings(TooManyFields)
  */
 class GPOS_Transaction extends GPOS_Post {
 
@@ -147,6 +148,55 @@ class GPOS_Transaction extends GPOS_Post {
 	 * @var bool $save_card
 	 */
 	protected $save_card = false;
+
+	/**
+	 * Entegre eklentinin işlem numarası
+	 *
+	 * @var int $payment_transaction_id
+	 */
+	protected $plugin_transaction_id;
+
+	/**
+	 * İşlem güvenlik türü
+	 *
+	 * @var string $security_type
+	 */
+	protected $security_type;
+
+	/**
+	 * Entegre eklenti ödeme geçidi sınıfı
+	 *
+	 * @var string $payment_gateway_class
+	 */
+	protected $payment_gateway_class;
+
+	/**
+	 * İşlemi gerçekleştiren hesabın idsi
+	 *
+	 * @var int $account_id
+	 */
+	protected $account_id;
+
+	/**
+	 * İşlem iade durumu
+	 *
+	 * @var string $refund_status
+	 */
+	protected $refund_status;
+
+	/**
+	 * İşlem ortak ödeme formundan mı yapıldı
+	 *
+	 * @var boolean $common_form_payment
+	 */
+	protected $common_form_payment;
+
+	/**
+	 * İşlemin yapıldığı entegre eklenti
+	 *
+	 * @var string $plugin
+	 */
+	protected $plugin;
 
 	/**
 	 * Post meta verileri.
@@ -538,6 +588,26 @@ class GPOS_Transaction extends GPOS_Post {
 		$installment       = $this->get_prop( __FUNCTION__ );
 		$this->installment = '' === $installment ? 1 : (int) $installment;
 		return $this->installment;
+	}
+
+	/**
+	 * Taksit seçeneğinin oranını ayarlar
+	 *
+	 * @param int|string $value Oran.
+	 * @return $this
+	 */
+	public function set_installment_rate( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Taksit seçeneğinin oranını döndürür
+	 *
+	 * @return int|string
+	 */
+	public function get_installment_rate() {
+		return $this->get_prop( __FUNCTION__ );
 	}
 
 	/**

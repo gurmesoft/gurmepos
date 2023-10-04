@@ -16,12 +16,9 @@ class GPOS_Gph {
 	 * @return void
 	 */
 	public function __construct() {
-		add_filter( 'gph_gurmepos_deactive_reasons', array( $this, 'deactive_reasons' ) );
-		add_filter( 'gph_gurmepos_texts', array( $this, 'texts' ) );
-		if ( gpos_is_pro_active() ) {
-			add_filter( 'gph_gurmepos-pro_deactive_reasons', array( $this, 'deactive_reasons' ) );
-			add_filter( 'gph_gurmepos-pro_texts', array( $this, 'texts' ) );
-		}
+		add_filter( 'gph_' . GPOS_PLUGIN_BASENAME . '_deactive_reasons', array( $this, 'deactive_reasons' ) );
+		add_filter( 'gph_' . GPOS_PLUGIN_BASENAME . '_texts', array( $this, 'texts' ) );
+
 	}
 
 	/**
