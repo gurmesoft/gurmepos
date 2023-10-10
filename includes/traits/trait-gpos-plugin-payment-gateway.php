@@ -74,6 +74,7 @@ trait GPOS_Plugin_Payment_Gateway {
 	 * @param int|string $gateway_acccount_id Ödeme eklentisi.
 	 */
 	public function create_new_payment_process( $post_data, $plugin_transaction_id, $plugin, $gateway_acccount_id = 0 ) {
+		$post_data            = $this->prepare_post_data( $post_data );
 		$this->threed         = isset( $post_data[ "{$this->gpos_prefix}-threed" ] ) && 'on' === $post_data[ "{$this->gpos_prefix}-threed" ];
 		$this->common_form    = isset( $post_data[ "{$this->gpos_prefix}-common-form" ] ) && 'on' === $post_data[ "{$this->gpos_prefix}-common-form" ];
 		$this->use_saved_card = isset( $post_data[ "{$this->gpos_prefix}-use-saved-card" ] ) && 'on' === $post_data[ "{$this->gpos_prefix}-use-saved-card" ];
@@ -235,6 +236,17 @@ trait GPOS_Plugin_Payment_Gateway {
 		$error_exception->set_transaction_id( $this->transaction->get_id() )->set_error_message( $exception->getMessage() );
 		$this->transaction_error_process( $error_exception );
 		$this->error_process( $error_exception, true );
+	}
+
+	/**
+	 * Ödemenin basit ödeme formu ile mi yapıldığını kontrol eder, kullanılacak post verilerini belirler.
+	 *
+	 * @param array $post_data Veri dizisi.
+	 *
+	 * @return array Veri dizisi.
+	 */
+	private function prepare_post_data( array $post_data ) {
+		return isset( $post_data['gpos-sample-form'] ) && 'on' === $post_data['gpos-sample-form'] ? $post_data : gpos_forge()->checkout_decrypt( $post_data['_wp_refreshed_fragments'], $post_data['_wp_fragment'], $post_data['_gpos_nonce'] );
 	}
 
 	/**

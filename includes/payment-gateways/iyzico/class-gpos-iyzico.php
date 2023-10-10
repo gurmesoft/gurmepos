@@ -81,6 +81,13 @@ class GPOS_Iyzico extends GPOS_Gateway {
 	public $line_based = true;
 
 	/**
+	 * Bağlantı kontrolü yapılabiliyor mu ?
+	 *
+	 * @var boolean $check_connection_is_available
+	 */
+	public $check_connection_is_available = true;
+
+	/**
 	 * Ödeme için gerekli alanların tanımı
 	 *
 	 * @return array

@@ -21,6 +21,7 @@ class GPOS_Transaction_Utils {
 	const WPCF7            = 'wpcf7';
 	const WPFORMS          = 'wpforms';
 	const STANDALONE       = 'standalone';
+	const ELEMENTOR        = 'elementor';
 
 	/**
 	 * İşlem tipleri.

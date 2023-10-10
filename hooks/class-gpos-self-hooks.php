@@ -66,6 +66,7 @@ class GPOS_Self_Hooks {
 				'payment_gateway' => str_replace( [ 'GPOS', 'PRO', '_', 'Gateway' ], '', $response->get_gateway() ),
 				'payment_plugin'  => $transaction->get_plugin(),
 				'is_test'         => gpos_is_test_mode(),
+				'version'         => GPOS_VERSION,
 
 			)
 		);

@@ -225,3 +225,12 @@ function gpos_shortcode() {
 function gpos_transaction_log() {
 	return new GPOS_Transaction_Log();
 }
+
+/**
+ * Forge sınıfı.
+ *
+ * @return GPOS_Forge
+ */
+function gpos_forge() {
+	return new GPOS_Forge();
+}

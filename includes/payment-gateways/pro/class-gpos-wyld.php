@@ -23,22 +23,6 @@ class GPOS_Wyld extends GPOS_Gateway {
 	 * @var string $title
 	 */
 	public $title = 'Wyld';
-
-
-	/**
-	 * Ödeme geçidi ayar sınıfı
-	 *
-	 * @var string $settings_class
-	 */
-	public $settings_class = '';
-
-	/**
-	 * Ödeme geçidi
-	 *
-	 * @var string $gateway_class
-	 */
-	public $gateway_class = '';
-
 	/**
 	 * Pro gereksinimi
 	 *
@@ -52,6 +36,13 @@ class GPOS_Wyld extends GPOS_Gateway {
 	 * @var boolean $is_common_form
 	 */
 	public $is_common_form = true;
+
+	/**
+	 * Bağlantı kontrolü yapılabiliyor mu ?
+	 *
+	 * @var boolean $check_connection_is_available
+	 */
+	public $check_connection_is_available = true;
 
 	/**
 	 * Logo urli

@@ -82,6 +82,13 @@ class GPOS_Paratika extends GPOS_Gateway {
 	public $add_fee_for_installment = false;
 
 	/**
+	 * Bağlantı kontrolü yapılabiliyor mu ?
+	 *
+	 * @var boolean $check_connection_is_available
+	 */
+	public $check_connection_is_available = true;
+
+	/**
 	 * Ödeme için gerekli alanların tanımı
 	 *
 	 * @return array

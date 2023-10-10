@@ -3,87 +3,91 @@
     "file": "css/Page.css",
     "src": "Page.css"
   },
-  "_main-035b554b.js": {
-    "file": "js/Warning/main-035b554b.js",
+  "_main-0b129abe.js": {
+    "file": "js/vendor/main-0b129abe.js"
+  },
+  "_main-195df79f.js": {
+    "file": "js/Warning/main-195df79f.js",
     "imports": [
-      "_main-fb93ded3.js",
-      "_main-b04341ef.js"
+      "_main-0b129abe.js",
+      "_main-f3bea6cb.js"
     ]
   },
-  "_main-2db5ea07.js": {
-    "file": "js/Switch/main-2db5ea07.js",
+  "_main-4b5c85ab.js": {
+    "file": "js/SetDefaultBadge/main-4b5c85ab.js",
     "imports": [
-      "_main-fb93ded3.js"
+      "_main-0b129abe.js",
+      "_main-c27b6911.js"
     ]
   },
-  "_main-2e8a2eac.js": {
-    "file": "js/ProBadge/main-2e8a2eac.js",
-    "imports": [
-      "_main-fb93ded3.js"
-    ]
-  },
-  "_main-74272e44.js": {
-    "file": "js/PrimaryButton/main-74272e44.js",
-    "imports": [
-      "_main-fb93ded3.js"
-    ]
-  },
-  "_main-b04341ef.js": {
+  "_main-6f6f74dc.js": {
     "css": [
-      "css/Page.css"
+      "css/create-app.css"
     ],
-    "file": "js/Page/main-b04341ef.js",
+    "file": "js/create-app/main-6f6f74dc.js",
     "imports": [
-      "_main-fb93ded3.js",
-      "_main-d5bd04c6.js"
+      "_main-0b129abe.js",
+      "_main-876e8ca1.js",
+      "_main-c27b6911.js",
+      "_main-ce60c976.js"
+    ]
+  },
+  "_main-876e8ca1.js": {
+    "file": "js/CheckoutStore/main-876e8ca1.js",
+    "imports": [
+      "_main-0b129abe.js",
+      "_main-ce60c976.js"
+    ]
+  },
+  "_main-b1c50cde.js": {
+    "file": "js/PrimaryButton/main-b1c50cde.js",
+    "imports": [
+      "_main-0b129abe.js"
+    ]
+  },
+  "_main-b80e838c.js": {
+    "file": "js/Switch/main-b80e838c.js",
+    "imports": [
+      "_main-0b129abe.js"
     ]
   },
   "_main-c27b6911.js": {
     "file": "js/_plugin-vue_export-helper/main-c27b6911.js"
   },
-  "_main-c7f9700a.js": {
-    "file": "js/CheckoutStore/main-c7f9700a.js",
+  "_main-ce60c976.js": {
+    "file": "js/ajax/main-ce60c976.js",
     "imports": [
-      "_main-fb93ded3.js",
-      "_main-d5bd04c6.js"
+      "_main-0b129abe.js"
     ]
   },
-  "_main-d5bd04c6.js": {
-    "file": "js/ajax/main-d5bd04c6.js",
+  "_main-f2ddb319.js": {
+    "file": "js/ProBadge/main-f2ddb319.js",
     "imports": [
-      "_main-fb93ded3.js"
+      "_main-0b129abe.js"
     ]
   },
-  "_main-dbbea84d.js": {
-    "file": "js/SetDefaultBadge/main-dbbea84d.js",
-    "imports": [
-      "_main-fb93ded3.js",
-      "_main-c27b6911.js"
-    ]
-  },
-  "_main-f2237435.js": {
+  "_main-f3bea6cb.js": {
     "css": [
-      "css/tailwind-checkout.css"
+      "css/Page.css"
     ],
-    "file": "js/tailwind-checkout/main-f2237435.js",
+    "file": "js/Page/main-f3bea6cb.js",
     "imports": [
-      "_main-fb93ded3.js",
-      "_main-c7f9700a.js",
-      "_main-c27b6911.js",
-      "_main-d5bd04c6.js"
+      "_main-0b129abe.js",
+      "_main-ce60c976.js"
     ]
   },
-  "_main-fb93ded3.js": {
-    "file": "js/vendor/main-fb93ded3.js"
+  "create-app.css": {
+    "file": "css/create-app.css",
+    "src": "create-app.css"
   },
   "src/pages/checkout/main.js": {
-    "file": "js/checkout/main-8d782dd7.js",
+    "file": "js/checkout/main-c24068f9.js",
     "imports": [
-      "_main-fb93ded3.js",
-      "_main-d5bd04c6.js",
-      "_main-f2237435.js",
+      "_main-0b129abe.js",
+      "_main-ce60c976.js",
+      "_main-6f6f74dc.js",
       "_main-c27b6911.js",
-      "_main-c7f9700a.js"
+      "_main-876e8ca1.js"
     ],
     "isEntry": true,
     "src": "src/pages/checkout/main.js"
@@ -92,11 +96,11 @@
     "css": [
       "css/tailwind.css"
     ],
-    "file": "js/gurmepos/main-85111ee6.js",
+    "file": "js/gurmepos/main-f2f401cc.js",
     "imports": [
-      "_main-fb93ded3.js",
-      "_main-d5bd04c6.js",
-      "_main-b04341ef.js"
+      "_main-0b129abe.js",
+      "_main-ce60c976.js",
+      "_main-f3bea6cb.js"
     ],
     "isEntry": true,
     "src": "src/pages/gurmepos/main.js"
@@ -110,14 +114,14 @@
       "css/main.css",
       "css/tailwind.css"
     ],
-    "file": "js/payment-gateway/main-dea149f9.js",
+    "file": "js/payment-gateway/main-21a624ba.js",
     "imports": [
-      "_main-fb93ded3.js",
-      "_main-d5bd04c6.js",
-      "_main-b04341ef.js",
-      "_main-035b554b.js",
-      "_main-74272e44.js",
-      "_main-2db5ea07.js"
+      "_main-0b129abe.js",
+      "_main-ce60c976.js",
+      "_main-f3bea6cb.js",
+      "_main-195df79f.js",
+      "_main-b1c50cde.js",
+      "_main-b80e838c.js"
     ],
     "isEntry": true,
     "src": "src/pages/payment-gateway/main.js"
@@ -126,16 +130,16 @@
     "css": [
       "css/tailwind.css"
     ],
-    "file": "js/payment-gateways/main-130d1a61.js",
+    "file": "js/payment-gateways/main-66a3944e.js",
     "imports": [
-      "_main-fb93ded3.js",
-      "_main-d5bd04c6.js",
-      "_main-b04341ef.js",
+      "_main-0b129abe.js",
+      "_main-ce60c976.js",
+      "_main-f3bea6cb.js",
       "_main-c27b6911.js",
-      "_main-2e8a2eac.js",
-      "_main-74272e44.js",
-      "_main-dbbea84d.js",
-      "_main-035b554b.js"
+      "_main-f2ddb319.js",
+      "_main-b1c50cde.js",
+      "_main-4b5c85ab.js",
+      "_main-195df79f.js"
     ],
     "isEntry": true,
     "src": "src/pages/payment-gateways/main.js"
@@ -144,15 +148,15 @@
     "css": [
       "css/tailwind.css"
     ],
-    "file": "js/settings/main-343f4578.js",
+    "file": "js/settings/main-a51f1744.js",
     "imports": [
-      "_main-fb93ded3.js",
-      "_main-d5bd04c6.js",
-      "_main-b04341ef.js",
+      "_main-0b129abe.js",
+      "_main-ce60c976.js",
+      "_main-f3bea6cb.js",
       "_main-c27b6911.js",
-      "_main-2db5ea07.js",
-      "_main-2e8a2eac.js",
-      "_main-74272e44.js"
+      "_main-b80e838c.js",
+      "_main-f2ddb319.js",
+      "_main-b1c50cde.js"
     ],
     "isEntry": true,
     "src": "src/pages/settings/main.js"
@@ -166,11 +170,11 @@
       "css/main2.css",
       "css/tailwind.css"
     ],
-    "file": "js/transaction/main-74323b68.js",
+    "file": "js/transaction/main-083b2143.js",
     "imports": [
-      "_main-fb93ded3.js",
-      "_main-d5bd04c6.js",
-      "_main-b04341ef.js"
+      "_main-0b129abe.js",
+      "_main-ce60c976.js",
+      "_main-f3bea6cb.js"
     ],
     "isEntry": true,
     "src": "src/pages/transaction/main.js"
@@ -179,33 +183,29 @@
     "css": [
       "css/tailwind.css"
     ],
-    "file": "js/user-saved-cards/main-3f5c8f99.js",
+    "file": "js/user-saved-cards/main-fd8323f2.js",
     "imports": [
-      "_main-fb93ded3.js",
-      "_main-d5bd04c6.js",
-      "_main-dbbea84d.js",
-      "_main-74272e44.js",
-      "_main-c7f9700a.js",
+      "_main-0b129abe.js",
+      "_main-ce60c976.js",
+      "_main-4b5c85ab.js",
+      "_main-b1c50cde.js",
+      "_main-876e8ca1.js",
       "_main-c27b6911.js"
     ],
     "isEntry": true,
     "src": "src/pages/user-saved-cards/main.js"
   },
   "src/pages/wc-add-payment-method-page/main.js": {
-    "file": "js/wc-add-payment-method-page/main-daae5c56.js",
+    "file": "js/wc-add-payment-method-page/main-39578188.js",
     "imports": [
-      "_main-fb93ded3.js",
-      "_main-d5bd04c6.js",
-      "_main-f2237435.js",
-      "_main-c7f9700a.js",
+      "_main-0b129abe.js",
+      "_main-ce60c976.js",
+      "_main-6f6f74dc.js",
+      "_main-876e8ca1.js",
       "_main-c27b6911.js"
     ],
     "isEntry": true,
     "src": "src/pages/wc-add-payment-method-page/main.js"
-  },
-  "tailwind-checkout.css": {
-    "file": "css/tailwind-checkout.css",
-    "src": "tailwind-checkout.css"
   },
   "tailwind.css": {
     "file": "css/tailwind.css",

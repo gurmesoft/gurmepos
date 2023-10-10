@@ -66,16 +66,16 @@ class GPOS_Installments {
 
 				$installments[1] = (object) array(
 					'enabled' => true,
-					'rate'    => 1,
+					'rate'    => 0,
 					'number'  => 1,
 				);
-				// @phpstan-ignore-next-line
-				return array_map( // Taksit adedi için dönen map. 1-2-3-4 vb.
+
+				$mapped_installments = array_map( // Taksit adedi için dönen map. 1-2-3-4 vb.
 					function( $installment ) {
 						$calculated_amount = $this->account->installment_rate_calculate( (float) $installment->rate, (float) $this->platform_data['amount'] );
 						return array(
-							'amount_total'       => gpos_number_format( $calculated_amount ),
-							'amount_per_month'   => gpos_number_format( $calculated_amount / $installment->number ),
+							'amount_total'       => number_format( gpos_number_format( $calculated_amount ), 2, '.', '' ),
+							'amount_per_month'   => number_format( gpos_number_format( $calculated_amount / $installment->number ), 2, '.', '' ),
 							'installment_number' => $installment->number,
 							'currency'           => $this->platform_data['currency'],
 							'currency_symbol'    => $this->platform_data['currency_symbol'],
@@ -84,6 +84,11 @@ class GPOS_Installments {
 					},
 					$installments
 				);
+
+				ksort( $mapped_installments );
+
+				// @phpstan-ignore-next-line
+				return $mapped_installments;
 			},
 			$this->account->installments
 		);

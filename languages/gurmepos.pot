@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-09-28T10:10:04+00:00\n"
+"POT-Creation-Date: 2023-10-04T13:11:01+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: gurmepos\n"
@@ -42,15 +42,84 @@ msgstr ""
 #: hooks/class-gpospro-edd.php:98
 #: hooks/class-gpospro-givewp.php:78
 #: hooks/class-gpospro-learnpress.php:62
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:338
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:335
 msgid "These payment method settings are made through the admin menu."
 msgstr ""
 
 #: hooks/class-gpospro-edd.php:99
 #: hooks/class-gpospro-givewp.php:79
 #: hooks/class-gpospro-learnpress.php:63
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:339
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:336
 msgid "Click to go to settings."
+msgstr ""
+
+#: hooks/class-gpospro-gph.php:36
+#: hooks/class-gpos-gph.php:37
+msgid "I couldn't find the payment gateway or integration I was looking for (Please share below)"
+msgstr ""
+
+#: hooks/class-gpospro-gph.php:40
+#: hooks/class-gpos-gph.php:41
+msgid "I'm already satisfied with my payment settings"
+msgstr ""
+
+#. translators: %s is the name of the plugin.
+#: hooks/class-gpospro-gph.php:45
+#: hooks/class-gpos-gph.php:46
+msgid "I need more information about %s"
+msgstr ""
+
+#: hooks/class-gpospro-gph.php:49
+#: hooks/class-gpos-gph.php:50
+msgid "Temporarily deactivating"
+msgstr ""
+
+#: hooks/class-gpospro-gph.php:53
+#: hooks/class-gpos-gph.php:54
+msgid "Didn't work as expected"
+msgstr ""
+
+#: hooks/class-gpospro-gph.php:57
+#: hooks/class-gpos-gph.php:58
+msgid "Other (Please share below)"
+msgstr ""
+
+#: hooks/class-gpospro-gph.php:72
+#: hooks/class-gpos-gph.php:73
+msgid "Skip & Deactive"
+msgstr ""
+
+#: hooks/class-gpospro-gph.php:73
+#: hooks/class-gpos-gph.php:74
+msgid "Deactive"
+msgstr ""
+
+#: hooks/class-gpospro-gph.php:74
+#: hooks/class-gpos-gph.php:75
+#: includes/class-gpos-post-operations.php:157
+#: languages/gpos-texts.php:192
+msgid "Cancel"
+msgstr ""
+
+#: hooks/class-gpospro-gph.php:75
+#: hooks/class-gpos-gph.php:76
+msgid "Why you are leaving us ?"
+msgstr ""
+
+#: hooks/class-gpospro-gph.php:76
+#: hooks/class-gpos-gph.php:77
+msgid "Comments (Optional)"
+msgstr ""
+
+#. translators: %s is the name of the plugin.
+#: hooks/class-gpospro-gph.php:78
+#: hooks/class-gpos-gph.php:79
+msgid "No thanks, i don't want the %s"
+msgstr ""
+
+#: hooks/class-gpospro-gph.php:79
+#: hooks/class-gpos-gph.php:80
+msgid "After a step, the plugin will be deactivated. Could you please take a moment and support us to make your app better?"
 msgstr ""
 
 #: hooks/class-gpospro-gurmepos.php:228
@@ -219,7 +288,7 @@ msgstr ""
 #. translators: %s => Ödeme geçidindeki tekil kimlik.
 #: includes/plugin-gateways/class-gpospro-edd-payment-gateway.php:176
 #: includes/plugin-gateways/class-gpospro-givewp-payment-gateway.php:139
-#: includes/traits/trait-gpos-plugin-payment-gateway.php:194
+#: includes/traits/trait-gpos-plugin-payment-gateway.php:210
 msgid "Payment completed successfully. Payment number: %s"
 msgstr ""
 
@@ -283,62 +352,6 @@ msgstr ""
 
 #. Author URI of the plugin
 msgid "https://gurmehub.com"
-msgstr ""
-
-#: hooks/class-gpos-gph.php:40
-msgid "I couldn't find the payment gateway or integration I was looking for (Please share below)"
-msgstr ""
-
-#: hooks/class-gpos-gph.php:44
-msgid "I'm already satisfied with my payment settings"
-msgstr ""
-
-#. translators: %s is the name of the plugin.
-#: hooks/class-gpos-gph.php:49
-msgid "I need more information about %s"
-msgstr ""
-
-#: hooks/class-gpos-gph.php:53
-msgid "Temporarily deactivating"
-msgstr ""
-
-#: hooks/class-gpos-gph.php:57
-msgid "Didn't work as expected"
-msgstr ""
-
-#: hooks/class-gpos-gph.php:61
-msgid "Other (Please share below)"
-msgstr ""
-
-#: hooks/class-gpos-gph.php:76
-msgid "Skip & Deactive"
-msgstr ""
-
-#: hooks/class-gpos-gph.php:77
-msgid "Deactive"
-msgstr ""
-
-#: hooks/class-gpos-gph.php:78
-#: includes/class-gpos-post-operations.php:157
-#: languages/gpos-texts.php:192
-msgid "Cancel"
-msgstr ""
-
-#: hooks/class-gpos-gph.php:79
-msgid "Why you are leaving us ?"
-msgstr ""
-
-#: hooks/class-gpos-gph.php:80
-msgid "Comments (Optional)"
-msgstr ""
-
-#. translators: %s is the name of the plugin.
-#: hooks/class-gpos-gph.php:82
-msgid "No thanks, i don't want the %s"
-msgstr ""
-
-#: hooks/class-gpos-gph.php:83
-msgid "After a step, the plugin will be deactivated. Could you please take a moment and support us to make your app better?"
 msgstr ""
 
 #: hooks/class-gpos-wordpress.php:259
@@ -588,17 +601,17 @@ msgstr ""
 msgid "Refund process completed successfully. Process Id: %s."
 msgstr ""
 
-#: includes/class-gpos-transaction.php:208
+#: includes/class-gpos-transaction.php:258
 msgid "Transaction started."
 msgstr ""
 
 #. translators: %1$s => Eski durum %2$s => Yeni durum.
-#: includes/class-gpos-transaction.php:305
+#: includes/class-gpos-transaction.php:355
 msgid "Status updated %1$s to %2$s"
 msgstr ""
 
 #. translators: %1$s => Link, %2$s => Text
-#: includes/class-gpos-transaction.php:761
+#: includes/class-gpos-transaction.php:831
 msgid "Click to view the details of transaction <a href=\"%1$s\" target=\"_blank\">#%2$s</a>."
 msgstr ""
 
@@ -698,15 +711,15 @@ msgstr ""
 msgid "Error in 3D rendering. The password was entered incorrectly or the 3D page was abandoned."
 msgstr ""
 
-#: includes/payment-gateways/paratika/class-gpos-paratika.php:86
+#: includes/payment-gateways/paratika/class-gpos-paratika.php:93
 msgid "Institution/Company ID"
 msgstr ""
 
-#: includes/payment-gateways/paratika/class-gpos-paratika.php:91
+#: includes/payment-gateways/paratika/class-gpos-paratika.php:98
 msgid "Username/E-mail"
 msgstr ""
 
-#: includes/payment-gateways/paratika/class-gpos-paratika.php:96
+#: includes/payment-gateways/paratika/class-gpos-paratika.php:103
 #: includes/payment-gateways/pro/class-gpos-akbank.php:101
 #: includes/payment-gateways/pro/class-gpos-finansbank.php:102
 #: includes/payment-gateways/pro/class-gpos-halkbank.php:102
@@ -897,24 +910,28 @@ msgstr ""
 msgid "Error in payment process: %s."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:308
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:305
 msgid "Card number field cannot be left blank."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:309
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:306
 msgid "Card expiration month cannot be left blank."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:310
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:307
 msgid "Card expiration year cannot be left blank."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:311
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:308
 msgid "Card cvc field cannot be left blank."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:312
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:309
 msgid "Name on the card field cannot be left blank."
+msgstr ""
+
+#: includes/traits/trait-gpos-plugin-payment-gateway.php:252
+msgid "Installment Fee"
 msgstr ""
 
 #: languages/gpos-bank-texts.php:10
@@ -1164,7 +1181,7 @@ msgid "Standard Payment Form"
 msgstr ""
 
 #: languages/gpos-texts.php:53
-msgid "Standart WooCommerce Payment Form"
+msgid "Standart three field form"
 msgstr ""
 
 #: languages/gpos-texts.php:54
@@ -1300,6 +1317,7 @@ msgid "All Features"
 msgstr ""
 
 #: languages/gpos-texts.php:91
+#: views/vue-app-div.php:13
 msgid "Loading..."
 msgstr ""
 
@@ -1882,6 +1900,22 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
+#: languages/gpos-texts.php:269
+msgid "Expiry Field Style"
+msgstr ""
+
+#: languages/gpos-texts.php:270
+msgid "Select Box"
+msgstr ""
+
+#: languages/gpos-texts.php:271
+msgid "Text Box"
+msgstr ""
+
+#: languages/gpos-texts.php:272
+msgid "MM / YY"
+msgstr ""
+
 #: views/store-rating-notice.php:10
 msgid "Hello Dear WordPress lovers."
 msgstr ""
@@ -1912,6 +1946,10 @@ msgstr ""
 
 #: views/transaction-columns/security-type.php:20
 msgid "Regular"
+msgstr ""
+
+#: views/vue-app-div.php:14
+msgid "If the payment form is not loaded, please click this text."
 msgstr ""
 
 #: views/wc-gateway-disabled.php:15

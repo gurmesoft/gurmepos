@@ -63,21 +63,6 @@ class GPOS_Frontend {
 	}
 
 	/**
-	 * Ödeme sayfasında Vue aplikasyonunu tetikler ve çalıştırır.
-	 *
-	 * @return void
-	 */
-	public function checkout_js() {
-		wp_enqueue_script(
-			"{$this->prefix}-{$this->plugin}-checkout",
-			GPOS_ASSETS_DIR_URL . "/js/{$this->plugin}-checkout.js",
-			array( 'jquery' ),
-			GPOS_VERSION,
-			false
-		);
-	}
-
-	/**
 	 * Vue render edildiğinde kullanacağı verileri düzenler.
 	 *
 	 * @return array

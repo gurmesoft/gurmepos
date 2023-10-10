@@ -79,6 +79,7 @@ abstract class GPOS_Options {
 				),
 				'gpos_form_settings'        => array(
 					'threed'            => 'force_threed',
+					'expiry_style'      => 'select',
 					'holder_name_field' => false,
 					'save_card'         => false,
 					'subscription'      => false,

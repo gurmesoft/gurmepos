@@ -467,3 +467,31 @@ function gpos_threeds_iframe_content( $iframe_url, $echo = false ) {
 
 	return $content;
 }
+
+/**
+ * Desteklene bilen para birimlerini döndürür
+ *
+ * @return array
+ */
+function gpos_get_supported_currency() {
+	$currencies = array( 'TRY', 'EUR', 'USD', 'CHF', 'MXN', 'ARS', 'SAR', 'ZAR', 'INR', 'CNY', 'AUD', 'ILS', 'JPY', 'PLN', 'GBP', 'BOB', 'IDR', 'HUF', 'KWD', 'RUB', 'AED', 'RSD', 'DKK', 'COP', 'CAD', 'BGN', 'NOK', 'RON', 'CZK', 'SEK', 'NZD', 'BRL', 'BHD' );
+	return apply_filters( 'gpos_supported_currency', $currencies );
+}
+
+/**
+ * Ödeme için form,givewp gibi yerlerde kullanılan öntanımlı bilgi dizisini döndürür
+ *
+ * @return array
+ */
+function gpos_get_default_customer_data() {
+	$default_customer_data = array(
+		'first_name' => __( 'İsim', 'gurmepos' ),
+		'last_name'  => __( 'Soyisim', 'gurmepos' ),
+		'phone'      => __( 'Telefon', 'gurmepos' ),
+		'email'      => __( 'E-Posta', 'gurmepos' ),
+		'address'    => __( 'Adres', 'gurmepos' ),
+		'city'       => __( 'Şehir', 'gurmepos' ),
+		'country'    => __( 'Ülke', 'gurmepos' ),
+	);
+	return apply_filters( 'gpos_default_customer_data', $default_customer_data );
+}

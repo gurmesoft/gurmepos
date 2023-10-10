@@ -156,6 +156,8 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 			)
 		);
 
+		update_post_meta( $this->order->get_id(), '_gpos_success_transaction_id', $this->transaction->get_id() );
+
 		if ( $on_checkout && gpos_is_ajax() ) {
 			return array(
 				'result'   => 'success',
@@ -277,13 +279,10 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 	 * @return void
 	 */
 	public function payment_fields() {
-		wp_enqueue_script( 'wc-credit-card-form' );
 
 		if ( $this->description ) {
 			echo wp_kses_post( "<p class='gpos-description'>{$this->description}</p>" );
 		}
-
-		wp_nonce_field( 'gpos_process_payment', '_gpos_nonce' );
 
 		gpos_vue()->create_app_div();
 

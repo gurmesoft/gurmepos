@@ -139,7 +139,7 @@ class GPOS_Vue {
 					continue;
 				}
 
-				if ( 'checkout' === $this->vue_page && 'tailwind.css' === $file ) {
+				if ( $this->at_checkout() && 'tailwind.css' === $file ) {
 					continue;
 				}
 
@@ -171,7 +171,7 @@ class GPOS_Vue {
 				wp_enqueue_script(
 					$this->prefix,
 					"{$this->asset_dir_url}/vue/js/{$this->vue_page}/{$file}",
-					array( 'jquery' ),
+					$this->at_checkout() ? array( 'jquery-payment' ) : array( 'jquery' ),
 					$this->version,
 					false
 				);
@@ -184,5 +184,14 @@ class GPOS_Vue {
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Ödeme ekranı mı ?
+	 *
+	 * @return bool
+	 */
+	private function at_checkout() {
+		return 'checkout' === $this->vue_page || 'wc-add-payment-method-page' === $this->vue_page;
 	}
 }

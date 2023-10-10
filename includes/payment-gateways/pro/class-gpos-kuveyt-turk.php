@@ -25,32 +25,11 @@ class GPOS_Kuveyt_Turk extends GPOS_Gateway {
 	public $title = 'Kuveyt Türk';
 
 	/**
-	 * Ödeme geçidi ayar sınıfı
-	 *
-	 * @var string $settings_class
-	 */
-	public $settings_class = '';
-
-	/**
-	 * Ödeme geçidi
-	 *
-	 * @var string $gateway_class
-	 */
-	public $gateway_class = '';
-
-	/**
 	 * Pro gereksinimi
 	 *
 	 * @var boolean $is_need_pro
 	 */
 	public $is_need_pro = true;
-
-	/**
-	 * Ortak ödeme formu mu ?
-	 *
-	 * @var boolean $is_common_form
-	 */
-	public $is_common_form = false;
 
 	/**
 	 * Logo urli

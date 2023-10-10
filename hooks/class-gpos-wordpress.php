@@ -49,6 +49,7 @@ class GPOS_WordPress {
 		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
 		add_filter( 'template_include', array( $this, 'template_include' ) );
 		add_filter( 'script_loader_tag', array( $this, 'script_loader' ), 10, 2 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_filter( 'plugin_action_links_' . GPOS_PLUGIN_BASENAME, array( $this, 'actions_links' ) );
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
@@ -115,7 +116,7 @@ class GPOS_WordPress {
 	 */
 	public function wp_head() {
 		if ( gpos_is_woocommerce_enabled() && function_exists( 'is_checkout' ) && is_checkout() ) {
-			gpos_frontend( GPOS_Transaction_Utils::WOOCOMMERCE )->checkout_js();
+			gpos_frontend( GPOS_Transaction_Utils::WOOCOMMERCE );
 		}
 	}
 
@@ -236,6 +237,13 @@ class GPOS_WordPress {
 			$tag = str_replace( 'text/javascript', 'module', $tag );
 		}
 		return $tag;
+	}
+
+	/**
+	 * WordPress frontendte kullanılmak üzre scriptleri kayıt eder.
+	 */
+	public function enqueue_scripts() {
+		wp_register_script( 'jquery-payment', GPOS_ASSETS_DIR_URL . '/js/jquery-payment.js', array( 'jquery' ), GPOS_VERSION, false );
 	}
 
 	/**

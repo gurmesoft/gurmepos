@@ -25,6 +25,13 @@ class GPOS_Transaction_Line extends GPOS_Post {
 	protected $total;
 
 	/**
+	 * Kategori
+	 *
+	 * @var string $category
+	 */
+	protected $category;
+
+	/**
 	 * Satırın miktarı.
 	 *
 	 * @var int $quantity

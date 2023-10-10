@@ -24,21 +24,6 @@ class GPOS_Paidora extends GPOS_Gateway {
 	 */
 	public $title = 'Paidora';
 
-
-	/**
-	 * Ödeme geçidi ayar sınıfı
-	 *
-	 * @var string $settings_class
-	 */
-	public $settings_class = '';
-
-	/**
-	 * Ödeme geçidi
-	 *
-	 * @var string $gateway_class
-	 */
-	public $gateway_class = '';
-
 	/**
 	 * Pro gereksinimi
 	 *

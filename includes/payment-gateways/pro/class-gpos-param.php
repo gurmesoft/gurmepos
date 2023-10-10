@@ -25,20 +25,6 @@ class GPOS_Param extends GPOS_Gateway {
 	public $title = 'Param';
 
 	/**
-	 * Ödeme geçidi ayar sınıfı
-	 *
-	 * @var string $settings_class
-	 */
-	public $settings_class = '';
-
-	/**
-	 * Ödeme geçidi
-	 *
-	 * @var string $gateway_class
-	 */
-	public $gateway_class = '';
-
-	/**
 	 * Pro gereksinimi
 	 *
 	 * @var boolean $is_need_pro
@@ -46,11 +32,11 @@ class GPOS_Param extends GPOS_Gateway {
 	public $is_need_pro = true;
 
 	/**
-	 * Ortak ödeme formu mu ?
+	 * Bağlantı kontrolü yapılabiliyor mu ?
 	 *
-	 * @var boolean $is_common_form
+	 * @var boolean $check_connection_is_available
 	 */
-	public $is_common_form = false;
+	public $check_connection_is_available = true;
 
 	/**
 	 * Logo urli

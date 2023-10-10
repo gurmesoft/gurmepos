@@ -50,7 +50,7 @@ $gpos_texts = array(
 	'sub_payment_settings_subtitle'     => __( 'Sell subscription products with the WooCommerce Subscriber Plugin', 'gurmepos' ),
 	'view_settings'                     => __( 'Appearance Settings', 'gurmepos' ),
 	'standart_form_settings'            => __( 'Standard Payment Form', 'gurmepos' ),
-	'standart_form_settings_subtitle'   => __( 'Standart WooCommerce Payment Form', 'gurmepos' ),
+	'standart_form_settings_subtitle'   => __( 'Standart three field form', 'gurmepos' ),
 	'oneline_form_settings'             => __( 'One-line payment form', 'gurmepos' ),
 	'online_form_settings_subtitle'     => __( 'One-line credit card form', 'gurmepos' ),
 	'pay_credit_cart'                   => __( 'Payment by credit card', 'gurmepos' ),
@@ -266,4 +266,8 @@ $gpos_texts = array(
 	'category'							=> __( 'Category', 'gurmepos' ),
 	'no_rules'							=> __( 'No rules found...', 'gurmepos' ),
 	'remove'							=> __( 'Remove', 'gurmepos' ),
+	'expiry_field_style'				=> __( 'Expiry Field Style', 'gurmepos' ),
+	'select_box'						=> __( 'Select Box', 'gurmepos' ),
+	'text_box'							=> __( 'Text Box', 'gurmepos' ),
+	'mmyy'								=> __( 'MM / YY', 'gurmepos' ),
 );

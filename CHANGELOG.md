@@ -1,5 +1,48 @@
 == Changelog ==
 
+= v3.5.12 - (2023-10-10) =
+
+
+Bug Fixes
+
+* Hotfix
+
+= v3.5.11 - (2023-10-10) =
+
+
+Bug Fixes
+
+* 10.10.2023 Güncellemeleri
+
+= v3.5.10 - (2023-10-05) =
+
+
+Bug Fixes
+
+* 1 taksit için vade farkı hatası giderildi,
+* Hotfix jQuery deps
+
+= v3.5.9 - (2023-10-05) =
+
+
+Bug Fixes
+
+* Vue hotfix
+
+= v3.5.8 - (2023-10-05) =
+
+
+Bug Fixes
+
+* Bir taksit için komisyon hatası giderildi, jquery-payment eklentiye dahil edildi.
+
+= v3.5.7 - (2023-10-04) =
+
+
+Bug Fixes
+
+* [#45](https://gitlab.gurmesoft.com/gurmehub/gurmepos/issues/45) 04.10.23 Güncellemeleri
+
 = v3.5.6 - (2023-10-03) =
 
 

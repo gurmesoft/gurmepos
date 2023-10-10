@@ -3,63 +3,92 @@
  * WordPress mağazasında puanlamaya davet eden yönetici mesajı.
  *
  * @package GurmeHub
+ *
+ * @var string $id
  */
 
+$months = array( '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12' );
+$years  = array( '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34' );
 ?>
-<div id="app" class="gpos-app">
-	<div class="gpos-ring">
-		<div></div><div></div><div></div><div></div>
+<div id="app">
+	<div class="gpos-checkout-class">
+		<input
+			name="gpos-threed"
+			type="hidden"
+			value="on"
+		>
+		<input
+			name="gpos-sample-form"
+			type="hidden"
+			value="on"
+		>
+		<div class="w-100 start">
+			<input
+				name="gpos-card-bin"
+				class="w-100"
+				placeholder="•••• •••• •••• ••••"
+				inputmode="numeric"
+				type="tel"
+				autocomplete="cc-number"
+			>
+		</div>
+		<div class="w-100 between">
+			<div class="w-100 between">
+				<select class="w-50" name="gpos-card-expiry-month">
+					<option value=""><?php esc_html_e( 'Month', 'gurmepos' ); ?></option>
+					<?php foreach ( $months as $month ) : ?>
+						<option value="<?php echo esc_attr( $month ); ?>"><?php echo esc_html( $month ); ?></option>
+					<?php endforeach; ?>
+				</select>
+				<select class="w-50" name="gpos-card-expiry-year">
+					<option value=""><?php esc_html_e( 'Year', 'gurmepos' ); ?></option>
+					<?php foreach ( $years as $year ) : ?>
+						<option value="<?php echo esc_attr( $year ); ?>">20<?php echo esc_html( $year ); ?></option>
+					<?php endforeach; ?>
+				</select>
+			</div>
+			<div class="w-100 end">
+				<input
+					name="gpos-card-cvv"
+					class="w-75"
+					placeholder="CVC"
+					inputmode="numeric"
+					type="tel"
+					autocomplete="cc-csc"
+				>
+			</div>
+		</div>
 	</div>
-	<h5> <?php esc_html_e( 'Loading...', 'gurmepos' ); ?> </h5>
-	<p onclick="window.location.reload(true);"> <?php esc_html_e( 'If the payment form is not loaded, please click this text.', 'gurmepos' ); ?> </p>
 	<style>
-	.gpos-app{
-		display: flex;
-		width: 100%;
-		align-items: center;
-		justify-content: center;
-		flex-direction: column;
-	}
-	.gpos-app p{
-		cursor: pointer;
-	}
-	.gpos-app p:hover{
-		color:rgb(29 78 216);
-	}
-	.gpos-ring {
-		display: inline-block;
-		position: relative;
-		width: 80px;
-		height: 80px;
-	}
-	.gpos-ring div {
-		box-sizing: border-box;
-		display: block;
-		position: absolute;
-		width: 64px;
-		height: 64px;
-		margin: 8px;
-		border: 8px solid #fff;
-		border-radius: 50%;
-		animation: gpos-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-		border-color: rgb(29 78 216) transparent transparent transparent;
-	}
-	.gpos-ring div:nth-child(1) {
-		animation-delay: -0.45s;
-	}
-	.gpos-ring div:nth-child(2) {
-		animation-delay: -0.3s;
-	}
-	.gpos-ring div:nth-child(3) {
-		animation-delay: -0.15s;
-	}
-	@keyframes gpos-ring {
-		0% {
-			transform: rotate(0deg);
+		.gpos-checkout-class{
+			display: flex;
+			flex-direction: column;
+			position: relative;
+			gap: 12px;
+			width: 100%;
 		}
-		100% {
-			transform: rotate(360deg);
+		.gpos-checkout-class .between{
+			display: flex;
+			justify-content: space-between;
 		}
-	}
+		.gpos-checkout-class .end{
+			display: flex;
+			justify-content: end;
+		}
+		.gpos-checkout-class .start{
+			display: flex;
+			justify-content: start;
+		}
+		.gpos-checkout-class .w-50{
+			width: 50% !important;
+		}
+		.gpos-checkout-class .w-75{
+			width: 75% !important;
+		}
+		.gpos-checkout-class .w-100{
+			width: 100% !important;
+		}
 	</style>
-</div>
+</div>	
+<?php
+wp_nonce_field( 'gpos_process_payment', '_gpos_nonce' );

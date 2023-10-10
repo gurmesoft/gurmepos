@@ -74,6 +74,20 @@ abstract class GPOS_Gateway {
 	public $is_need_pro = false;
 
 	/**
+	 * Bağlantı kontrolü yapılabiliyor mu ?
+	 *
+	 * @var boolean $check_connection_is_available
+	 */
+	public $check_connection_is_available = false;
+
+	/**
+	 * Ortak ödeme formu mu ?
+	 *
+	 * @var boolean $is_common_form
+	 */
+	public $is_common_form = false;
+
+	/**
 	 * Kırılım bazlı mı ?
 	 *
 	 * @var boolean $line_based
@@ -86,13 +100,6 @@ abstract class GPOS_Gateway {
 	 * @var boolean $add_fee_for_installment
 	 */
 	public $add_fee_for_installment = true;
-
-	/**
-	 * Ortak ödeme formu mu ?
-	 *
-	 * @var boolean $is_common_form
-	 */
-	public $is_common_form = false;
 
 	/**
 	 * Ayar alanları

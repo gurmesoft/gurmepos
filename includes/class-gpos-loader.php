@@ -92,6 +92,7 @@ class GPOS_Loader {
 			'includes/class-gpos-refund.php',
 			'includes/class-gpos-post-tables.php',
 			'includes/class-gpos-shortcode.php',
+			'includes/class-gpos-forge.php',
 			// Hooks
 			'hooks/class-gpos-woocommerce.php',
 			'hooks/class-gpos-gph.php',

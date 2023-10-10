@@ -23,22 +23,6 @@ class GPOS_Craftgate extends GPOS_Gateway {
 	 * @var string $title
 	 */
 	public $title = 'Craftgate';
-
-
-	/**
-	 * Ödeme geçidi ayar sınıfı
-	 *
-	 * @var string $settings_class
-	 */
-	public $settings_class = '';
-
-	/**
-	 * Ödeme geçidi
-	 *
-	 * @var string $gateway_class
-	 */
-	public $gateway_class = '';
-
 	/**
 	 * Pro gereksinimi
 	 *
@@ -52,13 +36,6 @@ class GPOS_Craftgate extends GPOS_Gateway {
 	 * @var boolean $line_based
 	 */
 	public $line_based = true;
-
-	/**
-	 * Ortak ödeme formu mu ?
-	 *
-	 * @var boolean $is_common_form
-	 */
-	public $is_common_form = false;
 
 	/**
 	 * Logo urli
@@ -87,6 +64,13 @@ class GPOS_Craftgate extends GPOS_Gateway {
 	 * @var array $supports
 	 */
 	public $supports = array( 'threed', 'regular', 'installment_api' );
+
+	/**
+	 * Bağlantı kontrolü yapılabiliyor mu ?
+	 *
+	 * @var boolean $check_connection_is_available
+	 */
+	public $check_connection_is_available = true;
 
 	/**
 	 * Ödeme için gerekli alanların tanımı

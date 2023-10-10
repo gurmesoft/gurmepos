@@ -8,9 +8,10 @@
 /**
  * GurmePOS işlem sınıfı.
  *
- * @SuppressWarnings(ExcessivePublicCount)
- * @SuppressWarnings(ExcessiveClassComplexity)
- * @SuppressWarnings(TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessiveClassLength)
  */
 class GPOS_Transaction extends GPOS_Post {
 
@@ -192,11 +193,25 @@ class GPOS_Transaction extends GPOS_Post {
 	protected $common_form_payment;
 
 	/**
+	 * İşlem test ödemesimi
+	 *
+	 * @var boolean $test
+	 */
+	protected $test;
+
+	/**
 	 * İşlemin yapıldığı entegre eklenti
 	 *
 	 * @var string $plugin
 	 */
 	protected $plugin;
+
+	/**
+	 * Kullanıcı idsi
+	 *
+	 * @var int $user_id
+	 */
+	protected $user_id;
 
 	/**
 	 * Post meta verileri.
@@ -205,6 +220,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 */
 	public $meta_data = array(
 		'type',
+		'test',
 		'status',
 		'plugin',
 		'plugin_transaction_id',
@@ -258,6 +274,7 @@ class GPOS_Transaction extends GPOS_Post {
 		$this->add_note( __( 'Transaction started.', 'gurmepos' ), 'start' );
 		$this->set_refund_status( GPOS_Transaction_Utils::REFUND_STATUS_NOT_REFUNDED );
 		$this->set_user_id( get_current_user_id() );
+		$this->set_is_test( gpos_is_test_mode() );
 	}
 
 	/**
@@ -278,6 +295,27 @@ class GPOS_Transaction extends GPOS_Post {
 	 * @return string|int
 	 */
 	public function get_user_id() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * İşlemin "test ödemesi mi?" bilgisini ayarlar.
+	 *
+	 * @param bool $value Test mi?
+	 *
+	 * @return $this
+	 */
+	public function set_is_test( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * İşlemin "test ödemesi mi?" bilgisini döndürür.
+	 *
+	 * @return boolean
+	 */
+	public function is_test() {
 		return $this->get_prop( __FUNCTION__ );
 	}
 
@@ -341,25 +379,21 @@ class GPOS_Transaction extends GPOS_Post {
 	 * @return $this
 	 */
 	public function set_status( string $new_status ) {
-		/**
-		 * Todo.
-		 *
-		 * Belirli durumlar için if koyulabilir. Örn. Waiting, Completed
-		 */
 
-		$all_statuses    = gpos_post_operations()->get_post_statuses();
-		$old_status_text = $all_statuses[ $this->get_status() ]['label'];
-		$new_status_text = $all_statuses[ $new_status ]['label'];
+		if ( $this->get_status() !== GPOS_Transaction_Utils::COMPLETED ) {
+			$all_statuses    = gpos_post_operations()->get_post_statuses();
+			$old_status_text = $all_statuses[ $this->get_status() ]['label'];
+			$new_status_text = $all_statuses[ $new_status ]['label'];
+			// translators: %1$s => Eski durum %2$s => Yeni durum.
+			$this->add_note( sprintf( __( 'Status updated %1$s to %2$s', 'gurmepos' ), $old_status_text, $new_status_text ), 'status_update' );
 
-		// translators: %1$s => Eski durum %2$s => Yeni durum.
-		$this->add_note( sprintf( __( 'Status updated %1$s to %2$s', 'gurmepos' ), $old_status_text, $new_status_text ), 'status_update' );
-
-		wp_update_post(
-			array(
-				'ID'          => $this->id,
-				'post_status' => $new_status,
-			)
-		);
+			wp_update_post(
+				array(
+					'ID'          => $this->id,
+					'post_status' => $new_status,
+				)
+			);
+		}
 
 		return $this;
 	}
