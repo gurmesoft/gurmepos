@@ -168,7 +168,7 @@ class GPOS_Tracker {
 			'http_data'   => 'add_http_data',
 		);
 
-		if ( array_key_exists( $type, $events ) && defined( 'GPOS_PRODUCTION' ) && GPOS_PRODUCTION ) {
+		if ( array_key_exists( $type, $events ) && defined( 'GPOS_PRODUCTION' ) && true === GPOS_PRODUCTION ) {
 			wp_schedule_single_event( strtotime( '+10 Minutes' ), "{$this->prefix}_{$events[ $type ]}", array( $data ) );
 		}
 	}

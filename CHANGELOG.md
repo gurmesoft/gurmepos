@@ -1,5 +1,19 @@
 == Changelog ==
 
+= v3.5.14 - (2023-10-10) =
+
+
+Bug Fixes
+
+* GiveWP hatalar giderildi
+
+= v3.5.13 - (2023-10-10) =
+
+
+Bug Fixes
+
+* svn cleanup
+
 = v3.5.12 - (2023-10-10) =
 
 

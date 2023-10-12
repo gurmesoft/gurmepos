@@ -61,7 +61,6 @@ final class GurmePOS {
 	 * GurmePOS sınıfının bir örneğini türetir.
 	 *
 	 * @see gurmepos()
-	 *
 	 * @return GurmePOS
 	 */
 	public static function get() {

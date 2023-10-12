@@ -124,34 +124,28 @@ class GPOS_Vue {
 	}
 
 	/**
-	 * Vue projesinin gösterimi için gereki css dosyalarını dahil eder.
+	 * Vue projesinin gösterimi için gereki js dosyalarını dahil eder.
 	 *
 	 * @return GPOS_Vue $this
 	 */
-	public function require_style() {
+	public function require_script_with_tag() {
 
-		$css_files = scandir( GPOS_PLUGIN_DIR_PATH . 'assets/vue/css/' );
+		$js_files = scandir( GPOS_PLUGIN_DIR_PATH . "assets/vue/js/{$this->vue_page}/" );
 
-		if ( $css_files ) {
-
-			foreach ( $css_files as $file ) {
-				if ( false !== strpos( $file, 'tailwind' ) && false === $this->tailwind ) {
-					continue;
-				}
-
-				if ( $this->at_checkout() && 'tailwind.css' === $file ) {
-					continue;
-				}
-
-				if ( 'css' === pathinfo( $file, PATHINFO_EXTENSION ) ) {
-					wp_enqueue_style(
-						$file,
-						"{$this->asset_dir_url}/vue/css/{$file}",
-						array(),
-						$this->version,
-					);
-				}
+		foreach ( $js_files as $file ) {
+			if ( 'js' === pathinfo( $file, PATHINFO_EXTENSION ) ) {
+				?>
+					<script type="module" src="<?php echo esc_url( "{$this->asset_dir_url}/vue/js/{$this->vue_page}/{$file}" ); //phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>"></script> 
+				<?php
 			}
+		}
+
+		if ( ! empty( $this->localize_variables ) ) {
+			?>
+			<script>
+				var gpos = <?php echo wp_json_encode( $this->localize_variables ); ?>
+			</script>
+			<?php
 		}
 
 		return $this;
@@ -181,6 +175,70 @@ class GPOS_Vue {
 		if ( ! empty( $this->localize_variables ) ) {
 			// @phpstan-ignore-next-line
 			@wp_localize_script( $this->prefix, 'gpos', (object) $this->localize_variables );  // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Vue projesinin gösterimi için gereki css dosyalarını dahil eder.
+	 *
+	 * @return GPOS_Vue $this
+	 */
+	public function require_style_with_tag() {
+		$css_files = scandir( GPOS_PLUGIN_DIR_PATH . 'assets/vue/css/' );
+
+		if ( $css_files ) {
+
+			foreach ( $css_files as $file ) {
+				if ( false !== strpos( $file, 'tailwind' ) && false === $this->tailwind ) {
+					continue;
+				}
+
+				if ( $this->at_checkout() && 'tailwind.css' === $file ) {
+					continue;
+				}
+
+				if ( 'css' === pathinfo( $file, PATHINFO_EXTENSION ) ) {
+					?>
+					<link rel="stylesheet" href="<?php echo esc_url( "{$this->asset_dir_url}/vue/css/{$file}" ); //phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>" media="all">
+					<?php
+				}
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Vue projesinin gösterimi için gereki css dosyalarını dahil eder.
+	 *
+	 * @return GPOS_Vue $this
+	 */
+	public function require_style() {
+
+		$css_files = scandir( GPOS_PLUGIN_DIR_PATH . 'assets/vue/css/' );
+
+		if ( $css_files ) {
+
+			foreach ( $css_files as $file ) {
+				if ( false !== strpos( $file, 'tailwind' ) && false === $this->tailwind ) {
+					continue;
+				}
+
+				if ( $this->at_checkout() && 'tailwind.css' === $file ) {
+					continue;
+				}
+
+				if ( 'css' === pathinfo( $file, PATHINFO_EXTENSION ) ) {
+					wp_enqueue_style(
+						$file,
+						"{$this->asset_dir_url}/vue/css/{$file}",
+						array(),
+						$this->version,
+					);
+				}
+			}
 		}
 
 		return $this;
