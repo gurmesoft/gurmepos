@@ -114,7 +114,7 @@ class GPOS_Vue {
 	public function require_script_with_tag() {
 
 		?>
-			<script type="module" src="<?php echo esc_url( "{$this->asset_dir_url}/vue/js/{$this->vue_page}/{$this->vue_page}-{$this->version}.js" ); //phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>"></script> 
+			<script type="module" src="<?php echo esc_url( "{$this->asset_dir_url}/vue/js/{$this->vue_page}-{$this->version}.js" ); //phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>"></script> 
 		<?php
 
 		if ( ! empty( $this->localize_variables ) ) {
@@ -136,7 +136,7 @@ class GPOS_Vue {
 	public function require_script() {
 		wp_enqueue_script(
 			$this->prefix,
-			"{$this->asset_dir_url}/vue/js/{$this->vue_page}/{$this->vue_page}-{$this->version}.js",
+			"{$this->asset_dir_url}/vue/js/{$this->vue_page}-{$this->version}.js",
 			array( 'jquery' ),
 			$this->version,
 			false
