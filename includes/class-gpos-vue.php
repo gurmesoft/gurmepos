@@ -155,8 +155,9 @@ class GPOS_Vue {
 	 * @return GPOS_Vue $this
 	 */
 	public function require_style_with_tag() {
+		$css_file = $this->at_checkout() ? 'checkout' : 'admin';
 		?>
-		<link rel="stylesheet" href="<?php echo esc_url( "{$this->asset_dir_url}/vue/css/{$this->vue_page}-{$this->version}.css" ); //phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>" media="all">
+		<link rel="stylesheet" href="<?php echo esc_url( "{$this->asset_dir_url}/vue/css/{$css_file}-{$this->version}.css" ); //phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>" media="all">
 		<?php
 
 		return $this;
@@ -168,9 +169,10 @@ class GPOS_Vue {
 	 * @return GPOS_Vue $this
 	 */
 	public function require_style() {
+		$css_file = $this->at_checkout() ? 'checkout' : 'admin';
 		wp_enqueue_style(
 			$this->vue_page,
-			"{$this->asset_dir_url}/vue/css/{$this->vue_page}-{$this->version}.css",
+			"{$this->asset_dir_url}/vue/css/{$css_file}-{$this->version}.css",
 			array(),
 			$this->version,
 		);
