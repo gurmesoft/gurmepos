@@ -343,7 +343,7 @@ class GPOS_Transaction extends GPOS_Post {
 	/**
 	 * İşlemi gerçekleştiren formun idsini atar
 	 *
-	 * @param int|string $value Test mi?
+	 * @param int|string $value Formun idsi
 	 *
 	 * @return $this
 	 */
