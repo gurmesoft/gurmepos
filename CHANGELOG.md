@@ -1,5 +1,47 @@
 == Changelog ==
 
+= v3.5.20 - (2023-10-14) =
+
+
+Bug Fixes
+
+* Çeviriler ve svn düzenlendi
+
+= v3.5.19 - (2023-10-14) =
+
+
+Bug Fixes
+
+* PayTR redirect problemi çözüldü.
+
+= v3.5.18 - (2023-10-12) =
+
+
+Bug Fixes
+
+* WordPress yetkileri ile menü gösterimi düzenlendi.
+
+= v3.5.17 - (2023-10-12) =
+
+
+Bug Fixes
+
+* SVN Cleanup
+
+= v3.5.16 - (2023-10-12) =
+
+
+Bug Fixes
+
+* 12.10.2023 Güncellemeleri
+
+= v3.5.15 - (2023-10-10) =
+
+
+Bug Fixes
+
+* Kayitli kart hatasi giderildi
+
 = v3.5.14 - (2023-10-10) =
 
 

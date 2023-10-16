@@ -1,113 +1,119 @@
 li.gpos-upgrade-pro {
-	background-color: #F0A500;
-	height: 32px;
-	line-height: 1.4;
+  background-color: #f0a500;
+  height: 32px;
+  line-height: 1.4;
 }
 
 li.gpos-upgrade-pro img {
-	width: 16px;
-	height: 16px !important;
+  width: 16px;
+  height: 16px !important;
 }
 
 li.gpos-upgrade-pro .new-tab {
-	margin-top: 2px;
-	margin-left: 6px;
+  margin-top: 2px;
+  margin-left: 6px;
 }
 
-
 li.gpos-upgrade-pro a {
-	color: #FFFFFF !important;
-	display: flex !important;
-	line-height: 22px !important;
+  color: #ffffff !important;
+  display: flex !important;
+  line-height: 22px !important;
 }
 
 /* Plugins sayfasında: etkinleştir ve ayarlar kısmında Proya yukselt ibaresi için stiller */
 a.upgrade-pro {
-	color: #F0A500;
-	font-weight: bold;
+  color: #f0a500;
+  font-weight: bold;
 }
 
 a.upgrade-pro:hover {
-	color: #F0A500;
+  color: #f0a500;
 }
 
 /* Bitis / Plugins sayfası için yazılan stiller */
 
-#wpadminbar .gpos-test-mode-active>.ab-item {
-	margin: 0 2px;
-	color: #fff;
-	background-color: #ffba00;
+#wpadminbar .gpos-test-mode-active > .ab-item {
+  margin: 0 2px;
+  color: #fff;
+  background-color: #ffba00;
 }
 
-#wpadminbar .gpos-test-mode-active:hover>a.ab-item {
-	background-color: #ffba00 !important;
-	color: #fff !important;
+#wpadminbar .gpos-test-mode-active:hover > a.ab-item {
+  background-color: #ffba00 !important;
+  color: #fff !important;
 }
 
 #wpadminbar .gpos-test-mode-active:hover .ab-label,
 #wpadminbar .gpos-test-mode-active:hover .ab-label {
-	background-color: #ffba00 !important;
-	color: #fff !important;
+  background-color: #ffba00 !important;
+  color: #fff !important;
 }
-
 
 /* İşlemler tablosu için stiller*/
 .process-type {
-	padding: 8px 16px;
-	text-align: center;
-	text-transform: capitalize;
-	width: fit-content;
-	cursor: pointer;
+  padding: 8px 16px;
+  text-align: center;
+  text-transform: capitalize;
+  width: fit-content;
+  cursor: pointer;
 }
 
 .transaction {
-	padding: 8px 16px;
-	text-align: center;
-	width: fit-content;
-	cursor: pointer;
-	text-align: start;
-	font-weight: bold;
+  padding: 8px 16px;
+  text-align: center;
+  width: fit-content;
+  cursor: pointer;
+  text-align: start;
+  font-weight: bold;
 }
 
 .status-type {
-	padding: 8px 16px;
-	text-align: center;
-	border-radius: 4px;
-	text-transform: capitalize;
-	width: fit-content;
-	cursor: pointer;
-	color: #777777;
-	background-color: #e5e5e5;
+  padding: 8px 16px;
+  text-align: center;
+  border-radius: 4px;
+  text-transform: capitalize;
+  width: fit-content;
+  cursor: pointer;
+  color: #777777;
+  background-color: #e5e5e5;
 }
 
 .status-type.gpos_completed {
-	color: #5b841b !important;
-	background-color: #c6e1c6 !important;
+  color: #5b841b !important;
+  background-color: #c6e1c6 !important;
 }
 
 .status-type.gpos_started {
-	color: #94660c !important;
-	background-color: #f8dda7 !important;
+  color: #94660c !important;
+  background-color: #f8dda7 !important;
 }
 
 .status-type.gpos_failed {
-	color: #761919 !important;
-	background-color: #eba3a3 !important;
+  color: #761919 !important;
+  background-color: #eba3a3 !important;
 }
 
-
-.payment-plugin{
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	width: fit-content;
+.payment-plugin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
 }
 
-.payment-plugin img{
-	width: 50px;
-} 
+.payment-plugin img {
+  width: 50px;
+}
 
-.payment-plugin img.ninja_forms{
-	border-radius: 10px;
-} 
+.payment-plugin img.ninja_forms {
+  border-radius: 10px;
+}
+
+.gpos-admin-order-action {
+	border: 0 !important;
+	width: 28px !important;
+}
+
+.gpos-admin-order-action img {
+  width: 28px !important;
+}

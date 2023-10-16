@@ -50,6 +50,7 @@ class GPOS_Transaction_Log {
 				'plugin_transaction_id' => $log_data['plugin_transaction_id'],
 				'request'               => $request,
 				'response'              => $response,
+				'date'                  => current_time( 'mysql', 1 ),
 			)
 		);
 	}

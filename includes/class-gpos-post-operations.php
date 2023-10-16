@@ -113,7 +113,7 @@ class GPOS_Post_Operations {
 				'map_meta_cap'        => true,
 				'publicly_queryable'  => false,
 				'exclude_from_search' => true,
-				'show_in_menu'        => current_user_can( 'manage_options' ) ? 'gurmepos' : false,
+				'show_in_menu'        => 'gurmepos',
 				'show_in_admin_bar'   => false,
 				'hierarchical'        => false,
 				'show_in_nav_menus'   => false,

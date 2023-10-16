@@ -151,7 +151,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 		$this->order->add_order_note(
 			sprintf(
 				// translators: %s => Ödeme geçidi benzersiz numarası.
-				__( 'Payment completed successfully. Payment number: %s.', 'gurmepos' ),
+				'<strong>POS Entegratör</strong><br>' . __( 'Payment completed successfully. Payment number: %s.', 'gurmepos' ),
 				$response->get_payment_id()
 			)
 		);
@@ -192,10 +192,8 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 		if ( $this->order ) {
 			$this->order->add_order_note(
 				// translators: %s => Ödeme geçidi hatası.
-				sprintf( __( 'Error in payment process: %s.', 'gurmepos' ), $error_message )
+				sprintf( '<strong>POS Entegratör</strong><br>' . __( 'Error in payment process: %s.', 'gurmepos' ), $error_message )
 			);
-
-			$this->order->update_status( 'failed' );
 		}
 
 		if ( $on_checkout && gpos_is_ajax() ) {

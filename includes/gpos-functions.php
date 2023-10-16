@@ -46,7 +46,7 @@ function gpos_is_pro_active() : bool {
  * @return bool
  */
 function gpos_is_ajax() : bool {
-	return function_exists( 'wp_doing_ajax' ) ? wp_doing_ajax() : DOING_AJAX; // @phpstan-ignore-line
+	return apply_filters( 'gpos_is_ajax', function_exists( 'wp_doing_ajax' ) ? wp_doing_ajax() : DOING_AJAX ); // @phpstan-ignore-line
 }
 
 /**
@@ -485,13 +485,22 @@ function gpos_get_supported_currency() {
  */
 function gpos_get_default_customer_data() {
 	$default_customer_data = array(
-		'first_name' => __( 'İsim', 'gurmepos' ),
-		'last_name'  => __( 'Soyisim', 'gurmepos' ),
-		'phone'      => __( 'Telefon', 'gurmepos' ),
-		'email'      => __( 'E-Posta', 'gurmepos' ),
-		'address'    => __( 'Adres', 'gurmepos' ),
-		'city'       => __( 'Şehir', 'gurmepos' ),
-		'country'    => __( 'Ülke', 'gurmepos' ),
+		'first_name' => 'Name',
+		'last_name'  => 'Surname',
+		'phone'      => 'Phone',
+		'email'      => 'Email',
+		'address'    => 'Address',
+		'city'       => 'City',
+		'country'    => 'Country',
 	);
 	return apply_filters( 'gpos_default_customer_data', $default_customer_data );
+}
+
+/**
+ * Kullanıcıya göre yetki tanımı.
+ *
+ * @return string $role;
+ */
+function gpos_capability() {
+	return apply_filters( 'gpos_menu_capability', 'edit_posts' );
 }

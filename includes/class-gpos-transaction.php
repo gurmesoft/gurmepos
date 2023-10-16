@@ -67,6 +67,27 @@ class GPOS_Transaction extends GPOS_Post {
 	protected $payment_id;
 
 	/**
+	 * İşlemi gerçekleştiren form yada widgetin idsi
+	 *
+	 * @var string|int $form_id
+	 */
+	protected $form_id;
+
+	/**
+	 * İşlem için ekstra veri alanı
+	 *
+	 * @var mixed $extra_data
+	 */
+	protected $extra_data;
+
+	/**
+	 * İşlem linki
+	 *
+	 * @var string $edit_link
+	 */
+	protected $edit_link;
+
+	/**
 	 * Ödeme işleminin geçtiği ödeme geçidinin kimliği.
 	 *
 	 * @var string $payment_gateway_id
@@ -128,6 +149,13 @@ class GPOS_Transaction extends GPOS_Post {
 	 * @var int|string $installment
 	 */
 	protected $installment = 1;
+
+	/**
+	 * İşlem Test işlemimi değil mi kontrolü için
+	 *
+	 * @var int $is_test
+	 */
+	protected $is_test = 0;
 
 	/**
 	 * Ödemede kayıtlı kart kullanılacak mı?
@@ -193,7 +221,7 @@ class GPOS_Transaction extends GPOS_Post {
 	protected $common_form_payment;
 
 	/**
-	 * İşlem test ödemesimi
+	 * İşlem test ödemesi mi?
 	 *
 	 * @var boolean $test
 	 */
@@ -252,6 +280,7 @@ class GPOS_Transaction extends GPOS_Post {
 		'notes',
 		'logs',
 		'payment_id',
+		'form_id',
 		'payment_gateway_id',
 		'payment_gateway_class',
 		'lines',
@@ -262,6 +291,7 @@ class GPOS_Transaction extends GPOS_Post {
 		'line_based',
 		'payment_transaction_id',
 		'common_form_payment',
+		'edit_link',
 	);
 
 
@@ -274,7 +304,7 @@ class GPOS_Transaction extends GPOS_Post {
 		$this->add_note( __( 'Transaction started.', 'gurmepos' ), 'start' );
 		$this->set_refund_status( GPOS_Transaction_Utils::REFUND_STATUS_NOT_REFUNDED );
 		$this->set_user_id( get_current_user_id() );
-		$this->set_is_test( gpos_is_test_mode() );
+		$this->set_test( gpos_is_test_mode() );
 	}
 
 	/**
@@ -305,17 +335,62 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @return $this
 	 */
-	public function set_is_test( $value ) {
+	public function set_test( $value ) {
 		$this->set_prop( __FUNCTION__, $value );
 		return $this;
 	}
 
 	/**
-	 * İşlemin "test ödemesi mi?" bilgisini döndürür.
+	 * İşlemi gerçekleştiren formun idsini atar
+	 *
+	 * @param int|string $value Test mi?
+	 *
+	 * @return $this
+	 */
+	public function set_form_id( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+
+	/**
+	 * İşlemin 'test ödemesi mi?' bilgisini döndürür .
 	 *
 	 * @return boolean
 	 */
 	public function is_test() {
+		$this->test = $this->get_prop( __FUNCTION__ );
+		return $this->test;
+	}
+
+	/**
+	 * İşlemi gerçekleştiren formun idsini döndürür
+	 *
+	 * @return string|int
+	 */
+	public function get_form_id() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+
+	/**
+	 * İşlem için ektra veriyi atar
+	 *
+	 * @param string $value Form id.
+	 *
+	 * @return $this
+	 */
+	public function set_extra_data( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * İşlem için ektra veriyi döndürür
+	 *
+	 * @return string|int
+	 */
+	public function get_extra_data() {
 		return $this->get_prop( __FUNCTION__ );
 	}
 
@@ -775,7 +850,7 @@ class GPOS_Transaction extends GPOS_Post {
 		} else {
 			$comment_author        = 'POS Entegrator';
 			$comment_author_email  = 'posentegrator@';
-			$comment_author_email .= isset( $_SERVER['HTTP_HOST'] ) ? str_replace( 'www . ', '', sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) ) : 'noreply . com';
+			$comment_author_email .= isset( $_SERVER['HTTP_HOST'] ) ? str_replace( 'www . ', '', sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) ) : 'noreply.com';
 			$comment_author_email  = sanitize_email( $comment_author_email );
 		}
 
@@ -802,6 +877,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 * @return array
 	 */
 	public function get_notes() {
+		global $wpdb;
 		$this->notes = array_map(
 			function( $comment ) {
 				return array(
@@ -810,13 +886,7 @@ class GPOS_Transaction extends GPOS_Post {
 					'type' => get_comment_meta( (int) $comment->comment_ID, 'note_type', true ),
 				);
 			},
-			get_comments(
-				array(
-					'post_id' => $this->id,
-					'orderby' => 'comment_ID',
-					'order'   => 'DESC',
-				)
-			)
+			$wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->comments} WHERE comment_post_ID = %d AND comment_type = 'transaction_note' ORDER BY comment_ID DESC", (int) $this->id ) ) //phpcs:ignore 
 		);
 		return $this->notes;
 	}
@@ -872,7 +942,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 * @return string
 	 */
 	public function get_edit_link() {
-		return add_query_arg(
+		$this->edit_link = add_query_arg(
 			array(
 				'page'        => 'gpos-transaction',
 				'transaction' => $this->id,
@@ -881,6 +951,8 @@ class GPOS_Transaction extends GPOS_Post {
 			),
 			admin_url( 'admin.php' ),
 		);
+
+		return $this->edit_link;
 	}
 
 	/**

@@ -32,7 +32,8 @@ class GPOS_WooCommerce {
 		add_action( 'woocommerce_before_checkout_form', array( $this, 'before_checkout_form' ) );
 		// Sipariş ürünlerinin gizlenmiş bilgileri
 		add_filter( 'woocommerce_hidden_order_itemmeta', array( $this, 'hidden_order_itemmeta' ) );
-
+		// Sipariş tablosundaki eylemlere, işleme gidiş linki ekleme.
+		add_filter( 'woocommerce_admin_order_actions_start', array( $this, 'admin_order_actions' ) );
 	}
 
 	/**
@@ -71,8 +72,6 @@ class GPOS_WooCommerce {
 	}
 
 	/**
-	 *
-	 *
 	 * Sipariş sonrası ekranında müşteriden, WooCommerce sipariş detay sayfasında
 	 * yöneticiden sipariş ürünlerinin  meta bilgilerini gizler.
 	 *
@@ -85,5 +84,21 @@ class GPOS_WooCommerce {
 			array( '_gpos_transaction_id' )
 		);
 		return $hidden_metas;
+	}
+
+	/**
+	 * Sipariş aksiyonları.
+	 *
+	 * @param WC_Order $order WC siparişi.
+	 */
+	public function admin_order_actions( $order ) {
+		$url = add_query_arg(
+			array(
+				'post_type' => 'gpos_transaction',
+				's'         => $order->get_id(),
+			),
+			admin_url( 'edit.php' ),
+		);
+		gpos_get_view( 'wc-admin-order-actions.php', array( 'url' => $url ) );
 	}
 }

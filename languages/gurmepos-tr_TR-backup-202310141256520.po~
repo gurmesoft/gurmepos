@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - POS Entegratör &#8211; WordPress Ödeme Eklentisi - Development (trunk) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-10-14 12:56+0000\n"
+"PO-Revision-Date: 2023-10-04 13:13+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -29,16 +29,16 @@ msgctxt "%s = human-readable time difference"
 msgid "%s ago"
 msgstr "%s önce"
 
-#: includes/payment-gateways/pro/class-gpos-akbank.php:86
-#: includes/payment-gateways/pro/class-gpos-albaraka.php:81
-#: includes/payment-gateways/pro/class-gpos-finansbank.php:86
-#: includes/payment-gateways/pro/class-gpos-garanti.php:91
-#: includes/payment-gateways/pro/class-gpos-halkbank.php:86
-#: includes/payment-gateways/pro/class-gpos-isbank.php:86
-#: includes/payment-gateways/pro/class-gpos-sekerbank.php:86
-#: includes/payment-gateways/pro/class-gpos-teb.php:86
-#: includes/payment-gateways/pro/class-gpos-yapi-kredi.php:80
-#: includes/payment-gateways/pro/class-gpos-ziraat.php:85
+#: includes/payment-gateways/pro/class-gpos-akbank.php:106
+#: includes/payment-gateways/pro/class-gpos-albaraka.php:102
+#: includes/payment-gateways/pro/class-gpos-finansbank.php:107
+#: includes/payment-gateways/pro/class-gpos-garanti.php:112
+#: includes/payment-gateways/pro/class-gpos-halkbank.php:107
+#: includes/payment-gateways/pro/class-gpos-isbank.php:107
+#: includes/payment-gateways/pro/class-gpos-sekerbank.php:107
+#: includes/payment-gateways/pro/class-gpos-teb.php:107
+#: includes/payment-gateways/pro/class-gpos-yapi-kredi.php:103
+#: includes/payment-gateways/pro/class-gpos-ziraat.php:108
 msgid "3D Key"
 msgstr "3D Anahtarı"
 
@@ -63,21 +63,21 @@ msgstr "3D Ayarları"
 msgid "3D Start"
 msgstr "3D Başladı"
 
-#: includes/payment-gateways/pro/class-gpos-denizbank.php:85
+#: includes/payment-gateways/pro/class-gpos-denizbank.php:108
 #, fuzzy
 #| msgid "Store Password (Not required for 3D Host.)"
 msgid "3D Store Password (Not required for 3D Host.)"
 msgstr "Mağaza Şifresi (3D Host için gerekli değildir.)"
 
-#: includes/payment-gateways/pro/class-gpos-akbank.php:97
-#: includes/payment-gateways/pro/class-gpos-denizbank.php:95
-#: includes/payment-gateways/pro/class-gpos-finansbank.php:97
-#: includes/payment-gateways/pro/class-gpos-garanti.php:100
-#: includes/payment-gateways/pro/class-gpos-halkbank.php:97
-#: includes/payment-gateways/pro/class-gpos-isbank.php:97
-#: includes/payment-gateways/pro/class-gpos-sekerbank.php:97
-#: includes/payment-gateways/pro/class-gpos-teb.php:97
-#: includes/payment-gateways/pro/class-gpos-ziraat.php:96
+#: includes/payment-gateways/pro/class-gpos-akbank.php:117
+#: includes/payment-gateways/pro/class-gpos-denizbank.php:118
+#: includes/payment-gateways/pro/class-gpos-finansbank.php:118
+#: includes/payment-gateways/pro/class-gpos-garanti.php:121
+#: includes/payment-gateways/pro/class-gpos-halkbank.php:118
+#: includes/payment-gateways/pro/class-gpos-isbank.php:118
+#: includes/payment-gateways/pro/class-gpos-sekerbank.php:118
+#: includes/payment-gateways/pro/class-gpos-teb.php:118
+#: includes/payment-gateways/pro/class-gpos-ziraat.php:119
 msgid "3D Type"
 msgstr "3D Tipi"
 
@@ -140,7 +140,7 @@ msgstr ""
 "Bir adımdan sonra eklenti deaktif edilecektir. Lütfen bir dakikanızı ayırıp "
 "uygulamanızı daha iyi hale getirmemiz için bize destek olur musunuz?"
 
-#: languages/gpos-bank-texts.php:53
+#: languages/gpos-bank-texts.php:52
 msgid ""
 "After logging into the İşbank virtual pos system, if no API user has been "
 "created before, an API user must be created by entering the \"Add New User\" "
@@ -152,7 +152,7 @@ msgstr ""
 "Kullanıcı Ekle”  kısmına giriş yapılarak APİ kullanıcısı oluşturulmalıdır. "
 "Daha sonra  APİ kullanıcı bilgileri ilgili yerlere doldurulmalı."
 
-#: languages/gpos-bank-texts.php:38
+#: languages/gpos-bank-texts.php:37
 msgid ""
 "After logging into your Denizbank Virtual Pos panel, you need to create a "
 "new API user for integration information, if you have not created one before."
@@ -168,7 +168,7 @@ msgstr ""
 "yaparak api kullanıcı kaydı oluşturabilirsiniz. Oluşturduğunuz APİ kullanıcı "
 "bilgilerini, ilgili yerlere doldurarak entegrasyonu sağlayabilirsiniz."
 
-#: languages/gpos-bank-texts.php:47
+#: languages/gpos-bank-texts.php:46
 msgid ""
 "After logging into your Halkbank panel, click on the management menu. If no "
 "user has been created before, we create an \"API USER\" from the User list "
@@ -180,7 +180,7 @@ msgstr ""
 "KULLANICISI\" oluşturuyoruz. Gerekli bilgileri sol taraftaki menülerden alıp "
 "POS Entegratör’de ilgili yerlere dolduruyoruz."
 
-#: languages/gpos-bank-texts.php:59
+#: languages/gpos-bank-texts.php:58
 msgid ""
 "After logging into your TEB bank virtual pos panel, we click on the "
 "management menu. If no user has been created before, we create an \"API "
@@ -192,7 +192,7 @@ msgstr ""
 "bölümünden \"APİ KULLANICISI\" oluşturuyoruz. Gerekli bilgileri POS "
 "Entegratör’de ilgili yerlere dolduruyoruz. "
 
-#: languages/gpos-bank-texts.php:68
+#: languages/gpos-bank-texts.php:67
 msgid ""
 "After logging into Ziraat Bank Virtual Pos panel, if you have not created an "
 "API user before, first we click on the \"Management\" tab, we define a new "
@@ -236,7 +236,7 @@ msgstr ""
 "Iyzico merchant panelinizin Ayarlar->Firma Ayarları kısmından api ve "
 "güvenlik anahtarlarınıza erişebilirsiniz. "
 
-#: languages/gpos-bank-texts.php:35
+#: languages/gpos-bank-texts.php:34
 msgid ""
 "API Integration Information is required for Craftgate integration. This "
 "information is located in the Craftgate control panel: Admin Menu -> "
@@ -246,7 +246,7 @@ msgstr ""
 "bilgiler : Craftgate kontrol panelinin :  Yönetim Menüsü ->Üye İşyeri "
 "Ayarları Sekmesi ->  API Erişim Bilgileri başlığı altında yer almaktadır."
 
-#: languages/gpos-bank-texts.php:71
+#: languages/gpos-bank-texts.php:70
 msgid ""
 "API Integration Information is required for Paidora integration. This "
 "information: Paidora user panel: Information menu -> API Integration "
@@ -256,25 +256,35 @@ msgstr ""
 " Paidora kullanıcı panelinin :  Bilgi menüsü ->  API Entegrasyon Bilgileri "
 "başlığı altında yer almaktadır."
 
-#: includes/payment-gateways/iyzico/class-gpos-iyzico.php:99
-#: includes/payment-gateways/pro/class-gpos-craftgate.php:84
-#: includes/payment-gateways/pro/class-gpos-paidora.php:85
+#: languages/gpos-bank-texts.php:28
+msgid ""
+"API Integration Information is required for PayTR integration. This "
+"information: PayTR user panel: Information menu -> API Integration "
+"Information is located under the heading."
+msgstr ""
+"PayTR entegrasyonu için API Entegrasyon Bilgileri gereklidir. Bu bilgiler : "
+"PayTR kullanıcı panelinin :  Bilgi menüsü ->  API Entegrasyon Bilgileri "
+"başlığı altında yer almaktadır."
+
+#: includes/payment-gateways/iyzico/class-gpos-iyzico.php:92
+#: includes/payment-gateways/pro/class-gpos-craftgate.php:100
+#: includes/payment-gateways/pro/class-gpos-paidora.php:100
 msgid "Api Key"
 msgstr "Api Anahtarı"
 
-#: includes/payment-gateways/pro/class-gpos-craftgate.php:89
+#: includes/payment-gateways/pro/class-gpos-craftgate.php:105
 msgid "Api Password"
 msgstr "Api Şifresi"
 
-#: includes/payment-gateways/pro/class-gpos-paidora.php:90
+#: includes/payment-gateways/pro/class-gpos-paidora.php:105
 msgid "Api Secret"
 msgstr "Api Gizli Anahtarı"
 
-#: includes/payment-gateways/pro/class-gpos-sipay.php:81
+#: includes/payment-gateways/pro/class-gpos-sipay.php:95
 msgid "App Key"
 msgstr "Uygulama Anahtarı"
 
-#: includes/payment-gateways/pro/class-gpos-sipay.php:86
+#: includes/payment-gateways/pro/class-gpos-sipay.php:100
 msgid "App Secret"
 msgstr "Uygulama Gizli Anahtarı"
 
@@ -372,15 +382,15 @@ msgstr "Kart Markası"
 msgid "Card Country"
 msgstr "Kartın Ülkesi"
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:306
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:308
 msgid "Card cvc field cannot be left blank."
 msgstr "Kart cvc alanı boş bırakılamaz."
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:304
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:306
 msgid "Card expiration month cannot be left blank."
 msgstr "Kart ay alanı boş bırakılamaz."
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:305
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:307
 msgid "Card expiration year cannot be left blank."
 msgstr "Kart yıl alanı boş bırakılamaz."
 
@@ -419,7 +429,7 @@ msgstr "Kart Adı Alanı"
 msgid "Card Number"
 msgstr "Kart Numarası"
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:303
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:305
 #, fuzzy
 #| msgid "The credit card number field cannot be left blank."
 msgid "Card number field cannot be left blank."
@@ -452,12 +462,12 @@ msgstr "İndirmek veya yüklüyse etkinleştirmek için tıklayın."
 
 #: hooks/class-gpospro-edd.php:99 hooks/class-gpospro-givewp.php:79
 #: hooks/class-gpospro-learnpress.php:63
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:334
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:336
 msgid "Click to go to settings."
 msgstr "Ayarlara gitmek için tıklayın."
 
 #. translators: %1$s => Link, %2$s => Text
-#: includes/class-gpos-transaction.php:935
+#: includes/class-gpos-transaction.php:831
 msgid ""
 "Click to view the details of transaction <a href=\"%1$s\" target=\"_blank\">"
 "#%2$s</a>."
@@ -465,19 +475,19 @@ msgstr ""
 "İşlem detaylarını görüntülemek için tıklayınız <a href=\"%1$s\" "
 "target=\"_blank\">#%2$s</a>."
 
-#: includes/payment-gateways/pro/class-gpos-param.php:88
+#: includes/payment-gateways/pro/class-gpos-param.php:102
 msgid "Client Code"
 msgstr "Müşteri Kodu"
 
-#: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:76
+#: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:97
 msgid "Client ID"
 msgstr "Müşteri ID"
 
-#: includes/payment-gateways/pro/class-gpos-param.php:83
+#: includes/payment-gateways/pro/class-gpos-param.php:97
 msgid "Client Password"
 msgstr "Müşteri Şifresi"
 
-#: includes/payment-gateways/pro/class-gpos-param.php:78
+#: includes/payment-gateways/pro/class-gpos-param.php:92
 msgid "Client Username"
 msgstr "Müşteri Kullanıcı Adı"
 
@@ -489,7 +499,7 @@ msgstr "Yorumlar (İsteğe Bağlı)"
 msgid "Common Form Start"
 msgstr "Ortak Ödeme Form Başlangıcı"
 
-#: hooks/class-gpos-wordpress.php:320
+#: hooks/class-gpos-wordpress.php:312
 msgid "Community Form"
 msgstr "Topluluk Forumu"
 
@@ -623,7 +633,7 @@ msgstr "Taksit Yok"
 msgid "Disabled"
 msgstr "Devre Dışı"
 
-#: hooks/class-gpos-wordpress.php:315 languages/gpos-texts.php:110
+#: hooks/class-gpos-wordpress.php:307 languages/gpos-texts.php:110
 msgid "Docs"
 msgstr "Dökümanlar"
 
@@ -668,7 +678,7 @@ msgstr ""
 "3D görüntülemede hata. Şifre yanlış girildi veya 3D sayfası terk edildi."
 
 #. translators: %s => Ödeme geçidi hatası.
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:195
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:193
 msgid "Error in payment process: %s."
 msgstr "Ödeme işleminde hata: %s"
 
@@ -731,7 +741,7 @@ msgstr "Tamamlandı"
 msgid "First Name"
 msgstr "İsim"
 
-#: languages/gpos-bank-texts.php:41
+#: languages/gpos-bank-texts.php:40
 msgid ""
 "For integration information after logging into your Finansbank panel: If you "
 "have not created one before, create an API user with the help of User "
@@ -742,22 +752,6 @@ msgstr ""
 "daha önce oluşturmadıysanız Yönetim Menüsünden Kullanıcı Yönetimi yardımı "
 "ile APİ kullanıcısı oluşturunuz. Oluşturduğunuz APİ kullanıcı bilgilerini "
 "POS Entegratör’de ilgili yerlere doldurunuz."
-
-#. translators: %s Site url.
-#: languages/gpos-bank-texts.php:29
-msgid ""
-"For PayTR integration, API information and notification URL definition is "
-"required.<br><br>You can access API information from the <strong>Integration "
-"Information</strong> section under the <strong>Support & Setup</strong> menu "
-"on your panel.<br><br>Notification url: <strong> %s/gpos-paytr-"
-"callback</strong>"
-msgstr ""
-"PayTR entegrasyonu için api bilgileri ve bildirim url tanımlaması "
-"gerekmektedir.<br><br>Api bilgilerine panelinizden  <strong>Destek & "
-"Kurulum</strong> menüsünün altındaki  <strong>Entegrasyon Bilgileri </strong>"
-" bölümünden ulaşabilirsiniz.\n"
-"<br><br>\n"
-"Bildirim url: <strong> %s/gpos-paytr-callback </strong>"
 
 #: languages/gpos-texts.php:42
 msgid "Forced 3D"
@@ -799,7 +793,7 @@ msgstr "Geri Bildirim"
 msgid "GiveWP"
 msgstr "GiveWP"
 
-#: includes/payment-gateways/pro/class-gpos-param.php:93
+#: includes/payment-gateways/pro/class-gpos-param.php:107
 msgid "GUID"
 msgstr "GUID"
 
@@ -835,7 +829,7 @@ msgstr "Merhaba Sevgili WordPress sever."
 msgid "Help"
 msgstr "Yardım"
 
-#: includes/payment-gateways/pro/class-gpos-paidora.php:95
+#: includes/payment-gateways/pro/class-gpos-paidora.php:110
 msgid "Host ( https://<host>/ )"
 msgstr "Sunucu ( https://<host>/ )"
 
@@ -900,6 +894,10 @@ msgstr "İkon"
 msgid "Id"
 msgstr "No"
 
+#: views/vue-app-div.php:14
+msgid "If the payment form is not loaded, please click this text."
+msgstr "Ödeme formu yüklenmemişse lütfen bu metne tıklayın."
+
 #: languages/gpos-texts.php:221
 msgid ""
 "If there are no personal information fields in the donation form, the "
@@ -957,7 +955,7 @@ msgstr ""
 "Uyarı: Sanal POS'unuz normal işlemleri desteklemiyorsa 3D'siz Ödeme veya "
 "Kullanıcıya Sor seçenekleri seçilse dahi ödeme 3D olarak alınacaktır."
 
-#: languages/gpos-bank-texts.php:56
+#: languages/gpos-bank-texts.php:55
 msgid ""
 "Information required for Kuveyt Türk Pos integration will be obtained from "
 "the Kuveyt Türk Virtual Pos Screen."
@@ -969,7 +967,7 @@ msgstr ""
 msgid "Installment"
 msgstr "Taksit"
 
-#: includes/traits/trait-gpos-plugin-payment-gateway.php:264
+#: includes/traits/trait-gpos-plugin-payment-gateway.php:252
 msgid "Installment Fee"
 msgstr "Taksit Vade Farkı"
 
@@ -995,7 +993,7 @@ msgstr "Taksit Tablosu Görünümü Ayarları"
 msgid "Installments were applied."
 msgstr "Taksitler uygulandı"
 
-#: includes/payment-gateways/paratika/class-gpos-paratika.php:100
+#: includes/payment-gateways/paratika/class-gpos-paratika.php:93
 msgid "Institution/Company ID"
 msgstr "Kurum/Şirket ID"
 
@@ -1063,7 +1061,7 @@ msgstr "j F Y"
 msgid "Last Name"
 msgstr "Soyisim"
 
-#: languages/gpos-texts.php:91
+#: languages/gpos-texts.php:91 views/vue-app-div.php:13
 msgid "Loading..."
 msgstr "Yükleniyor..."
 
@@ -1075,7 +1073,7 @@ msgstr "Kayıtlar"
 msgid "Make Default"
 msgstr "Varsayılan Yap"
 
-#: includes/payment-gateways/pro/class-gpos-craftgate.php:94
+#: includes/payment-gateways/pro/class-gpos-craftgate.php:110
 msgid ""
 "Member 3DSecure Callback Key\" in the Administration -> Merchant Settings "
 "interface on the panel.\""
@@ -1083,45 +1081,45 @@ msgstr ""
 "3D Secure Geri Arama Anahtarına Üye panelindeki Yönetim -> Satıcı Ayarları "
 "arayüzünden ulaşabilirsiniz."
 
-#: includes/payment-gateways/pro/class-gpos-esnekpos.php:78
+#: includes/payment-gateways/pro/class-gpos-esnekpos.php:92
 msgid "Merchant"
 msgstr "Mağaza"
 
-#: includes/payment-gateways/pro/class-gpos-denizbank.php:70
+#: includes/payment-gateways/pro/class-gpos-denizbank.php:93
 msgid "Merchant Code"
 msgstr "Mağaza Kodu"
 
-#: includes/payment-gateways/pro/class-gpos-akbank.php:71
-#: includes/payment-gateways/pro/class-gpos-albaraka.php:71
-#: includes/payment-gateways/pro/class-gpos-finansbank.php:71
-#: includes/payment-gateways/pro/class-gpos-garanti.php:71
-#: includes/payment-gateways/pro/class-gpos-halkbank.php:71
-#: includes/payment-gateways/pro/class-gpos-isbank.php:71
-#: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:71
-#: includes/payment-gateways/pro/class-gpos-paytr.php:78
-#: includes/payment-gateways/pro/class-gpos-sekerbank.php:71
-#: includes/payment-gateways/pro/class-gpos-teb.php:71
-#: includes/payment-gateways/pro/class-gpos-vakifbank.php:71
-#: includes/payment-gateways/pro/class-gpos-yapi-kredi.php:70
-#: includes/payment-gateways/pro/class-gpos-ziraat.php:70
+#: includes/payment-gateways/pro/class-gpos-akbank.php:91
+#: includes/payment-gateways/pro/class-gpos-albaraka.php:92
+#: includes/payment-gateways/pro/class-gpos-finansbank.php:92
+#: includes/payment-gateways/pro/class-gpos-garanti.php:92
+#: includes/payment-gateways/pro/class-gpos-halkbank.php:92
+#: includes/payment-gateways/pro/class-gpos-isbank.php:92
+#: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:92
+#: includes/payment-gateways/pro/class-gpos-paytr.php:92
+#: includes/payment-gateways/pro/class-gpos-sekerbank.php:92
+#: includes/payment-gateways/pro/class-gpos-teb.php:92
+#: includes/payment-gateways/pro/class-gpos-vakifbank.php:92
+#: includes/payment-gateways/pro/class-gpos-yapi-kredi.php:93
+#: includes/payment-gateways/pro/class-gpos-ziraat.php:93
 msgid "Merchant ID"
 msgstr "Mağaza ID"
 
-#: includes/payment-gateways/pro/class-gpos-sipay.php:71
+#: includes/payment-gateways/pro/class-gpos-sipay.php:85
 msgid "Merchant Id"
 msgstr "Mağaza Id"
 
-#: includes/payment-gateways/pro/class-gpos-esnekpos.php:83
-#: includes/payment-gateways/pro/class-gpos-sipay.php:76
+#: includes/payment-gateways/pro/class-gpos-esnekpos.php:97
+#: includes/payment-gateways/pro/class-gpos-sipay.php:90
 msgid "Merchant Key"
 msgstr "Mağaza Anahtarı"
 
-#: includes/payment-gateways/pro/class-gpos-paytr.php:83
-#: includes/payment-gateways/pro/class-gpos-vakifbank.php:76
+#: includes/payment-gateways/pro/class-gpos-paytr.php:97
+#: includes/payment-gateways/pro/class-gpos-vakifbank.php:97
 msgid "Merchant Password"
 msgstr "Mağaza Parola"
 
-#: includes/payment-gateways/pro/class-gpos-paytr.php:88
+#: includes/payment-gateways/pro/class-gpos-paytr.php:102
 msgid "Merchant Salt"
 msgstr "Mağaza Gizli Anahtar"
 
@@ -1129,15 +1127,11 @@ msgstr "Mağaza Gizli Anahtar"
 msgid "Method Name"
 msgstr "Yöntem Adı"
 
-#: languages/gpos-texts.php:273
-msgid "MM"
-msgstr "AA"
-
 #: languages/gpos-texts.php:272
 msgid "MM / YY"
 msgstr "AA / YY"
 
-#: languages/gpos-texts.php:234 views/vue-app-div.php:39
+#: languages/gpos-texts.php:234
 msgid "Month"
 msgstr "Ay"
 
@@ -1157,7 +1151,7 @@ msgstr "Multisite"
 msgid "Name on the card"
 msgstr "Kart üzerindeki isim"
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:307
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:309
 msgid "Name on the card field cannot be left blank."
 msgstr "Kart üzerindeki isim alanı boş bırakılamaz."
 
@@ -1233,14 +1227,10 @@ msgstr ""
 msgid "Notify"
 msgstr "Bildirim"
 
-#: languages/gpos-bank-texts.php:44
-#, fuzzy
-#| msgid ""
-#| "Obtain the necessary information for the Garanti Pos integration from the "
-#| "Garanti Virtual Pos Screen.\t\t\t"
+#: languages/gpos-bank-texts.php:43
 msgid ""
 "Obtain the necessary information for the Garanti Pos integration from the "
-"Garanti Virtual Pos Screen."
+"Garanti Virtual Pos Screen.\t\t\t"
 msgstr ""
 "Garanti Pos entegrasyonu için gerekli olan bilgileri Garanti Sanal Pos "
 "Ekranından temin ediniz."
@@ -1301,16 +1291,16 @@ msgstr "Ebeveyn İşlemler:"
 msgid "Partial Refunded"
 msgstr "Parçalı İade"
 
-#: includes/payment-gateways/paratika/class-gpos-paratika.php:110
-#: includes/payment-gateways/pro/class-gpos-akbank.php:81
-#: includes/payment-gateways/pro/class-gpos-finansbank.php:81
-#: includes/payment-gateways/pro/class-gpos-halkbank.php:81
-#: includes/payment-gateways/pro/class-gpos-isbank.php:81
-#: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:86
-#: includes/payment-gateways/pro/class-gpos-sekerbank.php:81
-#: includes/payment-gateways/pro/class-gpos-teb.php:81
-#: includes/payment-gateways/pro/class-gpos-wyld.php:89
-#: includes/payment-gateways/pro/class-gpos-ziraat.php:80
+#: includes/payment-gateways/paratika/class-gpos-paratika.php:103
+#: includes/payment-gateways/pro/class-gpos-akbank.php:101
+#: includes/payment-gateways/pro/class-gpos-finansbank.php:102
+#: includes/payment-gateways/pro/class-gpos-halkbank.php:102
+#: includes/payment-gateways/pro/class-gpos-isbank.php:102
+#: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:107
+#: includes/payment-gateways/pro/class-gpos-sekerbank.php:102
+#: includes/payment-gateways/pro/class-gpos-teb.php:102
+#: includes/payment-gateways/pro/class-gpos-wyld.php:98
+#: includes/payment-gateways/pro/class-gpos-ziraat.php:103
 msgid "Password"
 msgstr "Parola"
 
@@ -1338,7 +1328,7 @@ msgstr "Kredi kartı ile ödeme"
 #. translators: %s => Ödeme geçidindeki tekil kimlik.
 #: includes/plugin-gateways/class-gpospro-edd-payment-gateway.php:176
 #: includes/plugin-gateways/class-gpospro-givewp-payment-gateway.php:139
-#: includes/traits/trait-gpos-plugin-payment-gateway.php:211
+#: includes/traits/trait-gpos-plugin-payment-gateway.php:210
 msgid "Payment completed successfully. Payment number: %s"
 msgstr "Ödeme başarıyla tamamlandı. Ödeme numarası: %s"
 
@@ -1384,11 +1374,11 @@ msgstr "Ödeme İşlem No"
 msgid "Payment Transactions"
 msgstr "Ödeme İşlemleri"
 
-#: includes/payment-gateways/pro/class-gpos-garanti.php:81
+#: includes/payment-gateways/pro/class-gpos-garanti.php:102
 msgid "Payment User"
 msgstr "Ödeme Kullanıcısı"
 
-#: includes/payment-gateways/pro/class-gpos-garanti.php:86
+#: includes/payment-gateways/pro/class-gpos-garanti.php:107
 msgid "Payment User Password"
 msgstr "Ödeme Kullanıcısı Şifresi"
 
@@ -1421,8 +1411,8 @@ msgstr "POS Entegratör etkin değil"
 msgid "POS Entegratör Pro"
 msgstr "POS Entegratör Pro"
 
-#: includes/payment-gateways/pro/class-gpos-albaraka.php:86
-#: includes/payment-gateways/pro/class-gpos-yapi-kredi.php:85
+#: includes/payment-gateways/pro/class-gpos-albaraka.php:107
+#: includes/payment-gateways/pro/class-gpos-yapi-kredi.php:108
 msgid "PosNet ID"
 msgstr "PosNet ID"
 
@@ -1580,11 +1570,11 @@ msgstr "%s numaralı iade işlemi başarıyla tamamlandı."
 msgid "Refund Total Amount"
 msgstr "Tüm Tutarı İade Et"
 
-#: includes/payment-gateways/pro/class-gpos-garanti.php:105
+#: includes/payment-gateways/pro/class-gpos-garanti.php:126
 msgid "Refund User"
 msgstr "İade Kullanıcısı"
 
-#: includes/payment-gateways/pro/class-gpos-garanti.php:110
+#: includes/payment-gateways/pro/class-gpos-garanti.php:131
 msgid "Refund User Password"
 msgstr "İade kullanıcısı Şifresi"
 
@@ -1693,7 +1683,7 @@ msgstr "Kayıtlı Kart Ara"
 msgid "Search Transactions"
 msgstr "İşlemlerde Ara"
 
-#: includes/payment-gateways/iyzico/class-gpos-iyzico.php:104
+#: includes/payment-gateways/iyzico/class-gpos-iyzico.php:97
 msgid "Security Key"
 msgstr "Güvenlik Anahtarı"
 
@@ -1709,7 +1699,7 @@ msgstr "Seç"
 msgid "Select Box"
 msgstr "Seçim Kutusu"
 
-#: hooks/class-gpos-wordpress.php:341
+#: hooks/class-gpos-wordpress.php:333
 msgid "Select Process Type"
 msgstr "İşlem Tipi Seçiniz"
 
@@ -1725,7 +1715,7 @@ msgstr "WooCommerce Subscriber Eklentisi ile abonelikli ürün satışı yapın"
 msgid "Set Default"
 msgstr "Varsayılan"
 
-#: hooks/class-gpos-wordpress.php:267 includes/class-gpos-admin.php:253
+#: hooks/class-gpos-wordpress.php:259 includes/class-gpos-admin.php:253
 #: languages/gpos-texts.php:217
 msgid "Settings"
 msgstr "Ayarlar"
@@ -1786,7 +1776,7 @@ msgid "Status of Successful Payments"
 msgstr "Başarılı Ödemelerin Geçeceği Durum"
 
 #. translators: %1$s => Eski durum %2$s => Yeni durum.
-#: includes/class-gpos-transaction.php:463
+#: includes/class-gpos-transaction.php:355
 msgid "Status updated %1$s to %2$s"
 msgstr "İşlem %1$s durumundan %2$s durumuna geçirildi."
 
@@ -1810,10 +1800,10 @@ msgstr "Tablo Görünümü "
 msgid "Temporarily deactivating"
 msgstr "Geçici olarak deaktif ediyorum."
 
-#: includes/payment-gateways/pro/class-gpos-albaraka.php:76
-#: includes/payment-gateways/pro/class-gpos-garanti.php:76
-#: includes/payment-gateways/pro/class-gpos-vakifbank.php:81
-#: includes/payment-gateways/pro/class-gpos-yapi-kredi.php:75
+#: includes/payment-gateways/pro/class-gpos-albaraka.php:97
+#: includes/payment-gateways/pro/class-gpos-garanti.php:97
+#: includes/payment-gateways/pro/class-gpos-vakifbank.php:102
+#: includes/payment-gateways/pro/class-gpos-yapi-kredi.php:98
 msgid "Terminal ID"
 msgstr "Terminal ID"
 
@@ -1821,7 +1811,7 @@ msgstr "Terminal ID"
 msgid "Test Mode"
 msgstr "Test Modu"
 
-#: includes/class-gpos-admin.php:143 languages/gpos-texts.php:60
+#: includes/class-gpos-admin.php:142 languages/gpos-texts.php:60
 msgid "Test Mode Active"
 msgstr "Test Modu Aktif"
 
@@ -1841,7 +1831,7 @@ msgstr ""
 "Varsayılan ödeme geçidi kart eklemeyi desteklemiyor. Lütfen yöneticiyle "
 "iletişime geçin."
 
-#: languages/gpos-bank-texts.php:32
+#: languages/gpos-bank-texts.php:31
 msgid ""
 "The information required for Akbank Virtual Pos integration will be obtained "
 "from the Akbank Virtual Pos Screen."
@@ -1849,7 +1839,7 @@ msgstr ""
 "Akbank Sanal Pos entegrasyonu için gerekli olan bilgiler Akbank Sanal Pos "
 "Ekranından temin edilecektir."
 
-#: languages/gpos-bank-texts.php:50
+#: languages/gpos-bank-texts.php:49
 msgid ""
 "The information required for ING Bank Pos integration will be obtained from "
 "the ING Bank Virtual Pos Screen."
@@ -1865,7 +1855,7 @@ msgstr ""
 "Ozan Sanal Pos entegrasyonu için gerekli olan bilgiler Ozan Sanal Pos "
 "Ekranından temin edilecektir."
 
-#: languages/gpos-bank-texts.php:65
+#: languages/gpos-bank-texts.php:64
 msgid ""
 "The information required for the Yapı Kredi Virtual POS integration will be "
 "obtained from the Yapı Kredi Virtual POS Screen."
@@ -1891,7 +1881,7 @@ msgstr "Kayıt yok."
 
 #: hooks/class-gpospro-edd.php:98 hooks/class-gpospro-givewp.php:78
 #: hooks/class-gpospro-learnpress.php:62
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:333
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:335
 msgid "These payment method settings are made through the admin menu."
 msgstr "Bu ödeme yöntemi ayarları yönetici menüsü üzerinden yapılır."
 
@@ -1935,15 +1925,11 @@ msgstr "İşlem Detayları"
 msgid "Transaction Logs"
 msgstr "İşlem Kayıtları"
 
-#: languages/gpos-texts.php:275
-msgid "Transaction not found."
-msgstr "İşlem bulunamadı."
-
-#: includes/class-gpos-transaction.php:304
+#: includes/class-gpos-transaction.php:258
 msgid "Transaction started."
 msgstr "İşlem başladı."
 
-#: includes/class-gpos-admin.php:160
+#: includes/class-gpos-admin.php:159
 #: includes/class-gpos-post-operations.php:105
 msgid "Transactions"
 msgstr "İşlemler"
@@ -1973,11 +1959,11 @@ msgstr ""
 msgid "Unsupported currency"
 msgstr "Desteklenmeyen para birimi"
 
-#: hooks/class-gpos-wordpress.php:274
+#: hooks/class-gpos-wordpress.php:266
 msgid "Upgrade"
 msgstr "Yükselt"
 
-#: includes/class-gpos-admin.php:98 languages/gpos-texts.php:92
+#: includes/class-gpos-admin.php:97 languages/gpos-texts.php:92
 msgid "Upgrade Pro"
 msgstr "Pro'ya Yükselt"
 
@@ -1997,11 +1983,11 @@ msgstr ""
 "Kart üzerindeki isim bilgisi için sipariş alanlarını kullan. Ayarın kapalı "
 "olması durumunda kart numarası bölümünü üstünde isim alanı oluşacaktır."
 
-#: includes/payment-gateways/pro/class-gpos-denizbank.php:75
+#: includes/payment-gateways/pro/class-gpos-denizbank.php:98
 msgid "User Code"
 msgstr "Kullanıcı Kodu"
 
-#: includes/payment-gateways/pro/class-gpos-denizbank.php:80
+#: includes/payment-gateways/pro/class-gpos-denizbank.php:103
 msgid "User Password"
 msgstr "Kullanıcı Şifre"
 
@@ -2009,19 +1995,19 @@ msgstr "Kullanıcı Şifre"
 msgid "User selects 3D option at checkout"
 msgstr "Kullanıcılar ödeme sırasında 3D seçeneğini belirler"
 
-#: includes/payment-gateways/pro/class-gpos-akbank.php:76
-#: includes/payment-gateways/pro/class-gpos-finansbank.php:76
-#: includes/payment-gateways/pro/class-gpos-halkbank.php:76
-#: includes/payment-gateways/pro/class-gpos-isbank.php:76
-#: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:81
-#: includes/payment-gateways/pro/class-gpos-sekerbank.php:76
-#: includes/payment-gateways/pro/class-gpos-teb.php:76
-#: includes/payment-gateways/pro/class-gpos-wyld.php:84
-#: includes/payment-gateways/pro/class-gpos-ziraat.php:75
+#: includes/payment-gateways/pro/class-gpos-akbank.php:96
+#: includes/payment-gateways/pro/class-gpos-finansbank.php:97
+#: includes/payment-gateways/pro/class-gpos-halkbank.php:97
+#: includes/payment-gateways/pro/class-gpos-isbank.php:97
+#: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:102
+#: includes/payment-gateways/pro/class-gpos-sekerbank.php:97
+#: includes/payment-gateways/pro/class-gpos-teb.php:97
+#: includes/payment-gateways/pro/class-gpos-wyld.php:93
+#: includes/payment-gateways/pro/class-gpos-ziraat.php:98
 msgid "Username"
 msgstr "Kullanıcı Adı"
 
-#: includes/payment-gateways/paratika/class-gpos-paratika.php:105
+#: includes/payment-gateways/paratika/class-gpos-paratika.php:98
 msgid "Username/E-mail"
 msgstr "Kullanıcı Adı/E mail"
 
@@ -2071,7 +2057,7 @@ msgstr "Sanal POS Ekranı"
 msgid "Warning Text"
 msgstr "Uyarı Metni"
 
-#: languages/gpos-bank-texts.php:62
+#: languages/gpos-bank-texts.php:61
 msgid ""
 "We click on the \"CONTRACTED MERCHANT TRANSACTIONS\" section under the "
 "\"MANAGEMENT\" tab from the Vakıfbank Virtual Pos panel. The page that opens "
@@ -2132,7 +2118,7 @@ msgstr "WooCommerce"
 msgid "WordPress Version"
 msgstr "WordPress Versiyon"
 
-#: languages/gpos-texts.php:235 views/vue-app-div.php:45
+#: languages/gpos-texts.php:235
 msgid "Year"
 msgstr "Yıl"
 
@@ -2223,10 +2209,6 @@ msgid ""
 msgstr ""
 "Kart Kaydetme özelliği ile kullanıcılarınız, ödeme sırasında kartlarını "
 "kaydedebilirler. (Varsayılan ödeme ağ geçidi, kartı kaydetmeyi destekliyorsa)"
-
-#: languages/gpos-texts.php:274
-msgid "YY"
-msgstr "YY"
 
 #: languages/gpos-texts.php:137
 msgid "Zip Code"

@@ -49,7 +49,7 @@ class GPOS_Admin {
 		add_menu_page(
 			$this->parent_title,
 			$this->parent_title,
-			'manage_options',
+			gpos_capability(),
 			$this->parent_slug,
 			'__return_false',
 			$this->get_icon(),
@@ -62,7 +62,7 @@ class GPOS_Admin {
 				isset( $sub_menu_page['hidden'] ) && $sub_menu_page['hidden'] ? '' : $this->parent_slug,
 				$sub_menu_page['menu_title'],
 				$sub_menu_page['menu_title'],
-				'manage_options',
+				gpos_capability(),
 				$sub_menu_page['menu_slug'],
 				array( $this, 'view' ),
 			);
@@ -78,31 +78,32 @@ class GPOS_Admin {
 			)
 		);
 
-		$submenu[ $this->parent_slug ] = array_map(
-			function ( $menu ) use ( $submenu_order ) {
-				$menu['priority'] = isset( $submenu_order[ $menu[2] ] ) ? $submenu_order[ $menu[2] ] : 80;
-				return $menu;
-			},
-			$submenu[ $this->parent_slug ]
-		);
-
-		usort( $submenu[ $this->parent_slug ], fn ( $a_elem, $b_elem ) => $a_elem['priority'] - $b_elem['priority'] );
-
-		if ( ! gpos_is_pro_active() ) {
-
-			$submenu[ $this->parent_slug ][] = array(
-				sprintf(
-					'%2$s <img src="%1$s/images/new-tab.svg" class="new-tab">',
-					GPOS_ASSETS_DIR_URL,
-					__( 'Upgrade Pro', 'gurmepos' ),
-				),
-				'manage_woocommerce',
-				gpos_create_utm_link( 'sol_menu' ),
-				false,
-				'gpos-target-blank gpos-upgrade-pro',
+		if ( isset( $submenu[ $this->parent_slug ] ) && false === empty( $submenu[ $this->parent_slug ] ) ) {
+			$submenu[ $this->parent_slug ] = array_map(
+				function ( $menu ) use ( $submenu_order ) {
+					$menu['priority'] = isset( $submenu_order[ $menu[2] ] ) ? $submenu_order[ $menu[2] ] : 80;
+					return $menu;
+				},
+				$submenu[ $this->parent_slug ]
 			);
-		}
 
+			usort( $submenu[ $this->parent_slug ], fn ( $a_elem, $b_elem ) => $a_elem['priority'] - $b_elem['priority'] );
+
+			if ( ! gpos_is_pro_active() ) {
+
+				$submenu[ $this->parent_slug ][] = array(
+					sprintf(
+						'%2$s <img src="%1$s/images/new-tab.svg" class="new-tab">',
+						GPOS_ASSETS_DIR_URL,
+						__( 'Upgrade Pro', 'gurmepos' ),
+					),
+					'manage_woocommerce',
+					gpos_create_utm_link( 'sol_menu' ),
+					false,
+					'gpos-target-blank gpos-upgrade-pro',
+				);
+			}
+		}
 	}
 
 	/**
@@ -133,7 +134,7 @@ class GPOS_Admin {
 	 * @return void
 	 */
 	public function admin_bar_menu( WP_Admin_Bar $wp_admin_bar ) {
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( current_user_can( gpos_capability() ) ) {
 			$admin_bar_args = array(
 				'id'    => $this->parent_slug,
 				'title' => sprintf(
@@ -179,7 +180,6 @@ class GPOS_Admin {
 			}
 		}
 	}
-
 
 	/**
 	 * Vue render edildiğinde kullanacağı verileri düzenler.

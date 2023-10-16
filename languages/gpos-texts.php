@@ -270,4 +270,8 @@ $gpos_texts = array(
 	'select_box'						=> __( 'Select Box', 'gurmepos' ),
 	'text_box'							=> __( 'Text Box', 'gurmepos' ),
 	'mmyy'								=> __( 'MM / YY', 'gurmepos' ),
+	'mm'								=> __( 'MM', 'gurmepos' ),
+	'yy'								=> __( 'YY', 'gurmepos' ),
+	'transaction_not_found'             => __( 'Transaction not found.', 'gurmepos' ),
+
 );

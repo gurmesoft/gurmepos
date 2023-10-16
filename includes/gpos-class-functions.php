@@ -234,3 +234,12 @@ function gpos_transaction_log() {
 function gpos_forge() {
 	return new GPOS_Forge();
 }
+
+/**
+ * Forge sınıfı.
+ *
+ * @return GPOS_Meta_Boxes
+ */
+function gpos_meta_boxes() {
+	return new GPOS_Meta_Boxes();
+}

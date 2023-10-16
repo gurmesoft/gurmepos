@@ -21,17 +21,16 @@ class GPOS_Transactions {
 	/**
 	 * Tüm işlemleri döndürür.
 	 *
+	 * @param array $args Sorgu argümanları.
+	 *
 	 * @return GPOS_Transaction[]
 	 */
-	public function get_transactions() {
-		$transactions = get_posts(
-			array(
-				'post_type'   => $this->post_type,
-				'numberposts' => 100,
-				'post_status' => 'publish',
-			)
+	public function get_transactions( $args = array() ) {
+		$wp_query = new WP_Query();
+		$defaults = array(
+			'post_type'   => $this->post_type,
+			'numberposts' => 50,
 		);
-
-		return array_map( 'gpos_transaction', $transactions );
+		return array_map( 'gpos_transaction', $wp_query->query( wp_parse_args( $args, $defaults ) ) );
 	}
 }

@@ -93,6 +93,7 @@ class GPOS_Loader {
 			'includes/class-gpos-post-tables.php',
 			'includes/class-gpos-shortcode.php',
 			'includes/class-gpos-forge.php',
+			'includes/class-gpos-meta-boxes.php',
 			// Hooks
 			'hooks/class-gpos-woocommerce.php',
 			'hooks/class-gpos-gph.php',

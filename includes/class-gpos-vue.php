@@ -36,14 +36,7 @@ class GPOS_Vue {
 	 *
 	 * @var string $vue_page
 	 */
-	protected $vue_page;
-
-	/**
-	 * Aktif olması durumunda sayfaya Tailwind CSS eklenecektir.
-	 *
-	 * @var bool $tailwind
-	 */
-	protected $tailwind = true;
+	protected $vue_page = '';
 
 	/**
 	 * Vue içerisinde kullanılacak window değişkenlerini taşır.
@@ -91,16 +84,6 @@ class GPOS_Vue {
 	}
 
 	/**
-	 * Tailwind CSS dahil edilmek isteniyorsa set edilmeli.
-	 *
-	 * @return GPOS_Vue $this
-	 */
-	public function disable_tailwind() {
-		$this->tailwind = false;
-		return $this;
-	}
-
-	/**
 	 * Dahil edilecek javascript dosyasında kullanılmak istenen
 	 * window değişkenlerini ayarlar.
 	 *
@@ -119,7 +102,7 @@ class GPOS_Vue {
 	 * @return GPOS_Vue $this
 	 */
 	public function create_app_div() {
-		gpos_get_view( 'vue-app-div.php' );
+		gpos_get_view( 'vue-app-div.php', array( 'at_checkout' => $this->at_checkout() ) );
 		return $this;
 	}
 
@@ -130,15 +113,9 @@ class GPOS_Vue {
 	 */
 	public function require_script_with_tag() {
 
-		$js_files = scandir( GPOS_PLUGIN_DIR_PATH . "assets/vue/js/{$this->vue_page}/" );
-
-		foreach ( $js_files as $file ) {
-			if ( 'js' === pathinfo( $file, PATHINFO_EXTENSION ) ) {
-				?>
-					<script type="module" src="<?php echo esc_url( "{$this->asset_dir_url}/vue/js/{$this->vue_page}/{$file}" ); //phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>"></script> 
-				<?php
-			}
-		}
+		?>
+			<script type="module" src="<?php echo esc_url( "{$this->asset_dir_url}/vue/js/{$this->vue_page}/{$this->vue_page}-{$this->version}.js" ); //phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>"></script> 
+		<?php
 
 		if ( ! empty( $this->localize_variables ) ) {
 			?>
@@ -157,21 +134,13 @@ class GPOS_Vue {
 	 * @return GPOS_Vue $this
 	 */
 	public function require_script() {
-
-		$js_files = scandir( GPOS_PLUGIN_DIR_PATH . "assets/vue/js/{$this->vue_page}/" );
-
-		foreach ( $js_files as $file ) {
-			if ( 'js' === pathinfo( $file, PATHINFO_EXTENSION ) ) {
-				wp_enqueue_script(
-					$this->prefix,
-					"{$this->asset_dir_url}/vue/js/{$this->vue_page}/{$file}",
-					$this->at_checkout() ? array( 'jquery-payment' ) : array( 'jquery' ),
-					$this->version,
-					false
-				);
-			}
-		}
-
+		wp_enqueue_script(
+			$this->prefix,
+			"{$this->asset_dir_url}/vue/js/{$this->vue_page}/{$this->vue_page}-{$this->version}.js",
+			array( 'jquery' ),
+			$this->version,
+			false
+		);
 		if ( ! empty( $this->localize_variables ) ) {
 			// @phpstan-ignore-next-line
 			@wp_localize_script( $this->prefix, 'gpos', (object) $this->localize_variables );  // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
@@ -186,26 +155,9 @@ class GPOS_Vue {
 	 * @return GPOS_Vue $this
 	 */
 	public function require_style_with_tag() {
-		$css_files = scandir( GPOS_PLUGIN_DIR_PATH . 'assets/vue/css/' );
-
-		if ( $css_files ) {
-
-			foreach ( $css_files as $file ) {
-				if ( false !== strpos( $file, 'tailwind' ) && false === $this->tailwind ) {
-					continue;
-				}
-
-				if ( $this->at_checkout() && 'tailwind.css' === $file ) {
-					continue;
-				}
-
-				if ( 'css' === pathinfo( $file, PATHINFO_EXTENSION ) ) {
-					?>
-					<link rel="stylesheet" href="<?php echo esc_url( "{$this->asset_dir_url}/vue/css/{$file}" ); //phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>" media="all">
-					<?php
-				}
-			}
-		}
+		?>
+		<link rel="stylesheet" href="<?php echo esc_url( "{$this->asset_dir_url}/vue/css/{$this->vue_page}-{$this->version}.css" ); //phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>" media="all">
+		<?php
 
 		return $this;
 	}
@@ -216,31 +168,12 @@ class GPOS_Vue {
 	 * @return GPOS_Vue $this
 	 */
 	public function require_style() {
-
-		$css_files = scandir( GPOS_PLUGIN_DIR_PATH . 'assets/vue/css/' );
-
-		if ( $css_files ) {
-
-			foreach ( $css_files as $file ) {
-				if ( false !== strpos( $file, 'tailwind' ) && false === $this->tailwind ) {
-					continue;
-				}
-
-				if ( $this->at_checkout() && 'tailwind.css' === $file ) {
-					continue;
-				}
-
-				if ( 'css' === pathinfo( $file, PATHINFO_EXTENSION ) ) {
-					wp_enqueue_style(
-						$file,
-						"{$this->asset_dir_url}/vue/css/{$file}",
-						array(),
-						$this->version,
-					);
-				}
-			}
-		}
-
+		wp_enqueue_style(
+			$this->vue_page,
+			"{$this->asset_dir_url}/vue/css/{$this->vue_page}-{$this->version}.css",
+			array(),
+			$this->version,
+		);
 		return $this;
 	}
 
@@ -250,6 +183,6 @@ class GPOS_Vue {
 	 * @return bool
 	 */
 	private function at_checkout() {
-		return 'checkout' === $this->vue_page || 'wc-add-payment-method-page' === $this->vue_page;
+		return '' === $this->vue_page || 'checkout' === $this->vue_page || 'wc-add-payment-method-page' === $this->vue_page;
 	}
 }

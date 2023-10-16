@@ -25,7 +25,8 @@ $gpos_bank_texts = array(
 		'description' => __( 'Param API information is required for Param POS integration. To access this information, you can access the necessary information from the page that opens after logging in to Param internet branch and clicking the "My Integration Information" tab under the ParamPos Menu. ', 'gurmepos' ),
 	),
 	'paytr'                            => array(
-		'description' => __( 'API Integration Information is required for PayTR integration. This information: PayTR user panel: Information menu -> API Integration Information is located under the heading.', 'gurmepos' ),
+		// translators: %s Site url.
+		'description' => sprintf( __( 'For PayTR integration, API information and notification URL definition is required.<br><br>You can access API information from the <strong>Integration Information</strong> section under the <strong>Support & Setup</strong> menu on your panel.<br><br>Notification url: <strong> %s/gpos-paytr-callback</strong>', 'gurmepos' ), home_url() ),
 	),
 	'akbank'                           => array(
 		'description' => __( 'The information required for Akbank Virtual Pos integration will be obtained from the Akbank Virtual Pos Screen.', 'gurmepos' ),
@@ -40,7 +41,7 @@ $gpos_bank_texts = array(
 		'description' => __( 'For integration information after logging into your Finansbank panel: If you have not created one before, create an API user with the help of User Management from the Administration Menu. Fill in the API user information you created to the relevant places in the POS Entegratör.', 'gurmepos' ),
 	),
 	'garanti'                          => array(
-		'description' => __( 'Obtain the necessary information for the Garanti Pos integration from the Garanti Virtual Pos Screen.			', 'gurmepos' ),
+		'description' => __( 'Obtain the necessary information for the Garanti Pos integration from the Garanti Virtual Pos Screen.', 'gurmepos' ),
 	),
 	'halkbank'                         => array(
 		'description' => __( 'After logging into your Halkbank panel, click on the management menu. If no user has been created before, we create an "API USER" from the User list section. We take the necessary information from the menus on the left and fill it in the relevant places in the POS Entegratör.', 'gurmepos' ),
