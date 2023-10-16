@@ -66,6 +66,7 @@ class GPOS_Loader {
 			'includes/payment-gateways/pro/class-gpos-yapi-kredi.php',
 			'includes/payment-gateways/pro/class-gpos-ziraat.php',
 			'includes/payment-gateways/pro/class-gpos-paidora.php',
+			'includes/payment-gateways/pro/class-gpos-lidio.php',
 			// Functions
 			'includes/gpos-class-functions.php',
 			'includes/gpos-functions.php',

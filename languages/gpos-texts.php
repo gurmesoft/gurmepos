@@ -273,5 +273,5 @@ $gpos_texts = array(
 	'mm'								=> __( 'MM', 'gurmepos' ),
 	'yy'								=> __( 'YY', 'gurmepos' ),
 	'transaction_not_found'             => __( 'Transaction not found.', 'gurmepos' ),
-
+	'cvv_helper' 						=> __( '<strong>Security Code(CVV/CVC)</strong><br>Three numbers on the back of your card', 'gurmepos' ),
 );
