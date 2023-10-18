@@ -62,15 +62,15 @@ class GPOS_Refund {
 	 */
 	public function cancel() {
 		$this->prepare_process( GPOS_Transaction_Utils::CANCEL );
-		$response = $this->gateway->process_cancel( $this->refund_transaction );
+		$response = $this->gateway->set_transaction( $this->refund_transaction )->process_cancel();
 
 		if ( $response->is_success() ) {
+			$this->refund_transaction->set_status( GPOS_Transaction_Utils::COMPLETED );
 			$this->refund_transaction->add_note(
 				// translators: %s => Ödeme geçidi benzersiz numarası.
 				sprintf( __( 'Cancel process completed successfully. Process Id: %s.', 'gurmepos' ), $response->get_payment_id() ),
 				'complete'
 			);
-			$this->refund_transaction->set_status( GPOS_Transaction_Utils::COMPLETED );
 			$this->payment_transaction->set_refund_status( GPOS_Transaction_Utils::REFUND_STATUS_CANCELLED );
 			$this->payment_transaction->update_lines_status( GPOS_Transaction_Utils::LINE_REFUNDED );
 			$this->tracker( GPOS_Transaction_Utils::CANCEL, $response->get_gateway() );
@@ -90,15 +90,15 @@ class GPOS_Refund {
 	public function refund( $payment_id ) {
 		$this->prepare_process( GPOS_Transaction_Utils::REFUND );
 		$this->refund_transaction->set_total( $this->payment_transaction->get_total() );
-		$response = $this->gateway->process_refund( $this->refund_transaction, $payment_id, $this->refund_transaction->get_total() );
+		$response = $this->gateway->set_transaction( $this->refund_transaction )->process_refund( $payment_id, $this->refund_transaction->get_total() );
 
 		if ( $response->is_success() ) {
+			$this->refund_transaction->set_status( GPOS_Transaction_Utils::COMPLETED );
 			$this->refund_transaction->add_note(
 				// translators: %s => Ödeme geçidi benzersiz numarası.
 				sprintf( __( 'Refund process completed successfully. Process Id: %s.', 'gurmepos' ), $response->get_payment_id() ),
 				'complete'
 			);
-			$this->refund_transaction->set_status( GPOS_Transaction_Utils::COMPLETED );
 			$this->payment_transaction->set_refund_status( GPOS_Transaction_Utils::REFUND_STATUS_REFUNDED );
 			$this->payment_transaction->update_lines_status( GPOS_Transaction_Utils::LINE_REFUNDED );
 			$this->tracker( GPOS_Transaction_Utils::REFUND, $response->get_gateway() );
@@ -121,15 +121,15 @@ class GPOS_Refund {
 		$this->refund_transaction->set_total( $total );
 		$line       = gpos_transaction_line( $line_id );
 		$payment_id = $line->get_payment_id() ? $line->get_payment_id() : $this->payment_transaction->get_payment_id();
-		$response   = $this->gateway->process_refund( $this->refund_transaction, $payment_id, $total );
+		$response   = $this->gateway->set_transaction( $this->refund_transaction )->process_refund( $payment_id, $total );
 
 		if ( $response->is_success() ) {
+			$this->refund_transaction->set_status( GPOS_Transaction_Utils::COMPLETED );
 			$this->refund_transaction->add_note(
 				// translators: %s => Ödeme geçidi benzersiz numarası.
 				sprintf( __( 'Refund process completed successfully. Process Id: %s.', 'gurmepos' ), $response->get_payment_id() ),
 				'complete'
 			);
-			$this->refund_transaction->set_status( GPOS_Transaction_Utils::COMPLETED );
 			$line->set_refunded_total( $total + (float) $line->get_refunded_total() );
 			$line->set_status( $line->get_refundable_total() ? GPOS_Transaction_Utils::LINE_PARTIAL_REFUNDED : GPOS_Transaction_Utils::LINE_REFUNDED );
 
@@ -205,7 +205,8 @@ class GPOS_Refund {
 		->set_card_family( $this->payment_transaction->get_card_family() )
 		->set_card_bank_name( $this->payment_transaction->get_card_bank_name() )
 		->set_card_country( $this->payment_transaction->get_card_country() )
-		->set_payment_transaction_id( $this->payment_transaction->get_id() );
+		->set_payment_transaction_id( $this->payment_transaction->get_id() )
+		->set_use_saved_card( $this->payment_transaction->need_use_saved_card() );
 
 		$this->gateway = gpos_payment_gateways()->get_gateway_by_account_id( $this->payment_transaction->get_account_id(), $this->refund_transaction );
 	}

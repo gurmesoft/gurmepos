@@ -274,4 +274,8 @@ $gpos_texts = array(
 	'yy'								=> __( 'YY', 'gurmepos' ),
 	'transaction_not_found'             => __( 'Transaction not found.', 'gurmepos' ),
 	'cvv_helper' 						=> __( '<strong>Security Code(CVV/CVC)</strong><br>Three numbers on the back of your card', 'gurmepos' ),
+	'completed_payment' 				=> __( 'Completed Payment', 'gurmepos' ),
+	'failed_payment' 					=> __( 'Failed Payment', 'gurmepos' ),
+	'completed_refund' 					=> __( 'Completed Refund', 'gurmepos' ),
+	'failed_refund' 					=> __( 'Failed Refund', 'gurmepos' ),
 );

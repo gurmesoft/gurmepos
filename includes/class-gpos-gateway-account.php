@@ -218,12 +218,12 @@ class GPOS_Gateway_Account {
 	/**
 	 * Hesabın taksit oranlarını günceller.
 	 *
-	 * @param array $installments Taksit dizisi.
+	 * @param array|bool $installments Taksit dizisi.
 	 *
 	 * @return int|bool — Güncelleme işlemi başarılı ise meta idsi başarısız false döndürür.
 	 */
 	public function update_installments( $installments ) {
-		return update_post_meta( $this->id, 'gpos_installments', $installments );
+		return update_post_meta( $this->id, 'gpos_installments', is_bool( $installments ) ? $installments : json_decode( wp_json_encode( $installments ), true ) );
 	}
 
 	/**

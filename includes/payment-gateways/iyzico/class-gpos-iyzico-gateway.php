@@ -250,14 +250,12 @@ class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	/**
 	 * Ödeme iptal işlemi fonksiyonu.
 	 *
-	 * @param GPOS_Transaction $transaction İptal işlemi.
 	 * @return GPOS_Gateway_Response
 	 *
 	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 */
-	public function process_cancel( GPOS_Transaction $transaction ) {
-		$this->transaction = $transaction;
-		$request           = new \Iyzipay\Request\CreateCancelRequest();
+	public function process_cancel() {
+		$request = new \Iyzipay\Request\CreateCancelRequest();
 		$request->setLocale( \Iyzipay\Model\Locale::TR );
 		$request->setConversationId( $this->transaction->get_id() );
 		$request->setPaymentId( $this->transaction->get_payment_id() );
@@ -271,17 +269,15 @@ class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	/**
 	 * Ödeme iade işlemi fonksiyonu.
 	 *
-	 * @param GPOS_Transaction $transaction İptal işlemi.
-	 * @param int|string       $payment_id İade işlemi yapılacak olan ödeme numarası.
-	 * @param int|float        $refund_total İade.
+	 * @param int|string $payment_id İade işlemi yapılacak olan ödeme numarası.
+	 * @param int|float  $refund_total İade.
 	 *
 	 * @return GPOS_Gateway_Response
 	 *
 	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 */
-	public function process_refund( GPOS_Transaction $transaction, $payment_id, $refund_total ) {
-		$this->transaction = $transaction;
-		$request           = new \Iyzipay\Request\CreateRefundRequest();
+	public function process_refund( $payment_id, $refund_total ) {
+		$request = new \Iyzipay\Request\CreateRefundRequest();
 		$request->setLocale( \Iyzipay\Model\Locale::TR );
 		$request->setConversationId( $this->transaction->get_id() );
 		$request->setPaymentTransactionId( $payment_id );

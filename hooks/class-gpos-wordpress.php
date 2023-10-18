@@ -61,6 +61,7 @@ class GPOS_WordPress {
 
 		// Other callbacks
 		add_action( 'admin_menu', array( gpos_admin(), 'admin_menu' ) );
+		add_filter( 'site_transient_update_plugins', array( gpos_module_manager(), 'transient_update_plugins' ), 100 );
 		add_action( 'add_meta_boxes', array( gpos_meta_boxes(), 'add_meta_box' ), 10 );
 		add_action( 'admin_bar_menu', array( gpos_admin(), 'admin_bar_menu' ), 10001 );
 		add_filter( "bulk_actions-edit-{$this->prefix}_transaction", array( gpos_post_tables(), 'bulk_actions_edit' ) );
@@ -184,7 +185,7 @@ class GPOS_WordPress {
 			new GPOS_WooCommerce();
 		}
 
-		do_action( 'gpos_loaded' );
+		gpos_module_manager()->gpos_loaded();
 	}
 
 	/**

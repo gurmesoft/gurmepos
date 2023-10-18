@@ -17,14 +17,14 @@ class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 *
 	 * @var array $settings;
 	 */
-	private $settings;
+	public $settings;
 
 	/**
 	 * Ödeme geçidinin çağrı atacağı adres.
 	 *
 	 * @var string $request_url;
 	 */
-	private $request_url;
+	public $request_url;
 
 	/**
 	 * Ödeme kuruluşunun bağlantı testi
@@ -34,36 +34,24 @@ class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 * @return array
 	 */
 	public function check_connection( $connection_data ) {
-		$is_test_mode = gpos_is_test_mode();
-
+		$this->prepare_settings( $connection_data );
 		try {
-
-			$response = $this->http_request->request(
-				$is_test_mode ? 'https://entegrasyon.paratika.com.tr/paratika/api/v2' : 'https://vpos.paratika.com.tr/paratika/api/v2',
-				'POST',
-				array(
-					'ACTION'           => 'QUERYPAYMENTSYSTEMS',
-					'BIN'              => '545616',
-					'MERCHANT'         => $is_test_mode ? $connection_data->test_merchant : $connection_data->merchant,
-					'MERCHANTUSER'     => $is_test_mode ? $connection_data->test_merchant_user : $connection_data->merchant_user,
-					'MERCHANTPASSWORD' => $is_test_mode ? $connection_data->test_merchant_password : $connection_data->merchant_password,
-				)
+			$request  = array(
+				'ACTION' => 'QUERYPAYMENTSYSTEMS',
+				'BIN'    => '545616',
 			);
-
-			$result = array(
+			$response = $this->http_request->request( $this->request_url, 'POST', array_merge( $this->settings, $request ) );
+			$result   = array(
 				'result'  => '00' === $response['responseCode'] ? 'success' : 'error',
 				'message' => '00' === $response['responseCode'] ? __( 'Connection Success', 'gurmepos' ) : $response['errorMsg'],
 			);
-
 		} catch ( Exception $e ) {
 			$result = array(
 				'result'  => 'error',
 				'message' => $e->getMessage(),
 			);
 		}
-
 		return $result;
-
 	}
 
 	/**
@@ -79,9 +67,7 @@ class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 		);
 
 		try {
-
 			$response = $this->http_request->request( $this->request_url, 'POST', array_merge( $request, $this->settings ) );
-
 			if ( '00' === $response['responseCode'] ) {
 				$api_installment_list = $response['installmentPaymentSystem']['installmentList'];
 				$installments         = array_map(
@@ -102,20 +88,22 @@ class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 					},
 					$installments
 				);
+				$result               = array(
+					'result'       => 'success',
+					'installments' => $installments,
+				);
+			} else {
+				$result = array(
+					'result'       => 'error',
+					'installments' => $response['errorMsg'],
+				);
 			}
-
-			$result = array(
-				'result'       => '00' === $response['responseCode'] ? 'success' : 'error',
-				'installments' => '00' === $response['responseCode'] ? $installments : $response['errorMsg'],
-			);
-
 		} catch ( Exception $e ) {
 			$result = array(
 				'result'  => 'error',
 				'message' => $e->getMessage(),
 			);
 		}
-
 		return $result;
 	}
 
@@ -134,7 +122,6 @@ class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 			'MERCHANTUSER'     => $is_test_mode ? $settings->test_merchant_user : $settings->merchant_user,
 			'MERCHANTPASSWORD' => $is_test_mode ? $settings->test_merchant_password : $settings->merchant_password,
 		);
-
 		$this->http_request->set_headers(
 			array(
 				'Content-Type' => 'application/x-www-form-urlencoded; charset=utf-8',
@@ -155,7 +142,6 @@ class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 		} else {
 			$this->regular_payment();
 		}
-
 		return $this->gateway_response;
 	}
 
@@ -211,7 +197,6 @@ class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 * @return GPOS_Gateway_Response
 	 */
 	public function process_callback( array $post_data ) {
-
 		$this->gateway_response
 		->set_error_code( array_key_exists( 'errorCode', $post_data ) ? $post_data['errorCode'] : false )
 		->set_error_message( array_key_exists( 'errorMsg', $post_data ) ? $post_data['errorMsg'] : __( 'Error in 3D rendering. The password was entered incorrectly or the 3D page was abandoned.', 'gurmepos' ) );
@@ -266,15 +251,14 @@ class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	/**
 	 * Ödeme iptal işlemi fonksiyonu.
 	 *
-	 * @param GPOS_Transaction $transaction İptal işlemi verileri.
+	 * @return GPOS_Gateway_Response
 	 */
-	public function process_cancel( GPOS_Transaction $transaction ) {
-		$this->transaction = $transaction;
-		$request           = array(
+	public function process_cancel() {
+		$request  = array(
 			'ACTION'   => 'VOID',
-			'PGTRANID' => $transaction->get_payment_id(),
+			'PGTRANID' => $this->transaction->get_payment_id(),
 		);
-		$response          = $this->http_request->request( $this->request_url, 'POST', array_merge( $request, $this->settings ) );
+		$response = $this->http_request->request( $this->request_url, 'POST', array_merge( $request, $this->settings ) );
 		$this->log( GPOS_Transaction_Utils::LOG_PROCESS_CANCEL, $request, $response );
 		$this->check_refund_cancel_response( $response );
 		return $this->gateway_response;
@@ -283,21 +267,19 @@ class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	/**
 	 * Ödeme iade işlemi fonksiyonu.
 	 *
-	 * @param GPOS_Transaction $transaction İptal işlemi.
-	 * @param int|string       $payment_id İade işlemi yapılacak olan ödeme numarası.
-	 * @param int|float        $refund_total İade.
+	 * @param int|string $payment_id İade işlemi yapılacak olan ödeme numarası.
+	 * @param int|float  $refund_total İade.
 	 *
 	 * @return GPOS_Gateway_Response
 	 */
-	public function process_refund( GPOS_Transaction $transaction, $payment_id, $refund_total ) {
-		$this->transaction = $transaction;
-		$request           = array(
+	public function process_refund( $payment_id, $refund_total ) {
+		$request  = array(
 			'ACTION'   => 'REFUND',
 			'PGTRANID' => $payment_id,
-			'CURRENCY' => $transaction->get_currency(),
+			'CURRENCY' => $this->transaction->get_currency(),
 			'AMOUNT'   => $refund_total,
 		);
-		$response          = $this->http_request->request( $this->request_url, 'POST', array_merge( $request, $this->settings ) );
+		$response = $this->http_request->request( $this->request_url, 'POST', array_merge( $request, $this->settings ) );
 		$this->log( GPOS_Transaction_Utils::LOG_PROCESS_REFUND, $request, $response );
 		$this->check_refund_cancel_response( $response );
 		return $this->gateway_response;
@@ -351,18 +333,13 @@ class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 *
 	 * @return array $card
 	 */
-	private function prepare_credit_card() {
+	protected function prepare_credit_card() {
 		$card   = array();
 		$threed = 'threed' === $this->transaction->get_security_type();
 
 		$card[ $threed ? 'installmentCount' : 'INSTALLMENTS' ] = $this->transaction->get_installment();
 
 		if ( $this->transaction->need_use_saved_card() ) {
-			/**
-			 * Todo.
-			 *
-			 * Kayıtlı kart geliştirmesi.
-			 */
 			$card[ $threed ? 'cardToken' : 'CARDTOKEN' ] = '';
 			return $card;
 		}

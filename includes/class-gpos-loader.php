@@ -56,6 +56,7 @@ class GPOS_Loader {
 			'includes/payment-gateways/pro/class-gpos-akbank.php',
 			'includes/payment-gateways/pro/class-gpos-denizbank.php',
 			'includes/payment-gateways/pro/class-gpos-finansbank.php',
+			'includes/payment-gateways/pro/class-gpos-finansbank-pay-for.php',
 			'includes/payment-gateways/pro/class-gpos-garanti.php',
 			'includes/payment-gateways/pro/class-gpos-halkbank.php',
 			'includes/payment-gateways/pro/class-gpos-isbank.php',
@@ -67,6 +68,7 @@ class GPOS_Loader {
 			'includes/payment-gateways/pro/class-gpos-ziraat.php',
 			'includes/payment-gateways/pro/class-gpos-paidora.php',
 			'includes/payment-gateways/pro/class-gpos-lidio.php',
+			'includes/payment-gateways/pro/class-gpos-akode.php',
 			// Functions
 			'includes/gpos-class-functions.php',
 			'includes/gpos-functions.php',
@@ -95,6 +97,7 @@ class GPOS_Loader {
 			'includes/class-gpos-shortcode.php',
 			'includes/class-gpos-forge.php',
 			'includes/class-gpos-meta-boxes.php',
+			'includes/class-gpos-module-manager.php',
 			// Hooks
 			'hooks/class-gpos-woocommerce.php',
 			'hooks/class-gpos-gph.php',

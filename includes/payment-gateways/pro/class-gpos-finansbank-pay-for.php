@@ -8,21 +8,21 @@
 /**
  * GPOS_Finansbank sınıfı.
  */
-class GPOS_Finansbank extends GPOS_Gateway {
+class GPOS_Finansbank_Pay_For extends GPOS_Gateway {
 
 	/**
 	 * Ödeme geçidi benzersiz kimliği
 	 *
 	 * @var string $id
 	 */
-	public $id = 'finansbank';
+	public $id = 'qnbfinansbank-payfor';
 
 	/**
 	 * Ödeme geçidi başlığı
 	 *
 	 * @var string $title
 	 */
-	public $title = 'Finansbank (EST)';
+	public $title = 'Finansbank (PayFor)';
 
 	/**
 	 * Pro gereksinimi
@@ -89,10 +89,9 @@ class GPOS_Finansbank extends GPOS_Gateway {
 			array(
 				'type'    => 'select',
 				'options' => array(
-					'3d'             => '3D',
-					'3d_pay'         => '3D Pay',
-					'3d_pay_hosting' => '3D Pay Hosting',
-					'3d_host'        => '3D Host',
+					'3d'      => '3D',
+					'3d_pay'  => '3D Pay',
+					'3d_host' => '3D Host',
 				),
 				'label'   => __( '3D Type', 'gurmepos' ),
 				'model'   => 'merchant_threed_type',

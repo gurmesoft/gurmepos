@@ -47,9 +47,10 @@ class GPOS_Post_Tables {
 			'cb'             => $columns['cb'],
 			'transaction'    => __( 'Transaction', 'gurmepos' ),
 			'payment_plugin' => __( 'Plugin', 'gurmepos' ),
-			'status'         => __( 'Status', 'gurmepos' ),
-			'security_type'  => __( 'Security Type', 'gurmepos' ),
 			'process_type'   => __( 'Process Type', 'gurmepos' ),
+			'status'         => __( 'Status', 'gurmepos' ),
+			'refund_status'  => __( 'Refund Status', 'gurmepos' ),
+			'security_type'  => __( 'Security Type', 'gurmepos' ),
 			'create_date'    => __( 'Date', 'gurmepos' ),
 		);
 	}

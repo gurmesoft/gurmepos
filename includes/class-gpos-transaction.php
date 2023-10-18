@@ -882,7 +882,7 @@ class GPOS_Transaction extends GPOS_Post {
 			function( $comment ) {
 				return array(
 					'note' => $comment->comment_content,
-					'date' => $comment->comment_date_gmt,
+					'date' => $comment->comment_date,
 					'type' => get_comment_meta( (int) $comment->comment_ID, 'note_type', true ),
 				);
 			},

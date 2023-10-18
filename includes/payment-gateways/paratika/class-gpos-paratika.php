@@ -65,7 +65,7 @@ class GPOS_Paratika extends GPOS_Gateway {
 	 *
 	 * @var array $supports
 	 */
-	public $supports = array( 'threed', 'regular', 'refund', 'installment_api' );
+	public $supports = array( 'threed', 'regular', 'refund', 'installment_api', 'save_card' );
 
 	/**
 	 * Pro gereksinimi

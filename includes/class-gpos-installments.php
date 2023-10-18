@@ -60,11 +60,11 @@ class GPOS_Installments {
 
 				// Aktif olmayan taksitleri temizler ve kategori taksit engeli vb. filtrelerden geçer.
 				$installments = array_filter(
-					(array) apply_filters( 'gpos_installment_rules', $installments, $this->platform ),
-					fn( $installment ) => $installment->enabled
+					apply_filters( 'gpos_installment_rules', $installments, $this->platform ),
+					fn( $installment ) => $installment['enabled']
 				);
 
-				$installments[1] = (object) array(
+				$installments[1] = array(
 					'enabled' => true,
 					'rate'    => 0,
 					'number'  => 1,
@@ -72,14 +72,14 @@ class GPOS_Installments {
 
 				$mapped_installments = array_map( // Taksit adedi için dönen map. 1-2-3-4 vb.
 					function( $installment ) {
-						$calculated_amount = $this->account->installment_rate_calculate( (float) $installment->rate, (float) $this->platform_data['amount'] );
+						$calculated_amount = $this->account->installment_rate_calculate( (float) $installment['rate'], (float) $this->platform_data['amount'] );
 						return array(
 							'amount_total'       => number_format( gpos_number_format( $calculated_amount ), 2, '.', '' ),
-							'amount_per_month'   => number_format( gpos_number_format( $calculated_amount / $installment->number ), 2, '.', '' ),
-							'installment_number' => $installment->number,
+							'amount_per_month'   => number_format( gpos_number_format( $calculated_amount / $installment['number'] ), 2, '.', '' ),
+							'installment_number' => $installment['number'],
 							'currency'           => $this->platform_data['currency'],
 							'currency_symbol'    => $this->platform_data['currency_symbol'],
-							'rate'               => $installment->rate,
+							'rate'               => $installment['rate'],
 						);
 					},
 					$installments

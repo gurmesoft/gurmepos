@@ -23,9 +23,7 @@ if ( $timestamp > strtotime( '-1 day', time() ) && $timestamp <= time() ) {
 } else {
 	$show_date = date_i18n( __( 'j F Y', 'gurmepos' ), $timestamp );
 }
-
 ?>
-
 <time 
 	datetime="<?php echo esc_attr( $transaction->get_date() ); ?>" 
 	title="<?php echo esc_attr( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $timestamp ) ); ?>">

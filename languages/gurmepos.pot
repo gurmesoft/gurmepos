@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-10-16T21:02:22+00:00\n"
+"POT-Creation-Date: 2023-10-18T20:19:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: gurmepos\n"
@@ -235,48 +235,49 @@ msgid "E-Mail"
 msgstr ""
 
 #: includes/class-gpospro-post-tables.php:74
-#: includes/class-gpos-post-tables.php:53
+#: includes/class-gpos-post-tables.php:54
 #: languages/gpos-texts.php:77
 msgid "Date"
 msgstr ""
 
 #. translators: %s: Saved card ending.
-#: includes/class-gpospro-saved-card.php:221
+#: includes/class-gpospro-saved-card.php:228
 msgid "Saved card with ending %s"
 msgstr ""
 
-#. translators: IP address.
-#: includes/payment-gateways/craftgate/class-gpospro-craftgate-gateway.php:203
-msgid "Unauthorized operation attempted via ip address %s."
-msgstr ""
-
-#: includes/payment-gateways/craftgate/class-gpospro-craftgate-gateway.php:224
-msgid "3D PAY usage detected. Please contanct with GurmeHub."
-msgstr ""
-
-#: includes/payment-gateways/craftgate/class-gpospro-craftgate-gateway.php:329
-msgid "Error decoding Craftgate response, please contact admin."
-msgstr ""
-
+#: includes/payment-gateways/akode/class-gpospro-akode-gateway.php:53
 #: includes/payment-gateways/lidio/class-gpospro-lidio-gateway.php:40
 #: includes/payment-gateways/paytr/class-gpospro-paytr-gateway.php:82
 #: includes/payment-gateways/sipay/class-gpospro-sipay-gateway.php:71
 #: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:64
 #: includes/payment-gateways/iyzico/class-gpos-iyzico-gateway.php:49
-#: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:55
+#: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:46
 msgid "Connection Success"
 msgstr ""
 
+#. translators: IP address.
+#: includes/payment-gateways/craftgate/class-gpospro-craftgate-gateway.php:202
+msgid "Unauthorized operation attempted via ip address %s."
+msgstr ""
+
+#: includes/payment-gateways/craftgate/class-gpospro-craftgate-gateway.php:223
+msgid "3D PAY usage detected. Please contanct with GurmeHub."
+msgstr ""
+
+#: includes/payment-gateways/craftgate/class-gpospro-craftgate-gateway.php:327
+msgid "Error decoding Craftgate response, please contact admin."
+msgstr ""
+
 #: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:183
-#: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:262
+#: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:247
 msgid "No confirmed transactions were found in the transaction list."
 msgstr ""
 
-#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:306
+#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:303
 msgid "Token error."
 msgstr ""
 
-#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:365
+#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:362
 msgid "Unsupported currency"
 msgstr ""
 
@@ -312,12 +313,17 @@ msgid "Payment not be received because the card to receive payment not be found.
 msgstr ""
 
 #. translators: %1$s = POS Entegratör Pro, %2$s = POS Entegratör
-#: views/install-lite.php:15
-msgid "In order to use the %1$s plugin, you must activate the %2$s plugin."
+#: views/install-lite.php:17
+msgid "In order to use the <strong>%1$s</strong> plugin, you must activate the <strong>%2$s</strong> plugin."
 msgstr ""
 
-#: views/install-lite.php:23
+#: views/install-lite.php:25
 msgid "Click to download or to activate if installed."
+msgstr ""
+
+#. translators: Plugin names, Min version
+#: views/need-lite-update.php:17
+msgid "<strong>%1$s</strong> is not working. The minimum lite version required for <strong>%2$s</strong> to work is <strong>%3$s</strong> please update the lite plugin."
 msgstr ""
 
 #. translators: %s: Saat farkı için kullanılan saat örn. 10 Dakika Önce
@@ -355,26 +361,26 @@ msgstr ""
 msgid "https://gurmehub.com"
 msgstr ""
 
-#: hooks/class-gpos-wordpress.php:267
+#: hooks/class-gpos-wordpress.php:268
 #: includes/class-gpos-admin.php:253
 #: languages/gpos-texts.php:217
 msgid "Settings"
 msgstr ""
 
-#: hooks/class-gpos-wordpress.php:274
+#: hooks/class-gpos-wordpress.php:275
 msgid "Upgrade"
 msgstr ""
 
-#: hooks/class-gpos-wordpress.php:315
+#: hooks/class-gpos-wordpress.php:316
 #: languages/gpos-texts.php:110
 msgid "Docs"
 msgstr ""
 
-#: hooks/class-gpos-wordpress.php:320
+#: hooks/class-gpos-wordpress.php:321
 msgid "Community Form"
 msgstr ""
 
-#: hooks/class-gpos-wordpress.php:341
+#: hooks/class-gpos-wordpress.php:342
 msgid "Select Process Type"
 msgstr ""
 
@@ -479,7 +485,7 @@ msgid "No Transactions found in Trash."
 msgstr ""
 
 #: includes/class-gpos-post-operations.php:149
-#: includes/class-gpos-post-tables.php:52
+#: includes/class-gpos-post-tables.php:50
 #: languages/gpos-texts.php:82
 msgid "Process Type"
 msgstr ""
@@ -574,12 +580,16 @@ msgstr ""
 msgid "Plugin"
 msgstr ""
 
-#: includes/class-gpos-post-tables.php:50
+#: includes/class-gpos-post-tables.php:51
 #: languages/gpos-texts.php:29
 msgid "Status"
 msgstr ""
 
-#: includes/class-gpos-post-tables.php:51
+#: includes/class-gpos-post-tables.php:52
+msgid "Refund Status"
+msgstr ""
+
+#: includes/class-gpos-post-tables.php:53
 msgid "Security Type"
 msgstr ""
 
@@ -592,13 +602,13 @@ msgid "Back to payment page"
 msgstr ""
 
 #. translators: %s => Ödeme geçidi benzersiz numarası.
-#: includes/class-gpos-refund.php:70
+#: includes/class-gpos-refund.php:71
 msgid "Cancel process completed successfully. Process Id: %s."
 msgstr ""
 
 #. translators: %s => Ödeme geçidi benzersiz numarası.
-#: includes/class-gpos-refund.php:98
-#: includes/class-gpos-refund.php:129
+#: includes/class-gpos-refund.php:99
+#: includes/class-gpos-refund.php:130
 msgid "Refund process completed successfully. Process Id: %s."
 msgstr ""
 
@@ -708,7 +718,7 @@ msgstr ""
 msgid "Security Key"
 msgstr ""
 
-#: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:217
+#: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:202
 msgid "Error in 3D rendering. The password was entered incorrectly or the 3D page was abandoned."
 msgstr ""
 
@@ -722,6 +732,7 @@ msgstr ""
 
 #: includes/payment-gateways/paratika/class-gpos-paratika.php:110
 #: includes/payment-gateways/pro/class-gpos-akbank.php:81
+#: includes/payment-gateways/pro/class-gpos-finansbank-pay-for.php:81
 #: includes/payment-gateways/pro/class-gpos-finansbank.php:81
 #: includes/payment-gateways/pro/class-gpos-halkbank.php:81
 #: includes/payment-gateways/pro/class-gpos-isbank.php:81
@@ -735,6 +746,7 @@ msgstr ""
 
 #: includes/payment-gateways/pro/class-gpos-akbank.php:71
 #: includes/payment-gateways/pro/class-gpos-albaraka.php:71
+#: includes/payment-gateways/pro/class-gpos-finansbank-pay-for.php:71
 #: includes/payment-gateways/pro/class-gpos-finansbank.php:71
 #: includes/payment-gateways/pro/class-gpos-garanti.php:71
 #: includes/payment-gateways/pro/class-gpos-halkbank.php:71
@@ -750,6 +762,7 @@ msgid "Merchant ID"
 msgstr ""
 
 #: includes/payment-gateways/pro/class-gpos-akbank.php:76
+#: includes/payment-gateways/pro/class-gpos-finansbank-pay-for.php:76
 #: includes/payment-gateways/pro/class-gpos-finansbank.php:76
 #: includes/payment-gateways/pro/class-gpos-halkbank.php:76
 #: includes/payment-gateways/pro/class-gpos-isbank.php:76
@@ -763,6 +776,7 @@ msgstr ""
 
 #: includes/payment-gateways/pro/class-gpos-akbank.php:86
 #: includes/payment-gateways/pro/class-gpos-albaraka.php:81
+#: includes/payment-gateways/pro/class-gpos-finansbank-pay-for.php:86
 #: includes/payment-gateways/pro/class-gpos-finansbank.php:86
 #: includes/payment-gateways/pro/class-gpos-garanti.php:91
 #: includes/payment-gateways/pro/class-gpos-halkbank.php:86
@@ -776,6 +790,7 @@ msgstr ""
 
 #: includes/payment-gateways/pro/class-gpos-akbank.php:97
 #: includes/payment-gateways/pro/class-gpos-denizbank.php:95
+#: includes/payment-gateways/pro/class-gpos-finansbank-pay-for.php:96
 #: includes/payment-gateways/pro/class-gpos-finansbank.php:97
 #: includes/payment-gateways/pro/class-gpos-garanti.php:100
 #: includes/payment-gateways/pro/class-gpos-halkbank.php:97
@@ -784,6 +799,19 @@ msgstr ""
 #: includes/payment-gateways/pro/class-gpos-teb.php:97
 #: includes/payment-gateways/pro/class-gpos-ziraat.php:96
 msgid "3D Type"
+msgstr ""
+
+#: includes/payment-gateways/pro/class-gpos-akode.php:78
+#: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:76
+msgid "Client ID"
+msgstr ""
+
+#: includes/payment-gateways/pro/class-gpos-akode.php:83
+msgid "API User"
+msgstr ""
+
+#: includes/payment-gateways/pro/class-gpos-akode.php:88
+msgid "API Password"
 msgstr ""
 
 #: includes/payment-gateways/pro/class-gpos-albaraka.php:76
@@ -847,10 +875,6 @@ msgstr ""
 
 #: includes/payment-gateways/pro/class-gpos-garanti.php:110
 msgid "Refund User Password"
-msgstr ""
-
-#: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:76
-msgid "Client ID"
 msgstr ""
 
 #: includes/payment-gateways/pro/class-gpos-lidio.php:78
@@ -1944,6 +1968,27 @@ msgstr ""
 
 #: languages/gpos-texts.php:276
 msgid "<strong>Security Code(CVV/CVC)</strong><br>Three numbers on the back of your card"
+msgstr ""
+
+#: languages/gpos-texts.php:277
+msgid "Completed Payment"
+msgstr ""
+
+#: languages/gpos-texts.php:278
+msgid "Failed Payment"
+msgstr ""
+
+#: languages/gpos-texts.php:279
+msgid "Completed Refund"
+msgstr ""
+
+#: languages/gpos-texts.php:280
+msgid "Failed Refund"
+msgstr ""
+
+#. translators: Plugin name
+#: views/cannot-update-notice.php:17
+msgid "Please complete the update of the <strong>%s</strong> plugin first."
 msgstr ""
 
 #: views/store-rating-notice.php:10

@@ -97,18 +97,19 @@ class GPOS_Payment_Gateways {
 		$payment_gateways = array(
 			'GPOS_Paratika',
 			'GPOS_Iyzico',
+			'GPOS_Akode',
 			'GPOS_Akbank',
 			'GPOS_Albaraka',
 			'GPOS_Craftgate',
 			'GPOS_Denizbank',
 			'GPOS_Esnekpos',
 			'GPOS_Finansbank',
+			'GPOS_Finansbank_Pay_For',
 			'GPOS_Garanti',
 			'GPOS_Halkbank',
-			// 'GPOS_Ingbank',
 			'GPOS_Isbank',
 			'GPOS_Kuveyt_Turk',
-			// 'GPOS_Ozan', Devam Ediyor.
+			'GPOS_Lidio',
 			'GPOS_Param',
 			'GPOS_Paytr',
 			'GPOS_Sekerbank',
@@ -119,7 +120,8 @@ class GPOS_Payment_Gateways {
 			'GPOS_Wyld',
 			'GPOS_Yapi_Kredi',
 			'GPOS_Ziraat',
-			'GPOS_Lidio',
+			// 'GPOS_Ingbank',
+			// 'GPOS_Ozan', Devam Ediyor.
 		);
 
 		return apply_filters(

@@ -1,5 +1,33 @@
 == Changelog ==
 
+= v3.5.24 - (2023-10-17) =
+
+
+Bug Fixes
+
+* Vue Css Hotfix
+
+= v3.5.23 - (2023-10-17) =
+
+
+Bug Fixes
+
+* Vue js isimlendirmesi, Finans PayFor
+
+= v3.5.22 - (2023-10-17) =
+
+
+Bug Fixes
+
+* 17.10.2023 Güncellemeleri
+
+= v3.5.21 - (2023-10-14) =
+
+
+Bug Fixes
+
+* SVN Fix
+
 = v3.5.20 - (2023-10-14) =
 
 

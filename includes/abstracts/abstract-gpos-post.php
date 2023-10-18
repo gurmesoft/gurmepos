@@ -168,7 +168,7 @@ abstract class GPOS_Post {
 	 * @return string
 	 */
 	public function get_date() {
-		$this->date = get_post_field( 'post_date_gmt', $this->id );
+		$this->date = get_post_field( 'post_date', $this->id );
 		return $this->date;
 	}
 

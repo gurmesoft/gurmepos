@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - POS Entegratör &#8211; WordPress Ödeme Eklentisi - Development (trunk) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-10-16 21:02+0000\n"
+"PO-Revision-Date: 2023-10-18 20:17+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -31,6 +31,7 @@ msgstr "%s önce"
 
 #: includes/payment-gateways/pro/class-gpos-akbank.php:86
 #: includes/payment-gateways/pro/class-gpos-albaraka.php:81
+#: includes/payment-gateways/pro/class-gpos-finansbank-pay-for.php:86
 #: includes/payment-gateways/pro/class-gpos-finansbank.php:86
 #: includes/payment-gateways/pro/class-gpos-garanti.php:91
 #: includes/payment-gateways/pro/class-gpos-halkbank.php:86
@@ -42,7 +43,7 @@ msgstr "%s önce"
 msgid "3D Key"
 msgstr "3D Anahtarı"
 
-#: includes/payment-gateways/craftgate/class-gpospro-craftgate-gateway.php:224
+#: includes/payment-gateways/craftgate/class-gpospro-craftgate-gateway.php:223
 msgid "3D PAY usage detected. Please contanct with GurmeHub."
 msgstr ""
 "3D PAY kullanımı tespit edildi. Lütfen GurmeHub ekibi ile iletişime geçiniz."
@@ -71,6 +72,7 @@ msgstr "Mağaza Şifresi (3D Host için gerekli değildir.)"
 
 #: includes/payment-gateways/pro/class-gpos-akbank.php:97
 #: includes/payment-gateways/pro/class-gpos-denizbank.php:95
+#: includes/payment-gateways/pro/class-gpos-finansbank-pay-for.php:96
 #: includes/payment-gateways/pro/class-gpos-finansbank.php:97
 #: includes/payment-gateways/pro/class-gpos-garanti.php:100
 #: includes/payment-gateways/pro/class-gpos-halkbank.php:97
@@ -80,6 +82,17 @@ msgstr "Mağaza Şifresi (3D Host için gerekli değildir.)"
 #: includes/payment-gateways/pro/class-gpos-ziraat.php:96
 msgid "3D Type"
 msgstr "3D Tipi"
+
+#. translators: Plugin names, Min version
+#: views/need-lite-update.php:17
+msgid ""
+"<strong>%1$s</strong> is not working. The minimum lite version required for "
+"<strong>%2$s</strong> to work is <strong>%3$s</strong> please update the "
+"lite plugin."
+msgstr ""
+"<strong>%1$s</strong> çalışmıyor. <strong>%2$s</strong>ün çalışması için "
+"gereken minimum lite sürümü <strong>%3$s</strong> lütfen lite eklentisini "
+"güncelleyin."
 
 #: languages/gpos-texts.php:276
 msgid ""
@@ -269,6 +282,10 @@ msgstr ""
 msgid "Api Key"
 msgstr "Api Anahtarı"
 
+#: includes/payment-gateways/pro/class-gpos-akode.php:88
+msgid "API Password"
+msgstr "API Şifresi"
+
 #: includes/payment-gateways/pro/class-gpos-craftgate.php:89
 #: includes/payment-gateways/pro/class-gpos-lidio.php:93
 msgid "Api Password"
@@ -277,6 +294,10 @@ msgstr "Api Şifresi"
 #: includes/payment-gateways/pro/class-gpos-paidora.php:90
 msgid "Api Secret"
 msgstr "Api Gizli Anahtarı"
+
+#: includes/payment-gateways/pro/class-gpos-akode.php:83
+msgid "API User"
+msgstr "API Kullanıcısı"
 
 #: languages/gpos-bank-texts.php:74
 msgid ""
@@ -373,7 +394,7 @@ msgid "Cancel / Refund Status"
 msgstr "İptal / İade Durumu"
 
 #. translators: %s => Ödeme geçidi benzersiz numarası.
-#: includes/class-gpos-refund.php:70
+#: includes/class-gpos-refund.php:71
 msgid "Cancel process completed successfully. Process Id: %s."
 msgstr "%s numaralı iptal işlemi başarıyla tamamlandı."
 
@@ -463,7 +484,7 @@ msgstr ""
 msgid "City"
 msgstr "İl"
 
-#: views/install-lite.php:23
+#: views/install-lite.php:25
 msgid "Click to download or to activate if installed."
 msgstr "İndirmek veya yüklüyse etkinleştirmek için tıklayın."
 
@@ -486,6 +507,7 @@ msgstr ""
 msgid "Client Code"
 msgstr "Müşteri Kodu"
 
+#: includes/payment-gateways/pro/class-gpos-akode.php:78
 #: includes/payment-gateways/pro/class-gpos-kuveyt-turk.php:76
 msgid "Client ID"
 msgstr "Müşteri ID"
@@ -506,7 +528,7 @@ msgstr "Yorumlar (İsteğe Bağlı)"
 msgid "Common Form Start"
 msgstr "Ortak Ödeme Form Başlangıcı"
 
-#: hooks/class-gpos-wordpress.php:320
+#: hooks/class-gpos-wordpress.php:321
 msgid "Community Form"
 msgstr "Topluluk Forumu"
 
@@ -521,12 +543,21 @@ msgid_plural "Completed <span class=\"count\">(%s)</span>"
 msgstr[0] "Tamamlandı <span class=\"count\">(%s)</span>"
 msgstr[1] "Tamamlandı <span class=\"count\">(%s)</span>"
 
+#: languages/gpos-texts.php:277
+msgid "Completed Payment"
+msgstr "Tamamlanmış Ödeme"
+
+#: languages/gpos-texts.php:279
+msgid "Completed Refund"
+msgstr "Tamamlanmış İade"
+
+#: includes/payment-gateways/akode/class-gpospro-akode-gateway.php:53
 #: includes/payment-gateways/lidio/class-gpospro-lidio-gateway.php:40
 #: includes/payment-gateways/paytr/class-gpospro-paytr-gateway.php:82
 #: includes/payment-gateways/sipay/class-gpospro-sipay-gateway.php:71
 #: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:64
 #: includes/payment-gateways/iyzico/class-gpos-iyzico-gateway.php:49
-#: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:55
+#: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:46
 msgid "Connection Success"
 msgstr "Bağlantı Başarılı"
 
@@ -576,7 +607,7 @@ msgid "Dashboard"
 msgstr "Başlangıç"
 
 #: includes/class-gpospro-post-tables.php:74
-#: includes/class-gpos-post-tables.php:53 languages/gpos-texts.php:77
+#: includes/class-gpos-post-tables.php:54 languages/gpos-texts.php:77
 msgid "Date"
 msgstr "Tarih"
 
@@ -641,7 +672,7 @@ msgstr "Taksit Yok"
 msgid "Disabled"
 msgstr "Devre Dışı"
 
-#: hooks/class-gpos-wordpress.php:315 languages/gpos-texts.php:110
+#: hooks/class-gpos-wordpress.php:316 languages/gpos-texts.php:110
 msgid "Docs"
 msgstr "Dökümanlar"
 
@@ -666,7 +697,7 @@ msgstr "İşlem Düzenle"
 msgid "Enter Description"
 msgstr "Açıklama Girin"
 
-#: includes/payment-gateways/craftgate/class-gpospro-craftgate-gateway.php:329
+#: includes/payment-gateways/craftgate/class-gpospro-craftgate-gateway.php:327
 msgid "Error decoding Craftgate response, please contact admin."
 msgstr ""
 "Craftgate cevabı yorumlanırken hata oluştu, lütfen yönetim ile iletişime "
@@ -678,7 +709,7 @@ msgid ""
 "was abandoned."
 msgstr "3D işleminde hata. Şifre yanlış girildi veya 3D sayfası terk edildi."
 
-#: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:217
+#: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:202
 msgid ""
 "Error in 3D rendering. The password was entered incorrectly or the 3D page "
 "was abandoned."
@@ -732,6 +763,14 @@ msgid "Failed <span class=\"count\">(%s)</span>"
 msgid_plural "Failed <span class=\"count\">(%s)</span>"
 msgstr[0] "Başarısız <span class=\"count\">(%s)</span>"
 msgstr[1] "Başarısız <span class=\"count\">(%s)</span>"
+
+#: languages/gpos-texts.php:278
+msgid "Failed Payment"
+msgstr "Hatalı Ödeme"
+
+#: languages/gpos-texts.php:280
+msgid "Failed Refund"
+msgstr "Hatalı İade"
 
 #: languages/gpos-texts.php:27
 msgid "Features"
@@ -945,9 +984,13 @@ msgstr ""
 "önemlidir."
 
 #. translators: %1$s = POS Entegratör Pro, %2$s = POS Entegratör
-#: views/install-lite.php:15
-msgid "In order to use the %1$s plugin, you must activate the %2$s plugin."
-msgstr "%1$s eklentisini kullanmak için %2$s eklentisini etkinleştirmelisiniz."
+#: views/install-lite.php:17
+msgid ""
+"In order to use the <strong>%1$s</strong> plugin, you must activate the "
+"<strong>%2$s</strong> plugin."
+msgstr ""
+"<strong>%1$s</strong> eklentisini kullanmak için <strong>%2$s</strong> "
+"eklentisini etkinleştirmelisiniz."
 
 #: views/wc-gateway-disabled.php:16
 msgid ""
@@ -1115,6 +1158,7 @@ msgstr "Mağaza Kodu"
 
 #: includes/payment-gateways/pro/class-gpos-akbank.php:71
 #: includes/payment-gateways/pro/class-gpos-albaraka.php:71
+#: includes/payment-gateways/pro/class-gpos-finansbank-pay-for.php:71
 #: includes/payment-gateways/pro/class-gpos-finansbank.php:71
 #: includes/payment-gateways/pro/class-gpos-garanti.php:71
 #: includes/payment-gateways/pro/class-gpos-halkbank.php:71
@@ -1195,7 +1239,7 @@ msgid "No"
 msgstr "Hayır"
 
 #: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:183
-#: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:262
+#: includes/payment-gateways/paratika/class-gpos-paratika-gateway.php:247
 msgid "No confirmed transactions were found in the transaction list."
 msgstr "İşlem listesinde onaylanmış işlem bulunamadı."
 
@@ -1327,6 +1371,7 @@ msgstr "Parçalı İade"
 
 #: includes/payment-gateways/paratika/class-gpos-paratika.php:110
 #: includes/payment-gateways/pro/class-gpos-akbank.php:81
+#: includes/payment-gateways/pro/class-gpos-finansbank-pay-for.php:81
 #: includes/payment-gateways/pro/class-gpos-finansbank.php:81
 #: includes/payment-gateways/pro/class-gpos-halkbank.php:81
 #: includes/payment-gateways/pro/class-gpos-isbank.php:81
@@ -1423,6 +1468,12 @@ msgstr "Telefon"
 #: languages/gpos-texts.php:81
 msgid "Platform"
 msgstr "Platform"
+
+#. translators: Plugin name
+#: views/cannot-update-notice.php:17
+msgid "Please complete the update of the <strong>%s</strong> plugin first."
+msgstr ""
+"Lütfen önce <strong>%s</strong> eklentisinin güncellemesini tamamlayın.\n"
 
 #: includes/class-gpos-post-tables.php:49 languages/gpos-texts.php:156
 msgid "Plugin"
@@ -1531,7 +1582,7 @@ msgid "Process Refund"
 msgstr "İade İşlemi"
 
 #: includes/class-gpos-post-operations.php:149
-#: includes/class-gpos-post-tables.php:52 languages/gpos-texts.php:82
+#: includes/class-gpos-post-tables.php:50 languages/gpos-texts.php:82
 msgid "Process Type"
 msgstr "İşlem Türü"
 
@@ -1596,9 +1647,13 @@ msgid "Refund It"
 msgstr "İade Et"
 
 #. translators: %s => Ödeme geçidi benzersiz numarası.
-#: includes/class-gpos-refund.php:98 includes/class-gpos-refund.php:129
+#: includes/class-gpos-refund.php:99 includes/class-gpos-refund.php:130
 msgid "Refund process completed successfully. Process Id: %s."
 msgstr "%s numaralı iade işlemi başarıyla tamamlandı."
+
+#: includes/class-gpos-post-tables.php:52
+msgid "Refund Status"
+msgstr "İade Durumu"
 
 #: languages/gpos-texts.php:180
 msgid "Refund Total Amount"
@@ -1693,7 +1748,7 @@ msgid "Saved Card"
 msgstr "Kayıtlı Kart"
 
 #. translators: %s: Saved card ending.
-#: includes/class-gpospro-saved-card.php:221
+#: includes/class-gpospro-saved-card.php:228
 msgid "Saved card with ending %s"
 msgstr "%s ile biten kayıtlı kart"
 
@@ -1721,7 +1776,7 @@ msgstr "İşlemlerde Ara"
 msgid "Security Key"
 msgstr "Güvenlik Anahtarı"
 
-#: includes/class-gpos-post-tables.php:51
+#: includes/class-gpos-post-tables.php:53
 msgid "Security Type"
 msgstr "Güvenlik Tipi"
 
@@ -1733,7 +1788,7 @@ msgstr "Seç"
 msgid "Select Box"
 msgstr "Seçim Kutusu"
 
-#: hooks/class-gpos-wordpress.php:341
+#: hooks/class-gpos-wordpress.php:342
 msgid "Select Process Type"
 msgstr "İşlem Tipi Seçiniz"
 
@@ -1749,7 +1804,7 @@ msgstr "WooCommerce Subscriber Eklentisi ile abonelikli ürün satışı yapın"
 msgid "Set Default"
 msgstr "Varsayılan"
 
-#: hooks/class-gpos-wordpress.php:267 includes/class-gpos-admin.php:253
+#: hooks/class-gpos-wordpress.php:268 includes/class-gpos-admin.php:253
 #: languages/gpos-texts.php:217
 msgid "Settings"
 msgstr "Ayarlar"
@@ -1801,7 +1856,7 @@ msgstr[1] "Başladı <span class=\"count\">(%s)</span>"
 msgid "State"
 msgstr "Şehir"
 
-#: includes/class-gpos-post-tables.php:50 languages/gpos-texts.php:29
+#: includes/class-gpos-post-tables.php:51 languages/gpos-texts.php:29
 msgid "Status"
 msgstr "Durum"
 
@@ -1935,7 +1990,7 @@ msgstr ""
 "Hemen ödeme almaya başlamak için anlaşmalı olduğunuz ödeme kuruluşunun "
 "bağlantısını gerçekleştirin"
 
-#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:306
+#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:303
 msgid "Token error."
 msgstr "Jeton hatası."
 
@@ -1977,7 +2032,7 @@ msgid "Type"
 msgstr "Tip"
 
 #. translators: IP address.
-#: includes/payment-gateways/craftgate/class-gpospro-craftgate-gateway.php:203
+#: includes/payment-gateways/craftgate/class-gpospro-craftgate-gateway.php:202
 msgid "Unauthorized operation attempted via ip address %s."
 msgstr "%s ip adresi üzerinden yetkisiz işlem denendi."
 
@@ -1993,11 +2048,11 @@ msgstr ""
 "Bilinmeyen hata. Lütfen manuel yükleme deneyiniz, problemin devam etmesi "
 "durumunda GurmeHub ekibi ile iletişime geçiniz"
 
-#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:365
+#: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:362
 msgid "Unsupported currency"
 msgstr "Desteklenmeyen para birimi"
 
-#: hooks/class-gpos-wordpress.php:274
+#: hooks/class-gpos-wordpress.php:275
 msgid "Upgrade"
 msgstr "Yükselt"
 
@@ -2034,6 +2089,7 @@ msgid "User selects 3D option at checkout"
 msgstr "Kullanıcılar ödeme sırasında 3D seçeneğini belirler"
 
 #: includes/payment-gateways/pro/class-gpos-akbank.php:76
+#: includes/payment-gateways/pro/class-gpos-finansbank-pay-for.php:76
 #: includes/payment-gateways/pro/class-gpos-finansbank.php:76
 #: includes/payment-gateways/pro/class-gpos-halkbank.php:76
 #: includes/payment-gateways/pro/class-gpos-isbank.php:76

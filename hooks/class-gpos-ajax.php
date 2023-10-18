@@ -240,7 +240,7 @@ class GPOS_Ajax {
 	 * @return mixed
 	 */
 	public function update_installments( $request ) {
-		return gpos_gateway_account( $request->id )->update_installments( is_bool( $request->installments ) ? $request->installments : (array) $request->installments );
+		return gpos_gateway_account( $request->id )->update_installments( $request->installments );
 	}
 
 	/**

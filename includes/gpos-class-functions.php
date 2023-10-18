@@ -243,3 +243,12 @@ function gpos_forge() {
 function gpos_meta_boxes() {
 	return new GPOS_Meta_Boxes();
 }
+
+/**
+ * Güncelleme kontrol sınıfı.
+ *
+ * @return GPOS_Module_Manager
+ */
+function gpos_module_manager() {
+	return new GPOS_Module_Manager();
+}
