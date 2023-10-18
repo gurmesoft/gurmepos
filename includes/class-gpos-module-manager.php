@@ -26,11 +26,10 @@ class GPOS_Module_Manager {
 	 * @return stdClass
 	 */
 	public function transient_update_plugins( $plugin_updates ) {
-		if ( defined( 'GPOSPRO_PLUGIN_BASENAME' ) ) {
-			if ( isset( $plugin_updates->response[ GPOSPRO_PLUGIN_BASENAME ] ) ) {
-				unset( $plugin_updates->response[ GPOS_PLUGIN_BASENAME ] );
-				add_action( 'after_plugin_row_' . GPOS_PLUGIN_BASENAME, array( $this, 'after_plugin_row' ) );
-			}
+		$pro_basename = defined( 'GPOSPRO_PLUGIN_BASENAME' ) ? GPOSPRO_PLUGIN_BASENAME : 'gurmepos-pro/gurmepos-pro.php';
+		if ( isset( $plugin_updates->response[ $pro_basename ] ) ) {
+			unset( $plugin_updates->response[ GPOS_PLUGIN_BASENAME ] );
+			add_action( 'after_plugin_row_' . GPOS_PLUGIN_BASENAME, array( $this, 'after_plugin_row' ) );
 		}
 		return $plugin_updates;
 	}
