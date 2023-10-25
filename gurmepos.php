@@ -3,7 +3,7 @@
  * Plugin Name: POS Entegratör
  * Plugin URI: https://posentegrator.com
  * Description: GurmeHub tüm banka ve ödeme kuruluşları destekli özelleştirilebilir POS eklentisi
- * Version: staging
+ * Version: 3.6.0
  * Author: GurmeHub
  * Author URI: https://gurmehub.com
  * Text Domain: gurmepos
@@ -34,7 +34,7 @@ final class GurmePOS {
 	 *
 	 * @var string
 	 */
-	public $version = 'staging';
+	public $version = '3.6.0';
 
 	/**
 	 * Veritabanı versiyonu.

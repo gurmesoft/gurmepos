@@ -259,7 +259,6 @@ return array(
 	'failed_payment'                   => __( 'Failed Payment', 'gurmepos' ),
 	'completed_refund'                 => __( 'Completed Refund', 'gurmepos' ),
 	'failed_refund'                    => __( 'Failed Refund', 'gurmepos' ),
-	'gate'                             => __( 'Gate', 'gurmepos' ),
 	'gate_desc'                        => __( 'Using Gate, you can collect the transaction by directing it to the desired virtual POS according to the card brand, number of installments and card number. After your customer keys in the card information, the withdrawal is made to the relevant virtual pos, according to the criteria you define in the system.', 'gurmepos' ),
 	'gate_default'                     => __( '*For payments that are not included in any rules, your default virtual POS will be charged.', 'gurmepos' ),
 	'add_new_rule'                     => __( 'Add New Rule', 'gurmepos' ),
@@ -278,6 +277,6 @@ return array(
 	'saved_card'              		   => __( 'Saved Card', 'gurmepos' ),
 	'selected'              		   => __( 'Selected', 'gurmepos' ),
 	'select_bank'              		   => __( 'Select Bank', 'gurmepos' ),
-	'learn_press' 					   => 'LearnPress','gurmepos' ,
-
+	'learn_press' 					   => 'LearnPress',
+	'gate' 					   		   => 'Gate',
 );
