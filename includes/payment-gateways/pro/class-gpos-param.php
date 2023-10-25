@@ -50,7 +50,7 @@ class GPOS_Param extends GPOS_Gateway {
 	 *
 	 * @var array $supports
 	 */
-	public $supports = array( 'threed', 'installment_api' );
+	public $supports = array( 'threed', 'regular', 'installment_api', 'save_card', 'refund' );
 
 	/**
 	 * Firma müşteri panel bilgisi
@@ -64,7 +64,7 @@ class GPOS_Param extends GPOS_Gateway {
 	 *
 	 * @var array $currencies
 	 */
-	public $currencies = array( 'TRY', 'EUR', 'USD' );
+	public $currencies = array( 'TRY', 'EUR', 'USD', 'GBP' );
 
 	/**
 	 * Ödeme için gerekli alanların tanımı
@@ -111,16 +111,7 @@ class GPOS_Param extends GPOS_Gateway {
 				'expiry_year'  => '2026',
 				'expiry_month' => '12',
 				'cvv'          => '000',
-				'secure'       => 'a',
-			),
-			array(
-				'brand'        => 'mastercard',
-				'type'         => 'credit',
-				'bin'          => '5818 7758 1877 2285',
-				'expiry_year'  => '2026',
-				'expiry_month' => '12',
-				'cvv'          => '000',
-				'secure'       => 'a',
+				'secure'       => '',
 			),
 			array(
 				'brand'        => 'mastercard',
@@ -129,7 +120,16 @@ class GPOS_Param extends GPOS_Gateway {
 				'expiry_year'  => '2026',
 				'expiry_month' => '12',
 				'cvv'          => '000',
-				'secure'       => 'a',
+				'secure'       => '',
+			),
+			array(
+				'brand'        => 'mastercard',
+				'type'         => 'credit',
+				'bin'          => '5163 1030 0298 2563',
+				'expiry_year'  => '2026',
+				'expiry_month' => '12',
+				'cvv'          => '000',
+				'secure'       => '',
 			),
 		);
 	}

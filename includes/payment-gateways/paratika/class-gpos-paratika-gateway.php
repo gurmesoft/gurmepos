@@ -35,23 +35,15 @@ class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 */
 	public function check_connection( $connection_data ) {
 		$this->prepare_settings( $connection_data );
-		try {
-			$request  = array(
-				'ACTION' => 'QUERYPAYMENTSYSTEMS',
-				'BIN'    => '545616',
-			);
-			$response = $this->http_request->request( $this->request_url, 'POST', array_merge( $this->settings, $request ) );
-			$result   = array(
-				'result'  => '00' === $response['responseCode'] ? 'success' : 'error',
-				'message' => '00' === $response['responseCode'] ? __( 'Connection Success', 'gurmepos' ) : $response['errorMsg'],
-			);
-		} catch ( Exception $e ) {
-			$result = array(
-				'result'  => 'error',
-				'message' => $e->getMessage(),
-			);
-		}
-		return $result;
+		$request  = array(
+			'ACTION' => 'QUERYPAYMENTSYSTEMS',
+			'BIN'    => '545616',
+		);
+		$response = $this->http_request->request( $this->request_url, 'POST', array_merge( $this->settings, $request ) );
+		return array(
+			'result'  => '00' === $response['responseCode'] ? 'success' : 'error',
+			'message' => '00' === $response['responseCode'] ? __( 'Connection Success', 'gurmepos' ) : $response['errorMsg'],
+		);
 	}
 
 	/**
@@ -60,51 +52,36 @@ class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 	 * @return array|bool Destek var ise taksitler yok ise false.
 	 */
 	public function get_installments() {
-		$installments = gpos_supported_installment_companies();
+		$installments = gpos_default_installments_template();
 		$request      = array(
 			'ACTION' => 'QUERYPAYMENTSYSTEMS',
 			'BIN'    => '557113',
 		);
-
-		try {
-			$response = $this->http_request->request( $this->request_url, 'POST', array_merge( $request, $this->settings ) );
-			if ( '00' === $response['responseCode'] ) {
-				$api_installment_list = $response['installmentPaymentSystem']['installmentList'];
-				$installments         = array_map(
-					function() use ( $api_installment_list ) {
-						return array_map(
-							function( $installment ) use ( $api_installment_list ) {
-								$find_installment = array_filter( $api_installment_list, fn( $api_installment ) => (string) $api_installment['count'] === (string) $installment );
-								$finded           = empty( $find_installment ) ? $find_installment : $find_installment[ array_key_first( $find_installment ) ];
-								$rate             = array_key_exists( 'customerCostCommissionRate', $finded ) ? $finded['customerCostCommissionRate'] : false;
-								return array(
-									'enabled' => $rate ? true : false,
-									'rate'    => $rate ? (float) $rate : 0,
-									'number'  => $installment,
-								);
-							},
-							gpos_supported_installment_counts()
-						);
-					},
-					$installments
-				);
-				$result               = array(
-					'result'       => 'success',
-					'installments' => $installments,
-				);
-			} else {
-				$result = array(
-					'result'       => 'error',
-					'installments' => $response['errorMsg'],
-				);
-			}
-		} catch ( Exception $e ) {
-			$result = array(
-				'result'  => 'error',
-				'message' => $e->getMessage(),
+		$response     = $this->http_request->request( $this->request_url, 'POST', array_merge( $request, $this->settings ) );
+		if ( '00' === $response['responseCode'] ) {
+			$api_installment_list = $response['installmentPaymentSystem']['installmentList'];
+			array_walk(
+				$installments,
+				function ( &$counts ) use ( $api_installment_list ) {
+					$counts = array_map(
+						function( $count ) use ( $api_installment_list ) {
+							$count_filter   = array_filter( $api_installment_list, fn( $api_count ) => (int) $api_count['count'] === (int) $count['number'] );
+							$filtered_count = empty( $count_filter ) ? false : $count_filter[ array_key_first( $count_filter ) ];
+							if ( $filtered_count ) {
+								$count['enabled'] = true;
+								$count['rate']    = number_format( $filtered_count['customerCostCommissionRate'], 2 );
+							}
+							return $count;
+						},
+						$counts
+					);
+				}
 			);
 		}
-		return $result;
+		return array(
+			'result'       => '00' === $response['responseCode'] ? 'success' : 'error',
+			'installments' => '00' === $response['responseCode'] ? $installments : $response['errorMsg'],
+		);
 	}
 
 	/**
@@ -123,9 +100,7 @@ class GPOS_Paratika_Gateway extends GPOS_Payment_Gateway {
 			'MERCHANTPASSWORD' => $is_test_mode ? $settings->test_merchant_password : $settings->merchant_password,
 		);
 		$this->http_request->set_headers(
-			array(
-				'Content-Type' => 'application/x-www-form-urlencoded; charset=utf-8',
-			)
+			array( 'Content-Type' => 'application/x-www-form-urlencoded; charset=utf-8' )
 		);
 
 		$this->request_url = $is_test_mode ? 'https://entegrasyon.paratika.com.tr/paratika/api/v2' : 'https://vpos.paratika.com.tr/paratika/api/v2';

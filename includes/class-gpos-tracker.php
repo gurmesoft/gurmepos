@@ -40,14 +40,15 @@ class GPOS_Tracker {
 		$this->http = gpos_http_request();
 	}
 
+
 	/**
-	 * Kredi kartının ilk 6 hanesi ile sorgumala yaparak, kart ile iligli tip, aile, ülke bilgilerini getirir.
+	 * Kredi kartının ilk 8 hanesi ile sorgumala yaparak, kart ile iligli tip, aile, ülke bilgilerini getirir.
 	 *
-	 * @param string $card_bin Kartın ilk 6 hanesi.
+	 * @param string $card_bin Kartın ilk 8 hanesi.
 	 */
-	public function get_card_bin_info( $card_bin ) {
+	public function bin_retrieve( $card_bin ) {
 		return $this->http->request(
-			"{$this->url}/checkBin?bin={$card_bin}",
+			"{$this->url}/binRetrieve?bin={$card_bin}",
 			'GET',
 		);
 	}

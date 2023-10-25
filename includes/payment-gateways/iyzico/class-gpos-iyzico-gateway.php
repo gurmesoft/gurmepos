@@ -28,34 +28,17 @@ class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 */
 	public function check_connection( $connection_data ) {
-		$is_test_mode = gpos_is_test_mode();
-		$options      = new \Iyzipay\Options();
-		$options->setApiKey( $is_test_mode ? $connection_data->test_api_key : $connection_data->api_key );
-		$options->setSecretKey( $is_test_mode ? $connection_data->test_api_secret : $connection_data->api_secret );
-		$options->setBaseUrl( $is_test_mode ? 'https://sandbox-api.iyzipay.com' : 'https://api.iyzipay.com' );
-
-		try {
-
-			$request = new \Iyzipay\Request\RetrieveInstallmentInfoRequest();
-			$request->setConversationId( microtime( false ) );
-			$request->setLocale( \Iyzipay\Model\Locale::TR );
-			$request->setBinNumber( '589004' );
-			$request->setPrice( '100' );
-
-			$response = \Iyzipay\Model\InstallmentInfo::retrieve( $request, $options );
-
-			return array(
-				'result'  => $response->getStatus() === 'success' ? 'success' : 'error',
-				'message' => $response->getStatus() === 'success' ? __( 'Connection Success', 'gurmepos' ) : $response->getErrorMessage(),
-			);
-
-		} catch ( Exception $e ) {
-			return array(
-				'result'  => 'error',
-				'message' => $e->getMessage(),
-			);
-		}
-
+		$this->prepare_settings( $connection_data );
+		$request = new \Iyzipay\Request\RetrieveInstallmentInfoRequest();
+		$request->setConversationId( microtime( false ) );
+		$request->setLocale( \Iyzipay\Model\Locale::TR );
+		$request->setBinNumber( '589004' );
+		$request->setPrice( '100' );
+		$response = \Iyzipay\Model\InstallmentInfo::retrieve( $request, $this->settings );
+		return array(
+			'result'  => $response->getStatus() === 'success' ? 'success' : 'error',
+			'message' => $response->getStatus() === 'success' ? __( 'Connection Success', 'gurmepos' ) : $response->getErrorMessage(),
+		);
 	}
 
 	/**
@@ -67,50 +50,45 @@ class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 * @SuppressWarnings(PHPMD.CyclomaticComplexity)
 	 */
 	public function get_installments() {
-		$installments = array();
+		$installments = gpos_default_installments_template();
 		$request      = new \Iyzipay\Request\RetrieveInstallmentInfoRequest();
-		$request->setConversationId( microtime( false ) );
+		$request->setConversationId( time() );
 		$request->setLocale( \Iyzipay\Model\Locale::TR );
 		$request->setPrice( '100' );
-
-		try {
-			$response = \Iyzipay\Model\InstallmentInfo::retrieve( $request, $this->settings );
-			if ( $response->getStatus() === 'success' ) {
-				$api_installment_list = $response->getInstallmentDetails();
-				if ( is_array( $api_installment_list ) ) {
-					foreach ( $api_installment_list as $api_installment ) {
-						$installments[ gpos_clear_non_alfa( $api_installment->getCardFamilyName() ) ] = array_map(
-							function( $installment ) use ( $api_installment ) {
-								$find_installment = array_filter( $api_installment->getInstallmentPrices(), fn( $rate_info ) => (string) $rate_info->getInstallmentNumber() === (string) $installment );
-								$finded           = empty( $find_installment ) ? false : $find_installment[ array_key_first( $find_installment ) ];
-								$rate             = $finded ? $finded->getTotalPrice() - 100 : false;
-								return array(
-									'enabled' => $rate ? true : false,
-									'rate'    => $rate ? (float) number_format( $rate, 2 ) : 0,
-									'number'  => $installment,
-								);
-							},
-							gpos_supported_installment_counts()
-						);
-					}
-				}
+		$request->setBinNumber( '45557145' );
+		$response = \Iyzipay\Model\InstallmentInfo::retrieve( $request, $this->settings );
+		if ( $response->getStatus() === 'success' ) {
+			$api_installment_list = $response->getInstallmentDetails();
+			if ( is_array( $api_installment_list ) ) {
+				array_walk(
+					$installments,
+					function ( &$counts, $family ) use ( $api_installment_list ) {
+						$family_filter  = array_filter( $api_installment_list, fn( $api_installment ) =>  gpos_clear_non_alfa( $api_installment->getCardFamilyName() ) === $family );
+						$api_count_list = empty( $family_filter ) ? false : $family_filter[ array_key_first( $family_filter ) ]->getInstallmentPrices();
+						if ( $api_count_list ) {
+							$counts = array_map(
+								function( $count ) use ( $api_count_list ) {
+									$count_filter   = array_filter( $api_count_list, fn( $api_count ) => (int) $api_count->getInstallmentNumber() === (int) $count['number'] );
+									$filtered_count = empty( $count_filter ) ? false : $count_filter[ array_key_first( $count_filter ) ];
+									if ( $filtered_count ) {
+										$count['enabled'] = true;
+										$count['rate']    = number_format( $filtered_count->getTotalPrice() - 100, 2 );
+									}
+									return $count;
+								},
+								$counts
+							);
+						}
+					},
+				);
 			}
 			$installments['advantage']   = $installments['cardfinans'];
 			$installments['denizbankcc'] = $installments['bonus'];
-			$result                      = array(
-				'result'       => 'success' === $response->getStatus() ? 'success' : 'error',
-				'installments' => 'success' === $response->getStatus() ? $installments : $response->getErrorMessage(),
-			);
-
-		} catch ( Exception $e ) {
-			$result = array(
-				'result'  => 'error',
-				'message' => $e->getMessage(),
-			);
 		}
-
-		return $result;
-
+		return array(
+			'result'       => 'success' === $response->getStatus() ? 'success' : 'error',
+			'installments' => 'success' === $response->getStatus() ? $installments : $response->getErrorMessage(),
+		);
 	}
 
 	/**
@@ -136,7 +114,6 @@ class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 * @SuppressWarnings(PHPMD.StaticAccess)
 	 */
 	public function process_payment() {
-
 		$payment_request = new \Iyzipay\Request\CreatePaymentRequest();
 		$payment_request->setPaymentSource( 'Gurmesoft' );
 		$payment_request->setPaymentGroup( \Iyzipay\Model\PaymentGroup::PRODUCT );

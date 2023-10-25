@@ -59,10 +59,17 @@ class GPOS_Installments {
 			function( $installments ) {
 
 				// Aktif olmayan taksitleri temizler ve kategori taksit engeli vb. filtrelerden geçer.
-				$installments = array_filter(
-					apply_filters( 'gpos_installment_rules', $installments, $this->platform ),
-					fn( $installment ) => $installment['enabled']
-				);
+				try {
+					$installments = array_filter(
+						(array) apply_filters( 'gpos_installment_rules', $installments, $this->platform ),
+						fn( $installment ) => $installment['enabled']
+					);
+				} catch ( TypeError $e ) {
+					/**
+					 * Todo. Taksitler arraye convert edilemezse hata atması engellendi.
+					 */
+					return array();
+				}
 
 				$installments[1] = array(
 					'enabled' => true,
@@ -100,20 +107,6 @@ class GPOS_Installments {
 	 * @return array
 	 */
 	public function set_platform_data_to_be_paid() {
-		$data = array(
-			'amount'          => 0,
-			'currency'        => 'TRY',
-			'currency_symbol' => 'TRY',
-		);
-
-		if ( 'woocommerce' === $this->platform ) {
-			$data = array(
-				'amount'          => WC()->cart->get_total( 'float' ),
-				'currency'        => get_woocommerce_currency(),
-				'currency_symbol' => get_woocommerce_currency_symbol( get_woocommerce_currency() ),
-			);
-		}
-
-		return apply_filters( 'gpos_platform_data_to_be_paid', $data, $this->platform );
+		return gpos_get_platform_data_to_be_paid( $this->platform );
 	}
 }

@@ -57,7 +57,7 @@ class GPOS_Sipay extends GPOS_Gateway {
 	 *
 	 * @var array $supports
 	 */
-	public $supports = array( 'threed', 'regular' );
+	public $supports = array( 'threed', 'regular', 'installment_api' );
 
 	/**
 	 * Ödeme için gerekli alanların tanımı

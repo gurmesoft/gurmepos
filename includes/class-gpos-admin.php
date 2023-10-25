@@ -138,7 +138,7 @@ class GPOS_Admin {
 			$admin_bar_args = array(
 				'id'    => $this->parent_slug,
 				'title' => sprintf(
-					'<span class="ab-icon"><img style="width:20px;height:20px;" src="%s"></span><span class="ab-label">POS Entegratör %s</span>',
+					'<span style="display:flex; align-items:center; gap:4px;"><img style="width:20px;height:20px;" src="%s"><span class="ab-label">POS Entegratör %s</span></span>',
 					$this->get_icon(),
 					gpos_is_test_mode() ? __( 'Test Mode Active', 'gurmepos' ) : ''
 				),

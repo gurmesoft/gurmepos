@@ -11,24 +11,18 @@
 class GPOS_Payment_Gateways {
 
 	/**
-	 * Ödeme kurallarına istiaden önceliği olan hesabı tespit eder ve ödeme geçidini türetip döndürür.
+	 * Varsayılan ödeme geçidini türetip döndürür.
 	 *
-	 * @param GPOS_Transaction $transaction Ödeme işlemi verileri.
+	 * @param GPOS_Transaction|bool $transaction Ödeme işlemi verileri.
 	 *
 	 * @return GPOS_Payment_Gateway
 	 */
-	public function get_gateway_by_priority( GPOS_Transaction $transaction ) {
-		// Kural 1 : Varsayılan Ödeme Hesabını Kullan.
+	public function get_default_gateway( $transaction ) {
 		$account = gpos_gateway_accounts()->get_default_account();
-
-		/**
-		 * Todo.
-		 *
-		 * Kural 2 : İşlem verisi içerisinden kart numarasını al ve gerekli bankaya yönlendir.
-		 * Kural 3 : ...
-		 */
-
-		return $this->prepare_gateway( $account, $transaction );
+		if ( $transaction instanceof GPOS_Transaction ) {
+			return $this->prepare_gateway( $account, $transaction );
+		}
+		return $this->get_gateway_without_transaction( $account );
 	}
 
 	/**

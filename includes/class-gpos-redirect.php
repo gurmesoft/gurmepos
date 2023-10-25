@@ -102,7 +102,7 @@ class GPOS_Redirect {
 		return add_query_arg(
 			array(
 				'transaction_id' => $this->transaction_id,
-				'_wpnonce'       => wp_create_nonce(),
+				'_wpnonce'       => wp_create_nonce( 'gpos_redirect' ),
 			),
 			home_url() . '/gpos-redirect'
 		);
@@ -116,6 +116,7 @@ class GPOS_Redirect {
 	public function render() {
 		$content = $this->get_html_content();
 		if ( $content ) {
+			gpos_transaction( $this->transaction_id )->set_status( GPOS_Transaction_Utils::REDIRECTED );
 			echo $content; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
 			?>
@@ -129,5 +130,6 @@ class GPOS_Redirect {
 			</center>
 			<?php
 		}
+		exit;
 	}
 }

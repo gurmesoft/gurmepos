@@ -68,7 +68,7 @@ class GPOS_Ajax {
 				'remove_gateway_account'      => array( $this, 'remove_gateway_account' ),
 				'check_connection'            => array( $this, 'check_connection' ),
 				'hide_notice'                 => array( $this, 'hide_notice' ),
-				'check_bin'                   => array( $this, 'check_bin' ),
+				'bin_retrieve'                => array( $this, 'bin_retrieve' ),
 				'process_cancel'              => array( $this, 'process_cancel' ),
 				'process_refund'              => array( $this, 'process_refund' ),
 				'process_line_based_refund'   => array( $this, 'process_line_based_refund' ),
@@ -275,14 +275,14 @@ class GPOS_Ajax {
 	}
 
 	/**
-	 * Geri dönüş fonksiyonu; check_bin.
+	 * Geri dönüş fonksiyonu; bin_retrieve.
 	 *
 	 * @param stdClass $request İstek parametreleri.
 	 *
 	 * @return mixed
 	 */
-	public function check_bin( $request ) {
-		return gpos_tracker()->get_card_bin_info( $request->bin );
+	public function bin_retrieve( $request ) {
+		return gpos_tracker()->bin_retrieve( $request->bin );
 	}
 
 	/**

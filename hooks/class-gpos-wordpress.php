@@ -46,7 +46,7 @@ class GPOS_WordPress {
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_filter( 'query_vars', array( $this, 'query_vars' ) );
 		add_action( 'admin_notices', array( $this, 'admin_notice' ) );
-		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
+		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 1 );
 		add_filter( 'template_include', array( $this, 'template_include' ) );
 		add_filter( 'script_loader_tag', array( $this, 'script_loader' ), 10, 2 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -200,7 +200,7 @@ class GPOS_WordPress {
 		if ( get_query_var( $this->redirect_query_var_key ) &&
 			isset( $_GET['transaction_id'] ) &&
 			isset( $_GET['_wpnonce'] ) &&
-			wp_verify_nonce( gpos_clean( $_GET['_wpnonce'] ) )
+			wp_verify_nonce( gpos_clean( $_GET['_wpnonce'] ), 'gpos_redirect' )
 			) {
 			return gpos_redirect( gpos_clean( $_GET['transaction_id'] ) )->render();
 		}

@@ -79,10 +79,11 @@ class GPOS_Frontend {
 			'nonce'         => wp_create_nonce(),
 			'ajaxurl'       => admin_url( 'admin-ajax.php' ),
 			'user_id'       => get_current_user_id(),
-			'strings'       => gpos_get_i18n_texts(),
+			'strings'       => gpos_get_i18n_texts( true ),
 			'is_pro_active' => gpos_is_pro_active(),
 			'is_test_mode'  => gpos_is_test_mode(),
 			'form_settings' => gpos_form_settings()->get_settings(),
+			'platform_data' => gpos_get_platform_data_to_be_paid( $this->plugin ),
 		);
 
 		if ( $default_account ) {

@@ -241,18 +241,6 @@ class GPOS_Gateway_Account {
 	 * @return array
 	 */
 	private function get_default_installments() {
-		return array_map(
-			function() {
-				return array_map(
-					fn( $installment ) => array(
-						'enabled' => false,
-						'rate'    => 0,
-						'number'  => $installment,
-					),
-					gpos_supported_installment_counts()
-				);
-			},
-			gpos_supported_installment_companies()
-		);
+		return gpos_default_installments_template();
 	}
 }

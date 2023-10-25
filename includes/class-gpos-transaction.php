@@ -214,6 +214,20 @@ class GPOS_Transaction extends GPOS_Post {
 	protected $refund_status;
 
 	/**
+	 * İşlem gateten etkilendi mi ?
+	 *
+	 * @var bool $gate_affected
+	 */
+	protected $gate_affected;
+
+	/**
+	 * Gateten etkilendiği kural
+	 *
+	 * @var stdClass $gate_affected_rule
+	 */
+	protected $gate_affected_rule;
+
+	/**
 	 * İşlem ortak ödeme formundan mı yapıldı
 	 *
 	 * @var boolean $common_form_payment
@@ -292,6 +306,9 @@ class GPOS_Transaction extends GPOS_Post {
 		'payment_transaction_id',
 		'common_form_payment',
 		'edit_link',
+		'gate_affected',
+		'gate_affected_rule',
+		'id_before_gate',
 	);
 
 
@@ -312,7 +329,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param string|int $value Kimlik.
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_user_id( $value ) {
 		$this->set_prop( __FUNCTION__, $value );
@@ -333,7 +350,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param bool $value Test mi?
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_test( $value ) {
 		$this->set_prop( __FUNCTION__, $value );
@@ -345,7 +362,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param int|string $value Formun idsi
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_form_id( $value ) {
 		$this->set_prop( __FUNCTION__, $value );
@@ -378,7 +395,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param string $value Form id.
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_extra_data( $value ) {
 		$this->set_prop( __FUNCTION__, $value );
@@ -400,7 +417,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 * @return void
 	 */
 	public function set_searchable() {
-		$implode_array = array_filter( $this->to_array(), fn( $value ) => ! is_array( $value ) );
+		$implode_array = array_filter( $this->to_array(), fn( $value ) => ! ( is_array( $value ) || is_object( $value ) ) );
 		wp_update_post(
 			array(
 				'ID'           => $this->id,
@@ -415,14 +432,9 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param string $value Tip
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_type( string $value ) {
-		/**
-		 * Todo.
-		 *
-		 * Belirli tipler için if koyulabilir. Örn. Payment, Refund
-		 */
 		$term = get_term_by( 'slug', $value, 'gpos_transaction_process_type' );
 
 		if ( $term ) {
@@ -451,7 +463,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param string $new_status Durumu
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_status( string $new_status ) {
 
@@ -489,7 +501,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param string $value Eklenti.
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_plugin( $value ) {
 		$this->set_prop( __FUNCTION__, $value );
@@ -511,7 +523,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param string|int $value GPOS_Account id.
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_account_id( $value ) {
 		$this->set_prop( __FUNCTION__, $value );
@@ -534,7 +546,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param string|int $value Numara.
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_plugin_transaction_id( $value ) {
 		$this->set_prop( __FUNCTION__, $value );
@@ -556,7 +568,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param float $value İşlem toplam tutarı.
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_total( $value ) {
 		$this->set_prop( __FUNCTION__, gpos_number_format( $value ) );
@@ -577,7 +589,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param string $value İşlem para birimi.
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_currency( $value ) {
 		$this->set_prop( __FUNCTION__, $value );
@@ -598,7 +610,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param string $value Güvenlik tipi.
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_security_type( $value ) {
 		$this->set_prop( __FUNCTION__, $value );
@@ -619,7 +631,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param string $value Ödeme geçidi tekil kimlik bilgisi.
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_payment_gateway_id( $value ) {
 		$this->set_prop( __FUNCTION__, $value );
@@ -640,7 +652,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param string $value Ödeme geçidi sınıfı.
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_payment_gateway_class( $value ) {
 		$this->set_prop( __FUNCTION__, $value );
@@ -661,7 +673,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param string $value İptal/iade durumunu.
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_refund_status( $value ) {
 		$this->set_prop( __FUNCTION__, $value );
@@ -681,7 +693,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 * Taksit seçeneğini ayarlar
 	 *
 	 * @param int|string $value Taksit seçeneği.
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_installment( $value ) {
 		$this->set_prop( __FUNCTION__, preg_replace( '/[^0-9]/', '', $value ) );
@@ -703,7 +715,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 * Taksit seçeneğinin oranını ayarlar
 	 *
 	 * @param int|string $value Oran.
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_installment_rate( $value ) {
 		$this->set_prop( __FUNCTION__, $value );
@@ -724,7 +736,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param string $value Ödeme geçidinden dönen tekil numara iade, iptal için kullanılacaktır.
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_payment_id( $value ) {
 		$this->set_prop( __FUNCTION__, $value );
@@ -745,7 +757,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param string|int $value Kayıtlı kartın kimliği.
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_saved_card_id( $value ) {
 		$this->set_prop( __FUNCTION__, $value );
@@ -766,7 +778,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param string $value Ödeme işleminin tekil numarsı.
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_payment_transaction_id( $value ) {
 		$this->set_prop( __FUNCTION__, $value );
@@ -787,7 +799,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param array $lines İşlem satırı.
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_lines( array $lines ) {
 		$this->lines = $lines;
@@ -799,7 +811,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param GPOS_Transaction_Line $line İşlem satırı.
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function add_line( GPOS_Transaction_Line $line ) {
 		$line->set_transaction_id( $this->id );
@@ -960,7 +972,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param bool $value Kayıtlı kart kullanılsın mı?
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_use_saved_card( bool $value ) {
 		$this->set_prop( __FUNCTION__, $value );
@@ -981,7 +993,7 @@ class GPOS_Transaction extends GPOS_Post {
 	 *
 	 * @param bool $value Kart kayıt edilsin mi ?
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_save_card( bool $value ) {
 		$this->set_prop( __FUNCTION__, $value );
@@ -1040,7 +1052,7 @@ class GPOS_Transaction extends GPOS_Post {
 	/**
 	 * İşlemin geçtiği ödeme geçidi ortak ödeme formu mu ?
 	 *
-	 * @return $this
+	 * @return GPOS_Transaction
 	 */
 	public function set_is_common_form_payment() {
 		$this->set_prop( __FUNCTION__, true );
@@ -1053,6 +1065,63 @@ class GPOS_Transaction extends GPOS_Post {
 	 * @return bool
 	 */
 	public function is_common_form_payment() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Ödeme işlemi Gateten etkilendi mi ? atamasını yapar.
+	 *
+	 * @return GPOS_Transaction
+	 */
+	public function set_gate_affected() {
+		$this->set_prop( __FUNCTION__, true );
+		return $this;
+	}
+
+	/**
+	 * Ödeme işlemi Gateten etkilendi mi ? atamasını yapar.
+	 *
+	 * @return GPOS_Transaction
+	 */
+	public function get_gate_affected() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Ödeme işlemi Gateten etkilendiyse kuralı kayıt eder.
+	 *
+	 * @param stdClass $value Kural
+	 */
+	public function set_gate_affected_rule( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Ödeme işlemi Gateten etkilendiyse kuralı döndürür.
+	 *
+	 * @return stdClass
+	 */
+	public function get_gate_affected_rule() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Ödeme işlemi Gateten etkilenmeden önceki hesap kimliğini ayarlar.
+	 *
+	 * @param int|string $value Kural
+	 */
+	public function set_id_before_gate( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Ödeme işlemi Gateten etkilenmeden önceki hesap kimliği döndürür.
+	 *
+	 * @return int|string
+	 */
+	public function get_id_before_gate() {
 		return $this->get_prop( __FUNCTION__ );
 	}
 

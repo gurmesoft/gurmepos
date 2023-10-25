@@ -154,15 +154,17 @@ function gpos_woocommerce_notice( string $message, string $notice_type = 'error'
 /**
  * Frontend için gerekli kelime, cümle çevirilerini döndürür.
  *
+ * @param bool $checkout Ödeme ekranı mı ?
+ *
  * @return array
  *
- * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
-function gpos_get_i18n_texts() {
-	include GPOS_PLUGIN_DIR_PATH . '/languages/gpos-texts.php';
-	include GPOS_PLUGIN_DIR_PATH . '/languages/gpos-bank-texts.php';
-	$gpos_texts = array_merge( $gpos_texts, $gpos_bank_texts );  // @phpstan-ignore-line
-	return array( 'default' => $gpos_texts );
+function gpos_get_i18n_texts( $checkout = false ) {
+	$gpos_texts          = include GPOS_PLUGIN_DIR_PATH . '/languages/gpos-settings-texts.php';
+	$gpos_bank_texts     = include GPOS_PLUGIN_DIR_PATH . '/languages/gpos-bank-texts.php';
+	$gpos_checkout_texts = include GPOS_PLUGIN_DIR_PATH . '/languages/gpos-checkout-texts.php';
+	return array( 'default' => $checkout ? $gpos_checkout_texts : array_merge( $gpos_texts, $gpos_bank_texts ) );
 }
 
 
@@ -172,8 +174,7 @@ function gpos_get_i18n_texts() {
  * @return array
  */
 function gpos_supported_installment_counts() {
-	$counts = array();
-	$filter = apply_filters(
+	return apply_filters(
 		/**
 		 * Desteklenen taksit adetlerini düzenleme kancası.
 		 *
@@ -194,12 +195,6 @@ function gpos_supported_installment_counts() {
 			'12',
 		)
 	);
-
-	foreach ( $filter as $count ) {
-		$counts[ $count ] = $count;
-	}
-
-	return $counts;
 }
 
 /**
@@ -208,8 +203,7 @@ function gpos_supported_installment_counts() {
  * @return array
  */
 function gpos_supported_installment_companies() {
-	$companies = array();
-	$filter    = apply_filters(
+	return apply_filters(
 		/**
 		 * Desteklenen taksit firmalarını düzenleme kancası.
 		 *
@@ -227,13 +221,9 @@ function gpos_supported_installment_companies() {
 			'saglamkart',
 			'advantage',
 			'denizbankcc',
+			'ingbankcc',
 		)
 	);
-
-	foreach ( $filter as $company ) {
-		$companies[ $company ] = [];
-	}
-	return $companies;
 }
 
 
@@ -485,13 +475,13 @@ function gpos_get_supported_currency() {
  */
 function gpos_get_default_customer_data() {
 	$default_customer_data = array(
-		'first_name' => 'Name',
-		'last_name'  => 'Surname',
-		'phone'      => 'Phone',
-		'email'      => 'Email',
-		'address'    => 'Address',
-		'city'       => 'City',
-		'country'    => 'Country',
+		'first_name' => __( 'Name', 'gurmepos' ),
+		'last_name'  => __( 'Surname', 'gurmepos' ),
+		'phone'      => __( 'Phone', 'gurmepos' ),
+		'email'      => __( 'E-Mail', 'gurmepos' ),
+		'address'    => __( 'Address', 'gurmepos' ),
+		'city'       => __( 'City', 'gurmepos' ),
+		'country'    => __( 'Country', 'gurmepos' ),
 	);
 	return apply_filters( 'gpos_default_customer_data', $default_customer_data );
 }
@@ -503,4 +493,75 @@ function gpos_get_default_customer_data() {
  */
 function gpos_capability() {
 	return apply_filters( 'gpos_menu_capability', 'edit_posts' );
+}
+
+/**
+ * Para birimi ISO kodu
+ *
+ * @param string $currency_text Para birimi kodu (TRY, USD vs.)
+ *
+ * @return int|string
+ */
+function gpos_get_currency_iso_code( $currency_text ) {
+	$codes = array(
+		'USD' => 840,
+		'EUR' => 978,
+		'RUB' => 643,
+		'GBP' => 826,
+		'TRY' => 949,
+	);
+
+	return array_key_exists( $currency_text, $codes ) ? $codes[ $currency_text ] : $currency_text;
+}
+
+
+/**
+ * Platforma istinaden ödenecek tutar verisini döndüren fonksiyon.
+ *
+ * @param string $platform Platform (WooCommerce, GiveWP vb.)
+ *
+ * @return array
+ */
+function gpos_get_platform_data_to_be_paid( $platform ) {
+	$data = array(
+		'amount'          => 0,
+		'currency'        => 'TRY',
+		'currency_symbol' => '₺',
+	);
+
+	if ( 'woocommerce' === $platform ) {
+		$data = array(
+			'amount'          => WC()->cart->get_total( 'float' ),
+			'currency'        => get_woocommerce_currency(),
+			'currency_symbol' => get_woocommerce_currency_symbol( get_woocommerce_currency() ),
+		);
+	}
+
+	return apply_filters( 'gpos_platform_data_to_be_paid', $data, $platform );
+}
+
+
+/**
+ * Taksit şablonu
+ *
+ * @return array
+ */
+function gpos_default_installments_template() {
+	$template  = array();
+	$companies = gpos_supported_installment_companies();
+	$counts    = gpos_supported_installment_counts();
+
+	if ( false === empty( $companies ) && false === empty( $counts ) ) {
+		foreach ( $companies as $company ) {
+			foreach ( $counts as $count ) {
+				$template[ $company ][ $count ] = array(
+					'enabled' => false,
+					'rate'    => 0,
+					'number'  => $count,
+				);
+			}
+		}
+	}
+
+	return $template;
 }

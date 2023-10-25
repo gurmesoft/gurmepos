@@ -44,6 +44,7 @@ class GPOS_Self_Hooks {
 				'save_card'       => (int) $transaction->get_save_card(),
 				'security_type'   => $transaction->get_security_type() ? $transaction->get_security_type() : 'common_form',
 				'is_test'         => gpos_is_test_mode(),
+				'version'         => GPOS_VERSION,
 			)
 		);
 	}

@@ -94,6 +94,12 @@ trait GPOS_Credit_Card {
 	 * */
 	protected $card_bank_name;
 
+	/**
+	 * Kartın banka ismi
+	 *
+	 * @var string $card_bank_code
+	 * */
+	protected $card_bank_code;
 
 	/**
 	 * Kredi kartı numara bilgisini ayarlar
@@ -324,6 +330,27 @@ trait GPOS_Credit_Card {
 	}
 
 	/**
+	 * Kart banka kodu bilgisini ayarlar. 10:Ziraat Bankası, 32:Teb vs.
+	 *
+	 * @param string $value Kart banka kodu bilgisi.
+	 *
+	 * @return $this
+	 */
+	public function set_card_bank_code( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Kart banka kodu bilgisini döndürür.
+	 *
+	 * @return string
+	 */
+	public function get_card_bank_code() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
 	 * Kart ülke bilgisini ayarlar. Türkiye vs.
 	 *
 	 * @param string $value Kart ülke bilgisi.
@@ -340,6 +367,26 @@ trait GPOS_Credit_Card {
 	 * @return string
 	 */
 	public function get_card_country() {
+		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Kart ülke kodu bilgisini ayarlar. TR, USA vs.
+	 *
+	 * @param string $value Kart ülke kodu bilgisi.
+	 * @return $this
+	 */
+	public function set_card_country_code( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Kart ülke kodu bilgisini döndürür.
+	 *
+	 * @return string
+	 */
+	public function get_card_country_code() {
 		return $this->get_prop( __FUNCTION__ );
 	}
 

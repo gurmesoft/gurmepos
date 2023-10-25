@@ -135,7 +135,7 @@ class GPOS_Iyzico extends GPOS_Gateway {
 			array(
 				'brand'        => 'amex',
 				'type'         => 'credit',
-				'bin'          => '5400 0100 0000 0004',
+				'bin'          => '3744 2700 0000 003',
 				'expiry_year'  => '2026',
 				'expiry_month' => '12',
 				'cvv'          => '000',
