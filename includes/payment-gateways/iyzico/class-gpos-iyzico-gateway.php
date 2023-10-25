@@ -55,7 +55,6 @@ class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 		$request->setConversationId( time() );
 		$request->setLocale( \Iyzipay\Model\Locale::TR );
 		$request->setPrice( '100' );
-		$request->setBinNumber( '45557145' );
 		$response = \Iyzipay\Model\InstallmentInfo::retrieve( $request, $this->settings );
 		if ( $response->getStatus() === 'success' ) {
 			$api_installment_list = $response->getInstallmentDetails();
