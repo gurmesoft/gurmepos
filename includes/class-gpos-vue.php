@@ -107,14 +107,20 @@ class GPOS_Vue {
 	}
 
 	/**
+	 * Cache uygulamalarını engellemek için kullanılır.
+	 */
+	public function replaced_version(){
+		return str_replace( '.', '-', $this->version );
+	}
+
+	/**
 	 * Vue projesinin gösterimi için gereki js dosyalarını dahil eder.
 	 *
 	 * @return GPOS_Vue $this
 	 */
 	public function require_script_with_tag() {
-		$version = str_replace( '.', '-', $this->version );
 		?>
-			<script type="module" src="<?php echo esc_url( "{$this->asset_dir_url}/vue/js/{$this->vue_page}-{$version}.js" ); //phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>"></script> 
+			<script type="module" src="<?php echo esc_url( "{$this->asset_dir_url}/vue/js/{$this->vue_page}-{$this->replaced_version()}.js" ); //phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>"></script> 
 		<?php
 
 		if ( ! empty( $this->localize_variables ) ) {
@@ -128,38 +134,56 @@ class GPOS_Vue {
 		return $this;
 	}
 
-	/**
+		/**
 	 * Vue projesinin gösterimi için gereki js dosyalarını dahil eder.
 	 *
 	 * @return GPOS_Vue $this
 	 */
 	public function require_script() {
-		$version = str_replace( '.', '-', $this->version );
 		wp_enqueue_script(
 			$this->prefix,
-			"{$this->asset_dir_url}/vue/js/{$this->vue_page}-{$version}.js",
+			"{$this->asset_dir_url}/vue/js/{$this->vue_page}-{$this->replaced_version()}.js",
 			array( 'jquery' ),
 			$this->version,
 			false
 		);
+
 		if ( ! empty( $this->localize_variables ) ) {
 			// @phpstan-ignore-next-line
 			@wp_localize_script( $this->prefix, 'gpos', (object) $this->localize_variables );  // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 		}
 
 		return $this;
+
 	}
 
+	/**
+	 * Vue projesinin gösterimi için gereki js dosyalarını register eder.
+	 *
+	 * @return GPOS_Vue $this
+	 */
+	public function register_script() {
+		wp_register_script(
+			$this->prefix,
+			"{$this->asset_dir_url}/vue/js/{$this->vue_page}-{$this->replaced_version()}.js",
+			array( 'jquery' ),
+			$this->version,
+			false
+		);
+
+		return $this;
+
+	}
+	
 	/**
 	 * Vue projesinin gösterimi için gereki css dosyalarını dahil eder.
 	 *
 	 * @return GPOS_Vue $this
 	 */
 	public function require_style_with_tag() {
-		$version  = str_replace( '.', '-', $this->version );
 		$css_file = $this->at_checkout() ? 'checkout' : 'admin';
 		?>
-		<link rel="stylesheet" href="<?php echo esc_url( "{$this->asset_dir_url}/vue/css/{$css_file}-{$version}.css" ); //phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>" media="all">
+		<link rel="stylesheet" href="<?php echo esc_url( "{$this->asset_dir_url}/vue/css/{$css_file}-app-{$this->replaced_version()}.css" ); //phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet ?>" media="all">
 		<?php
 
 		return $this;
@@ -171,17 +195,31 @@ class GPOS_Vue {
 	 * @return GPOS_Vue $this
 	 */
 	public function require_style() {
-		$version  = str_replace( '.', '-', $this->version );
 		$css_file = $this->at_checkout() ? 'checkout' : 'admin';
 		wp_enqueue_style(
 			$this->vue_page,
-			"{$this->asset_dir_url}/vue/css/{$css_file}-{$version}.css",
+			"{$this->asset_dir_url}/vue/css/{$css_file}-app-{$this->replaced_version()}.css",
 			array(),
 			$this->version,
 		);
 		return $this;
 	}
 
+	/**
+	 * Vue projesinin gösterimi için gereki css dosyalarını dahil eder.
+	 *
+	 * @return GPOS_Vue $this
+	 */
+	public function register_style() {
+		$css_file = $this->at_checkout() ? 'checkout' : 'admin';
+		wp_register_style(
+			$this->vue_page,
+			"{$this->asset_dir_url}/vue/css/{$css_file}-app-{$this->replaced_version()}.css",
+			array(),
+			$this->version,
+		);
+		return $this;
+	}
 	/**
 	 * Ödeme ekranı mı ?
 	 *

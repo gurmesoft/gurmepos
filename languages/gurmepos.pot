@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-10-25T06:03:50+00:00\n"
+"POT-Creation-Date: 2023-11-07T12:01:44+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: gurmepos\n"
@@ -41,15 +41,15 @@ msgstr ""
 
 #: hooks/class-gpospro-edd.php:98
 #: hooks/class-gpospro-givewp.php:78
-#: hooks/class-gpospro-learnpress.php:62
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:333
+#: includes/plugin-gateways/class-gpospro-learn-press-payment-gateway.php:133
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:287
 msgid "These payment method settings are made through the admin menu."
 msgstr ""
 
 #: hooks/class-gpospro-edd.php:99
 #: hooks/class-gpospro-givewp.php:79
-#: hooks/class-gpospro-learnpress.php:63
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:334
+#: includes/plugin-gateways/class-gpospro-learn-press-payment-gateway.php:135
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:288
 msgid "Click to go to settings."
 msgstr ""
 
@@ -97,7 +97,7 @@ msgstr ""
 #: hooks/class-gpospro-gph.php:74
 #: hooks/class-gpos-gph.php:75
 #: includes/class-gpos-post-operations.php:157
-#: languages/gpos-settings-texts.php:190
+#: languages/gpos-settings-texts.php:197
 msgid "Cancel"
 msgstr ""
 
@@ -122,57 +122,61 @@ msgstr ""
 msgid "After a step, the plugin will be deactivated. Could you please take a moment and support us to make your app better?"
 msgstr ""
 
-#: hooks/class-gpospro-gurmepos.php:234
+#: hooks/class-gpospro-gurmepos.php:236
 msgctxt "Post type general name"
 msgid "Saved Cards"
 msgstr ""
 
-#: hooks/class-gpospro-gurmepos.php:235
+#: hooks/class-gpospro-gurmepos.php:237
 msgctxt "Post type singular name"
 msgid "Saved Card"
 msgstr ""
 
-#: hooks/class-gpospro-gurmepos.php:236
+#: hooks/class-gpospro-gurmepos.php:238
 msgctxt "Admin Menu text"
 msgid "Saved Cards"
 msgstr ""
 
-#: hooks/class-gpospro-gurmepos.php:237
+#: hooks/class-gpospro-gurmepos.php:239
 msgid "Saved Cards"
 msgstr ""
 
-#: hooks/class-gpospro-gurmepos.php:238
+#: hooks/class-gpospro-gurmepos.php:240
 msgid "Search Saved Card"
 msgstr ""
 
-#: hooks/class-gpospro-gurmepos.php:239
-#: languages/gpos-settings-texts.php:231
+#: hooks/class-gpospro-gurmepos.php:241
+#: languages/gpos-settings-texts.php:238
 msgid "No Saved Card found."
 msgstr ""
 
-#: hooks/class-gpospro-gurmepos.php:240
+#: hooks/class-gpospro-gurmepos.php:242
 msgid "No Saved Card found in Trash."
 msgstr ""
 
-#: hooks/class-gpospro-woocommerce.php:46
+#: hooks/class-gpospro-learn-press.php:40
+msgid "Error while payment processing"
+msgstr ""
+
+#: hooks/class-gpospro-woocommerce.php:65
 msgid "Card has been deleted"
 msgstr ""
 
-#: hooks/class-gpospro-woocommerce.php:50
+#: hooks/class-gpospro-woocommerce.php:69
 msgid "Default card has been changed"
 msgstr ""
 
-#: hooks/class-gpospro-woocommerce.php:114
+#: hooks/class-gpospro-woocommerce.php:133
 msgid "Set Default"
 msgstr ""
 
-#: hooks/class-gpospro-woocommerce.php:124
-#: hooks/class-gpospro-woocommerce.php:139
-#: languages/gpos-settings-texts.php:230
+#: hooks/class-gpospro-woocommerce.php:143
+#: hooks/class-gpospro-woocommerce.php:158
+#: languages/gpos-settings-texts.php:237
 msgid "Delete"
 msgstr ""
 
-#: hooks/class-gpospro-woocommerce.php:145
+#: hooks/class-gpospro-woocommerce.php:164
 msgid "Default Card"
 msgstr ""
 
@@ -189,13 +193,23 @@ msgstr ""
 msgid "Unknown error. Please try manual installation. If the problem persists, contact the GurmeHub."
 msgstr ""
 
+#: includes/class-gpospro-notifications.php:38
+#: includes/class-gpos-notifications.php:88
+msgid "Daily Transaction Notification"
+msgstr ""
+
+#: includes/class-gpospro-notifications.php:66
+#: includes/class-gpos-notifications.php:115
+msgid "Weekly Transaction Notification"
+msgstr ""
+
 #: includes/class-gpospro-post-tables.php:65
 msgid "Card Name"
 msgstr ""
 
 #: includes/class-gpospro-post-tables.php:66
 #: languages/gpos-checkout-texts.php:20
-#: languages/gpos-settings-texts.php:159
+#: languages/gpos-settings-texts.php:166
 msgid "Card Number"
 msgstr ""
 
@@ -204,39 +218,41 @@ msgid "Expiry"
 msgstr ""
 
 #: includes/class-gpospro-post-tables.php:68
-#: languages/gpos-settings-texts.php:162
+#: languages/gpos-settings-texts.php:169
 msgid "Card Family"
 msgstr ""
 
 #: includes/class-gpospro-post-tables.php:69
-#: languages/gpos-settings-texts.php:81
+#: languages/gpos-settings-texts.php:89
+#: views/emails/error.php:78
 msgid "Payment Gateway"
 msgstr ""
 
 #: includes/class-gpospro-post-tables.php:70
-#: languages/gpos-settings-texts.php:161
+#: languages/gpos-settings-texts.php:168
 msgid "Card Brand"
 msgstr ""
 
 #: includes/class-gpospro-post-tables.php:71
-#: languages/gpos-settings-texts.php:160
+#: languages/gpos-settings-texts.php:167
 msgid "Card Type"
 msgstr ""
 
 #: includes/class-gpospro-post-tables.php:72
-#: languages/gpos-settings-texts.php:165
+#: languages/gpos-settings-texts.php:172
 msgid "Bank Name"
 msgstr ""
 
 #: includes/class-gpospro-post-tables.php:73
-#: languages/gpos-settings-texts.php:132
-#: languages/gpos-settings-texts.php:224
+#: includes/gpos-functions.php:481
+#: languages/gpos-settings-texts.php:139
+#: languages/gpos-settings-texts.php:231
 msgid "E-Mail"
 msgstr ""
 
 #: includes/class-gpospro-post-tables.php:74
 #: includes/class-gpos-post-tables.php:54
-#: languages/gpos-settings-texts.php:78
+#: languages/gpos-settings-texts.php:86
 msgid "Date"
 msgstr ""
 
@@ -249,7 +265,7 @@ msgstr ""
 #: includes/payment-gateways/craftgate/class-gpospro-craftgate-gateway.php:46
 #: includes/payment-gateways/esnekpos/class-gpospro-esnekpos-gateway.php:52
 #: includes/payment-gateways/lidio/class-gpospro-lidio-gateway.php:39
-#: includes/payment-gateways/param/class-gpospro-param-gateway.php:57
+#: includes/payment-gateways/param/class-gpospro-param-gateway.php:62
 #: includes/payment-gateways/paytr/class-gpospro-paytr-gateway.php:72
 #: includes/payment-gateways/sipay/class-gpospro-sipay-gateway.php:58
 #: includes/payment-gateways/wyld/class-gpospro-wyld-gateway.php:64
@@ -285,26 +301,52 @@ msgid "Unsupported currency"
 msgstr ""
 
 #: includes/plugin-gateways/class-gpospro-edd-payment-gateway.php:83
-#: includes/plugin-gateways/class-gpospro-givewp-payment-gateway.php:91
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:71
+#: includes/plugin-gateways/class-gpospro-givewp-payment-gateway.php:93
+#: includes/plugin-gateways/class-gpospro-learn-press-payment-gateway.php:108
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:102
 msgid "Invalid operation, please try again by refreshing the page."
 msgstr ""
 
 #. translators: %s => Ödeme geçidindeki tekil kimlik.
-#: includes/plugin-gateways/class-gpospro-edd-payment-gateway.php:176
+#: includes/plugin-gateways/class-gpospro-edd-payment-gateway.php:171
 #: includes/plugin-gateways/class-gpospro-givewp-payment-gateway.php:139
-#: includes/traits/trait-gpos-plugin-payment-gateway.php:356
+#: includes/traits/trait-gpos-plugin-payment-gateway.php:383
 msgid "Payment completed successfully. Payment number: %s"
 msgstr ""
 
 #. translators: % s => Ödeme geçidi hatası .
-#: includes/plugin-gateways/class-gpospro-edd-payment-gateway.php:200
+#: includes/plugin-gateways/class-gpospro-edd-payment-gateway.php:195
 #: includes/plugin-gateways/class-gpospro-givewp-payment-gateway.php:163
+#: includes/plugin-gateways/class-gpospro-learn-press-payment-gateway.php:311
 msgid "Error while payment processing: %s"
 msgstr ""
 
-#: includes/plugin-gateways/class-gpospro-givewp-payment-gateway.php:212
+#: includes/plugin-gateways/class-gpospro-givewp-payment-gateway.php:211
 msgid "Donation"
+msgstr ""
+
+#. Plugin Name of the plugin
+#: includes/plugin-gateways/class-gpospro-learn-press-payment-gateway.php:72
+#: includes/plugin-gateways/class-gpospro-learn-press-payment-gateway.php:79
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:48
+msgid "POS Entegratör"
+msgstr ""
+
+#. translators: %s = POS Entegratör
+#: includes/plugin-gateways/class-gpospro-learn-press-payment-gateway.php:74
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:50
+msgid "%s - Multiple payment solutions"
+msgstr ""
+
+#: includes/plugin-gateways/class-gpospro-learn-press-payment-gateway.php:124
+#: includes/plugin-gateways/class-gpospro-learn-press-payment-gateway.php:127
+msgid "Enable"
+msgstr ""
+
+#. translators: %s => Ödeme geçidi benzersiz numarası.
+#: includes/plugin-gateways/class-gpospro-learn-press-payment-gateway.php:272
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:126
+msgid "Payment completed successfully. Payment number: %s."
 msgstr ""
 
 #: includes/plugin-gateways/class-gpospro-woocommerce-payment-gateway.php:61
@@ -313,6 +355,61 @@ msgstr ""
 
 #: includes/plugin-gateways/class-gpospro-woocommerce-payment-gateway.php:133
 msgid "Payment not be received because the card to receive payment not be found."
+msgstr ""
+
+#: views/emails/transaction-info.php:63
+#: languages/gpos-checkout-texts.php:12
+#: languages/gpos-settings-texts.php:292
+#: views/emails/error.php:62
+msgid "Total"
+msgstr ""
+
+#: views/emails/transaction-info.php:75
+#: languages/gpos-settings-texts.php:28
+#: languages/gpos-settings-texts.php:155
+msgid "Completed"
+msgstr ""
+
+#: views/emails/transaction-info.php:87
+msgid "Canceled/Refunded"
+msgstr ""
+
+#: views/emails/transaction-info.php:99
+#: languages/gpos-settings-texts.php:154
+msgid "Failed"
+msgstr ""
+
+#: views/emails/transaction-info.php:110
+#: languages/gpos-settings-texts.php:83
+msgid "Transaction Details"
+msgstr ""
+
+#: views/emails/transaction-info.php:117
+msgid "Today"
+msgstr ""
+
+#: views/emails/transaction-info.php:117
+msgid "This Week"
+msgstr ""
+
+#: views/emails/transaction-info.php:120
+msgid "Yesterday"
+msgstr ""
+
+#: views/emails/transaction-info.php:120
+msgid "Last Week"
+msgstr ""
+
+#: views/emails/transaction-info.php:126
+msgid "Payment Total"
+msgstr ""
+
+#: views/emails/transaction-info.php:151
+msgid "Refunded/Canceled Total"
+msgstr ""
+
+#: views/emails/transaction-info.php:179
+msgid "Payment Gateway Transaction Counts"
 msgstr ""
 
 #. translators: %1$s = POS Entegratör Pro, %2$s = POS Entegratör
@@ -331,99 +428,99 @@ msgstr ""
 
 #. translators: %s: Saat farkı için kullanılan saat örn. 10 Dakika Önce
 #: views/saved-card-columns/create-date.php:20
+#: includes/abstracts/abstract-gpos-post.php:193
 #: views/transaction-columns/create-date.php:20
 msgctxt "%s = human-readable time difference"
 msgid "%s ago"
 msgstr ""
 
 #: views/saved-card-columns/create-date.php:24
+#: includes/abstracts/abstract-gpos-post.php:197
 #: views/transaction-columns/create-date.php:24
 msgid "j F Y"
 msgstr ""
 
 #: views/saved-card-columns/type.php:14
-#: languages/gpos-settings-texts.php:168
+#: languages/gpos-settings-texts.php:175
 msgid "Credit Card"
 msgstr ""
 
 #: views/saved-card-columns/type.php:14
-#: languages/gpos-settings-texts.php:169
+#: languages/gpos-settings-texts.php:176
 msgid "Debit Card"
-msgstr ""
-
-#. Plugin Name of the plugin
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:48
-msgid "POS Entegratör"
 msgstr ""
 
 #. Plugin URI of the plugin
 msgid "https://posentegrator.com"
 msgstr ""
 
+#. Description of the plugin
+msgid "Gurmehub tüm banka ve ödeme kuruluşları destekli özelleştirilebilir POS eklentisi"
+msgstr ""
+
 #. Author URI of the plugin
 msgid "https://gurmehub.com"
 msgstr ""
 
-#: hooks/class-gpos-wordpress.php:268
-#: includes/class-gpos-admin.php:253
-#: languages/gpos-settings-texts.php:215
+#: hooks/class-gpos-wordpress.php:266
+#: includes/class-gpos-admin.php:71
+#: languages/gpos-settings-texts.php:222
 msgid "Settings"
 msgstr ""
 
-#: hooks/class-gpos-wordpress.php:275
+#: hooks/class-gpos-wordpress.php:273
 msgid "Upgrade"
 msgstr ""
 
-#: hooks/class-gpos-wordpress.php:316
-#: languages/gpos-settings-texts.php:110
+#: hooks/class-gpos-wordpress.php:314
+#: languages/gpos-settings-texts.php:118
 msgid "Docs"
 msgstr ""
 
-#: hooks/class-gpos-wordpress.php:321
+#: hooks/class-gpos-wordpress.php:319
 msgid "Community Form"
 msgstr ""
 
-#: hooks/class-gpos-wordpress.php:342
+#: hooks/class-gpos-wordpress.php:340
 msgid "Select Process Type"
 msgstr ""
 
-#: includes/abstracts/abstract-gpos-options.php:73
+#: includes/abstracts/abstract-gpos-options.php:79
 msgid "Debit/Credit Card"
 msgstr ""
 
-#: includes/abstracts/abstract-gpos-options.php:74
+#: includes/abstracts/abstract-gpos-options.php:80
 #: includes/class-gpos-post-operations.php:156
-#: languages/gpos-settings-texts.php:153
+#: languages/gpos-settings-texts.php:160
 msgid "Payment"
 msgstr ""
 
-#: includes/class-gpos-admin.php:98
-#: languages/gpos-settings-texts.php:92
-msgid "Upgrade Pro"
-msgstr ""
-
-#: includes/class-gpos-admin.php:143
-#: languages/gpos-checkout-texts.php:18
-#: languages/gpos-settings-texts.php:10
-msgid "Test Mode Active"
-msgstr ""
-
-#: includes/class-gpos-admin.php:160
-#: includes/class-gpos-post-operations.php:105
-msgid "Transactions"
-msgstr ""
-
-#: includes/class-gpos-admin.php:235
+#: includes/class-gpos-admin.php:52
 msgid "Dashboard"
 msgstr ""
 
-#: includes/class-gpos-admin.php:239
-#: languages/gpos-settings-texts.php:154
+#: includes/class-gpos-admin.php:66
+#: languages/gpos-settings-texts.php:161
 msgid "Virtual POS"
+msgstr ""
+
+#: includes/class-gpos-admin.php:124
+#: languages/gpos-settings-texts.php:100
+msgid "Upgrade Pro"
+msgstr ""
+
+#: includes/class-gpos-admin.php:170
+#: languages/gpos-checkout-texts.php:18
+#: languages/gpos-settings-texts.php:18
+msgid "Test Mode Active"
 msgstr ""
 
 #: includes/class-gpos-gateway-response.php:173
 msgid "Unknown error please contact admin"
+msgstr ""
+
+#: includes/class-gpos-notifications.php:61
+msgid "Error in payment process"
 msgstr ""
 
 #. translators: %s = POS Entegratör Pro.
@@ -472,6 +569,10 @@ msgstr ""
 msgid "View Transaction"
 msgstr ""
 
+#: includes/class-gpos-post-operations.php:105
+msgid "Transactions"
+msgstr ""
+
 #: includes/class-gpos-post-operations.php:106
 msgid "Search Transactions"
 msgstr ""
@@ -490,12 +591,12 @@ msgstr ""
 
 #: includes/class-gpos-post-operations.php:149
 #: includes/class-gpos-post-tables.php:50
-#: languages/gpos-settings-texts.php:83
+#: languages/gpos-settings-texts.php:91
 msgid "Process Type"
 msgstr ""
 
 #: includes/class-gpos-post-operations.php:158
-#: languages/gpos-settings-texts.php:19
+#: languages/gpos-settings-texts.php:27
 msgid "Refund"
 msgstr ""
 
@@ -575,17 +676,17 @@ msgid "Partial Refunded "
 msgstr ""
 
 #: includes/class-gpos-post-tables.php:48
-#: languages/gpos-settings-texts.php:144
+#: languages/gpos-settings-texts.php:151
 msgid "Transaction"
 msgstr ""
 
 #: includes/class-gpos-post-tables.php:49
-#: languages/gpos-settings-texts.php:155
+#: languages/gpos-settings-texts.php:162
 msgid "Plugin"
 msgstr ""
 
 #: includes/class-gpos-post-tables.php:51
-#: languages/gpos-settings-texts.php:31
+#: languages/gpos-settings-texts.php:39
 msgid "Status"
 msgstr ""
 
@@ -616,17 +717,17 @@ msgstr ""
 msgid "Refund process completed successfully. Process Id: %s."
 msgstr ""
 
-#: includes/class-gpos-transaction.php:321
+#: includes/class-gpos-transaction.php:335
 msgid "Transaction started."
 msgstr ""
 
 #. translators: %1$s => Eski durum %2$s => Yeni durum.
-#: includes/class-gpos-transaction.php:475
+#: includes/class-gpos-transaction.php:489
 msgid "Status updated %1$s to %2$s"
 msgstr ""
 
 #. translators: %1$s => Link, %2$s => Text
-#: includes/class-gpos-transaction.php:947
+#: includes/class-gpos-transaction.php:961
 msgid "Click to view the details of transaction <a href=\"%1$s\" target=\"_blank\">#%2$s</a>."
 msgstr ""
 
@@ -635,7 +736,7 @@ msgid "Error in 3D progress. The password was entered incorrectly or the 3D page
 msgstr ""
 
 #: includes/gpos-functions.php:325
-#: languages/gpos-settings-texts.php:115
+#: languages/gpos-settings-texts.php:123
 msgid "OK"
 msgstr ""
 
@@ -684,14 +785,14 @@ msgstr ""
 #: includes/gpos-functions.php:366
 #: includes/gpos-functions.php:380
 #: includes/gpos-functions.php:384
-#: languages/gpos-settings-texts.php:166
+#: languages/gpos-settings-texts.php:173
 msgid "Yes"
 msgstr ""
 
 #: includes/gpos-functions.php:366
 #: includes/gpos-functions.php:380
 #: includes/gpos-functions.php:384
-#: languages/gpos-settings-texts.php:167
+#: languages/gpos-settings-texts.php:174
 msgid "No"
 msgstr ""
 
@@ -708,8 +809,60 @@ msgid "Disabled"
 msgstr ""
 
 #: includes/gpos-functions.php:395
-#: languages/gpos-settings-texts.php:138
+#: languages/gpos-settings-texts.php:145
 msgid "IP Address"
+msgstr ""
+
+#: includes/gpos-functions.php:478
+msgid "Name"
+msgstr ""
+
+#: includes/gpos-functions.php:479
+msgid "Surname"
+msgstr ""
+
+#: includes/gpos-functions.php:480
+#: languages/gpos-settings-texts.php:146
+#: languages/gpos-settings-texts.php:230
+msgid "Phone"
+msgstr ""
+
+#: includes/gpos-functions.php:482
+#: languages/gpos-settings-texts.php:140
+#: languages/gpos-settings-texts.php:232
+msgid "Address"
+msgstr ""
+
+#: includes/gpos-functions.php:483
+#: languages/gpos-settings-texts.php:141
+#: languages/gpos-settings-texts.php:234
+msgid "City"
+msgstr ""
+
+#: includes/gpos-functions.php:484
+#: languages/gpos-settings-texts.php:143
+#: languages/gpos-settings-texts.php:235
+msgid "Country"
+msgstr ""
+
+#: includes/gpos-functions.php:578
+msgid "Card number field cannot be left blank."
+msgstr ""
+
+#: includes/gpos-functions.php:579
+msgid "Card expiration month cannot be left blank."
+msgstr ""
+
+#: includes/gpos-functions.php:580
+msgid "Card expiration year cannot be left blank."
+msgstr ""
+
+#: includes/gpos-functions.php:581
+msgid "Card cvc field cannot be left blank."
+msgstr ""
+
+#: includes/gpos-functions.php:582
+msgid "Name on the card field cannot be left blank."
 msgstr ""
 
 #: includes/payment-gateways/iyzico/class-gpos-iyzico.php:99
@@ -931,42 +1084,12 @@ msgstr ""
 msgid "App Secret"
 msgstr ""
 
-#. translators: %s = POS Entegratör
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:50
-msgid "%s - Multiple payment solutions"
-msgstr ""
-
-#. translators: %s => Ödeme geçidi benzersiz numarası.
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:154
-msgid "Payment completed successfully. Payment number: %s."
-msgstr ""
-
 #. translators: %s => Ödeme geçidi hatası.
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:195
+#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:168
 msgid "Error in payment process: %s."
 msgstr ""
 
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:303
-msgid "Card number field cannot be left blank."
-msgstr ""
-
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:304
-msgid "Card expiration month cannot be left blank."
-msgstr ""
-
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:305
-msgid "Card expiration year cannot be left blank."
-msgstr ""
-
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:306
-msgid "Card cvc field cannot be left blank."
-msgstr ""
-
-#: includes/plugin-gateways/class-gpos-woocommerce-payment-gateway.php:307
-msgid "Name on the card field cannot be left blank."
-msgstr ""
-
-#: includes/traits/trait-gpos-plugin-payment-gateway.php:201
+#: includes/traits/trait-gpos-plugin-payment-gateway.php:228
 msgid "Installment Fee"
 msgstr ""
 
@@ -1076,10 +1199,6 @@ msgstr ""
 msgid "Pay with my saved card"
 msgstr ""
 
-#: languages/gpos-checkout-texts.php:12
-msgid "Total"
-msgstr ""
-
 #: languages/gpos-checkout-texts.php:13
 msgid "Installment Number"
 msgstr ""
@@ -1094,7 +1213,8 @@ msgid "Month"
 msgstr ""
 
 #: languages/gpos-checkout-texts.php:16
-#: languages/gpos-settings-texts.php:11
+#: languages/gpos-settings-texts.php:19
+#: views/emails/error.php:70
 msgid "Installment"
 msgstr ""
 
@@ -1131,7 +1251,7 @@ msgid "Save my card for next payments."
 msgstr ""
 
 #: languages/gpos-checkout-texts.php:27
-#: languages/gpos-settings-texts.php:278
+#: languages/gpos-settings-texts.php:284
 msgid "Saved Card"
 msgstr ""
 
@@ -1139,935 +1259,1135 @@ msgstr ""
 msgid "Card name"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:12
+#: languages/gpos-settings-texts.php:20
 msgid "Payment Method"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:13
+#: languages/gpos-settings-texts.php:21
 msgid "3D Payment"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:14
+#: languages/gpos-settings-texts.php:22
 msgid "Regular Payment"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:15
-#: languages/gpos-settings-texts.php:49
+#: languages/gpos-settings-texts.php:23
+#: languages/gpos-settings-texts.php:57
 msgid "Save Card"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:16
+#: languages/gpos-settings-texts.php:24
 msgid "Recurring Payment (Saved Card)"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:17
+#: languages/gpos-settings-texts.php:25
 msgid "Recurring Payment (Payment Plan)"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:18
+#: languages/gpos-settings-texts.php:26
 msgid "Automatic Plan"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:20
-#: languages/gpos-settings-texts.php:148
-msgid "Completed"
-msgstr ""
-
-#: languages/gpos-settings-texts.php:21
+#: languages/gpos-settings-texts.php:29
 msgid "Processing"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:22
+#: languages/gpos-settings-texts.php:30
 msgid "Free"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:23
+#: languages/gpos-settings-texts.php:31
 msgid "Pro Upgrade"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:24
+#: languages/gpos-settings-texts.php:32
 msgid "Announcements"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:25
+#: languages/gpos-settings-texts.php:33
 msgid "Add Payment Method"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:26
+#: languages/gpos-settings-texts.php:34
 msgid "Payment Provider"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:27
+#: languages/gpos-settings-texts.php:35
 msgid "Can`t find the payment provider you`re looking for?"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:28
+#: languages/gpos-settings-texts.php:36
 msgid "Contact Us"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:29
+#: languages/gpos-settings-texts.php:37
 msgid "Features"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:30
+#: languages/gpos-settings-texts.php:38
 msgid "Currencies"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:32
+#: languages/gpos-settings-texts.php:40
 msgid "Actions"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:33
+#: languages/gpos-settings-texts.php:41
 msgid "You do not have an active pay organization."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:34
+#: languages/gpos-settings-texts.php:42
 msgid "Test Mode"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:35
+#: languages/gpos-settings-texts.php:43
 msgid "It puts the entire application into test mode and allows you to test with test apis."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:36
+#: languages/gpos-settings-texts.php:44
 msgid "Application related"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:37
+#: languages/gpos-settings-texts.php:45
 msgid "View help documents about {0}"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:38
+#: languages/gpos-settings-texts.php:46
 msgid "3D Settings"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:39
+#: languages/gpos-settings-texts.php:47
 msgid "Info: If your virtual POS does not support regular transactions, the payment will be taken in 3D even if the Payment Without 3D or Ask User options are selected."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:40
+#: languages/gpos-settings-texts.php:48
 msgid "Not 3D"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:41
+#: languages/gpos-settings-texts.php:49
 msgid "Users complete the payment directly"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:42
+#: languages/gpos-settings-texts.php:50
 msgid "Ask User"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:43
+#: languages/gpos-settings-texts.php:51
 msgid "User selects 3D option at checkout"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:44
+#: languages/gpos-settings-texts.php:52
 msgid "Forced 3D"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:45
+#: languages/gpos-settings-texts.php:53
 msgid "Users are redirected to the 3D Screen after paying."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:46
+#: languages/gpos-settings-texts.php:54
 msgid "Other Settings"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:47
+#: languages/gpos-settings-texts.php:55
 msgid "Get name and surname information on the form"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:48
+#: languages/gpos-settings-texts.php:56
 msgid "Use the order fields for the name information on the card. If the setting is turned off, a name field will appear above the card number section."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:50
+#: languages/gpos-settings-texts.php:58
 msgid "With the Card Save feature, your customers can register their cards during paying."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:51
+#: languages/gpos-settings-texts.php:59
 msgid "Recurring Payment"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:52
+#: languages/gpos-settings-texts.php:60
 msgid "Sell subscription products with the WooCommerce Subscriber Plugin"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:53
+#: languages/gpos-settings-texts.php:61
 msgid "Appearance Settings"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:54
+#: languages/gpos-settings-texts.php:62
 msgid "Standard Payment Form"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:55
+#: languages/gpos-settings-texts.php:63
 msgid "Standart three field form"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:56
+#: languages/gpos-settings-texts.php:64
 msgid "One-line payment form"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:57
+#: languages/gpos-settings-texts.php:65
 msgid "One-line credit card form"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:58
+#: languages/gpos-settings-texts.php:66
 msgid "Payment by credit card"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:59
+#: languages/gpos-settings-texts.php:67
 msgid "Save Settings"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:60
+#: languages/gpos-settings-texts.php:68
 msgid "Test the connection"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:61
+#: languages/gpos-settings-texts.php:69
 msgid "Remove payment provider"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:62
+#: languages/gpos-settings-texts.php:70
 msgid "Virtual POS Screen"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:63
+#: languages/gpos-settings-texts.php:71
 msgid "Supported Features"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:64
+#: languages/gpos-settings-texts.php:72
 msgid "Supported Currencies"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:65
+#: languages/gpos-settings-texts.php:73
 msgid "You have not activated a pos yet"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:66
+#: languages/gpos-settings-texts.php:74
 msgid "To start receiving payments immediately, make the connection to the payment institution you are contracted with."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:67
+#: languages/gpos-settings-texts.php:75
 msgid "Method Name"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:68
+#: languages/gpos-settings-texts.php:76
 msgid "Payment Button Text"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:69
+#: languages/gpos-settings-texts.php:77
 msgid "Status of Successful Payments"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:70
+#: languages/gpos-settings-texts.php:78
 msgid "Description Field of Payment Form"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:71
+#: languages/gpos-settings-texts.php:79
 msgid "Soon"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:72
+#: languages/gpos-settings-texts.php:80
 msgid "Help"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:73
+#: languages/gpos-settings-texts.php:81
 msgid "Feedback"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:74
+#: languages/gpos-settings-texts.php:82
 msgid "Forum"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:75
-msgid "Transaction Details"
-msgstr ""
-
-#: languages/gpos-settings-texts.php:76
+#: languages/gpos-settings-texts.php:84
 msgid "Request"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:77
+#: languages/gpos-settings-texts.php:85
 msgid "Response"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:79
+#: languages/gpos-settings-texts.php:87
 msgid "Copy"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:80
+#: languages/gpos-settings-texts.php:88
 msgid "Copied"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:82
+#: languages/gpos-settings-texts.php:90
 msgid "Platform"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:84
+#: languages/gpos-settings-texts.php:92
 msgid "Details"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:85
+#: languages/gpos-settings-texts.php:93
 msgid "There are no logs."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:86
+#: languages/gpos-settings-texts.php:94
 msgid "Rate"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:87
+#: languages/gpos-settings-texts.php:95
 msgid "Search Payment Institution"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:88
+#: languages/gpos-settings-texts.php:96
 msgid "Default"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:89
+#: languages/gpos-settings-texts.php:97
 msgid "Make Default"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:90
+#: languages/gpos-settings-texts.php:98
 msgid "All Features"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:91
+#: languages/gpos-settings-texts.php:99
 msgid "Loading..."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:93
+#: languages/gpos-settings-texts.php:101
 msgid "Check out the pro version for many pos and more available in Pro"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:94
+#: languages/gpos-settings-texts.php:102
 msgid "Review Now"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:95
+#: languages/gpos-settings-texts.php:103
 msgid "Installment Table View Settings"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:96
+#: languages/gpos-settings-texts.php:104
 msgid "Table View"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:97
+#: languages/gpos-settings-texts.php:105
 msgid "It shows your installment options in the form of a table in the payment form."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:98
+#: languages/gpos-settings-texts.php:106
 msgid "Row View"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:99
+#: languages/gpos-settings-texts.php:107
 msgid "It shows your installment options in more detail in the form of rows in the payment form."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:100
+#: languages/gpos-settings-texts.php:108
 msgid "Show Warning for Categories Not for Sale in Installments."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:101
+#: languages/gpos-settings-texts.php:109
 msgid "You can show a warning text to your customers on the checkout page for your categories that are not available for sale in installments. (WooCommerce only)"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:102
+#: languages/gpos-settings-texts.php:110
 msgid "Warning Text"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:103
+#: languages/gpos-settings-texts.php:111
 msgid "Enter Description"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:104
-msgid "GurmeHub Forum"
-msgstr ""
-
-#: languages/gpos-settings-texts.php:105
-msgid "Share your questions about Shopify, WooCommerce, Dokan and many other platforms with us and the community through the Gurmehub Forum."
-msgstr ""
-
-#: languages/gpos-settings-texts.php:106
-msgid "GurmeHub Feedback"
-msgstr ""
-
-#: languages/gpos-settings-texts.php:107
-msgid "Your suggestions are very valuable to us so that our applications can work better. You can support us to improve our products by giving feedback."
-msgstr ""
-
-#: languages/gpos-settings-texts.php:108
-msgid "Give Feedback"
-msgstr ""
-
-#: languages/gpos-settings-texts.php:109
-msgid "Before using our POS Entegratör application, you can use the application much more efficiently by examining our documents."
-msgstr ""
-
-#: languages/gpos-settings-texts.php:111
-msgid "Transaction Logs"
-msgstr ""
-
 #: languages/gpos-settings-texts.php:112
-msgid "On this table, you can view in detail every transaction that goes through your payment gateway."
+msgid "Gurmehub Forum"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:113
-msgid "Logs"
+msgid "Share your questions about Shopify, WooCommerce, Dokan and many other platforms with us and the community through the Gurmehub Forum."
 msgstr ""
 
 #: languages/gpos-settings-texts.php:114
-msgid "Deletion completed"
+msgid "Gurmehub Feedback"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:115
+msgid "Your suggestions are very valuable to us so that our applications can work better. You can support us to improve our products by giving feedback."
 msgstr ""
 
 #: languages/gpos-settings-texts.php:116
-msgid "Back To"
+msgid "Give Feedback"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:117
-msgid "You can access the Institution/Company ID information from the top menu of your Paratika panel, under My Information > Basic Settings."
-msgstr ""
-
-#: languages/gpos-settings-texts.php:118
-msgid "Installment Options"
+msgid "Before using our POS Entegratör application, you can use the application much more efficiently by examining our documents."
 msgstr ""
 
 #: languages/gpos-settings-texts.php:119
-msgid "Activate Installment Sale"
+msgid "Transaction Logs"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:120
-msgid "You can automatically bring your installment rates by making your installment settings from the virtual POS panel."
+msgid "On this table, you can view in detail every transaction that goes through your payment gateway."
 msgstr ""
 
 #: languages/gpos-settings-texts.php:121
-msgid "Get Installment Rates"
+msgid "Logs"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:122
-msgid "Payment Methods"
-msgstr ""
-
-#: languages/gpos-settings-texts.php:123
-msgid "WooCommerce"
+msgid "Deletion completed"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:124
-msgid "Your Method Name"
+msgid "Back To"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:125
-msgid "Icon"
+msgid "You can access the Institution/Company ID information from the top menu of your Paratika panel, under My Information > Basic Settings."
 msgstr ""
 
 #: languages/gpos-settings-texts.php:126
-msgid "Automatic Installment Active POS"
+msgid "Installment Options"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:127
-msgid "Form Settings"
+msgid "Activate Installment Sale"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:128
-msgid "All Transactions"
+msgid "You can automatically bring your installment rates by making your installment settings from the virtual POS panel."
 msgstr ""
 
 #: languages/gpos-settings-texts.php:129
-#: languages/gpos-settings-texts.php:221
-msgid "First Name"
+msgid "Get Installment Rates"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:130
-#: languages/gpos-settings-texts.php:222
-msgid "Last Name"
+msgid "Payment Methods"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:131
-msgid "Id"
+msgid "Your Method Name"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:132
+msgid "Icon"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:133
-#: languages/gpos-settings-texts.php:225
-msgid "Address"
+msgid "Automatic Installment Active POS"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:134
-#: languages/gpos-settings-texts.php:227
-msgid "City"
+msgid "Form Settings"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:135
-#: languages/gpos-settings-texts.php:226
-msgid "State"
+msgid "All Transactions"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:136
 #: languages/gpos-settings-texts.php:228
-msgid "Country"
+msgid "First Name"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:137
-msgid "Zip Code"
+#: languages/gpos-settings-texts.php:229
+msgid "Last Name"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:139
-#: languages/gpos-settings-texts.php:223
-msgid "Phone"
-msgstr ""
-
-#: languages/gpos-settings-texts.php:140
-msgid "Created Date"
-msgstr ""
-
-#: languages/gpos-settings-texts.php:141
-msgid "Type"
+#: languages/gpos-settings-texts.php:138
+msgid "Id"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:142
-msgid "Process"
+#: languages/gpos-settings-texts.php:233
+msgid "State"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:143
-msgid "Record not found"
-msgstr ""
-
-#: languages/gpos-settings-texts.php:145
-msgid "Transaction #{0} details"
-msgstr ""
-
-#: languages/gpos-settings-texts.php:146
-msgid "Timeline"
+#: languages/gpos-settings-texts.php:144
+msgid "Zip Code"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:147
-msgid "Failed"
+msgid "Created Date"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:148
+msgid "Type"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:149
-msgid "Redirected To 3D"
+msgid "Process"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:150
-msgid "Redirected To Common Form"
-msgstr ""
-
-#: languages/gpos-settings-texts.php:151
-msgid "Started"
+msgid "Record not found"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:152
-msgid "Virtual POS Process Id"
+msgid "Transaction #{0} details"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:153
+msgid "Timeline"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:156
-msgid "Plugin Trans. Id"
+msgid "Redirected To 3D"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:157
-msgid "Customer"
+msgid "Redirected To Common Form"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:158
-msgid "Card Info"
+msgid "Started"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:159
+msgid "Virtual POS Process Id"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:163
-msgid "Card Holder Name"
+msgid "Plugin Trans. Id"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:164
-msgid "Card Country"
+msgid "Customer"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:165
+msgid "Card Info"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:170
-msgid "Auth, Login, Token etc."
+msgid "Card Holder Name"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:171
-msgid "Regular Process"
-msgstr ""
-
-#: languages/gpos-settings-texts.php:172
-msgid "3D Start"
-msgstr ""
-
-#: languages/gpos-settings-texts.php:173
-msgid "3D Redirect"
-msgstr ""
-
-#: languages/gpos-settings-texts.php:174
-msgid "Common Form Start"
-msgstr ""
-
-#: languages/gpos-settings-texts.php:175
-msgid "Callback"
-msgstr ""
-
-#: languages/gpos-settings-texts.php:176
-msgid "Finish"
+msgid "Card Country"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:177
-msgid "Notify"
+msgid "Auth, Login, Token etc."
 msgstr ""
 
 #: languages/gpos-settings-texts.php:178
-msgid "Refund Total Amount"
+msgid "Regular Process"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:179
-msgid "Payment Transactions"
+msgid "3D Start"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:180
-msgid "Product Name"
+msgid "3D Redirect"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:181
-msgid "Refundable"
+msgid "Common Form Start"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:182
-msgid "Cancel / Refund Status"
+msgid "Callback"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:183
-msgid "Action"
+msgid "Finish"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:184
-msgid "Refund It"
+msgid "Notify"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:185
-#: languages/gpos-settings-texts.php:194
-msgid "Not Refunded"
+msgid "Refund Total Amount"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:186
-#: languages/gpos-settings-texts.php:195
-msgid "Refunded"
+msgid "Payment Transactions"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:187
-#: languages/gpos-settings-texts.php:196
-msgid "Partial Refunded"
+msgid "Product Name"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:188
-msgid "Are you sure you want to refund the full <strong>{0} {1}</strong> payment?"
+msgid "Refundable"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:189
-msgid "Note: If 1 day has not passed from the date of the transaction, the cancellation will be made, otherwise the refund will be made."
+msgid "Cancel / Refund Status"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:190
+msgid "Action"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:191
-msgid "Process Cancel"
+msgid "Refund It"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:192
-msgid "Process Refund"
+#: languages/gpos-settings-texts.php:201
+msgid "Not Refunded"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:193
-msgid "Cancelled"
+#: languages/gpos-settings-texts.php:202
+msgid "Refunded"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:197
-msgid "You can refund part of the <strong>{0} {1}</strong> payment by entering the amount you want to refund."
+#: languages/gpos-settings-texts.php:194
+#: languages/gpos-settings-texts.php:203
+msgid "Partial Refunded"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:195
+msgid "Are you sure you want to refund the full <strong>{0} {1}</strong> payment?"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:196
+msgid "Note: If 1 day has not passed from the date of the transaction, the cancellation will be made, otherwise the refund will be made."
 msgstr ""
 
 #: languages/gpos-settings-texts.php:198
-msgid "Payment Transaction Id"
+msgid "Process Cancel"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:199
-msgid "General Settings"
+msgid "Process Refund"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:200
-msgid "Integration Settings"
-msgstr ""
-
-#: languages/gpos-settings-texts.php:201
-msgid "GiveWP"
-msgstr ""
-
-#: languages/gpos-settings-texts.php:202
-msgid "Payment Settings"
-msgstr ""
-
-#: languages/gpos-settings-texts.php:203
-msgid "Installment Rules"
+msgid "Cancelled"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:204
-msgid "Card Saving"
+msgid "You can refund part of the <strong>{0} {1}</strong> payment by entering the amount you want to refund."
 msgstr ""
 
 #: languages/gpos-settings-texts.php:205
-msgid "Documents"
+msgid "Payment Transaction Id"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:206
-msgid "Other"
+msgid "General Settings"
 msgstr ""
 
 #: languages/gpos-settings-texts.php:207
+msgid "Integration Settings"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:208
+msgid "GiveWP"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:209
+msgid "Payment Settings"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:210
+msgid "Installment Rules"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:211
+msgid "Card Saving"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:212
+msgid "Documents"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:213
+msgid "Other"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:214
 #: views/wc-gateway-disabled.php:17
 msgid "Activate"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:208
+#: languages/gpos-settings-texts.php:215
 msgid "Your users with the Card Save feature, they can save their cards during payment. (If default payment gateway supports save card)"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:209
+#: languages/gpos-settings-texts.php:216
 msgid "Save Step"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:210
+#: languages/gpos-settings-texts.php:217
 msgid "At payment"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:211
+#: languages/gpos-settings-texts.php:218
 msgid "Users can register their cards at payment"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:212
+#: languages/gpos-settings-texts.php:219
 msgid "After payment"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:213
+#: languages/gpos-settings-texts.php:220
 msgid "After users complete their payment, they can save card"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:214
+#: languages/gpos-settings-texts.php:221
 msgid "Short Code"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:216
+#: languages/gpos-settings-texts.php:223
 msgid "Export"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:217
+#: languages/gpos-settings-texts.php:224
 msgid "With the help of the shortcode, you can create a page where your customers can view and remove their saved cards., they can save card"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:218
+#: languages/gpos-settings-texts.php:225
 msgid "Form"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:219
+#: languages/gpos-settings-texts.php:226
 msgid "If there are no personal information fields in the donation form, the contact information here will be used."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:220
+#: languages/gpos-settings-texts.php:227
 msgid "Default Donator"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:229
+#: languages/gpos-settings-texts.php:236
 #: views/vue-app-div.php:45
 msgid "Year"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:232
+#: languages/gpos-settings-texts.php:239
 msgid "Reset Settings"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:233
+#: languages/gpos-settings-texts.php:240
 msgid "Support Settings"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:234
+#: languages/gpos-settings-texts.php:241
 msgid "When this setting is activated, users can cahange their payment method from My Account -> My Subscriptions."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:235
+#: languages/gpos-settings-texts.php:242
 msgid "When this setting is activated, users can cancel their subscriptions from My Account -> My Subscriptions."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:236
+#: languages/gpos-settings-texts.php:243
 msgid "If there is a basket subscription product, you can write a note if you want to inform the customer that their card will be registered automatically."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:237
+#: languages/gpos-settings-texts.php:244
 msgid "Note"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:238
+#: languages/gpos-settings-texts.php:245
 msgid "Using iframe for 3D forms and Common payment forms"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:239
+#: languages/gpos-settings-texts.php:246
 msgid "Important! This feature is still in beta phase. Please do not open it to your customers without testing it. Your feedback is important for our development process."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:240
+#: languages/gpos-settings-texts.php:247
 msgid "Card Name Field"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:241
+#: languages/gpos-settings-texts.php:248
 msgid "Use default name"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:242
+#: languages/gpos-settings-texts.php:249
 msgid "Sample: Saved card with ending 0000"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:243
+#: languages/gpos-settings-texts.php:250
 msgid "Use field"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:244
+#: languages/gpos-settings-texts.php:251
 msgid "Users can write name for card"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:245
+#: languages/gpos-settings-texts.php:252
 msgid "Order"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:246
+#: languages/gpos-settings-texts.php:253
 msgid "Search"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:247
+#: languages/gpos-settings-texts.php:254
 msgid "Select"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:248
+#: languages/gpos-settings-texts.php:255
 msgid "Select the category you want to set rules for"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:249
+#: languages/gpos-settings-texts.php:256
 msgid "Disable inst."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:250
+#: languages/gpos-settings-texts.php:257
 msgid "Apply"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:251
+#: languages/gpos-settings-texts.php:258
 msgid "Category"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:252
+#: languages/gpos-settings-texts.php:259
 msgid "No rules found..."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:253
+#: languages/gpos-settings-texts.php:260
 msgid "Remove"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:254
+#: languages/gpos-settings-texts.php:261
 msgid "Expiry Field Style"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:255
+#: languages/gpos-settings-texts.php:262
 msgid "Select Box"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:256
+#: languages/gpos-settings-texts.php:263
 msgid "Text Box"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:257
+#: languages/gpos-settings-texts.php:264
 msgid "Transaction not found."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:258
+#: languages/gpos-settings-texts.php:265
 msgid "Completed Payment"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:259
+#: languages/gpos-settings-texts.php:266
 msgid "Failed Payment"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:260
+#: languages/gpos-settings-texts.php:267
 msgid "Completed Refund"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:261
+#: languages/gpos-settings-texts.php:268
 msgid "Failed Refund"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:262
-msgid "Gate"
-msgstr ""
-
-#: languages/gpos-settings-texts.php:263
+#: languages/gpos-settings-texts.php:269
 msgid "Using Gate, you can collect the transaction by directing it to the desired virtual POS according to the card brand, number of installments and card number. After your customer keys in the card information, the withdrawal is made to the relevant virtual pos, according to the criteria you define in the system."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:264
+#: languages/gpos-settings-texts.php:270
 msgid "*For payments that are not included in any rules, your default virtual POS will be charged."
 msgstr ""
 
-#: languages/gpos-settings-texts.php:265
+#: languages/gpos-settings-texts.php:271
 msgid "Add New Rule"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:266
+#: languages/gpos-settings-texts.php:272
 msgid "Priority"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:267
+#: languages/gpos-settings-texts.php:273
 msgid "Rule"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:268
+#: languages/gpos-settings-texts.php:274
 msgid "Condition"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:269
+#: languages/gpos-settings-texts.php:275
 msgid "Card bank in list"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:270
+#: languages/gpos-settings-texts.php:276
 msgid "Total bigger than"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:271
+#: languages/gpos-settings-texts.php:277
 msgid "Total smaller"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:272
+#: languages/gpos-settings-texts.php:278
 msgid "Installment bigger than"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:273
+#: languages/gpos-settings-texts.php:279
 msgid "Installment smaller"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:274
+#: languages/gpos-settings-texts.php:280
 msgid "Card country in list"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:275
+#: languages/gpos-settings-texts.php:281
 msgid "Card country not in list"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:276
+#: languages/gpos-settings-texts.php:282
 msgid "Move"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:277
+#: languages/gpos-settings-texts.php:283
 msgid "New"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:279
+#: languages/gpos-settings-texts.php:285
 msgid "Selected"
 msgstr ""
 
-#: languages/gpos-settings-texts.php:280
+#: languages/gpos-settings-texts.php:286
 msgid "Select Bank"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:287
+msgid "Are you having problems with your installment settings? try Reset the settings button"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:290
+msgid "Transaction Statuses"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:291
+msgid "Last 10 Transactions"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:293
+msgid "ID"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:294
+msgid "Empower your POS Entegratör with PRO and Business solutions."
+msgstr ""
+
+#: languages/gpos-settings-texts.php:295
+msgid "By installing POS Entegratör upgrades on your site, you can make your site fully equipped with payment receiving solutions."
+msgstr ""
+
+#: languages/gpos-settings-texts.php:296
+msgid "More than 25 banks and payment institutions"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:297
+msgid "GiveWP integration"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:298
+msgid "WooCommerce Subscription integration"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:299
+msgid "Easy Digital Downloads integration"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:300
+msgid "LearnPress integration"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:301
+msgid "Installment disabling specific to category"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:302
+msgid "Card save feature"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:303
+msgid "Gate (payment redirection) feature"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:304
+msgid "All PRO features"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:305
+msgid "Elementor integration"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:306
+msgid "WPForms integration"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:307
+msgid "NinjaForms integration"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:308
+msgid "Receive payments without needing any plugins"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:309
+msgid "Support Ticket"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:310
+msgid "Do you need support? Create a new support ticket"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:311
+#: views/emails/transaction-info.php:69
+msgid "Upgrade Now"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:312
+msgid "Follow us"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:313
+msgid "Support"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:316
+msgid "By turning on this setting, you can enable Google tag manager submissions for payment transactions."
+msgstr ""
+
+#: languages/gpos-settings-texts.php:317
+msgid "Enter your code as GTM-XXXXX here."
+msgstr ""
+
+#: languages/gpos-settings-texts.php:318
+msgid "For e-commerce transactions, you can only use plugins that deal with this task. Example: GTMKit, GA4WP. You can only use this section for refund transactions in the admin panel."
+msgstr ""
+
+#: languages/gpos-settings-texts.php:319
+msgid "This event is triggered when a refund is made in the transactions section."
+msgstr ""
+
+#: languages/gpos-settings-texts.php:320
+msgid "Monday"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:321
+msgid "Tuesday"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:322
+msgid "Wednesday"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:323
+msgid "Thursday"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:324
+msgid "Friday"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:325
+msgid "Saturday"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:326
+msgid "Sunday"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:327
+msgid "Notifications"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:328
+msgid "E-Mails"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:329
+msgid "Active Error Emails"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:330
+msgid "Send errors your users encounter in the payment form as an email notification."
+msgstr ""
+
+#: languages/gpos-settings-texts.php:331
+msgid "Active Daily Emails"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:332
+msgid "Get daily transaction information by choosing your notification time"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:333
+msgid "Active Weekly Emails"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:334
+msgid "Get weekly transaction information by choosing your notification day and time"
+msgstr ""
+
+#: languages/gpos-settings-texts.php:335
+msgid "Please write the e-mail addresses below where you want the notification to be sent."
 msgstr ""
 
 #. translators: Plugin name
 #: views/cannot-update-notice.php:17
 msgid "Please complete the update of the <strong>%s</strong> plugin first."
+msgstr ""
+
+#: views/emails/error.php:29
+msgid "Hello, we are sorry you received this email."
+msgstr ""
+
+#: views/emails/error.php:32
+msgid "A user encountered an error during the payment process. You can review the details in the table below. If there is something you need support for, don't hesitate to write to us."
+msgstr ""
+
+#: views/emails/error.php:38
+msgid "Error Details"
+msgstr ""
+
+#: views/emails/error.php:88
+msgid "Error Message"
+msgstr ""
+
+#. translators: %1$s Start date, %2$s End date.
+#: views/emails/parts/date-range-info.php:16
+msgid "This data represents payment transactions between <strong>%1$s</strong> and <strong>%2$s</strong>"
+msgstr ""
+
+#. translators: %1$s Site name and link, %2$s Help link
+#: views/emails/parts/disable.php:15
+msgid "This email was prepared and forwarded by %1$s. To learn how to disable %2$s."
+msgstr ""
+
+#: views/emails/parts/disable.php:17
+msgid "click here"
+msgstr ""
+
+#: views/emails/parts/hello-title.php:10
+msgid "Hello"
+msgstr ""
+
+#. translators: %1$s Plugin name,  %2$s period (today or this week)
+#: views/emails/parts/hello-title.php:17
+msgid "We thought you might be interested, let's see how many transactions you received with %1$s %2$s."
+msgstr ""
+
+#: views/emails/parts/hello-title.php:19
+msgid "today"
+msgstr ""
+
+#: views/emails/parts/hello-title.php:19
+msgid "this week"
+msgstr ""
+
+#: views/emails/transaction-info.php:34
+msgid "Success Transactions"
+msgstr ""
+
+#: views/emails/transaction-info.php:44
+msgid "Failed Transactions"
+msgstr ""
+
+#: views/emails/transaction-info.php:57
+msgid "Need more information about your transactions?"
+msgstr ""
+
+#. translators: %s PRO Plugin name
+#: views/emails/transaction-info.php:63
+msgid "Upgrade to <strong>%1$s</strong>; Unlock advanced emails and more. 25+ Banks and payment institutions, card storage, category-based installment blocking and many more features are in <strong>%2$s</strong>."
 msgstr ""
 
 #: views/store-rating-notice.php:10

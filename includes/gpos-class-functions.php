@@ -98,12 +98,30 @@ function gpos_woocommerce_settings() {
 }
 
 /**
+ * GurmePOS için yapılmış bildirim ayarları sınıfını döndürür.
+ *
+ * @return GPOS_Notification_Settings
+ */
+function gpos_notification_settings() {
+	return new GPOS_Notification_Settings();
+}
+
+/**
  * GurmePOS ödeme formu ayarlar sınıfını döndürür.
  *
  * @return GPOS_Form_Settings
  */
 function gpos_form_settings() {
 	return new GPOS_Form_Settings();
+}
+
+/**
+ * GurmePOS tag manager ayarlar sınıfını döndürür.
+ *
+ * @return GPOS_Tag_Manager_Settings
+ */
+function gpos_tag_manager_settings() {
+	return new GPOS_Tag_Manager_Settings();
 }
 
 /**
@@ -251,4 +269,22 @@ function gpos_meta_boxes() {
  */
 function gpos_module_manager() {
 	return new GPOS_Module_Manager();
+}
+
+/**
+ * Arayüz sınıfı.
+ *
+ * @return GPOS_Dashboard
+ */
+function gpos_dashboard() {
+	return new GPOS_Dashboard();
+}
+
+/**
+ * Bildirim sınıfı.
+ *
+ * @return GPOS_Notifications
+ */
+function gpos_notifications() {
+	return new GPOS_Notifications();
 }

@@ -38,6 +38,13 @@ abstract class GPOS_Post {
 	protected $date;
 
 	/**
+	 * Tarih farkı.
+	 *
+	 * @var string $human_date_diff
+	 */
+	protected $human_date_diff;
+
+	/**
 	 * Post meta verileri.
 	 *
 	 * @var array $meta_data
@@ -170,6 +177,26 @@ abstract class GPOS_Post {
 	public function get_date() {
 		$this->date = get_post_field( 'post_date', $this->id );
 		return $this->date;
+	}
+
+	/**
+	 * Oluşturulma tarihini döndürür
+	 *
+	 * @return string
+	 */
+	public function get_human_date_diff() {
+		$this->human_date_diff = $this->get_date();
+		$timestamp             = strtotime( $this->human_date_diff );
+		if ( $timestamp > strtotime( '-1 day', time() ) && $timestamp <= time() ) {
+			$this->human_date_diff = sprintf(
+			/* translators: %s: Saat farkı için kullanılan saat örn. 10 Dakika Önce */
+				_x( '%s ago', '%s = human-readable time difference', 'gurmepos' ),
+				human_time_diff( $timestamp, time() )
+			);
+		} else {
+			$this->human_date_diff = date_i18n( __( 'j F Y', 'gurmepos' ), $timestamp );
+		}
+		return $this->human_date_diff;
 	}
 
 	/**

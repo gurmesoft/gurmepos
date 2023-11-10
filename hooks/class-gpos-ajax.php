@@ -53,25 +53,27 @@ class GPOS_Ajax {
 			 */
 			"{$this->prefix}_ajax_endpoints",
 			array(
-				'update_test_mode'            => array( $this, 'update_test_mode' ),
-				'update_active_status'        => array( $this, 'update_active_status' ),
-				'update_installment_status'   => array( $this, 'update_installment_status' ),
-				'update_installments'         => array( $this, 'update_installments' ),
-				'get_installments_from_api'   => array( $this, 'get_installments_from_api' ),
-				'update_default_status'       => array( $this, 'update_default_status' ),
-				'add_gateway_account'         => array( $this, 'add_gateway_account' ),
-				'get_gateway_accounts'        => array( gpos_gateway_accounts(), 'get_accounts' ),
-				'update_form_settings'        => array( $this, 'update_form_settings' ),
-				'update_woocommerce_settings' => array( $this, 'update_woocommerce_settings' ),
-				'update_givewp_settings'      => array( $this, 'update_givewp_settings' ),
-				'update_account_settings'     => array( $this, 'update_account_settings' ),
-				'remove_gateway_account'      => array( $this, 'remove_gateway_account' ),
-				'check_connection'            => array( $this, 'check_connection' ),
-				'hide_notice'                 => array( $this, 'hide_notice' ),
-				'bin_retrieve'                => array( $this, 'bin_retrieve' ),
-				'process_cancel'              => array( $this, 'process_cancel' ),
-				'process_refund'              => array( $this, 'process_refund' ),
-				'process_line_based_refund'   => array( $this, 'process_line_based_refund' ),
+				'update_test_mode'             => array( $this, 'update_test_mode' ),
+				'update_active_status'         => array( $this, 'update_active_status' ),
+				'update_installment_status'    => array( $this, 'update_installment_status' ),
+				'update_installments'          => array( $this, 'update_installments' ),
+				'get_installments_from_api'    => array( $this, 'get_installments_from_api' ),
+				'update_default_status'        => array( $this, 'update_default_status' ),
+				'add_gateway_account'          => array( $this, 'add_gateway_account' ),
+				'get_gateway_accounts'         => array( gpos_gateway_accounts(), 'get_accounts' ),
+				'update_form_settings'         => array( $this, 'update_form_settings' ),
+				'update_woocommerce_settings'  => array( $this, 'update_woocommerce_settings' ),
+				'update_givewp_settings'       => array( $this, 'update_givewp_settings' ),
+				'update_account_settings'      => array( $this, 'update_account_settings' ),
+				'remove_gateway_account'       => array( $this, 'remove_gateway_account' ),
+				'check_connection'             => array( $this, 'check_connection' ),
+				'hide_notice'                  => array( $this, 'hide_notice' ),
+				'bin_retrieve'                 => array( $this, 'bin_retrieve' ),
+				'process_cancel'               => array( $this, 'process_cancel' ),
+				'process_refund'               => array( $this, 'process_refund' ),
+				'process_line_based_refund'    => array( $this, 'process_line_based_refund' ),
+				'update_tag_manager_settings'  => array( $this, 'update_tag_manager_settings' ),
+				'update_notification_settings' => array( $this, 'update_notification_settings' ),
 			)
 		);
 
@@ -241,6 +243,28 @@ class GPOS_Ajax {
 	 */
 	public function update_installments( $request ) {
 		return gpos_gateway_account( $request->id )->update_installments( $request->installments );
+	}
+
+	/**
+	 * Geri dönüş fonksiyonu; update_tag_manager_settings.
+	 *
+	 * @param stdClass $request İstek parametreleri.
+	 *
+	 * @return mixed
+	 */
+	public function update_tag_manager_settings( $request ) {
+		return gpos_tag_manager_settings()->set_settings( (array) $request->settings );
+	}
+
+	/**
+	 * Geri dönüş fonksiyonu; update_notification_settings.
+	 *
+	 * @param stdClass $request İstek parametreleri.
+	 *
+	 * @return mixed
+	 */
+	public function update_notification_settings( $request ) {
+		return gpos_notification_settings()->set_settings( gpos_object_to_array( $request->settings ) );
 	}
 
 	/**

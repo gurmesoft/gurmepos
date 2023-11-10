@@ -67,7 +67,7 @@ class GPOS_Frontend {
 	 *
 	 * @return array
 	 */
-	protected function get_localize_data() {
+	public function get_localize_data() {
 
 		$default_account = gpos_gateway_accounts()->get_default_account();
 

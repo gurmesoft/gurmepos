@@ -24,6 +24,8 @@ class GPOS_WooCommerce {
 	 * @return void
 	 */
 	public function __construct() {
+		// WooCommerce işlemlere başlamadan önce
+		add_action( 'before_woocommerce_init', array( $this, 'before_woocommerce_init' ) );
 		// Ödeme geçitleri arasına GPOS_WooCommerce_Payment_Gateway i ekler.
 		add_filter( 'woocommerce_payment_gateways', array( $this, 'payment_gateways' ) );
 		// Sipariş için ödeme tamamlandığında geçeceği durumu ayarlar.
@@ -34,6 +36,17 @@ class GPOS_WooCommerce {
 		add_filter( 'woocommerce_hidden_order_itemmeta', array( $this, 'hidden_order_itemmeta' ) );
 		// Sipariş tablosundaki eylemlere, işleme gidiş linki ekleme.
 		add_filter( 'woocommerce_admin_order_actions_start', array( $this, 'admin_order_actions' ) );
+	}
+
+	/**
+	 * WooCommerce before init kancası.
+	 *
+	 * @SuppressWarnings(PHPMD.StaticAccess)
+	 */
+	public function before_woocommerce_init() {
+		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', GPOS_PLUGIN_BASEFILE, true );
+		}
 	}
 
 	/**

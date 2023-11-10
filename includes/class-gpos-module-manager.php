@@ -17,7 +17,7 @@ class GPOS_Module_Manager {
 	public function gpos_loaded() {
 		if ( defined( 'GPOSPRO_VERSION' ) ) {
 			$pro_version = defined( 'GPOS_PRODUCTION' ) && GPOS_PRODUCTION ? GPOSPRO_VERSION : '100';
-			if ( version_compare( $pro_version, '2.3.0', '>=' ) ) {
+			if ( version_compare( $pro_version, '2.5.2', '>=' ) ) {
 				do_action( 'gpos_loaded' );
 			} else {
 				$gurmehub_client = new \GurmeHub\Client( GPOSPRO_PLUGIN_BASEFILE ); // @phpstan-ignore-line

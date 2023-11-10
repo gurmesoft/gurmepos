@@ -13,14 +13,16 @@ class GPOS_Transaction_Utils {
 	/**
 	 * Entegre edilen platformlar.
 	 */
-	const WOOCOMMERCE      = 'woocommerce';
-	const WOOCOMMERCE_SUBS = 'woocommerce_subs';
-	const GIVEWP           = 'givewp';
-	const EDD              = 'edd';
-	const NINJA_FORMS      = 'ninja_forms';
-	const WPFORMS          = 'wpforms';
-	const ELEMENTOR        = 'elementor';
-	const LEARNPRESS       = 'learn_press';
+	const WOOCOMMERCE        = 'woocommerce';
+	const WOOCOMMERCE_SUBS   = 'woocommerce_subs';
+	const WOOCOMMERCE_BLOCKS = 'woocommerce_blocks';
+	const GIVEWP             = 'givewp';
+	const EDD                = 'edd';
+	const NINJA_FORMS        = 'ninja_forms';
+	const WPFORMS            = 'wpforms';
+	const ELEMENTOR          = 'elementor';
+	const LEARNPRESS         = 'learn_press';
+	const THEEVENTSCALENDAR  = 'the_events_calendar';
 	/**
 	 * İşlem tipleri.
 	 */
@@ -33,7 +35,7 @@ class GPOS_Transaction_Utils {
 	 */
 	const STARTED     = 'gpos_started';                          // İşlem başlatıldı.
 	const REDIRECTED  = 'gpos_redirected';                       // işlem 3D sayfasına yönlendirildi.
-	const COMMON_FORM = 'gpos_common_form';                      // işlem 3D sayfasına yönlendirildi.
+	const COMMON_FORM = 'gpos_common_form';                      // işlem ortak ödeme sayfasına yönlendirildi.
 	const COMPLETED   = 'gpos_completed';                        // işlem tamamlandı.
 	const FAILED      = 'gpos_failed';                           // işlem hata ile karşılaştı.
 

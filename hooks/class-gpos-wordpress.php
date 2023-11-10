@@ -49,7 +49,6 @@ class GPOS_WordPress {
 		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 1 );
 		add_filter( 'template_include', array( $this, 'template_include' ) );
 		add_filter( 'script_loader_tag', array( $this, 'script_loader' ), 10, 2 );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_filter( 'plugin_action_links_' . GPOS_PLUGIN_BASENAME, array( $this, 'actions_links' ) );
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
@@ -108,6 +107,8 @@ class GPOS_WordPress {
 		}
 
 		flush_rewrite_rules();
+
+		gpos_notifications()->register();
 	}
 
 	/**
@@ -235,17 +236,13 @@ class GPOS_WordPress {
 	public function script_loader( $tag, $handle ) {
 		if ( $this->prefix === $handle ) {
 			$tag = str_replace( 'id=\'gpos-js\'', 'type="module" id=\'gpos-js\'', $tag );
+			$tag = str_replace( 'id="gpos-js"', 'type="module" id="gpos-js"', $tag );
 			$tag = str_replace( 'text/javascript', 'module', $tag );
 		}
 		return $tag;
 	}
 
-	/**
-	 * WordPress frontendte kullanılmak üzre scriptleri kayıt eder.
-	 */
-	public function enqueue_scripts() {
-		wp_register_script( 'jquery-payment', GPOS_ASSETS_DIR_URL . '/js/jquery-payment.js', array( 'jquery' ), GPOS_VERSION, false );
-	}
+
 
 	/**
 	 * WordPress yönetici paneline script ve stil dosyaları ekler.

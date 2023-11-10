@@ -106,6 +106,7 @@ class GPOS_Payment_Gateways {
 			'GPOS_Lidio',
 			'GPOS_Param',
 			'GPOS_Paytr',
+			'GPOS_QNBpay',
 			'GPOS_Sekerbank',
 			'GPOS_Sipay',
 			'GPOS_Teb',
@@ -114,6 +115,7 @@ class GPOS_Payment_Gateways {
 			'GPOS_Wyld',
 			'GPOS_Yapi_Kredi',
 			'GPOS_Ziraat',
+			'GPOS_Dummy_Payment',
 			// 'GPOS_Ingbank',
 			// 'GPOS_Ozan', Devam Ediyor.
 		);

@@ -225,14 +225,27 @@ trait GPOS_Plugin_Payment_Gateway {
 			if ( 0 !== $fee ) {
 				$this->transaction->add_line(
 					gpos_transaction_line()
-					->set_name( __( 'Installment Fee', 'gurmepos' ) )
+					// translators: vade farkı
+					->set_name( sprintf( __( 'Installment Fee %s month', 'gurmepos' ), $this->installment ) )
 					->set_quantity( 1 )
+					->set_type( 'fee' )
 					->set_total( $fee )
 				);
 				$this->transaction->set_total( $total_with_fee );
 			}
 		}
+	}
 
+	/**
+	 * Taksit komisyonu döndürür.
+	 *
+	 * @return void|GPOS_Transaction_Line
+	 */
+	protected function get_installment_fee() {
+		$fees = $this->transaction->get_lines( array( 'fee' ) );
+		if ( 0 < $this->transaction->get_installment_rate() && ! empty( $fees ) ) {
+			return array_shift( $fees );
+		}
 	}
 
 	/**
@@ -259,27 +272,27 @@ trait GPOS_Plugin_Payment_Gateway {
 	 * @param int|string $plugin_transaction_id Ödeme eklentisindeki benzersiz kimlik numarası.
 	 * @param string     $plugin Ödeme eklentisi.
 	 * @param int|string $account_id Ödemenin yapılacağı geçit.
+	 *
+	 * @return GPOS_Gateway_Response
 	 */
 	public function create_new_payment_process( $post_data, $plugin_transaction_id, $plugin, $account_id = 0 ) {
-		try {
-			$this->plugin_transaction_id = $plugin_transaction_id;
-			$this->account_id            = $account_id;
-			$this->plugin                = $plugin;
-			/**
-			 * Method sıralaması ve bağımlılıklara dikkat ederek düzenleme yapınız.
-			 */
-			$this->create_post_data( $post_data );      // Adım 1 : Basit yada hashli formdan gelen verileri sınıfa tanımla.
-			$this->create_transaction();                // Adım 2 : GPOS_Transaction objesini oluştur.
-			$this->set_isset_results();                 // Adım 3 : isset() fonksiyonu ile yapılması gereken tanımlamaları yap.
-			$this->set_payment_instrument();            // Adım 4 : Ödeme aracını belirleme.
-			$this->set_installment();                   // Adım 5 : Taksit miktarını belirleme.
-			$this->set_properties();                    // Adım 6 : GPOS_Transaction objesine ödeme için gerekli atamaları yap. (Üst katmanda)
-			$this->prepare_payment();                   // Adım 7 : Ödemenin geçeceği hesabı ve geçidi ayarlar.  Dept: set_payment_instrument, set_properties.
-			$this->set_payment_type();                  // Adım 8 : Ödemenin ortak ödeme, 3d, regular gibi belirleyici özelliklerini ayarlar. Dept: prepare_payment
-			$this->set_installment_fee();               // Adım 9 : Ödeme geçidine istinaden varsa taksit için komisyon atamalarını yapar. Dept: prepare_payment
-		} catch ( Exception $e ) {
-			$this->exception_handler( $e );
-		}
+		$this->plugin_transaction_id = $plugin_transaction_id;
+		$this->account_id            = $account_id;
+		$this->plugin                = $plugin;
+		/**
+		 * Method sıralaması ve bağımlılıklara dikkat ederek düzenleme yapınız.
+		 */
+		$this->create_post_data( $post_data );      // Adım 1 : Basit yada hashli formdan gelen verileri sınıfa tanımla.
+		$this->create_transaction();                // Adım 2 : GPOS_Transaction objesini oluştur.
+		$this->set_isset_results();                 // Adım 3 : isset() fonksiyonu ile yapılması gereken tanımlamaları yap.
+		$this->set_payment_instrument();            // Adım 4 : Ödeme aracını belirleme.
+		$this->set_installment();                   // Adım 5 : Taksit miktarını belirleme.
+		$this->set_properties();                    // Adım 6 : GPOS_Transaction objesine ödeme için gerekli atamaları yap. (Üst katmanda)
+		$this->prepare_payment();                   // Adım 7 : Ödemenin geçeceği hesabı ve geçidi ayarlar.  Dept: set_payment_instrument, set_properties.
+		$this->set_payment_type();                  // Adım 8 : Ödemenin ortak ödeme, 3d, regular gibi belirleyici özelliklerini ayarlar. Dept: prepare_payment
+		$this->set_installment_fee();               // Adım 9 : Ödeme geçidine istinaden varsa taksit için komisyon atamalarını yapar. Dept: prepare_payment
+
+		return $this->gateway->process_payment();
 	}
 
 	/**
@@ -303,7 +316,7 @@ trait GPOS_Plugin_Payment_Gateway {
 				$this->error_process( $response, false );
 			}
 		} catch ( Exception $e ) {
-			$this->exception_handler( $e );
+			return $this->exception_handler( $e, false );
 		}
 	}
 
@@ -402,12 +415,13 @@ trait GPOS_Plugin_Payment_Gateway {
 	 * Ödeme esnasında alınan hataları işleme yansıtır.
 	 *
 	 * @param Exception $exception Hata.
+	 * @param boolean   $on_checkout Ödeme sayfasında mı ?
 	 */
-	public function exception_handler( Exception $exception ) {
+	public function exception_handler( Exception $exception, $on_checkout ) {
 		$error_exception = new GPOS_Gateway_Response( get_class( $this->gateway ) );
 		$error_exception->set_transaction_id( $this->transaction->get_id() )->set_error_message( $exception->getMessage() );
 		$this->transaction_error_process( $error_exception );
-		$this->error_process( $error_exception, true );
+		return $this->error_process( $error_exception, $on_checkout );
 	}
 
 	/**

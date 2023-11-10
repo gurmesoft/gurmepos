@@ -56,7 +56,13 @@ abstract class GPOS_Options {
 	 * @return mixed
 	 */
 	public function set_settings( $options ) {
-		return update_option( $this->options_table_key, $options );
+		update_option( $this->options_table_key, $options );
+
+		if ( method_exists( $this, 'settings_updated' ) ) {
+			call_user_func( array( $this, 'settings_updated' ) );
+		}
+
+		return true;
 	}
 
 
@@ -69,7 +75,7 @@ abstract class GPOS_Options {
 		$default_settings = apply_filters(
 			'gpos_default_settings',
 			array(
-				'gpos_woocommerce_settings' => array(
+				'gpos_woocommerce_settings'  => array(
 					'title'             => __( 'Debit/Credit Card', 'gurmepos' ),
 					'button_text'       => __( 'Payment', 'gurmepos' ),
 					'description'       => '',
@@ -77,7 +83,7 @@ abstract class GPOS_Options {
 					'success_status'    => 'processing',
 					'installment_rules' => new stdClass(),
 				),
-				'gpos_form_settings'        => array(
+				'gpos_form_settings'         => array(
 					'threed'            => 'force_threed',
 					'expiry_style'      => 'text',
 					'holder_name_field' => false,
@@ -87,9 +93,31 @@ abstract class GPOS_Options {
 					'installment_view'  => 'table_view',
 					'use_iframe'        => false,
 				),
+				'gpos_tag_manager_settings'  => array(
+					'active'       => false,
+					'gtm_id'       => '',
+					'event_refund' => 'refund',
+				),
+				'gpos_notification_settings' => array(
+					'errors' => array(
+						'active' => true,
+						'emails' => '',
+					),
+					'daily'  => array(
+						'active'      => true,
+						'notify_hour' => '18:00',
+						'emails'      => '',
+					),
+					'weekly' => array(
+						'active'      => true,
+						'notify_day'  => 'monday',
+						'notify_hour' => '13:00',
+						'emails'      => '',
+					),
+				),
 			)
 		);
 
-		return array_key_exists( $this->options_table_key, $default_settings ) ? $default_settings[ $this->options_table_key ] : array();
+		return array_key_exists( $this->options_table_key, (array) $default_settings ) ? $default_settings[ $this->options_table_key ] : array();
 	}
 }

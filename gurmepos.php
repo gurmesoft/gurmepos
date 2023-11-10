@@ -2,13 +2,15 @@
 /**
  * Plugin Name: POS Entegratör
  * Plugin URI: https://posentegrator.com
- * Description: GurmeHub tüm banka ve ödeme kuruluşları destekli özelleştirilebilir POS eklentisi
+ * Description: Gurmehub tüm banka ve ödeme kuruluşları destekli özelleştirilebilir POS eklentisi
  * Version: 3.6.0
  * Author: GurmeHub
  * Author URI: https://gurmehub.com
  * Text Domain: gurmepos
  * Requires at least: 5.8
  * Requires PHP: 7.4
+ * WC requires at least: 7.6
+ * WC tested up to: 8.2.1
  *
  * @package GurmeHub
  */
@@ -125,7 +127,6 @@ final class GurmePOS {
 			'GPOS_Ajax'       => new GPOS_Ajax(),
 			'GPOS_Gph'        => new GPOS_Gph(),
 		);
-
 		register_activation_hook( GPOS_PLUGIN_BASEFILE, array( new GPOS_Installer(), 'install' ) );
 
 		$gurmehub_client = new \GurmeHub\Client( GPOS_PLUGIN_BASEFILE );

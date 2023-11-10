@@ -44,7 +44,34 @@ class GPOS_Admin {
 	 * @return void
 	 *   */
 	public function admin_menu() {
+
 		global $submenu;
+
+		$menu_pages = array(
+			array(
+				'menu_title' => __( 'Dashboard', 'gurmepos' ),
+				'menu_slug'  => $this->parent_slug,
+			),
+			array(
+				'menu_title' => false,
+				'menu_slug'  => "{$this->prefix}-payment-gateway",
+				'hidden'     => true,
+			),
+			array(
+				'menu_title' => false,
+				'menu_slug'  => "{$this->prefix}-transaction",
+				'hidden'     => true,
+			),
+			array(
+				'menu_title' => __( 'Virtual POS', 'gurmepos' ),
+				'menu_slug'  => "{$this->prefix}-payment-gateways",
+			),
+
+			array(
+				'menu_title' => __( 'Settings', 'gurmepos' ),
+				'menu_slug'  => "{$this->prefix}-settings",
+			),
+		);
 
 		add_menu_page(
 			$this->parent_title,
@@ -56,10 +83,9 @@ class GPOS_Admin {
 			59
 		);
 
-		foreach ( $this->get_menu_pages() as $sub_menu_page ) {
-
+		foreach ( $menu_pages as $sub_menu_page ) {
 			add_submenu_page(
-				isset( $sub_menu_page['hidden'] ) && $sub_menu_page['hidden'] ? '' : $this->parent_slug,
+				isset( $sub_menu_page['hidden'] ) && true === $sub_menu_page['hidden'] ? '' : $this->parent_slug,
 				$sub_menu_page['menu_title'],
 				$sub_menu_page['menu_title'],
 				gpos_capability(),
@@ -115,7 +141,6 @@ class GPOS_Admin {
 
 		$page = isset( $_GET['page'] ) ? str_replace( "{$this->prefix}-", '', gpos_clean( $_GET['page'] ) ) : false; //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( $page ) {
-
 			gpos_vue()
 			->set_vue_page( $page )
 			->set_localize( $this->get_localize_data( $page ) )
@@ -131,18 +156,20 @@ class GPOS_Admin {
 	 *
 	 * @param WP_Admin_Bar $wp_admin_bar WP_Admin_Bar instance, passed by reference.
 	 *
+	 * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+	 *
 	 * @return void
 	 */
 	public function admin_bar_menu( WP_Admin_Bar $wp_admin_bar ) {
 		if ( current_user_can( gpos_capability() ) ) {
 			$admin_bar_args = array(
-				'id'    => $this->parent_slug,
+				'id'    => "{$this->parent_slug}-admin-bar",
 				'title' => sprintf(
 					'<span style="display:flex; align-items:center; gap:4px;"><img style="width:20px;height:20px;" src="%s"><span class="ab-label">POS Entegratör %s</span></span>',
 					$this->get_icon(),
 					gpos_is_test_mode() ? __( 'Test Mode Active', 'gurmepos' ) : ''
 				),
-				'href'  => admin_url( 'admin.php?page=gpos-payment-gateways' ),
+				'href'  => admin_url( 'admin.php?page=gurmepos' ),
 			);
 
 			if ( gpos_is_test_mode() ) {
@@ -151,32 +178,27 @@ class GPOS_Admin {
 				);
 			}
 
-			$wp_admin_bar->add_node( $admin_bar_args );
+			$wp_admin_bar->add_menu( $admin_bar_args );
 
-			$menu_pages = $this->get_menu_pages();
+			global $submenu;
+			$menus = get_option( 'gpos_submenu_pages', array() );
 
-			$menu_pages[3] = array(
-				'menu_slug'  => 'gpos-transactions',
-				'menu_title' => __( 'Transactions', 'gurmepos' ),
-				'href'       => admin_url( 'edit.php?post_type=gpos_transaction' ),
-			);
+			if ( is_array( $submenu ) && array_key_exists( $this->parent_slug, $submenu ) && false === empty( $submenu[ $this->parent_slug ] ) ) {
+				$menus = array_filter( $submenu[ $this->parent_slug ], fn ( $menu ) =>  false === isset( $menu[4] ) || 'gpos-target-blank gpos-upgrade-pro' !== $menu[4] );
+				update_option( 'gpos_submenu_pages', $menus );
+			}
 
-			foreach ( apply_filters( 'gpos_admin_bar_menu_pages', $menu_pages ) as $sub_menu_page ) {
-
-				if ( isset( $sub_menu_page['hidden'] ) && $sub_menu_page['hidden'] ||
-					$sub_menu_page['menu_slug'] === $this->parent_slug
-				) {
-					continue;
+			if ( false === empty( $menus ) ) {
+				foreach ( $menus as $key => $sub_menu_page ) {
+					$wp_admin_bar->add_node(
+						array(
+							'parent' => "{$this->parent_slug}-admin-bar",
+							'id'     => "menu_{$key}",
+							'title'  => $sub_menu_page[0],
+							'href'   => false === strpos( $sub_menu_page[2], '?' ) ? admin_url( "admin.php?page={$sub_menu_page[2]}" ) : admin_url( $sub_menu_page[2] ),
+						)
+					);
 				}
-
-				$wp_admin_bar->add_node(
-					array(
-						'parent' => $this->parent_slug,
-						'id'     => $sub_menu_page['menu_slug'],
-						'title'  => $sub_menu_page['menu_title'],
-						'href'   => isset( $sub_menu_page['href'] ) ? $sub_menu_page['href'] : admin_url( "admin.php?page={$sub_menu_page['menu_slug']}" ),
-					)
-				);
 			}
 		}
 	}
@@ -191,23 +213,27 @@ class GPOS_Admin {
 	private function get_localize_data( $page ) {
 
 		$localize = array(
-			'prefix'               => GPOS_PREFIX,
-			'assets_url'           => GPOS_ASSETS_DIR_URL,
-			'version'              => GPOS_VERSION,
-			'admin_url'            => admin_url(),
-			'ajaxurl'              => admin_url( 'admin-ajax.php' ),
-			'nonce'                => wp_create_nonce(),
-			'is_pro_active'        => gpos_is_pro_active(),
-			'is_test_mode'         => gpos_is_test_mode(),
-			'payment_gateways'     => gpos_get_payment_gateways(),
-			'gateway_accounts'     => gpos_gateway_accounts()->get_accounts(),
-			'wc_order_statuses'    => gpos_get_wc_order_statuses(),
-			'woocommerce_settings' => gpos_woocommerce_settings()->get_settings(),
-			'form_settings'        => gpos_form_settings()->get_settings(),
-			'strings'              => gpos_get_i18n_texts(),
-			'alert_texts'          => gpos_get_alert_texts(),
-			'status'               => gpos_get_env_info(),
-			'integrations'         => array(
+			'prefix'                => GPOS_PREFIX,
+			'assets_url'            => GPOS_ASSETS_DIR_URL,
+			'version'               => GPOS_VERSION,
+			'home_url'              => home_url(),
+			'admin_url'             => admin_url(),
+			'ajaxurl'               => admin_url( 'admin-ajax.php' ),
+			'nonce'                 => wp_create_nonce(),
+			'is_pro_active'         => gpos_is_pro_active(),
+			'is_test_mode'          => gpos_is_test_mode(),
+			'payment_gateways'      => gpos_get_payment_gateways(),
+			'gateway_accounts'      => gpos_gateway_accounts()->get_accounts(),
+			'wc_order_statuses'     => gpos_get_wc_order_statuses(),
+			'woocommerce_settings'  => gpos_woocommerce_settings()->get_settings(),
+			'form_settings'         => gpos_form_settings()->get_settings(),
+			'tag_manager_settings'  => gpos_tag_manager_settings()->get_settings(),
+			'notification_settings' => gpos_notification_settings()->get_settings(),
+			'strings'               => gpos_get_i18n_texts(),
+			'alert_texts'           => gpos_get_alert_texts(),
+			'status'                => gpos_get_env_info(),
+			'dashboard'             => gpos_dashboard(),
+			'integrations'          => array(
 				GPOS_Transaction_Utils::WOOCOMMERCE => gpos_is_woocommerce_enabled(),
 			),
 		);
@@ -223,41 +249,6 @@ class GPOS_Admin {
 
 		return apply_filters( 'gpos_vue_admin_localize_data', $localize );
 	}
-
-	/**
-	 * Eklenti menü sayfalarını döndürür.
-	 *
-	 * @return array
-	 */
-	private function get_menu_pages() {
-		$menu_pages = array(
-			array(
-				'menu_title' => __( 'Dashboard', 'gurmepos' ),
-				'menu_slug'  => $this->parent_slug,
-			),
-			array(
-				'menu_title' => __( 'Virtual POS', 'gurmepos' ),
-				'menu_slug'  => "{$this->prefix}-payment-gateways",
-			),
-			array(
-				'menu_title' => false,
-				'menu_slug'  => "{$this->prefix}-payment-gateway",
-				'hidden'     => true,
-			),
-			array(
-				'menu_title' => false,
-				'menu_slug'  => "{$this->prefix}-transaction",
-				'hidden'     => true,
-			),
-			array(
-				'menu_title' => __( 'Settings', 'gurmepos' ),
-				'menu_slug'  => "{$this->prefix}-settings",
-			),
-		);
-
-		return $menu_pages;
-	}
-
 
 	/**
 	 * Eklenti ikonunu döndürür

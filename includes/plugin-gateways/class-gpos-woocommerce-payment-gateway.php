@@ -8,7 +8,7 @@
 /**
  * WooCommerce ödeme sınıfları arasına eklenen GPOS_WooCommerce_Payment_Gateway ödeme sınıfı.
  *
- * @author Gurmehub
+ * @method GPOS_Gateway_Response create_new_payment_process( $post_data, $plugin_transaction_id, $plugin, $account_id = 0 )
  */
 class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements GPOS_Plugin_Gateway {
 
@@ -60,18 +60,11 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 
 	/**
 	 * GurmePOS Nonce kontrolü.
+	 *
+	 * @return bool
 	 */
 	private function check_nonce() {
-		if ( false === isset( $_POST['_gpos_nonce'] ) ||
-		false === wp_verify_nonce( gpos_clean( $_POST['_gpos_nonce'] ), 'gpos_process_payment' )
-		) {
-			wp_send_json(
-				array(
-					'result'   => 'failure',
-					'messages' => gpos_woocommerce_notice( __( 'Invalid operation, please try again by refreshing the page.', 'gurmepos' ) ),
-				)
-			);
-		};
+		return isset( $_POST['_gpos_nonce'] ) && wp_verify_nonce( gpos_clean( $_POST['_gpos_nonce'] ), 'gpos_process_payment' );
 	}
 
 	/**
@@ -80,59 +73,39 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 	 * @param int $order_id Sipariş numarası.
 	 *
 	 * @return array|void
-	 *
-	 * @SuppressWarnings(PHPMD.ExitExpression)
 	 */
 	public function process_payment( $order_id ) {
-
-		// WordPress nonce kontrolünü gerçekleştirir.
-		$this->check_nonce();
-
-		$this->order = wc_get_order( $order_id );
-
 		try {
 
-			$this->create_new_payment_process( gpos_clean( $_POST ), $order_id, GPOS_Transaction_Utils::WOOCOMMERCE );
+			if ( $this->check_nonce() ) {
+				$this->order = wc_get_order( $order_id );
+				$response    = $this->create_new_payment_process( gpos_clean( $_POST ), $order_id, GPOS_Transaction_Utils::WOOCOMMERCE );
 
-			$response = $this->gateway->process_payment();
+				if ( $response->is_success() ) {
 
-			if ( $response->is_success() ) {
+					if ( $this->transaction->get_security_type() === GPOS_Transaction_Utils::REGULAR ) {
+						return $this->success_process( $response, true );
+					}
 
-				if ( $this->transaction->get_security_type() === GPOS_Transaction_Utils::REGULAR ) {
-					// Regular işlemi bitir.
-					$this->transaction_success_process( $response );
-					wp_send_json( $this->success_process( $response, true ) );
-				}
+					$redirect_url = $this->get_redirect_url( $response );
 
-				$redirect_url = $this->get_redirect_url( $response );
-				// 3D yada ortak ödeme sayfasına yönlendirme.
-				if ( $redirect_url ) {
-					$iframe = $this->form_settings->get_setting_by_key( 'use_iframe' );
-					$key    = $iframe ? 'messages' : 'redirect';
-					$value  = $iframe ? gpos_threeds_iframe_content( $redirect_url ) : $redirect_url;
-					gpos_is_ajax() ? wp_send_json(
-						array(
+					if ( $redirect_url ) {
+						$iframe = $this->form_settings->get_setting_by_key( 'use_iframe' );
+						return array(
 							'result' => 'success',
-							$key     => $value,
-						)
-					) :
-					wp_redirect( $redirect_url ); // phpcs:ignore
-					exit;
+							$iframe ? 'messages' : 'redirect' => $iframe ? gpos_iframe_content( $redirect_url ) : $redirect_url,
+						);
+					}
 				}
+				$this->error_process( $response, true );
+			} else {
+				wc_add_notice( __( 'Invalid operation, please try again by refreshing the page.', 'gurmepos' ) );
 			}
-
-			$this->transaction_error_process( $response );
-			wp_send_json( $this->error_process( $response, true ) );
 		} catch ( Exception $e ) {
-			$this->exception_handler( $e );
-			wp_send_json(
-				array(
-					'result'   => 'failure',
-					'messages' => gpos_woocommerce_notice( $e->getMessage() ),
-				)
-			);
+			$this->exception_handler( $e, true );
 		}
 	}
+
 
 	/**
 	 * Ödeme işleminin başarıya ulaşması sonucunda yapılacak işlemlerin hepsini barındırır.
@@ -155,10 +128,11 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 				$response->get_payment_id()
 			)
 		);
+		$this->set_fee();
+		$this->transaction_success_process( $response );
+		$this->order->update_meta_data( '_gpos_success_transaction_id', $this->transaction->get_id() );
 
-		update_post_meta( $this->order->get_id(), '_gpos_success_transaction_id', $this->transaction->get_id() );
-
-		if ( $on_checkout && gpos_is_ajax() ) {
+		if ( $on_checkout ) {
 			return array(
 				'result'   => 'success',
 				'redirect' => $received_url,
@@ -171,7 +145,6 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 
 		wp_safe_redirect( $received_url );
 		exit;
-
 	}
 
 	/**
@@ -181,12 +154,12 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 	 * @param bool                  $on_checkout Ödeme sayfasında mı ?
 	 *
 	 * @return array|void
+	 * @throws Exception Ödemede hata
 	 *
 	 * @SuppressWarnings(PHPMD.ExitExpression)
 	 */
 	public function error_process( GPOS_Gateway_Response $response, $on_checkout ) {
 		$this->order   = wc_get_order( $this->transaction->get_plugin_transaction_id() );
-		$checkout_url  = wc_get_checkout_url();
 		$error_message = $response->get_error_message();
 
 		if ( $this->order ) {
@@ -196,28 +169,23 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 			);
 		}
 
-		if ( $on_checkout && gpos_is_ajax() ) {
-			return array(
-				'result'   => 'failure',
-				'messages' => gpos_woocommerce_notice( $error_message ),
+		if ( false === $on_checkout ) {
+			$checkout_url = add_query_arg(
+				array(
+					"{$this->gpos_prefix}_error" => bin2hex( $error_message ),
+				),
+				wc_get_checkout_url()
 			);
+
+			if ( $this->form_settings->get_setting_by_key( 'use_iframe' ) ) {
+				$this->iframe_redirect( $checkout_url );
+			}
+
+			wp_safe_redirect( $checkout_url );
+			exit;
 		}
 
-		wc_add_notice( $error_message, 'error' );
-
-		$checkout_url = add_query_arg(
-			array(
-				"{$this->gpos_prefix}_error" => bin2hex( $error_message ),
-			),
-			$checkout_url
-		);
-
-		if ( $this->form_settings->get_setting_by_key( 'use_iframe' ) ) {
-			$this->iframe_redirect( $checkout_url );
-		}
-
-		wp_safe_redirect( $checkout_url );
-		exit;
+		throw new Exception( $error_message );
 	}
 
 	/**
@@ -253,9 +221,9 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 			 * @var WC_Order_Item_Product|WC_Order_Item_Shipping|WC_Order_Item_Fee $order_line WooCommerce ürünü.
 			 */
 			foreach ( $order_lines as $order_line ) {
-				$total      = method_exists( $order_line, 'get_total' ) ? $order_line->get_total() : 0;
-				$tax        = method_exists( $order_line, 'get_total_tax' ) ? $order_line->get_total_tax() : 0;
-				$item_total = floatval( $total + $tax );
+				$total      = method_exists( $order_line, 'get_total' ) ? (float) $order_line->get_total() : 0;
+				$tax        = method_exists( $order_line, 'get_total_tax' ) ? (float) $order_line->get_total_tax() : 0;
+				$item_total = $total + $tax;
 
 				if ( $item_total > 0 ) {
 					$this->transaction->add_line(
@@ -287,34 +255,20 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 	}
 
 	/**
-	 * Kredi kartı alanları için validasyon fonksiyonu
+	 * Kredi kartı alanları için validasyon methodu
 	 *
-	 * @return bool $warning Uyarı verilmesi gerekiyorsa true yada false.
+	 * @return void
 	 */
-	public function validate_fields() {
-		$warning = false;
-
-		if ( isset( $_POST[ "{$this->gpos_prefix}-use-saved-card" ] ) && 'on' === $_POST[ "{$this->gpos_prefix}-use-saved-card" ] ) {
-			return $warning;
-		}
-
+	public function validate_fieldssss() {
 		if ( isset( $_POST['payment_method'] ) && $this->gpos_prefix === $_POST['payment_method'] ) {
-			$fields = array(
-				'card-bin'          => __( 'Card number field cannot be left blank.', 'gurmepos' ),
-				'card-expiry-month' => __( 'Card expiration month cannot be left blank.', 'gurmepos' ),
-				'card-expiry-year'  => __( 'Card expiration year cannot be left blank.', 'gurmepos' ),
-				'card-cvv'          => __( 'Card cvc field cannot be left blank.', 'gurmepos' ),
-				'card-holder-name'  => __( 'Name on the card field cannot be left blank.', 'gurmepos' ),
-			);
+			$this->create_post_data( gpos_clean( $_POST ) );
 
-			foreach ( $fields as $field => $error ) {
-				if ( isset( $_POST[ "{$this->gpos_prefix}-{$field}" ] ) && empty( $_POST[ "{$this->gpos_prefix}-{$field}" ] ) ) {
-					$warning = true;
+			foreach ( gpos_get_card_validate_messages() as $field => $error ) {
+				if ( isset( $this->post_data[ "{$this->gpos_prefix}-{$field}" ] ) && empty( $this->post_data[ "{$this->gpos_prefix}-{$field}" ] ) ) {
 					wc_add_notice( $error, 'error' );
 				}
 			}
 		}
-		return $warning;
 	}
 
 	/**
@@ -334,5 +288,23 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 				<a href="<?php echo esc_url( admin_url( 'admin.php?page=gpos-payment-gateways' ) ); ?>"><?php esc_html_e( 'Click to go to settings.', 'gurmepos' ); ?></a> 
 			</h3>
 		<?php
+	}
+
+	/**
+	 * İşlemde taskit vade farkı varsa Sipariş bilgileri eklemeyi yapar
+	 */
+	protected function set_fee() {
+		$fee = $this->get_installment_fee();
+
+		if ( $fee ) {
+			$fee_data = new WC_Order_Item_Fee();
+			$fee_data->set_amount( (string) $fee->get_total() );
+			$fee_data->set_total( (string) $fee->get_total() );
+			$fee_data->set_name( $fee->get_name() );
+			$fee_data->save();
+			$this->order->add_item( $fee_data );
+			$this->order->calculate_totals();
+			$this->order->save();
+		}
 	}
 }

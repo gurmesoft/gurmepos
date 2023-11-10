@@ -71,5 +71,9 @@ class GPOS_Self_Hooks {
 
 			)
 		);
+
+		if ( true === gpos_notification_settings()->get_setting_by_key( 'errors' )['active'] ) {
+			wp_schedule_single_event( time(), 'gpos_error_transaction_notification', array( $response->get_error_message(), $transaction->get_id() ) );
+		}
 	}
 }

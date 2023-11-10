@@ -95,6 +95,13 @@ class GPOS_Transaction_Line extends GPOS_Post {
 	public $status;
 
 	/**
+	 * Satırın türü, fee|product|commission olarak kullanılabilir
+	 *
+	 * @var string $type
+	 */
+	protected $type = 'product';
+
+	/**
 	 * Post meta verileri.
 	 *
 	 * @var array $meta_data
@@ -108,6 +115,7 @@ class GPOS_Transaction_Line extends GPOS_Post {
 		'refunded_total',
 		'payment_id',
 		'transaction_id',
+		'type',
 		'status',
 	);
 
@@ -171,6 +179,26 @@ class GPOS_Transaction_Line extends GPOS_Post {
 	 */
 	public function get_plugin_line_id() {
 		return $this->get_prop( __FUNCTION__ );
+	}
+
+	/**
+	 * Satırın türünü döndürür
+	 *
+	 * @param string|int $value Yeni satır adı.
+	 * @return GPOS_Transaction_Line Sınıfın kendisi.
+	 */
+	public function set_type( $value ) {
+		$this->set_prop( __FUNCTION__, $value );
+		return $this;
+	}
+
+	/**
+	 * Satırın türünü döndürür fee|product vs
+	 *
+	 * @return string Satırın adı.
+	 */
+	public function get_type() {
+		return empty( $this->get_prop( __FUNCTION__ ) ) ? 'product' : $this->get_prop( __FUNCTION__ );
 	}
 
 	/**

@@ -446,7 +446,7 @@ function gpos_clear_non_alfa( $string ) {
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
-function gpos_threeds_iframe_content( $iframe_url, $echo = false ) {
+function gpos_iframe_content( $iframe_url, $echo = false ) {
 	ob_start();
 	gpos_get_view( 'threeds-iframe.php', array( 'iframe_url' => $iframe_url ) );
 	$content = ob_get_clean();
@@ -529,7 +529,7 @@ function gpos_get_platform_data_to_be_paid( $platform ) {
 		'currency_symbol' => '₺',
 	);
 
-	if ( 'woocommerce' === $platform ) {
+	if ( in_array( $platform, array( GPOS_Transaction_Utils::WOOCOMMERCE, GPOS_Transaction_Utils::WOOCOMMERCE_SUBS, GPOS_Transaction_Utils::WOOCOMMERCE_BLOCKS ), true ) ) {
 		$data = array(
 			'amount'          => WC()->cart->get_total( 'float' ),
 			'currency'        => get_woocommerce_currency(),
@@ -564,4 +564,33 @@ function gpos_default_installments_template() {
 	}
 
 	return $template;
+}
+
+/**
+ * Kart işlemleri için validasyon mesajlarını döndürür.
+ *
+ * @return array
+ */
+function gpos_get_card_validate_messages() {
+	return apply_filters(
+		'gpos_card_validate_messages',
+		array(
+			'card-bin'          => __( 'Card number field cannot be left blank.', 'gurmepos' ),
+			'card-expiry-month' => __( 'Card expiration month cannot be left blank.', 'gurmepos' ),
+			'card-expiry-year'  => __( 'Card expiration year cannot be left blank.', 'gurmepos' ),
+			'card-cvv'          => __( 'Card cvc field cannot be left blank.', 'gurmepos' ),
+			'card-holder-name'  => __( 'Name on the card field cannot be left blank.', 'gurmepos' ),
+		)
+	);
+}
+
+/**
+ * stdClass gibi objeleri diziye döndürür.
+ *
+ * @param mixed $object Obje.
+ *
+ * @return array
+ */
+function gpos_object_to_array( $object ) {
+	return json_decode( wp_json_encode( $object ), true );
 }

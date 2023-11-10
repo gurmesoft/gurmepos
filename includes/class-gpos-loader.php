@@ -13,6 +13,8 @@ class GPOS_Loader {
 	/**
 	 * Eklenti işlem ve kanca sınıflarını dahil eder.
 	 *
+	 * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+	 *
 	 * @return void
 	 */
 	public static function load() {
@@ -35,6 +37,8 @@ class GPOS_Loader {
 			'includes/settings/class-gpos-settings.php',
 			'includes/settings/class-gpos-woocommerce-settings.php',
 			'includes/settings/class-gpos-form-settings.php',
+			'includes/settings/class-gpos-tag-manager-settings.php',
+			'includes/settings/class-gpos-notification-settings.php',
 			// Paratika
 			'includes/payment-gateways/paratika/class-gpos-paratika-settings.php',
 			'includes/payment-gateways/paratika/class-gpos-paratika-gateway.php',
@@ -43,6 +47,10 @@ class GPOS_Loader {
 			'includes/payment-gateways/iyzico/class-gpos-iyzico-settings.php',
 			'includes/payment-gateways/iyzico/class-gpos-iyzico-gateway.php',
 			'includes/payment-gateways/iyzico/class-gpos-iyzico.php',
+			// Dummy Payment
+			'includes/payment-gateways/dummy-payment/class-gpos-dummy-payment-settings.php',
+			'includes/payment-gateways/dummy-payment/class-gpos-dummy-payment-gateway.php',
+			'includes/payment-gateways/dummy-payment/class-gpos-dummy-payment.php',
 			// Pro ile gelecekler
 			'includes/payment-gateways/pro/class-gpos-albaraka.php',
 			'includes/payment-gateways/pro/class-gpos-ingbank.php',
@@ -69,6 +77,7 @@ class GPOS_Loader {
 			'includes/payment-gateways/pro/class-gpos-paidora.php',
 			'includes/payment-gateways/pro/class-gpos-lidio.php',
 			'includes/payment-gateways/pro/class-gpos-akode.php',
+			'includes/payment-gateways/pro/class-gpos-qnbpay.php',
 			// Functions
 			'includes/gpos-class-functions.php',
 			'includes/gpos-functions.php',
@@ -98,6 +107,8 @@ class GPOS_Loader {
 			'includes/class-gpos-forge.php',
 			'includes/class-gpos-meta-boxes.php',
 			'includes/class-gpos-module-manager.php',
+			'includes/class-gpos-dashboard.php',
+			'includes/class-gpos-notifications.php',
 			// Hooks
 			'hooks/class-gpos-woocommerce.php',
 			'hooks/class-gpos-gph.php',

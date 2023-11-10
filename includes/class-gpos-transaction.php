@@ -256,6 +256,19 @@ class GPOS_Transaction extends GPOS_Post {
 	protected $user_id;
 
 	/**
+	 * Önceki ödeme geçidinin idsi
+	 *
+	 * @var int $id_before_gate
+	 */
+	protected $id_before_gate;
+
+	/**
+	 * Kartın ait oldugu ülke
+	 *
+	 * @var int $card_country_code
+	 */
+	protected $card_country_code;
+	/**
 	 * Post meta verileri.
 	 *
 	 * @var array $meta_data
@@ -309,6 +322,7 @@ class GPOS_Transaction extends GPOS_Post {
 		'gate_affected',
 		'gate_affected_rule',
 		'id_before_gate',
+		'human_date_diff',
 	);
 
 
@@ -822,9 +836,10 @@ class GPOS_Transaction extends GPOS_Post {
 	/**
 	 * İşlem satırlarını döndürür
 	 *
+	 * @param array $types satır türleri
 	 * @return GPOS_Transaction_Line[]
 	 */
-	public function get_lines() {
+	public function get_lines( $types = array( 'fee', 'product', 'commission' ) ) {
 		global $wpdb;
 		$this->set_lines(
 			array_map(
@@ -832,6 +847,8 @@ class GPOS_Transaction extends GPOS_Post {
 				$wpdb->get_results( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'gpos_t_line' AND post_parent = %s", $this->id ) ) // phpcs:ignore 
 			)
 		);
+
+		$this->lines = array_filter( $this->lines, fn( $line)=> in_array( $line->get_type(), $types, true ) );
 		return $this->lines;
 	}
 

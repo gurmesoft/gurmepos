@@ -223,7 +223,7 @@ class GPOS_Gateway_Account {
 	 * @return int|bool — Güncelleme işlemi başarılı ise meta idsi başarısız false döndürür.
 	 */
 	public function update_installments( $installments ) {
-		return update_post_meta( $this->id, 'gpos_installments', is_bool( $installments ) ? $installments : json_decode( wp_json_encode( $installments ), true ) );
+		return update_post_meta( $this->id, 'gpos_installments', is_bool( $installments ) ? $installments : gpos_object_to_array( $installments ) );
 	}
 
 	/**

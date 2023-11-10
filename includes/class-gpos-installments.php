@@ -59,17 +59,10 @@ class GPOS_Installments {
 			function( $installments ) {
 
 				// Aktif olmayan taksitleri temizler ve kategori taksit engeli vb. filtrelerden geçer.
-				try {
-					$installments = array_filter(
-						(array) apply_filters( 'gpos_installment_rules', $installments, $this->platform ),
-						fn( $installment ) => $installment['enabled']
-					);
-				} catch ( TypeError $e ) {
-					/**
-					 * Todo. Taksitler arraye convert edilemezse hata atması engellendi.
-					 */
-					return array();
-				}
+				$installments = array_filter(
+					(array) apply_filters( 'gpos_installment_rules', $installments, $this->platform ),
+					fn( $installment ) => $installment['enabled']
+				);
 
 				$installments[1] = array(
 					'enabled' => true,

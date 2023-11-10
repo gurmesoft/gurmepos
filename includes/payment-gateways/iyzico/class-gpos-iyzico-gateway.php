@@ -347,7 +347,6 @@ class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 	 */
 	private function prepare_basket_items() {
 		$basket_items = array();
-
 		foreach ( $this->transaction->get_lines() as $line ) {
 			$basket_item = new \Iyzipay\Model\BasketItem();
 			$basket_item->setId( $line->get_id() );
@@ -356,7 +355,7 @@ class GPOS_Iyzico_Gateway extends GPOS_Payment_Gateway {
 			$basket_item->setCategory1( $line->get_category() );
 			$basket_item->setPrice( number_format( $line->get_total(), 2, '.', '' ) );
 
-			if ( $basket_item->getId() && (int) $basket_item->getPrice() > 0 ) {
+			if ( $basket_item->getId() && (float) $basket_item->getPrice() > 0 ) {
 				array_push( $basket_items, $basket_item );
 			}
 		}
