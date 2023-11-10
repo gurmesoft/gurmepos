@@ -58,7 +58,7 @@ class GPOS_Notifications {
 				)
 			);
 			$html = ob_get_clean();
-			$this->mail_to( $addresses, __( 'Error in payment process', 'gurmepos' ), $html );
+			$this->mail_to( $addresses, 'POS Entegratör ' . __( 'Error in payment process', 'gurmepos' ), $html );
 		}
 	}
 
@@ -85,7 +85,7 @@ class GPOS_Notifications {
 				)
 			);
 
-			$this->mail_to( $addresses, __( 'Daily Transaction Notification', 'gurmepos' ), ob_get_clean() );
+			$this->mail_to( $addresses, 'POS Entegratör ' . __( 'Daily Transaction Notification', 'gurmepos' ), ob_get_clean() );
 		}
 	}
 
@@ -112,7 +112,7 @@ class GPOS_Notifications {
 				)
 			);
 
-			$this->mail_to( $addresses, __( 'Weekly Transaction Notification', 'gurmepos' ), ob_get_clean() );
+			$this->mail_to( $addresses, 'POS Entegratör ' . __( 'Weekly Transaction Notification', 'gurmepos' ), ob_get_clean() );
 		}
 	}
 

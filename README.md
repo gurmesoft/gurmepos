@@ -2,7 +2,7 @@
 Authors: GurmeHub
 Contributors: ftpyz, fuatpoyraz, cinfikret, fatihcelebi1, alicane
 Donate link: https://gurmehub.com/
-Plugin Name: POS Entegrator; WordPress Ödeme Eklentisi
+Plugin Name: POS Entegratör; WordPress Ödeme Eklentisi
 Plugin URI: https://posentegrator.com/
 Tags: kredi kartı, sanal pos, ödeme, banka, pos, checkout, 
 Requires at least: 4.7

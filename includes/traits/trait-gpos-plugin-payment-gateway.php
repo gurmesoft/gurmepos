@@ -226,7 +226,7 @@ trait GPOS_Plugin_Payment_Gateway {
 				$this->transaction->add_line(
 					gpos_transaction_line()
 					// translators: vade farkı
-					->set_name( sprintf( __( 'Installment Fee %s month', 'gurmepos' ), $this->installment ) )
+					->set_name( sprintf( __( 'Installment Fee (%s Mounth)', 'gurmepos' ), $this->installment ) )
 					->set_quantity( 1 )
 					->set_type( 'fee' )
 					->set_total( $fee )

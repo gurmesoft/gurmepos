@@ -9,7 +9,7 @@
 <div class="notice notice-info" style="padding: 10px;">
 	<div style="display: flex; gap:20px; align-items:center;">
 		<div>
-			<img src="<?php echo esc_url( GPOS_ASSETS_DIR_URL . '/images/pos-entegrator-icon.svg' ); ?>" alt="POS Entegrator">
+			<img src="<?php echo esc_url( GPOS_ASSETS_DIR_URL . '/images/pos-entegrator-icon.svg' ); ?>" alt="POS Entegratör">
 		</div>
 		<div>
 			<span style="font-weight: 700;"><?php esc_html_e( 'POS Entegratör is not active', 'gurmepos' ); ?></span>

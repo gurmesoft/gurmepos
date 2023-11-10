@@ -877,7 +877,7 @@ class GPOS_Transaction extends GPOS_Post {
 			$comment_author       = $user->display_name;
 			$comment_author_email = $user->user_email;
 		} else {
-			$comment_author        = 'POS Entegrator';
+			$comment_author        = 'POS Entegratör';
 			$comment_author_email  = 'posentegrator@';
 			$comment_author_email .= isset( $_SERVER['HTTP_HOST'] ) ? str_replace( 'www . ', '', sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) ) : 'noreply.com';
 			$comment_author_email  = sanitize_email( $comment_author_email );
@@ -889,7 +889,7 @@ class GPOS_Transaction extends GPOS_Post {
 			'comment_author_email' => $comment_author_email,
 			'comment_author_url'   => '',
 			'comment_content'      => $note,
-			'comment_agent'        => 'POS Entegrator',
+			'comment_agent'        => 'POS Entegratör',
 			'comment_type'         => 'transaction_note',
 			'comment_parent'       => 0,
 			'comment_approved'     => 1,
