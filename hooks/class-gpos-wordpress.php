@@ -270,7 +270,7 @@ class GPOS_WordPress {
 	public function actions_links( $links ) {
 
 		$new_links = array(
-			'settings' => sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=gpos-payment-gateways' ), __( 'Settings', 'gurmepos' ) ),
+			'settings' => sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=gpos-settings' ), __( 'Settings', 'gurmepos' ) ),
 		);
 
 		if ( ! gpos_is_pro_active() ) {
