@@ -57,16 +57,6 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 		$this->init_settings();
 	}
 
-
-	/**
-	 * GurmePOS Nonce kontrolü.
-	 *
-	 * @return bool
-	 */
-	private function check_nonce() {
-		return isset( $_POST['_gpos_nonce'] ) && wp_verify_nonce( gpos_clean( $_POST['_gpos_nonce'] ), 'gpos_process_payment' );
-	}
-
 	/**
 	 * WooCommerce sipariş sayfasından ödeme tetiklenir.
 	 *
@@ -120,6 +110,7 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 	public function success_process( GPOS_Gateway_Response $response, $on_checkout ) {
 		$this->order  = wc_get_order( $this->transaction->get_plugin_transaction_id() );
 		$received_url = $this->order->get_checkout_order_received_url();
+		$this->set_fee();
 		$this->order->payment_complete( $response->get_payment_id() );
 		$this->order->add_order_note(
 			sprintf(
@@ -128,7 +119,6 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 				$response->get_payment_id()
 			)
 		);
-		$this->set_fee();
 		$this->transaction_success_process( $response );
 		$this->order->update_meta_data( '_gpos_success_transaction_id', $this->transaction->get_id() );
 

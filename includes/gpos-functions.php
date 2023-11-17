@@ -594,3 +594,23 @@ function gpos_get_card_validate_messages() {
 function gpos_object_to_array( $object ) {
 	return json_decode( wp_json_encode( $object ), true );
 }
+
+/**
+ * Kart ailelerinin marka renklerini döndürür
+ *
+ * @return array
+ */
+function gpos_get_card_family_color() {
+	$familiy_color_data = array(
+		'maximum'       => '#EC018C',
+		'cardfinans'    => '#294AA4',
+		'paraf'         => '#03DCFF',
+		'world'         => '#9D69A7',
+		'axess'         => '#FFC20D',
+		'bonus'         => '#64C25A',
+		'bankkartcombo' => '#EC0C10',
+		'advantage'     => '#EB724F',
+		'saglamkart'    => '#006748',
+	);
+	return apply_filters( 'gpos_default_card_family_color', $familiy_color_data );
+}

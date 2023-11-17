@@ -50,6 +50,7 @@ class GPOS_WordPress {
 		add_filter( 'template_include', array( $this, 'template_include' ) );
 		add_filter( 'script_loader_tag', array( $this, 'script_loader' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_filter( 'plugin_action_links_' . GPOS_PLUGIN_BASENAME, array( $this, 'actions_links' ) );
 		add_filter( 'plugin_row_meta', array( $this, 'plugin_row_meta' ), 10, 2 );
 		add_action( 'restrict_manage_posts', array( $this, 'restrict_manage_posts' ) );
@@ -250,6 +251,13 @@ class GPOS_WordPress {
 	public function admin_enqueue_scripts() {
 		wp_enqueue_script( "{$this->prefix}-admin-js", GPOS_ASSETS_DIR_URL . '/js/admin.js', array( 'jquery' ), GPOS_VERSION, false );
 		wp_enqueue_style( "{$this->prefix}-admin-css", GPOS_ASSETS_DIR_URL . '/css/admin.css', array(), GPOS_VERSION );
+	}
+
+	/**
+	 * WordPress frontend script ve stil dosyaları ekler.
+	 */
+	public function enqueue_scripts() {
+		wp_register_script( 'jquery-block', GPOS_ASSETS_DIR_URL . '/js/jquery.blockUI.min.js', array( 'jquery' ), GPOS_VERSION, false );
 	}
 
 	/**

@@ -43,6 +43,7 @@ class GPOS_Self_Hooks {
 				'use_saved_card'  => (int) $transaction->need_use_saved_card(),
 				'save_card'       => (int) $transaction->get_save_card(),
 				'security_type'   => $transaction->get_security_type() ? $transaction->get_security_type() : 'common_form',
+				'gate_used'       => $transaction->get_gate_affected(),
 				'is_test'         => gpos_is_test_mode(),
 				'version'         => GPOS_VERSION,
 			)

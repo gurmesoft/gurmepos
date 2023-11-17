@@ -81,6 +81,7 @@ return array(
 	'pay_form_desc'                    => __( 'Description Field of Payment Form', 'gurmepos' ),
 	'soon'                             => __( 'Soon', 'gurmepos' ),
 	'help'                             => __( 'Help', 'gurmepos' ),
+	'desc'                             => __( 'Description', 'gurmepos' ),
 	'feedback'                         => __( 'Feedback', 'gurmepos' ),
 	'forum'                            => __( 'Forum', 'gurmepos' ),
 	'transaction_details'              => __( 'Transaction Details', 'gurmepos' ),
@@ -331,5 +332,13 @@ return array(
 	'active_weekly_mails'              => __( 'Active Weekly Emails', 'gurmepos' ),
 	'active_weekly_mails_desc'         => __( 'Get weekly transaction information by choosing your notification day and time', 'gurmepos' ),
 	'emails_below_desc'                => __( 'Please write the e-mail addresses below where you want the notification to be sent.', 'gurmepos' ),
-
+	'installment_tab_only_pro'		   =>__('Installment tabs only avaliable in PRO and upper versions','gurmepos'),
+	'installment_tab' 				   =>__('Installment Tabs','gurmepos'),
+	'installment_tab_priority' 		   =>__('Tab Order Priority','gurmepos'),
+	'installment_tab_placeholder'	   =>__('By entering the sequence value, you can specify in which field it will be placed in the tabs. Higher values move closer to the last part','gurmepos'),
+	'installment_tab_desc'			   =>__('This description will be displayed before the table in the installment tab','gurmepos'),
+	'multi_installment_view'		   =>__('Multi Table View','gurmepos'),
+	'single_installment_view'		   =>__('Single Table View','gurmepos'),
+	'multi_installment_desc'		   =>__('In this view, a table is created for each card family and the installments are displayed one under the other.','gurmepos'),
+	'single_installment_desc'		   =>__('This view shows the card family and installments in a single table','gurmepos'),
 );

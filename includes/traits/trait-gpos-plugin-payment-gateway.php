@@ -443,4 +443,13 @@ trait GPOS_Plugin_Payment_Gateway {
 			)
 		);
 	}
+
+	/**
+	 * GurmePOS Nonce kontrolü.
+	 *
+	 * @return bool
+	 */
+	public function check_nonce() {
+		return isset( $_POST['_gpos_nonce'] ) && wp_verify_nonce( gpos_clean( $_POST['_gpos_nonce'] ), 'gpos_process_payment' );
+	}
 }
