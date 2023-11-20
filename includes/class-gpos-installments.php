@@ -54,6 +54,15 @@ class GPOS_Installments {
 		if ( 0 >= (float) $this->platform_data['amount'] ) {
 			return array();
 		}
+		return $this->prepare_rates();
+	}
+
+	/**
+	 * Hesaplanmış taksit oranlarını hazırlar
+	 *
+	 * @return array
+	 */
+	public function prepare_rates() {
 
 		return array_map( // Axess, Bonus vs. için dönen map.
 			function( $installments ) {
