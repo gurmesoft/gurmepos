@@ -36,7 +36,7 @@ class GPOS_Teb extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/teb.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/teb.svg';
 
 	/**
 	 * Desteklenen özellikler

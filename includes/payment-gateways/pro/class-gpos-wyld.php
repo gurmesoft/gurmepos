@@ -49,7 +49,7 @@ class GPOS_Wyld extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/wyld.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/wyld.svg';
 
 	/**
 	 * Firma müşteri panel bilgisi

@@ -142,7 +142,7 @@ function gpos_frontend( $platform = GPOS_Transaction_Utils::WOOCOMMERCE ) {
  *
  * @return GPOS_Redirect
  */
-function gpos_redirect( $transaction_id ) {
+function gpos_redirect( $transaction_id = 0 ) {
 	return new GPOS_Redirect( $transaction_id );
 }
 

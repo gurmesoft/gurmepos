@@ -36,7 +36,7 @@ class GPOS_Halkbank extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/halkbank.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/halkbank.svg';
 
 	/**
 	 * Desteklenen özellikler

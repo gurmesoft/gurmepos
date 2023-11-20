@@ -43,7 +43,7 @@ class GPOS_Param extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/param.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/param.svg';
 
 	/**
 	 * Desteklenen özellikler

@@ -36,7 +36,7 @@ class GPOS_Akbank extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/akbank.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/akbank.svg';
 
 	/**
 	 * Desteklenen özellikler

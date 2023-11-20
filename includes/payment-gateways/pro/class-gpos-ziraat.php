@@ -35,7 +35,7 @@ class GPOS_Ziraat extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/ziraat.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/ziraat.svg';
 
 	/**
 	 * Desteklenen özellikler

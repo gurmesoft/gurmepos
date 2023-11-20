@@ -36,7 +36,7 @@ class GPOS_Kuveyt_Turk extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/kuveytturk.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/kuveytturk.svg';
 
 	/**
 	 * Desteklenen özellikler

@@ -36,7 +36,7 @@ class GPOS_QNBpay extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/qnbpay.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/qnbpay.svg';
 
 	/**
 	 * Firma müşteri panel bilgisi

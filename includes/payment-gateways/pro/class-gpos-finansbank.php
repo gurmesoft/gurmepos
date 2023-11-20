@@ -36,7 +36,7 @@ class GPOS_Finansbank extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/finansbank.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/finansbank.svg';
 
 	/**
 	 * Desteklenen özellikler

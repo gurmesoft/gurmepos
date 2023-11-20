@@ -67,30 +67,28 @@ class GPOS_WooCommerce_Payment_Gateway extends WC_Payment_Gateway_CC implements 
 	public function process_payment( $order_id ) {
 		try {
 
-			if ( $this->check_nonce() ) {
-				$this->order = wc_get_order( $order_id );
-				$response    = $this->create_new_payment_process( gpos_clean( $_POST ), $order_id, GPOS_Transaction_Utils::WOOCOMMERCE );
+			$this->order = wc_get_order( $order_id );
+			$response    = $this->create_new_payment_process( gpos_clean( $_POST ), $order_id, GPOS_Transaction_Utils::WOOCOMMERCE );
 
-				if ( $response->is_success() ) {
+			if ( $response->is_success() ) {
 
-					if ( $this->transaction->get_security_type() === GPOS_Transaction_Utils::REGULAR ) {
-						return $this->success_process( $response, true );
-					}
-
-					$redirect_url = $this->get_redirect_url( $response );
-
-					if ( $redirect_url ) {
-						$iframe = $this->form_settings->get_setting_by_key( 'use_iframe' );
-						return array(
-							'result' => 'success',
-							$iframe ? 'messages' : 'redirect' => $iframe ? gpos_iframe_content( $redirect_url ) : $redirect_url,
-						);
-					}
+				if ( $this->transaction->get_security_type() === GPOS_Transaction_Utils::REGULAR ) {
+					return $this->success_process( $response, true );
 				}
-				$this->error_process( $response, true );
-			} else {
-				wc_add_notice( __( 'Invalid operation, please try again by refreshing the page.', 'gurmepos' ) );
+
+				$redirect_url = $this->get_redirect_url( $response );
+
+				if ( $redirect_url ) {
+					$iframe = $this->form_settings->get_setting_by_key( 'use_iframe' );
+					return array(
+						'result'                          => 'success',
+						$iframe ? 'messages' : 'redirect' => $iframe ? gpos_iframe_content( $redirect_url ) : $redirect_url,
+					);
+				}
 			}
+
+			$this->error_process( $response, true );
+
 		} catch ( Exception $e ) {
 			$this->exception_handler( $e, true );
 		}

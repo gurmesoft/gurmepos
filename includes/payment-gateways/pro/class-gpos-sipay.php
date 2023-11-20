@@ -43,7 +43,7 @@ class GPOS_Sipay extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/sipay.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/sipay.svg';
 
 	/**
 	 * Desteklenilen para birimleri

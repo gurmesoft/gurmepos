@@ -23,9 +23,11 @@ class GPOS_Meta_Boxes {
 	 * @return void
 	 */
 	public function add_meta_box() {
-		// @phpstan-ignore-next-line
-		$hpos_enabled = wc_get_container()->get( Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController::class )->custom_orders_table_usage_is_enabled();
-		add_meta_box( "{$this->prefix}_shop_order_meta_box", 'POS Entegratör', array( $this, 'shop_order_meta_box' ), $hpos_enabled ? wc_get_page_screen_id( 'shop-order' ) : 'shop_order', 'side', 'default' );
+		if ( gpos_is_woocommerce_enabled() && function_exists( 'wc_get_container' ) ) {
+			// @phpstan-ignore-next-line
+			$hpos_enabled = wc_get_container()->get( Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController::class )->custom_orders_table_usage_is_enabled();
+			add_meta_box( "{$this->prefix}_shop_order_meta_box", 'POS Entegratör', array( $this, 'shop_order_meta_box' ), $hpos_enabled ? wc_get_page_screen_id( 'shop-order' ) : 'shop_order', 'side', 'default' );
+		}
 	}
 
 	/**

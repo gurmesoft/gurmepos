@@ -38,83 +38,94 @@ $transaction_edit_url = add_query_arg(
 	<?php gpos_get_view( 'emails/parts/head.php' ); ?>
 	<body style="margin: 0; width: 100%; padding: 0; -webkit-font-smoothing: antialiased; word-break: break-word">
 		<div role="article" aria-roledescription="email" aria-label lang="en">
-			<div
-				style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px; background-color: #e5e7eb; padding: 64px; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif">
-				<img src="<?php echo esc_url( GPOS_ASSETS_DIR_URL ); ?>/images/logo.png" alt
-					style="max-width: 100%; vertical-align: middle; line-height: 1; border: 0; width: 320px">
-				<div
-					style="display: flex; width: 600px; flex-direction: column; gap: 64px; border-radius: 4px; background-color: #fff; padding: 64px; color: #000">
-					<div>
-						<div style="font-size: 24px; font-weight: 700"><?php esc_html_e( 'Hello, we are sorry you received this email.', 'gurmepos' ); ?> 😞
-						</div>
-						<div style="margin-top: 8px">
-							<?php esc_html_e( 'A user encountered an error during the payment process. You can review the details in the table below. If there is something you need support for, don\'t hesitate to write to us.', 'gurmepos' ); ?>
-						</div>
-					</div>
-					<div style="display: flex; flex-direction: column;">
-						<div
-							style="border-top-left-radius: 4px; border-top-right-radius: 4px; background-color: #fbbf24; padding: 16px; font-size: 20px; font-weight: 600; color: #fff">
-							<?php esc_html_e( 'Error Details', 'gurmepos' ); ?>
-						</div>
-						<div
-							style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-radius: 4px; background-color: #fde68a; padding: 16px">
-							<div
-								style="display: flex; align-items: center; justify-content: flex-start; padding: 8px 16px;">
+			<table style="width: 100%; background-color: #e5e7eb; padding-top: 64px; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif" cellpadding="0" cellspacing="0" role="none">
+			<tbody>
+				<tr>
+				<td></td>
+				<td align="center" width="800">
+					<img src="<?php echo esc_url( GPOS_ASSETS_DIR_URL ); ?>/images/logo.png" style="max-width: 100%; vertical-align: middle; line-height: 1; border: 0; width: 320px" alt="">
+					<div style="margin-top: 32px; background-color: #fff; padding: 32px; color: #000">
+					<table style="border-style: none; padding: 0" cellpadding="0" cellspacing="0" role="none">
+						<tbody>
+						<tr>
+							<td>
+							<div style="font-size: 24px; font-weight: 700"><?php esc_html_e( 'Hello, we are sorry you received this email.', 'gurmepos' ); ?> 😞</div>
+							<div style="margin-top: 8px">
+								<?php esc_html_e( 'A user encountered an error during the payment process. You can review the details in the table below. If there is something you need support for, don\'t hesitate to write to us.', 'gurmepos' ); ?>
+							</div>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+					<div style="position: relative; margin-top: 16px; overflow-x: auto; border-radius: 4px">
+						<table class="rtl-text-right" style="width: 100%; text-align: left; font-size: 14px" cellpadding="0" cellspacing="0" role="none">
+						<thead style="background-color: #2563eb; font-size: 20px; font-weight: 600; color: #fff">
+							<tr>
+							<th scope="col" style="padding: 20px 24px"><?php esc_html_e( 'Error Details', 'gurmepos' ); ?></th>
+							<th scope="col" style="padding: 20px 24px;">
+								<span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0">Bağlantılar</span>
+							</th>
+							</tr>
+						</thead>
+						<tbody style="background-color: #bfdbfe">
+							<tr>
+							<th scope="row" style="white-space: nowrap; padding: 12px 24px; font-weight: 500; color: #111827">
 								<?php echo esc_html( $texts[ $transaction->get_plugin() ] ); ?>
-							</div>
-							<div
-								style="display: flex; align-items: center; justify-content: flex-start; padding: 8px 16px; font-weight: 600;">
-								<a href="<?php echo esc_url( $plugin_edit_url ); ?>" target="_blank" style="color: #2563eb">
-								#<?php echo esc_html( $transaction->get_plugin_transaction_id() ); ?></a>
-							</div>
-							<div
-								style="display: flex; align-items: center; justify-content: flex-start; padding: 8px 16px;">
+							</th>
+							<td style="padding: 12px 24px;">
+								<a href="<?php echo esc_url( $plugin_edit_url ); ?>" target="_blank" style="font-weight: 600; color: #2563eb">#<?php echo esc_html( $transaction->get_plugin_transaction_id() ); ?></a>
+							</td>
+							</tr>
+							<tr>
+							<th scope="row" style="white-space: nowrap; padding: 12px 24px; font-weight: 500; color: #111827;">
 								POS Entegratör
-							</div>
-							<div
-								style="display: flex; align-items: center; justify-content: flex-start; padding: 8px 16px; font-weight: 600;">
-								<a href="<?php echo esc_url( $transaction_edit_url ); ?>" target="_blank" style="color: #2563eb">
-								#<?php echo esc_html( $transaction->get_id() ); ?></a>
-							</div>
-							<div
-								style="display: flex; align-items: center; justify-content: flex-start; padding: 8px 16px;">
+							</th>
+							<td style="padding: 12px 24px;">
+								<a href="<?php echo esc_url( $transaction_edit_url ); ?>" target="_blank" style="font-weight: 600; color: #2563eb;">#<?php echo esc_html( $transaction->get_id() ); ?></a>
+							</td>
+							</tr>
+							<tr>
+							<th scope="row" style="white-space: nowrap; padding: 12px 24px; font-weight: 500; color: #111827;">
 								<?php esc_html_e( 'Total', 'gurmepos' ); ?>
-							</div>
-							<div
-								style="display: flex; align-items: center; justify-content: flex-start; padding: 8px 16px; font-weight: 600;">
+							</th>
+							<td style="padding: 12px 24px; font-weight: 700;">
 								<?php echo esc_html( $transaction->get_total() . ' ' . $transaction->get_currency() ); ?>
-							</div>
-							<div
-								style="display: flex; align-items: center; justify-content: flex-start; padding: 8px 16px;">
+							</td>
+							</tr>
+							<tr>
+							<th scope="row" style="white-space: nowrap; padding: 12px 24px; font-weight: 500; color: #111827;">
 								<?php esc_html_e( 'Installment', 'gurmepos' ); ?>
-							</div>
-							<div
-								style="display: flex; align-items: center; justify-content: flex-start; padding: 8px 16px; font-weight: 600;">
+							</th>
+							<td style="padding: 12px 24px; font-weight: 700;">
 								<?php echo esc_html( $transaction->get_installment() ); ?>
-							</div>
-							<div
-								style="display: flex; align-items: center; justify-content: flex-start; padding: 8px 16px;">
+							</td>
+							</tr>
+							<tr>
+							<th scope="row" style="white-space: nowrap; padding: 12px 24px; font-weight: 500; color: #111827;">
+									<?php esc_html_e( 'Error Message', 'gurmepos' ); ?>
+							</th>
+							<td style="padding: 12px 24px; font-weight: 700;">
+									<?php echo esc_html( $error_message ); ?>
+							</td>
+							</tr>
+							<tr>
+							<th scope="row" style="white-space: nowrap; padding: 12px 24px; font-weight: 500; color: #111827;">
 								<?php esc_html_e( 'Payment Gateway', 'gurmepos' ); ?>
-							</div>
-							<div
-								style="display: flex; align-items: center; justify-content: flex-start; padding: 8px 16px; font-weight: 600;">
-								<img src="<?php echo esc_url( GPOS_ASSETS_DIR_URL ); ?>/images/logo/<?php echo esc_html( $transaction->get_payment_gateway_id() ); ?>.png"
-									alt
-									style="max-width: 100%; vertical-align: middle; line-height: 1; border: 0; width: 64px">
-							</div>
-							<div
-								style="display: flex; align-items: center; justify-content: flex-start; padding: 8px 16px;">
-								<?php esc_html_e( 'Error Message', 'gurmepos' ); ?>
-							</div>
-							<div
-								style="display: flex; align-items: center; justify-content: flex-start; padding: 8px 16px; font-weight: 600;">
-								<?php echo esc_html( $error_message ); ?>
-							</div>
-						</div>
+							</th>
+							<td style="padding: 12px 24px; font-weight: 700;">
+								<?php echo esc_html( $transaction->get_payment_gateway_id() ); ?>
+							</td>
+							</tr>
+						</tbody>
+						</table>
 					</div>
-				</div>
-				<?php gpos_get_view( 'emails/parts/disable.php' ); ?>
-			</div>
+					</div>
+					<?php gpos_get_view( 'emails/parts/disable.php' ); ?>
+				</td>
+				<td></td>
+				</tr>
+			</tbody>
+			</table>
 		</div>
 	</body>
 </html>

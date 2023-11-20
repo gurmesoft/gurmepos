@@ -60,12 +60,15 @@ class GPOS_Installments {
 	/**
 	 * Hesaplanmış taksit oranlarını hazırlar
 	 *
+	 * @param bool $cash Peşin fiyat diziye eklenip eklenmeyeceğini belirler
+	 *
 	 * @return array
+	 * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
 	 */
-	public function prepare_rates() {
+	public function prepare_rates( $cash = true ) {
 
 		return array_map( // Axess, Bonus vs. için dönen map.
-			function( $installments ) {
+			function( $installments ) use ( $cash ) {
 
 				// Aktif olmayan taksitleri temizler ve kategori taksit engeli vb. filtrelerden geçer.
 				$installments = array_filter(
@@ -73,11 +76,13 @@ class GPOS_Installments {
 					fn( $installment ) => $installment['enabled']
 				);
 
-				$installments[1] = array(
-					'enabled' => true,
-					'rate'    => 0,
-					'number'  => 1,
-				);
+				if ( $cash ) {
+					$installments[1] = array(
+						'enabled' => true,
+						'rate'    => 0,
+						'number'  => 1,
+					);
+				}
 
 				$mapped_installments = array_map( // Taksit adedi için dönen map. 1-2-3-4 vb.
 					function( $installment ) {
@@ -95,8 +100,6 @@ class GPOS_Installments {
 				);
 
 				ksort( $mapped_installments );
-
-				// @phpstan-ignore-next-line
 				return $mapped_installments;
 			},
 			$this->account->installments

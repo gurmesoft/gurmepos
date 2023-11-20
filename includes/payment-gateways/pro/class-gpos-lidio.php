@@ -36,7 +36,7 @@ class GPOS_Lidio extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/lidio.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/lidio.svg';
 
 	/**
 	 * Desteklenen özellikler

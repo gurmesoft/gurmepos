@@ -134,7 +134,7 @@ class GPOS_Vue {
 		return $this;
 	}
 
-		/**
+	/**
 	 * Vue projesinin gösterimi için gereki js dosyalarını dahil eder.
 	 *
 	 * @return GPOS_Vue $this

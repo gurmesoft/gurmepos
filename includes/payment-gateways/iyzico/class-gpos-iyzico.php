@@ -50,7 +50,7 @@ class GPOS_Iyzico extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/iyzico.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/iyzico.svg';
 
 	/**
 	 * Desteklenilen para birimleri

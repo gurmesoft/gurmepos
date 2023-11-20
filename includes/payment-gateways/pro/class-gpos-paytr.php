@@ -43,7 +43,7 @@ class GPOS_Paytr extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/paytr.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/paytr.svg';
 
 	/**
 	 * Desteklenen özellikler

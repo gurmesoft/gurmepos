@@ -36,7 +36,7 @@ class GPOS_Ozan extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/ozan.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/ozan.svg';
 
 	/**
 	 * Ödeme için gerekli alanların tanımı

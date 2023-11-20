@@ -36,7 +36,7 @@ class GPOS_Garanti_Pay extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/garanti.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/garanti.svg';
 
 	/**
 	 * Ödeme için gerekli alanların tanımı

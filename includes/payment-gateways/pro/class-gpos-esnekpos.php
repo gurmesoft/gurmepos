@@ -43,7 +43,7 @@ class GPOS_Esnekpos extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/esnekpos.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/esnekpos.svg';
 
 	/**
 	 * Desteklenen özellikler

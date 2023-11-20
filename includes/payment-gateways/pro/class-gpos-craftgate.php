@@ -42,7 +42,7 @@ class GPOS_Craftgate extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/craftgate.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/craftgate.svg';
 
 	/**
 	 * Firma müşteri panel bilgisi

@@ -18,6 +18,20 @@ class GPOS_Redirect {
 	private $table_name;
 
 	/**
+	 * Redirect verileri için anahtar.
+	 *
+	 * @var string
+	 */
+	private $forge_key;
+
+	/**
+	 * Redirect verileri için başlangıç vektörü.
+	 *
+	 * @var string
+	 */
+	private $init_vector;
+
+	/**
 	 * Redirect verilerinin tutulduğu tablo.
 	 *
 	 * @var wpdb $db Veri tabanı bağlantısı
@@ -31,7 +45,6 @@ class GPOS_Redirect {
 	 */
 	private $transaction_id;
 
-
 	/**
 	 * GPOS_Redirect sınıfı kurucu fonksiyonu
 	 *
@@ -39,27 +52,66 @@ class GPOS_Redirect {
 	 *
 	 * @return void
 	 */
-	public function __construct( $transaction_id ) {
+	public function __construct( $transaction_id = 0 ) {
 		global $wpdb;
 		$this->transaction_id = $transaction_id;
-		$this->table_name     = $wpdb->prefix . 'gpos_redirect';
 		$this->connection     = $wpdb;
+		$this->table_name     = $this->connection->prefix . 'gpos_redirect';
+		$this->forge_key      = uniqid();
 	}
-
 
 	/**
 	 * 3D yönlendirme verilerini veri tabanından getirir.
 	 *
-	 * @return string
+	 * @return string|false
 	 */
 	public function get_html_content() {
-		$html_content = $this->connection->get_var(
+		$html_content = '';
+		$hex          = $this->connection->get_var(
 			$this->connection->prepare( "SELECT `html_content` FROM {$this->table_name} WHERE `transaction_id` = %s", $this->transaction_id )
 		);
 
 		$this->delete_html_content();
 
+		if ( isset( $_GET['gpos_redirect_nonce'] ) && isset( $_GET['gpos_redirect_key'] ) ) {                                                               // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$html_content = gpos_forge()->redirect_decrypt( $hex, gpos_clean( $_GET['gpos_redirect_nonce'] ), gpos_clean( $_GET['gpos_redirect_key'] ) );   // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		}
+
 		return $html_content;
+	}
+
+	/**
+	 * 3D yönlendirme verilerini veri tabanında yazar.
+	 *
+	 * @param string $html_content Yönlendirme verileri.
+	 *
+	 * @return GPOS_Redirect
+	 */
+	public function set_html_content( $html_content ) {
+		$forged_data       = gpos_forge()->redirect_crypt( $html_content, $this->forge_key );
+		$this->init_vector = $forged_data['iv'];
+		$this->connection->insert(
+			$this->table_name,
+			array(
+				'transaction_id' => $this->transaction_id,
+				'html_content'   => $forged_data['hex'],
+			)
+		);
+		return $this;
+	}
+
+	/**
+	 * 3D verilerini ekrana yazar.
+	 */
+	public function get_redirect_url() {
+		return add_query_arg(
+			array(
+				'transaction_id'      => $this->transaction_id,
+				'gpos_redirect_nonce' => $this->init_vector,
+				'gpos_redirect_key'   => $this->forge_key,
+			),
+			home_url() . '/gpos-redirect/'
+		);
 	}
 
 	/**
@@ -76,36 +128,12 @@ class GPOS_Redirect {
 
 
 	/**
-	 * 3D yönlendirme verilerini veri tabanında yazar.
+	 * 3D yönlendirme verilerini veri tabanından siler.
 	 *
-	 * @param string $html_content Yönlendirme verileri.
-	 *
-	 * @return GPOS_Redirect
+	 * @return void
 	 */
-	public function set_html_content( $html_content ) {
-
-		$this->connection->insert(
-			$this->table_name,
-			array(
-				'transaction_id' => $this->transaction_id,
-				'html_content'   => $html_content,
-			)
-		);
-
-		return $this;
-	}
-
-	/**
-	 * 3D verilerini ekrana yazar.
-	 */
-	public function get_redirect_url() {
-		return add_query_arg(
-			array(
-				'transaction_id' => $this->transaction_id,
-				'_wpnonce'       => wp_create_nonce( 'gpos_redirect' ),
-			),
-			home_url() . '/gpos-redirect/'
-		);
+	public function clear_table() {
+		$this->connection->query( "TRUNCATE TABLE `{$this->table_name}`" );
 	}
 
 	/**
@@ -126,7 +154,7 @@ class GPOS_Redirect {
 				</div>
 				<button style="background-color:#1c64f2; color:#fff; border-color:#1c64f2; border-radius:999px; padding:10px 20px;" onclick="window.history.back()">
 				<?php esc_html_e( 'Back to payment page', 'gurmepos' ); ?>
-			</button>
+				</button>
 			</center>
 			<?php
 		}

@@ -50,7 +50,7 @@ class GPOS_Paidora extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/paidora.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/paidora.svg';
 
 	/**
 	 * Firma müşteri panel bilgisi

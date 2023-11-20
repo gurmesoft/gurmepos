@@ -110,6 +110,11 @@ class GPOS_WordPress {
 		flush_rewrite_rules();
 
 		gpos_notifications()->register();
+
+		if ( ! wp_next_scheduled( 'gpos_clear_redirect_table' ) ) {
+			wp_schedule_event( time(), 'hourly', 'gpos_clear_redirect_table' );
+		}
+
 	}
 
 	/**
@@ -199,12 +204,8 @@ class GPOS_WordPress {
 	 */
 	public function template_include( $template ) {
 		// 3D Yönlendirmeleri için kullanılacak blok.
-		if ( get_query_var( $this->redirect_query_var_key ) &&
-			isset( $_GET['transaction_id'] ) &&
-			isset( $_GET['_wpnonce'] ) &&
-			wp_verify_nonce( gpos_clean( $_GET['_wpnonce'] ), 'gpos_redirect' )
-			) {
-			return gpos_redirect( gpos_clean( $_GET['transaction_id'] ) )->render();
+		if ( get_query_var( $this->redirect_query_var_key ) && isset( $_GET['transaction_id'] ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			return gpos_redirect( gpos_clean( $_GET['transaction_id'] ) )->render(); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		}
 
 		// Geri dönüş noktası için kullanılacak blok.

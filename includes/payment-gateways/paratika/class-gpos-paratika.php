@@ -51,7 +51,7 @@ class GPOS_Paratika extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/paratika.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/paratika.svg';
 
 	/**
 	 * Desteklenilen para birimleri

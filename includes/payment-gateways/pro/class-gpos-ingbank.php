@@ -36,7 +36,7 @@ class GPOS_Ingbank extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/ingbank.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/ingbank.svg';
 
 	/**
 	 * Ödeme için gerekli alanların tanımı

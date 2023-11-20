@@ -36,7 +36,7 @@ class GPOS_Vakifbank extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/vakifbank.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/vakifbank.svg';
 
 	/**
 	 * Desteklenen özellikler

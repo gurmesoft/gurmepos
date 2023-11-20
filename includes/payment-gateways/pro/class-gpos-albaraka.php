@@ -36,7 +36,7 @@ class GPOS_Albaraka extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/albaraka.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/albaraka.svg';
 
 	/**
 	 * Desteklenen özellikler

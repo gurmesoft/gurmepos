@@ -35,7 +35,7 @@ class GPOS_Denizbank extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/denizbank.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/denizbank.svg';
 
 	/**
 	 * Desteklenen özellikler

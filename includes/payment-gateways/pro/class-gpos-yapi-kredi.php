@@ -35,7 +35,7 @@ class GPOS_Yapi_Kredi extends GPOS_Gateway {
 	 *
 	 * @var string $logo
 	 */
-	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/yapikredi.png';
+	public $logo = GPOS_ASSETS_DIR_URL . '/images/logo/yapikredi.svg';
 
 	/**
 	 * Desteklenen özellikler
