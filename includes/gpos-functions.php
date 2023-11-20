@@ -611,6 +611,8 @@ function gpos_get_card_family_color() {
 		'bankkartcombo' => '#EC0C10',
 		'advantage'     => '#EB724F',
 		'saglamkart'    => '#006748',
+		'denizbankcc'   => '#004c91',
+		'ingbankcc'     => '#ff6801',
 	);
 	return apply_filters( 'gpos_default_card_family_color', $familiy_color_data );
 }
